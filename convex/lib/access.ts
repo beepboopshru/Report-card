@@ -1,6 +1,10 @@
-import { QueryCtx, MutationCtx } from "../_generated/server";
-import { Id, Doc } from "../_generated/dataModel";
+import type { QueryCtx, MutationCtx } from "../_generated/server";
+import type { Id, Doc } from "../_generated/dataModel";
 import { getAuthUserId } from "@convex-dev/auth/server";
+
+// Declared locally so this file type-checks under both convex/tsconfig.json
+// (which has @types/node) and the app tsconfig (which does not).
+declare const process: { env: Record<string, string | undefined> };
 
 export async function requireProfile(
   ctx: QueryCtx | MutationCtx,
@@ -49,7 +53,7 @@ export function isAdminEmail(email: string): boolean {
   const list = (process.env.ADMIN_EMAILS ?? "")
     .toLowerCase()
     .split(",")
-    .map((s) => s.trim())
+    .map((s: string) => s.trim())
     .filter(Boolean);
   return list.includes(email.toLowerCase());
 }
