@@ -1,0 +1,112 @@
+import { Document, Page, Text, View, StyleSheet, pdf } from "@react-pdf/renderer";
+import { totalOf, maxScore, gradeBand } from "../lib/totals";
+
+const s = StyleSheet.create({
+  page: { padding: 36, fontSize: 10, fontFamily: "Helvetica" },
+  h1: { fontSize: 18, marginBottom: 4 },
+  h2: { fontSize: 13, marginTop: 18, marginBottom: 6 },
+  meta: { fontSize: 9, color: "#555", marginBottom: 10 },
+  row: {
+    flexDirection: "row",
+    borderBottomWidth: 0.5,
+    borderColor: "#ccc",
+    paddingVertical: 4,
+  },
+  cellLabel: { width: 160 },
+  cellScore: { width: 40, textAlign: "center" },
+  cellDesc: { flex: 1, color: "#444" },
+  totalBar: { marginTop: 8, fontSize: 11, fontWeight: 700 },
+});
+
+type Criterion = {
+  id: string;
+  label: string;
+  c4: string;
+  c3: string;
+  c2: string;
+  c1: string;
+};
+
+export type ScoredKit = {
+  kit: { kitNumber: number; kitName: string; concept: string; category: string };
+  rubric: { criteria: Criterion[] };
+  criterionScores: Record<string, number>;
+  observations?: string;
+};
+
+export function StudentReportDoc({
+  studentName,
+  className,
+  scored,
+}: {
+  studentName: string;
+  className: string;
+  scored: ScoredKit[];
+}) {
+  if (scored.length === 0) {
+    return (
+      <Document>
+        <Page size="A4" style={s.page}>
+          <Text style={s.h1}>{studentName}</Text>
+          <Text style={s.meta}>{className}</Text>
+          <Text>No kits scored yet.</Text>
+        </Page>
+      </Document>
+    );
+  }
+  return (
+    <Document>
+      {scored.map((sk, i) => {
+        const total = totalOf(sk.criterionScores);
+        const max = maxScore(sk.rubric.criteria.length);
+        const pct = max ? Math.round((total / max) * 100) : 0;
+        return (
+          <Page key={i} size="A4" style={s.page}>
+            <Text style={s.h1}>{studentName}</Text>
+            <Text style={s.meta}>
+              {className} · #{sk.kit.kitNumber} · {sk.kit.kitName} · {sk.kit.category} ·{" "}
+              {sk.kit.concept}
+            </Text>
+            {sk.rubric.criteria.map((c) => {
+              const v = sk.criterionScores[c.id] ?? 0;
+              const desc =
+                v === 4 ? c.c4 : v === 3 ? c.c3 : v === 2 ? c.c2 : v === 1 ? c.c1 : "—";
+              return (
+                <View key={c.id} style={s.row} wrap={false}>
+                  <Text style={s.cellLabel}>{c.label}</Text>
+                  <Text style={s.cellScore}>{v || "—"}/4</Text>
+                  <Text style={s.cellDesc}>{desc}</Text>
+                </View>
+              );
+            })}
+            <Text style={s.totalBar}>
+              Total: {total}/{max} ({pct}% · {gradeBand(pct)})
+            </Text>
+            {sk.observations && (
+              <>
+                <Text style={s.h2}>Observations</Text>
+                <Text>{sk.observations}</Text>
+              </>
+            )}
+          </Page>
+        );
+      })}
+    </Document>
+  );
+}
+
+export async function downloadStudentReport(
+  studentName: string,
+  className: string,
+  scored: ScoredKit[],
+) {
+  const blob = await pdf(
+    <StudentReportDoc studentName={studentName} className={className} scored={scored} />,
+  ).toBlob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${studentName.replace(/\s+/g, "_")}_report.pdf`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
