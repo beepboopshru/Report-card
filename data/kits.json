@@ -1,0 +1,1415 @@
+[
+  {
+    "kitNumber": 1,
+    "concept": "Sources of Light",
+    "kitName": "MAGIC SABER GREETING",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 4,
+    "description": ""
+  },
+  {
+    "kitNumber": 1,
+    "concept": "Sources of Light",
+    "kitName": "DESIGN A TORCH LIGHT",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 4,
+    "description": "This module teaches participants about LEDs--how they work and their types (SMD, COB). They'll explore light's straight-line travel, discover LED applications (lights, screens), and engage in a DIY LED activity. An assignment evaluates their grasp of key concepts."
+  },
+  {
+    "kitNumber": 2,
+    "concept": "Magnetic Levitation",
+    "kitName": "MAGNETIC SPIDER",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 4,
+    "description": "forces to counteract gravity. It explores principles of magnetism, equilibrium,"
+  },
+  {
+    "kitNumber": 2,
+    "concept": "Magnetic Levitation",
+    "kitName": "HOVERING MAGNETS",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 4,
+    "description": "This STEM project demonstrates magnetic levitation using repelling"
+  },
+  {
+    "kitNumber": 3,
+    "concept": "Science of Vibration",
+    "kitName": "MAGICAL BOLT",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 8,
+    "description": "trains. A hands-on way to engage with physics, engineering, and technology concepts! This hands-on project demonstrates magnetic repulsion by constructing a levitating pencil that balances on a ring of magnets. Participants explore polarity alignment and equilibrium forces while observing how like poles repel to create stable suspension. Assignments evaluate comprehension of magnetic fields and their practical applications in technology. It defines what vibrations are and how they create sound. We investigate how vibrations travel through different materials and examine their various applications in everyday life and science. This inquiry-based approach helps understand this essential form of energy and motion. This course introduces the effect of force on objects, defining force as a vector quantity. Participants will learn about balanced, unbalanced, and resultant forces. The project also covers vibration motors through a DIY activity: building a magic screw. Understanding will be evaluated Page 1 of 1 us Description Packing Requirements through assignments, reinforcing concepts of force and motion."
+  },
+  {
+    "kitNumber": 3,
+    "concept": "Science of Vibration",
+    "kitName": "BUZZING SCORPION",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 8,
+    "description": "and force interactions, connecting to real-world applications like maglev"
+  },
+  {
+    "kitNumber": 4,
+    "concept": "Colorful Vision",
+    "kitName": "SPY MASK, AGAMOGRAPH",
+    "category": "Discoverer",
+    "subject": "Human Body",
+    "grade": 2,
+    "description": ""
+  },
+  {
+    "kitNumber": 4,
+    "concept": "Colorful Vision",
+    "kitName": "MAGIC SLIDER AND",
+    "category": "Explorer",
+    "subject": "Human Body",
+    "grade": 2,
+    "description": ""
+  },
+  {
+    "kitNumber": 5,
+    "concept": "Rules of Reflection",
+    "kitName": "MAGIC BANK",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 7,
+    "description": "visual illusion of infinite depth. Using two mirrors--one fully reflective and"
+  },
+  {
+    "kitNumber": 5,
+    "concept": "Rules of Reflection",
+    "kitName": "INFINITY WELL",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 7,
+    "description": "The Infinity Well project demonstrates light reflection through an engaging"
+  },
+  {
+    "kitNumber": 6,
+    "concept": "Rocket Science",
+    "kitName": "BLOW ROCKET",
+    "category": "Discoverer",
+    "subject": "Astronomy",
+    "grade": 3,
+    "description": "between the surfaces. This hands-on experiment teaches principles of light propagation, reflection, and diminishing intensity while showcasing practical applications in art and design. A creative way to explore optics, the project bridges scientific concepts with striking visual phenomena. The Money Doubling Box and Magic Bank projects teach light reflection through hands-on mirror experiments. Participants build these optical illusion devices to observe how plane mirrors create virtual images and multiply objects visually. The activity demonstrates reflection principles while developing STEM skills, with assignments evaluating understanding of light behavior and mirror properties. This STEM activity demonstrates rocket science using a DIY mini missile launcher powered by compressed air. Participants explore Newton's Third Law, seeing how air pressure propels the missile forward, showcasing thrust, force, and motion in an exciting hands-on experiment. This project explores air properties and energy conversion through rocket design challenges. Participants build straw launchers to test aerodynamics, pressure-thrust relationships, and shape optimization. Hands-on experiments demonstrate wind energy applications while teaching gas Page 2 of 2 Description Packing Requirements behavior and Newtonian principles. Design iterations and assignments reinforce understanding of air's role in propulsion and natural phenomena."
+  },
+  {
+    "kitNumber": 6,
+    "concept": "Rocket Science",
+    "kitName": "ROCKET LAUNCHER",
+    "category": "Explorer",
+    "subject": "Astronomy",
+    "grade": 3,
+    "description": "one partially reflective--and strategically placed LEDs, the model creates the appearance of an endless tunnel as light bounces repeatedly"
+  },
+  {
+    "kitNumber": 7,
+    "concept": "Peristence of Vision",
+    "kitName": "PHENAKISTOSCOPE",
+    "category": "Discoverer",
+    "subject": "Human Body",
+    "grade": 5,
+    "description": "The thaumatrope demonstrates how the brain retains an image momentarily, allowing it to merge with the next and create the illusion of continuous motion. This principle underpins the mechanics of animation and film, where individual frames, displayed in rapid succession, appear to move fluidly. Through this interactive activity, participants gain a practical understanding of persistence of vision, reinforcing key scientific concepts in an engaging and experiential manner."
+  },
+  {
+    "kitNumber": 7,
+    "concept": "Peristence of Vision",
+    "kitName": "BOW THAUMATROPE | DISC",
+    "category": "Explorer",
+    "subject": "Human Body",
+    "grade": 5,
+    "description": "The thaumatrope demonstrates how the brain retains an image momentarily, allowing it to merge with the next and create the illusion of continuous motion. This principle underpins the mechanics of animation and film, where individual frames, displayed in rapid succession, appear to move fluidly. Through this interactive activity, participants gain a practical understanding of persistence of vision, reinforcing key scientific concepts in an engaging and experiential manner."
+  },
+  {
+    "kitNumber": 8,
+    "concept": "Magnetic Force",
+    "kitName": "MAGNETIC HOCKEY",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 6,
+    "description": "This interactive project explores magnetic forces through hands-on gameplay. Participants experiment with attraction/repulsion principles to control movement, applying physics concepts in action. Teams collaborate to strategize and test magnetic Page 3 of 3 Description Packing Requirements nteractions, blending science with play. ost-activity tasks assess nderstanding of magnetic fields and heir real-world applications, making TEM learning engaging and tangible."
+  },
+  {
+    "kitNumber": 8,
+    "concept": "Magnetic Force",
+    "kitName": "GAUSS GUN",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 6,
+    "description": "The Gauss Gun project investigates magnetic acceleration through a chain of colliding spheres. Students analyse how neodymium magnets transfer kinetic energy via elastic collisions, measuring velocity changes while exploring momentum conservation and magnetic dipole interactions. This hands-on model demonstrates fundamental electromagnetic concepts with applications in propulsion technology and energy conversion systems."
+  },
+  {
+    "kitNumber": 9,
+    "concept": "Energy and",
+    "kitName": "MAGIC LAMP",
+    "category": "Discoverer",
+    "subject": "Tech",
+    "grade": 3,
+    "description": "This workshop explores energy types kinetic, solar, electrical) and their mportance in daily life. Participants will iscover why saving energy matters resource conservation, cost reduction) nd learn practical tips (turning off ights, using renewables). An interactive ssignment evaluates understanding, mpowering attendees to adopt ustainable habits."
+  },
+  {
+    "kitNumber": 9,
+    "concept": "Energy and",
+    "kitName": "ENERGY WARRIOR",
+    "category": "Explorer",
+    "subject": "Tech",
+    "grade": 3,
+    "description": "This workshop explores energy types kinetic, solar, electrical) and their mportance in daily life. Participants will iscover why saving energy matters resource conservation, cost reduction) nd learn practical tips (turning off ights, using renewables). An interactive ssignment evaluates understanding, mpowering attendees to adopt ustainable habits."
+  },
+  {
+    "kitNumber": 10,
+    "concept": "Sound and Signals",
+    "kitName": "DESIGN A MORSE CODE",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 9,
+    "description": "This project explores circuits and sound hrough a Morse code buzzer. articipants construct a working device o understand electrical connections, ound generation, and wave ransmission. Hands-on Morse code ractice demonstrates practical ommunication applications, while ollow-up assignments evaluate omprehension of circuit functionality nd sound principles through essage-decoding challenges. Page 4 of 4 us Description Packing Requirements"
+  },
+  {
+    "kitNumber": 10,
+    "concept": "Sound and Signals",
+    "kitName": "TRIP ALARM/CALLING BELL",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 9,
+    "description": "This hands-on project teaches sound rinciples through a DIY calling bell. articipants learn how sound is created nd transmitted while constructing a unctional bell. The activity emonstrates vibration-to-sound onversion, wave propagation, and ircuitry basics. Through building and esting, students grasp acoustic undamentals, reinforced by practical ssignments evaluating their nderstanding of sound mechanics and lectrical components."
+  },
+  {
+    "kitNumber": 11,
+    "concept": "Light and its",
+    "kitName": "FUN WITH MIRRORS: TRUE",
+    "category": "Discoverer",
+    "subject": "Material",
+    "grade": 5,
+    "description": "This kit explores the fascinating principles of reflections and how they shape our perception of the world around us. By using mirrors and reflective surfaces, it demonstrates the laws of reflection, symmetry, and image formation in an engaging and interactive way. The experiments highlight both practical applications--such as in periscopes and optical devices--and the aesthetic beauty seen in patterns and symmetry. Through hands-on exploration, the kit encourages curiosity about light, geometry, and visual phenomena, bridging science with creativity."
+  },
+  {
+    "kitNumber": 11,
+    "concept": "General Science",
+    "kitName": "",
+    "category": "Explorer",
+    "subject": "General",
+    "grade": 5,
+    "description": "This module teaches participants about material types and reflection principles using three mirrors. They'll explore applications of kaleidoscopes (art, patterns) and wheeloscopes (dynamic designs), then design their own Wheeloscope and Kaleidoscope. Hands-on activities reinforce optics concepts and creativity."
+  },
+  {
+    "kitNumber": 12,
+    "concept": "Force and Motion",
+    "kitName": "SLIDER GUN",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 4,
+    "description": "This hands-on project demonstrates physics principles through a DIY slider gun. Participants build and test the device to study motion dynamics, momentum transfer, and speed measurement. The activity illustrates energy conversion between potential and kinetic forms, while assignments evaluate comprehension of Newtonian mechanics through practical experiments and data analysis."
+  },
+  {
+    "kitNumber": 12,
+    "concept": "Force and Motion",
+    "kitName": "RUBBER BAND PISTOL",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 4,
+    "description": "A rubber band pistol is a simple mechanical toy that uses stored elastic energy to launch rubber bands. By stretching and locking the rubber band onto rotating notches or triggers, it demonstrates basic physics concepts like potential and kinetic energy, motion, and force, making it both fun and educational."
+  },
+  {
+    "kitNumber": 13,
+    "concept": "Magical Shadows",
+    "kitName": "COLORFUL SHADOWS",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 6,
+    "description": "Investigating the Properties of Light and mation of Shadows ht plays a crucial role in how we see world. This study explores the entific properties of light and how dows form. By examining how light vels, interacts with objects, and ates different shadow patterns, we to understand its behavior in ryday life."
+  },
+  {
+    "kitNumber": 13,
+    "concept": "Magical Shadows",
+    "kitName": "HALLOWEEN SHADOW",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 6,
+    "description": "Investigating the Properties of Light and Formation of Shadows Light plays a crucial role in how we see the world. This study explores the Page 5 of 5 scription Packing Requirements entific properties of light and how dows form. By examining how light vels, interacts with objects, and ates different shadow patterns, we to understand its behaviour in ryday life."
+  },
+  {
+    "kitNumber": 14,
+    "concept": "Potential and Kinetic",
+    "kitName": "RUBBERBAND CAR",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 3,
+    "description": ""
+  },
+  {
+    "kitNumber": 14,
+    "concept": "Potential and Kinetic",
+    "kitName": "BOOMERANG CAR",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 3,
+    "description": "This hands-on project demonstrates hanical energy principles through a ber band-powered car. Participants lore potential-to-kinetic energy version, elastic potential energy rage, and material properties while lding and testing their vehicles. ignments evaluate understanding of rgy transformations, friction effects, elastic limits in moving systems."
+  },
+  {
+    "kitNumber": 15,
+    "concept": "Human Eye and",
+    "kitName": "MOTORIZED",
+    "category": "Discoverer",
+    "subject": "Biology",
+    "grade": 8,
+    "description": "persistence of vision creates fluid ement from static images. By erimenting with frame rates and igns, students analyse animation nciples while connecting them to ern media. Assignments evaluate erstanding of optical illusions and ourage innovative improvements. s project immerses students in mation principles through hands-on eriments with thaumatropes, tropes, and flip books. Participants cover how persistence of vision ates movement illusions while igning custom sequences. The ivity bridges art and science, Page 6 of 6 cription Packing Requirements oring visual perception psychology physics, with assignments uating understanding of animation anics and creative application."
+  },
+  {
+    "kitNumber": 15,
+    "concept": "Human Eye and",
+    "kitName": "DESIGN A ZOETROPE",
+    "category": "Explorer",
+    "subject": "Biology",
+    "grade": 8,
+    "description": "This hands-on project teaches motion ception through a DIY zoetrope. ticipants build and test this classic mation device to discover how"
+  },
+  {
+    "kitNumber": 16,
+    "concept": "Contact and",
+    "kitName": "MAGNETIC SWITCH",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 9,
+    "description": "This hands-on project demonstrates trical circuits through a DIY ity-controlled switch. Participants d a device that vates/deactivates via orientation ges, learning: c circuit completion ching mechanisms ity's role in contact systems activity combines physics with tical electronics, featuring otyping challenges and gnments analyzing real-world ications in tilt sensors and safety offs."
+  },
+  {
+    "kitNumber": 16,
+    "concept": "Contact and",
+    "kitName": "DESIGN MAGNETIC",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 9,
+    "description": "This program introduces contact and contact forces. Participants will understand Hall effect sensors: r function, operation, and ications. A hands-on project lves building a magnetic lamp to y principles. Comprehension is uated via assignments, ensuring p of magnetic sensing and amental force concepts."
+  },
+  {
+    "kitNumber": 17,
+    "concept": "Fun with Circuits",
+    "kitName": "TOGGLE SWITCH",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 6,
+    "description": "This hands-on project teaches two-way ching principles for controlling lights multiple locations. Participants d a functional circuit to understand internal electronics and switching anism. Through construction and ing, learners explore practical wiring ications, reinforced by assignments Page 7 of 7 scription Packing Requirements onstrating mastery of circuit design operation."
+  },
+  {
+    "kitNumber": 17,
+    "concept": "Fun with Circuits",
+    "kitName": "TABLE LAMP",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 6,
+    "description": "This hands-on project teaches electric uits through building a table lamp. icipants learn to identify onents, differentiate uctors/insulators, and understand /closed circuits. By assembling testing their lamp, students grasp tical electronics fundamentals. gnments reinforce key concepts, ining theory with real-world ication in an engaging DIY format."
+  },
+  {
+    "kitNumber": 18,
+    "concept": "Effects of Electricity",
+    "kitName": "DC MOTOR",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 7,
+    "description": "This project demonstrates how ctricity and magnetism interact to ate motion. Students discover how ing electrons generate force by lding a simple electromagnetic ice, linking the experiment to l-world electric motors. Through ds-on construction and ubleshooting, they explore practical lications of electromagnetism, with ignments reinforcing key physics nciples and problem-solving skills."
+  },
+  {
+    "kitNumber": 18,
+    "concept": "Effects of Electricity",
+    "kitName": "ELECTROMAGNET",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 7,
+    "description": "This hands-on project demonstrates ctromagnetic principles through a toy. Participants explore electric rent effects, solenoid operation, and netism by building a working el. The activity highlights real-world ctromagnet applications while nforcing core physics concepts. ignments evaluate understanding of ctromagnetic interactions and their ctical uses in everyday devices."
+  },
+  {
+    "kitNumber": 19,
+    "concept": "Be an Ornithologist",
+    "kitName": "BIRD GAME",
+    "category": "Discoverer",
+    "subject": "Biology",
+    "grade": 3,
+    "description": "This interactive game teaches bird strategy. Players discover fascinating bird behaviors and habitats through gameplay."
+  },
+  {
+    "kitNumber": 19,
+    "concept": "Be an Ornithologist",
+    "kitName": "BALANCING BIRD",
+    "category": "Explorer",
+    "subject": "Biology",
+    "grade": 3,
+    "description": "s interactive game teaches bird ptations through engaging trivia and"
+  },
+  {
+    "kitNumber": 20,
+    "concept": "Skeletal and Muscular System",
+    "kitName": "GHOST UNCLE | FLIP BOOK",
+    "category": "Discoverer",
+    "subject": "Human Body",
+    "grade": 5,
+    "description": "This hands-on project teaches human anatomy through building a 'Ghost Uncle' model. Participants discover bone functions, muscle-joint interactions, and skeletal growth while constructing their movable figure."
+  },
+  {
+    "kitNumber": 20,
+    "concept": "Skeletal and",
+    "kitName": "HELPING HANDS",
+    "category": "Explorer",
+    "subject": "Human Body",
+    "grade": 5,
+    "description": "strategy. Players discover fascinating an traits, compare species' abilities, test their knowledge by matching ds to their unique skills. The activity bines biology with critical thinking, minating in reflective assignments t reinforce learning about nature's t remarkable flyers, swimmers, and vival specialists. s hands-on project bridges biology engineering as students construct unctional arm model. Participants dy bone-muscle interactions, apply hanical principles to replicate ement, and optimize grasping hanics through iterative testing. activity develops STEM skills while pening anatomical understanding, h assessments evaluating design nking and biomechanical analysis. Page 8 of 8 tus Description Packing Requirements ve This hands-on project teaches human anatomy through building a \"Ghost Uncle\" model. Participants discover bone functions, muscle-joint interactions, and skeletal growth while constructing their movable figure. The activity makes biology tangible, with assignments evaluating understanding of structural support, movement mechanics, and bone development processes."
+  },
+  {
+    "kitNumber": 21,
+    "concept": "Food Inspector",
+    "kitName": "BALANCED FOOD CARD",
+    "category": "Discoverer",
+    "subject": "Biology",
+    "grade": 6,
+    "description": "This interactive card game teaches nutrition fundamentals through strategic meal-building. Players identify essential nutrients, select food sources, and create balanced diets while competing. The hands-on activity reinforces dietary knowledge and critical thinking, with assignments assessing comprehension of nutrient roles and healthy eating principles."
+  },
+  {
+    "kitNumber": 21,
+    "concept": "Food Inspector",
+    "kitName": "FOOD TEST KIT",
+    "category": "Explorer",
+    "subject": "Biology",
+    "grade": 6,
+    "description": "The KWL approach facilitates understanding by first identifying existing knowledge about food safety and common food components (starch, sugars, fat). It then structures inquiry into specific methods used by inspectors, focusing on how chemical tests reveal the presence of starch using iodine, reducing sugars with Benedict's solution, and fats using paper tests. The exploration highlights the significance of these tests in verifying nutritional information, detecting adulteration, ensuring quality control, and ultimately safeguarding public health."
+  },
+  {
+    "kitNumber": 22,
+    "concept": "Fun with",
+    "kitName": "CYANOTYPE",
+    "category": "Discoverer",
+    "subject": "Biology",
+    "grade": 7,
+    "description": "This hands-on module unveils the science of cyanotype photography, Page 9 of 9 cription Packing Requirements e participants explore t-sensitive iron compounds and riven reactions. Through DIY ting experiments, students create prints using sunlight, learning ochemical principles. Assessments uate comprehension of redox tions and light energy conversion in blend of art and chemistry."
+  },
+  {
+    "kitNumber": 22,
+    "concept": "Fun with",
+    "kitName": "EXPLORE CHLOROPHYL:",
+    "category": "Explorer",
+    "subject": "Biology",
+    "grade": 7,
+    "description": "This hands-on module explores photosynthesis, fluorescence, and capillary action through chromatography experiments. Students investigate plant pigments, analyze light energy conversion, and apply concepts through creative projects. Assessments evaluate comprehension of biological processes and their practical applications in botany and environmental science."
+  },
+  {
+    "kitNumber": 23,
+    "concept": "Health and Hygiene",
+    "kitName": "PEDICURE BOMB",
+    "category": "Discoverer",
+    "subject": "Chemistry",
+    "grade": 3,
+    "description": "This hands-on activity explores -base reactions through DIY cure bombs. Students observe ic acid and baking soda fizzing in r while learning about coconut oil's turizing properties and atherapy benefits. The project ds chemistry with skincare science, inating in assignments analyzing tions and cosmetic formulations."
+  },
+  {
+    "kitNumber": 23,
+    "concept": "Health and Hygiene",
+    "kitName": "PERFUME MAKING",
+    "category": "Explorer",
+    "subject": "Chemistry",
+    "grade": 3,
+    "description": "This module teaches daily cleanliness ts and their health impacts through ractive learning. Students explore ene routines, analyze equences of poor practices, and t natural perfumes to understand onal care. The unit combines tical skills with science, asizing disease prevention and al well-being through hands-on vities and reflection tasks."
+  },
+  {
+    "kitNumber": 24,
+    "concept": "Life Process",
+    "kitName": "LUNG TESTER",
+    "category": "Discoverer",
+    "subject": "Human Body",
+    "grade": 3,
+    "description": "This educational game simulates how en intake, blood circulation, and ient transport sustain body tions. Players engage in interactive lenges, managing efficient oxygen ange and blood flow to maintain th. By making strategic decisions, learn how these systems Page 10 of 10 tus Description Packing Requirements interconnect while developing problem-solving skills to optimize bodily functions in a dynamic, immersive environment."
+  },
+  {
+    "kitNumber": 24,
+    "concept": "Life Process",
+    "kitName": "STETOSCOPE AND LIFE",
+    "category": "Explorer",
+    "subject": "Human Body",
+    "grade": 3,
+    "description": "This hands-on module explores human n functions through interactive riments. Students build a hoscope to study sound smission in medical tools and gn a lung tester to measure iratory capacity using balloons or r displacement. Assignments uate comprehension of iological systems and diagnostic ciples, blending anatomy with tical engineering."
+  },
+  {
+    "kitNumber": 25,
+    "concept": "Electrochemistry",
+    "kitName": "MAGIC SALT LAMP",
+    "category": "Discoverer",
+    "subject": "Chemistry",
+    "grade": 8,
+    "description": "This project introduces electricity fundamentals through a hands-on \"Magic Lamp\" experiment. Participants construct a simple circuit to learn about conductors, insulators, and electric light principles while discovering basic electrochemistry concepts. The activity demonstrates complete circuits, material conductivity, and energy conversion, with assignments reinforcing key STEM concepts through practical application and problem-solving."
+  },
+  {
+    "kitNumber": 25,
+    "concept": "Electrochemistry",
+    "kitName": "CITRIC ACID CELL | LEMON",
+    "category": "Explorer",
+    "subject": "Chemistry",
+    "grade": 8,
+    "description": "This interactive module teaches electrochemistry through a lemon battery experiment and electroplating demonstration. Also the experiments like House Hold battery and Electrolysis is taught. Participants explore metal/non-metal properties, electron transfer, and ion deposition while creating functional circuits. Assignments reinforce concepts of oxidation-reduction reactions and real-world applications in metal coating technologies."
+  },
+  {
+    "kitNumber": 26,
+    "concept": "Magical Mixture",
+    "kitName": "FUN WITH DENSITY",
+    "category": "Discoverer",
+    "subject": "Chemistry",
+    "grade": 6,
+    "description": ""
+  },
+  {
+    "kitNumber": 26,
+    "concept": "Magical Mixture",
+    "kitName": "FUN WITH MIXTURES: LAVA",
+    "category": "Explorer",
+    "subject": "Chemistry",
+    "grade": 6,
+    "description": "This interactive activity explores density, solubility, and chemical reactions through a DIY lava lamp experiment. Students observe how oil and water separate due to density, food coloring dissolves selectively, and citric acid reacts to create bubbling motion. The hands-on project reinforces STEM concepts while engaging learners in a visually captivating demonstration of key scientific principles."
+  },
+  {
+    "kitNumber": 27,
+    "concept": "pH science",
+    "kitName": "FUN WITH AMMONIA AND",
+    "category": "Discoverer",
+    "subject": "Chemistry",
+    "grade": 10,
+    "description": "This hands-on experiment teaches core scientific concepts through creating lava lamps. Students discover density by layering oil and water, observe solubility as food coloring mixes only with water, and witness acid-base reactions when citric acid generates colorful bubbling movement. The engaging activity makes chemistry principles tangible while developing observation and critical thinking skills"
+  },
+  {
+    "kitNumber": 27,
+    "concept": "pH science",
+    "kitName": "ELECTROLYSIS AND",
+    "category": "Explorer",
+    "subject": "Chemistry",
+    "grade": 10,
+    "description": "Turmeric changes color with liquids because it acts as a natural indicator! The yellow color you see in turmeric powder comes from a special chemical inside it called curcumin. This curcumin molecule has a unique structure that changes its shape (and therefore its Page 11 of 11 tatus Description Packing Requirements color) when it comes into contact with a base (an alkaline substance). It stays yellow in acids and neutral liquids, but when a base touches it, it transforms into a reddish-brown color!"
+  },
+  {
+    "kitNumber": 28,
+    "concept": "Slimy World",
+    "kitName": "SELF INFLATING PUPPET",
+    "category": "Discoverer",
+    "subject": "Material",
+    "grade": 4,
+    "description": "This interactive module explores material properties through slime-making and origami experiments. Participants create custom slime to study non-Newtonian fluids, then fold origami to observe structural transformations. Assignments evaluate comprehension of polymer chains and material behaviour changes, blending chemistry with engineering in an engaging, tactile way."
+  },
+  {
+    "kitNumber": 28,
+    "concept": "Slimy World",
+    "kitName": "SLIME",
+    "category": "Explorer",
+    "subject": "Material",
+    "grade": 4,
+    "description": "This workshop introduces slime-making to explore material properties and transformations. Participants learn slime composition, create their own, and observe material changes through paper folding. Hands-on activities demonstrate chemical interactions and physical transformations, while assignments assess comprehension of these scientific principles in an engaging, interactive way."
+  },
+  {
+    "kitNumber": 29,
+    "concept": "Be a Pyrochemist",
+    "kitName": "EXPLORE GASES: POWER",
+    "category": "Discoverer",
+    "subject": "Chemistry",
+    "grade": 8,
+    "description": "Page 12 of 12 s Description Packing Requirements This module brings chemistry to life with three engaging experiments: Shaky Bottle demonstrates"
+  },
+  {
+    "kitNumber": 29,
+    "concept": "Be a Pyrochemist",
+    "kitName": "SCIENCE OF COMBUSTION:",
+    "category": "Explorer",
+    "subject": "Chemistry",
+    "grade": 8,
+    "description": "This interactive module explores chemical changes through exciting experiments like fire writing and flame tests. Students identify reaction clues (color change, gas production) and test acids/bases while discovering how elements create colorful flames. Assignments reinforce concepts of chemical properties and reaction types through practical analysis."
+  },
+  {
+    "kitNumber": 30,
+    "concept": "Why things react",
+    "kitName": "ION CARD GAME",
+    "category": "Discoverer",
+    "subject": "Chemistry",
+    "grade": 9,
+    "description": "gas-producing reactions Magic Writing reveals invisible ink"
+  },
+  {
+    "kitNumber": 30,
+    "concept": "Why things react",
+    "kitName": "SHACKY BOTTLE | COPPER TREE | CHAMELEON CHEMISTRY",
+    "category": "Explorer",
+    "subject": "Chemistry",
+    "grade": 9,
+    "description": "This module brings chemistry to life with three engaging experiments: Shaky Bottle demonstrates gas-producing reactions, Copper Tree showcases beautiful metal displacement, and Chameleon Chemistry shows reaction principles firsthand."
+  },
+  {
+    "kitNumber": 31,
+    "concept": "Sailing Science",
+    "kitName": "BALLOON POWERED BOAT",
+    "category": "Discoverer",
+    "subject": "Earth Science",
+    "grade": 1,
+    "description": "metal displacement Students observe reaction principles firsthand, then solidify understanding through assignments analyzing chemical changes and reaction rates. This hands-on module demonstrates chemical reactions through three captivating experiments. Students observe gas production in a shaky bottle, invisible ink reactions with sodium thiosulfate, and copper crystal growth via displacement. Assignments analyze reaction rates, evidence of change, and metal reactivity trends--making chemistry tangible and exciting. This interactive module explores wind propulsion through sailboat design and experimentation. Participants discover how sails convert wind energy into motion, study airflow dynamics, and apply concepts to solve practical challenges in a workbook. Assignments evaluate comprehension of aerodynamics and force transformation in marine environments. This project introduces students to fundamental principles of wind energy, forces, and motion through the design and construction of a balloon-powered boat. Students will explore how air pressure (from the balloon) creates thrust, propelling the boat forward, while learning about Newton's Third Law (action-reaction) and aerodynamics. The activity integrates hands-on engineering with physics concepts like force, friction, and energy Page 13 of 13 us Description Packing Requirements conversion, demonstrating how wind can be harnessed for movement."
+  },
+  {
+    "kitNumber": 31,
+    "concept": "Sailing Science",
+    "kitName": "SAIL AND PEDDLE BOAT",
+    "category": "Explorer",
+    "subject": "Earth Science",
+    "grade": 1,
+    "description": "chemistry Copper Tree showcases beautiful"
+  },
+  {
+    "kitNumber": 32,
+    "concept": "Balancing Science",
+    "kitName": "BALANCING TOYS",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 2,
+    "description": "It's a simple way to understand stability and how shifting weight affects balance. This makes learning physics fun and easy!"
+  },
+  {
+    "kitNumber": 32,
+    "concept": "Balancing Science",
+    "kitName": "BALANCING DOLPHINS",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 2,
+    "description": "This experiment shows how objects stay balanced. By adding small weights to a paper fish, we change how its weight is spread out, making it easier to balance. The weights help move the center of mass to a better spot, allowing the fish to stay steady the axle of the wheels."
+  },
+  {
+    "kitNumber": 33,
+    "concept": "Festive Science",
+    "kitName": "FANOOS LAMP",
+    "category": "Discoverer",
+    "subject": "Tech",
+    "grade": 2,
+    "description": "Discover the magic of light with the Electronic Candle STEM kit! Using a simple setup of an LED and a cell, create your own electronic candle. Turn the switch, and watch the LED glow like a real candle flame. This hands-on activity for students introduces the basics of electronics and adds a spark of excitement to learning!"
+  },
+  {
+    "kitNumber": 33,
+    "concept": "Festive Science",
+    "kitName": "LED DIYA AND ELECTRONIC",
+    "category": "Explorer",
+    "subject": "Tech",
+    "grade": 2,
+    "description": "Explore the magic of light with the Electronic Candle STEM kit! Using a simple setup of an LED and a cell, create your own electronic candle. Turn the switch, and watch the LED glow like a real candle flame. This hands-on activity for students introduces the basics of electronics and adds a spark of excitement to learning!"
+  },
+  {
+    "kitNumber": 34,
+    "concept": "The Light Arhitect",
+    "kitName": "FLICKERING FRAME",
+    "category": "Discoverer",
+    "subject": "Tech",
+    "grade": 3,
+    "description": "Create a DIY flickering photo frame using a picture frame, a simple series of 8 LEDs, and a cell. As you build, explore how lighting affects ambience and d\u00c3\u00a9cor, and how thoughtful illumination enhances different housing types and living spaces. This hands on project blends creativity, science, and design to deepen understanding of light's role in our lives."
+  },
+  {
+    "kitNumber": 34,
+    "concept": "The Light Arhitect",
+    "kitName": "LED FAIRY LIGHTS | DIWALI",
+    "category": "Explorer",
+    "subject": "Tech",
+    "grade": 3,
+    "description": "This activity introduces learners to the fundamental concepts of electricity through a hands-on project: Constructing a simple lantern using an LED, button cell, paperclip, and aluminum foil. By assembling and testing a closed circuit, participants explore how electrical energy flows, distinguish between conductors and insulators, and understand essential safety precautions when working with electricity. The interactive nature of this experiment encourages practical learning, reinforcing the significance of circuits in daily life while fostering curiosity about electrical applications. Page 14 of 14 tus Description Packing Requirements"
+  },
+  {
+    "kitNumber": 35,
+    "concept": "Be an Audiologist",
+    "kitName": "CUCKOO WHISTLE | OBOE",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 4,
+    "description": "Explore the basic parameters of sound and how humans perceive it. Learn about sound properties through hands-on construction. Understand concepts like pitch, frequency, and vibration. Apply theoretical knowledge in a practical context and assess comprehension through engaging assignments that reinforce auditory science fundamentals."
+  },
+  {
+    "kitNumber": 35,
+    "concept": "Be an Audiologist",
+    "kitName": "AIRHORN WHISTLE",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 4,
+    "description": "This module explores sound--how it's produced (vibrations), travels (waves), and behaves (pitch, volume). Participants will experiment with everyday objects to create sound, investigate whistles, and test their knowledge through quizzes and assignments."
+  },
+  {
+    "kitNumber": 36,
+    "concept": "Detective Science",
+    "kitName": "PERISCOPE",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 4,
+    "description": "This workshop explores reflection--its types (regular, diffuse) and laws (angle of incidence = angle of reflection). Participants will discover real-world uses (mirrors, telescopes) and build a periscope to apply concepts hands-on. Assignments reinforce learning, linking theory to practical optics."
+  },
+  {
+    "kitNumber": 36,
+    "concept": "Detective Science",
+    "kitName": "FINGERPRINT KIT",
+    "category": "Explorer",
+    "subject": "Human Body",
+    "grade": 4,
+    "description": "Explore spy techniques and scientific methods in fingerprint analysis through a DIY fingerprinting kit. Learn to collect, test, and analyze fingerprints, identifying unique ridge patterns. Understand fingerprint properties and their forensic importance. Apply knowledge in an investigative assignment to evaluate comprehension and practical skills in crime-solving scenarios."
+  },
+  {
+    "kitNumber": 37,
+    "concept": "Safety Circuits",
+    "kitName": "SLIDE CIRCUIT",
+    "category": "Discoverer",
+    "subject": "Tech",
+    "grade": 4,
+    "description": "The Slide Circuit Box is an introduction Interactive Electronics. In this ject, you will build a circuit where switch isn't a button--it's the box elf! By sliding one part of the box into other, you bring two hidden pieces metal together, allowing electricity to vel from the battery to the light. core scientific themes include ductive Paths, Contact Points, and hanical Switches. You will learn to hide a circuit inside a structure that the act of \"assembling\" or osing\" the box completes the loop. s is the same logic used in sliding ne cases or light-up jewelry boxes!"
+  },
+  {
+    "kitNumber": 37,
+    "concept": "Safety Circuits",
+    "kitName": "SECRET CANDY BOX",
+    "category": "Explorer",
+    "subject": "Tech",
+    "grade": 4,
+    "description": "The Secret candy Box is a special box designed to keep treasures safe using Page 15 of 15 scription Packing Requirements lever mechanism. It stays locked il the hidden limit switch is pressed right way. Once opened, a beeping nd plays, acting as an alarm to n the owner if someone is trying to e their treasure! s project introduces students to ic electronics and mechanical tems in a fun and interactive way. working on this project, students rn about switches, circuits, and rms, helping them understand l-world applications of technology. It ourages creativity, problem-solving, hands-on learning, making hnical concepts engaging and ess."
+  },
+  {
+    "kitNumber": 38,
+    "concept": "Be an Orthopedist",
+    "kitName": "FAKE XRAY",
+    "category": "Discoverer",
+    "subject": "Biology",
+    "grade": 6,
+    "description": "In this experiment, we learn how X-rays w the inside of objects safely. We a torch, a transparent sheet, and e objects like cardboard cutouts or ns. When the torch shines from ind, the objects make shadows that k like X-ray images. Dark areas Page 16 of 16 Description Packing Requirements show where light is blocked, and bright areas show where light passes through. This experiment helps us understand how X-rays work without using real radiation."
+  },
+  {
+    "kitNumber": 38,
+    "concept": "Be an Orthopedist",
+    "kitName": "HAND STEADINESS",
+    "category": "Explorer",
+    "subject": "Biology",
+    "grade": 6,
+    "description": "Discover the basics of electricity and it flows through different materials. age in a hands-on activity by lding a Buzz Wire model to explore ctrical circuits. Understand its l-world application in testing -hand coordination. Consolidate rning through an evaluative ignment to assess conceptual erstanding and practical skills."
+  },
+  {
+    "kitNumber": 39,
+    "concept": "Fan-tastic Science",
+    "kitName": "COLOR SPLASH",
+    "category": "Discoverer",
+    "subject": "Earth Science",
+    "grade": 5,
+    "description": ""
+  },
+  {
+    "kitNumber": 39,
+    "concept": "Fan-tastic Science",
+    "kitName": "EXHAUST FAN",
+    "category": "Explorer",
+    "subject": "Earth Science",
+    "grade": 5,
+    "description": "Explore the role of exhaust fans in enhancing air quality and ventilation. Understand the science of airflow and air pressure behind their operation. Identify applications in different settings and examine design variations. Build and test a DIY exhaust fan, analyze its performance, and document findings through a practical assignment."
+  },
+  {
+    "kitNumber": 40,
+    "concept": "Science: Magic or",
+    "kitName": "AMES ROOM",
+    "category": "Discoverer",
+    "subject": "Human Body",
+    "grade": 5,
+    "description": "Scope--a simple device that demonstrates how our eyes and brain interpret visual tricks."
+  },
+  {
+    "kitNumber": 40,
+    "concept": "Science: Magic or",
+    "kitName": "DESIGN GHOST SCOPE",
+    "category": "Explorer",
+    "subject": "Human Body",
+    "grade": 5,
+    "description": "This engaging workshop revisits key concepts of optical illusions through hands-on activities, culminating in the construction and exploration of a Ghost"
+  },
+  {
+    "kitNumber": 41,
+    "concept": "Work and Energy",
+    "kitName": "FUN WITH RUBBER BAND",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 5,
+    "description": "the Ames Room. Understand how distorted perspectives create visual illusions and explore the science behind its design. Engage in building a model Ames Room and discover its real-life applications, deepening understanding through hands-on experience and visual perception analysis. Understand the concept of force and its various types through interactive learning. Explore the fundamentals of simple machines and the three classes of levers. Apply these principles by examining the working mechanism of a catapult. Enhance learning by building a functional catapult model to reinforce theoretical concepts through hands-on experience. This module introduces participants to the fundamental concepts of force through interactive learning. They'll explore push/pull actions, discover how forces affect motion and shape, and Page 17 of 17 s Description Packing Requirements learn about different force types (contact/non-contact). The hands-on Rubber band bow project demonstrates practical applications, helping them understand force transfer and projectile motion while developing problem-solving skills in an engaging way."
+  },
+  {
+    "kitNumber": 41,
+    "concept": "Work and Energy",
+    "kitName": "SIEGE CATAPULT",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 5,
+    "description": "Reinforce prior knowledge of optical illusions and introduce the concept of"
+  },
+  {
+    "kitNumber": 42,
+    "concept": "Animal Kingdom",
+    "kitName": "LIFE CYCLE CARD GAME",
+    "category": "Discoverer",
+    "subject": "Ecology",
+    "grade": 5,
+    "description": "This activity-based learning module helps students understand concepts through play and interaction, not rote learning. Visual tools and hands-on tasks make learning faster and more memorable. The Life Cycle Card Game simplifies complex processes into an engaging sequencing challenge. Students learn by doing, thinking, and correcting in real time. Simple, effective, and impactful."
+  },
+  {
+    "kitNumber": 42,
+    "concept": "Animal Kingdom",
+    "kitName": "ELECTRICAL QUIZ BOARD",
+    "category": "Explorer",
+    "subject": "Ecology",
+    "grade": 5,
+    "description": "Learn the fundamentals of Printed Circuit Boards (PCBs) and the conductive properties of metals. Explore basic electric circuit concepts through a hands-on project--building an Electric Quiz Board. Reinforce understanding of circuitry and conductivity with practical application, followed by assignments to assess comprehension and problem-solving skills."
+  },
+  {
+    "kitNumber": 43,
+    "concept": "Magical Motions",
+    "kitName": "DESIGN GEAR ACROBAT",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 6,
+    "description": ""
+  },
+  {
+    "kitNumber": 43,
+    "concept": "Magical Motions",
+    "kitName": "AWESOME AUTOMATA",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 6,
+    "description": "Introduce participants to the concept of motion and its various types through engaging activities. Explore the principles behind Cam Toys (Automata Toys) to understand how motion can be converted and controlled. Apply these concepts by building a functional Automata Toy, reinforcing theoretical knowledge through hands-on learning and creativity."
+  },
+  {
+    "kitNumber": 44,
+    "concept": "Be a Cartographer",
+    "kitName": "INTERNATIONAL TIME DIAL",
+    "category": "Discoverer",
+    "subject": "Geography",
+    "grade": 6,
+    "description": "This module explores global time zones, focusing on Indian Standard Time (IST) and daylight saving. Participants will learn how Earth's rotation affects time differences and apply this by designing an International Time Dial."
+  },
+  {
+    "kitNumber": 44,
+    "concept": "Be a Cartographer",
+    "kitName": "MAPS",
+    "category": "Explorer",
+    "subject": "Geography",
+    "grade": 6,
+    "description": "This module explores geography and mapping, covering longitude, latitude, cartography, and GPS technology. Students learn how maps represent large areas and how ancient Indian scholars like Aryabhata and Jai Singh II contributed to navigation. A hands-on DIY activity will engage students in Page 18 of 18 us Description Packing Requirements creating personalized maps using coordinates and landmarks to refine spatial awareness. Through interactive tasks, students will link historical methods to modern applications, strengthening problem-solving skills."
+  },
+  {
+    "kitNumber": 45,
+    "concept": "Air Powered Crafts",
+    "kitName": "WIND TOYS",
+    "category": "Discoverer",
+    "subject": "Earth Science",
+    "grade": 1,
+    "description": "Unleash the power of the atmosphere! The Design a Blow Car & Wind Wheel kit is an interactive exploration into how moving air--wind--can be harnessed to perform work. Part of the 25 Discovery series, this kit transitions students from passive observers of weather to active engineers of wind-powered technology. Through two core builds, students will investigate the mechanics of wind energy: The Blow Car: Students design a lightweight vehicle equipped with a high-surface-area \"sail.\" By using their own breath or a fan, they explore how the angle and size of a sail capture wind to create motion, experimenting with the variables of drag and thrust. The Wind Wheel: Taking inspiration from historical windmills and modern Page 19 of 19 Description Packing Requirements turbines, students construct a rotating wheel that converts the linear path of wind into rotational energy. This project demonstrates how wind can be used to lift small weights or power simple mechanical systems. Following the Engineering Design Process, students will prototype, test, and \"re-breeze\" their designs. They will learn to troubleshoot common issues like high friction or unbalanced blades, ultimately discovering how clean, renewable energy can be a driving force for the future."
+  },
+  {
+    "kitNumber": 45,
+    "concept": "Air Powered Crafts",
+    "kitName": "BALLOON POWERED",
+    "category": "Explorer",
+    "subject": "Earth Science",
+    "grade": 1,
+    "description": "Buckle up for a high-pressure adventure! The Balloon-Powered Crafts kit helps 4th-grade students explore motion, force, and energy through fun, hands-on activities. Using the energy stored in a balloon, students design and build a balloon car to learn about friction, create balloon rockets to understand action and reaction, and make DIY hovercrafts to explore air pressure and reduced friction. Acting as \"Junior Engineers,\" they follow the Engineering Design Process--making predictions, testing ideas, and improving their designs--turning physics into an exciting, real-world learning experience."
+  },
+  {
+    "kitNumber": 46,
+    "concept": "Laws of Motion",
+    "kitName": "NEWTON'S CAR",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 9,
+    "description": "This hands-on experiment transforms students into \"force superheroes\" as they explore levers and equilibrium using the Balanced/Unbalanced Lever Challenge."
+  },
+  {
+    "kitNumber": 46,
+    "concept": "Laws of Motion",
+    "kitName": "NEWTON'S SUPERHERO",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 9,
+    "description": "This hands-on experiment transforms students into \"force superheroes\" as they explore levers and equilibrium using the Balanced/Unbalanced Lever Challenge."
+  },
+  {
+    "kitNumber": 47,
+    "concept": "Electrical Circuits",
+    "kitName": "PLAY WITH",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 7,
+    "description": "In this hands-on activity, you'll explore how a limit switch controls a circuit. By connecting a limit switch to a battery, buzzer, and wires, you can experiment with turning the circuit ON or OFF. Press the switch to break or complete the circuit, and observe how the buzzer or LED reacts. This activity helps you understand how limit switches are used to start, stop, or change the behavior of machines, making them smarter and safer. You'll also learn how pressing and releasing the switch can either open or close the circuit, just like real-life devices. Page 20 of 20 Description Packing Requirements"
+  },
+  {
+    "kitNumber": 47,
+    "concept": "Electrical Circuits",
+    "kitName": "DESIGN A TREASURE BOX",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 7,
+    "description": "Unlock the thrill of discovery with our Treasure Box Activity! Kids turn into mini-inventors as they create a secure treasure chest that only opens with the correct secret code or mechanism. It's a fun blend of imagination, problem-solving, and hands-on STEM learning -- because every great scientist deserves a place to guard their treasures!"
+  },
+  {
+    "kitNumber": 48,
+    "concept": "Intensity of Light",
+    "kitName": "ALIEN LAMP",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 8,
+    "description": "The Alien Lamp is an innovative, interactive lighting kit designed to blend playful extraterrestrial aesthetics with hands-on STEM learning. Inspired by bioluminescent alien flora, this DIY lamp features customizable, soft-glowing \"tentacles\" made from flexible, color-changing LEDs"
+  },
+  {
+    "kitNumber": 48,
+    "concept": "Intensity of Light",
+    "kitName": "DESIGN A BED LAMP",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 8,
+    "description": "This hands-on kit empowers users to build their own personalized bed lamp while learning basic electronics and design. The project covers circuit assembly (wiring, switches, LEDs), material creativity (decorative shades, bases), and practical lighting principles. Participants will explore series vs. parallel circuits, energy efficiency, and ambient lighting design--all with safe, low-voltage components. Perfect for budding engineers and artists alike, the kit blends STEM skills with cozy functionality."
+  },
+  {
+    "kitNumber": 49,
+    "concept": "Light Sensor",
+    "kitName": "GOOD MORNING ALARM",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 9,
+    "description": "The Good Morning Alarm is an automated system designed to introduce you to the world of Optoelectronics and Transducers. In this module, you will build a device that monitors ambient light levels and triggers an audible signal once a specific brightness threshold is met. This mimics the real-world sensors used in streetlights and high-tech Page 21 of 21 Description Packing Requirements security systems. The core scientific themes involve the Photoelectric Effect and Resistance Modulation. You will specifically work with a Light Dependent Resistor (LDR), which acts as the \"eyes\" of your circuit. By integrating this sensor with a buzzer and a power source, you will create a functional \"Light-to-Sound\" energy converter."
+  },
+  {
+    "kitNumber": 49,
+    "concept": "Light Sensor",
+    "kitName": "DARKNESS DETECTING",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 9,
+    "description": "The Darkness Detecting Puppet is a project in Inverse Logic Engineering. While most sensors are designed to turn \"ON\" when they receive a signal, this circuit uses a NPN Transistor configuration to trigger an output when a signal (light) is removed. This is the same technology used in \"smart\" nightlights that glow only when the room lights are turned off. The core scientific themes involve Voltage Division and Biasing a Transistor. You will use an LDR as a gatekeeper. By integrating a Potentiometer, you will gain the ability to \"tune\" your puppet, deciding exactly how dark it needs to be before its LED eyes glow or its buzzer voice speaks."
+  },
+  {
+    "kitNumber": 50,
+    "concept": "Modern Agriculture",
+    "kitName": "HYDROPONICS",
+    "category": "Discoverer",
+    "subject": "Biology",
+    "grade": 8,
+    "description": "Hydroponics is a method of growing plants without soil. Instead of getting nutrients from dirt, plants grow in water mixed with minerals that they need to stay healthy. This activity helps you to grow your own plant using the hydroponics."
+  },
+  {
+    "kitNumber": 50,
+    "concept": "Modern Agriculture",
+    "kitName": "DRIP WATERING SYSTEM",
+    "category": "Explorer",
+    "subject": "Biology",
+    "grade": 8,
+    "description": "The Drip Irrigation System Kit is designed to provide an efficient, sustainable, and cost-effective method of watering plants. By delivering water directly to the roots in controlled amounts, this system minimizes wastage, conserves resources, and enhances crop yield. The kit is easy to assemble, adaptable to different soil types and crop patterns, and promotes environmentally responsible farming practices. It serves as a practical tool for farmers, gardeners, and researchers seeking to optimize water usage while ensuring healthy plant growth."
+  },
+  {
+    "kitNumber": 51,
+    "concept": "Sound and Its",
+    "kitName": "FLAP WHISTLE |BALLOON",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 8,
+    "description": "In these activities, students explore how sound is made using simple materials like a flap, acrylic tube, and balloon. Page 22 of 22 Description Packing Requirements By blowing air into the instruments, they see how vibration creates sound waves. These experiments help students understand pitch, loudness, and how wind instruments actually work."
+  },
+  {
+    "kitNumber": 51,
+    "concept": "Sound and Its",
+    "kitName": "SHEHNAI DESIGN",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 8,
+    "description": "Design a Shehnai activity explores how musical instruments create sound through vibrations. Students will learn how frequency, amplitude, and different instrument parts affect pitch and loudness. Using the shehnai, the activity also shows how air, flaps, and funnels produce musical notes. Through this, students will connect music with science and understand how sound travels and changes."
+  },
+  {
+    "kitNumber": 52,
+    "concept": "Stars and",
+    "kitName": "STAR MAPPING",
+    "category": "Discoverer",
+    "subject": "Astronomy",
+    "grade": 8,
+    "description": "The Star Mapping Kit is a hands-on project that allows users to create a personalized, illuminated map of the night sky from a specific date and location. This unique DIY kit combines the precision of astronomical data with the creativity of a craft project, resulting in a beautiful and meaningful keepsake."
+  },
+  {
+    "kitNumber": 52,
+    "concept": "Stars and",
+    "kitName": "CONSTELLATION LAMP",
+    "category": "Explorer",
+    "subject": "Astronomy",
+    "grade": 8,
+    "description": "The Constellation Lamp is a DIY kit that transforms a simple sphere into a captivating, luminous replica of the night sky. This project is ideal for both astronomy enthusiasts and craft lovers, offering a hands-on experience in building a functional piece of art. The kit includes a pre-punched globe with precise star patterns, an LED light base, a USB power cable, and a detailed instruction manual. Users will enjoy the rewarding process of assembling the lamp and seeing it cast beautiful stellar projections onto their walls and ceiling."
+  },
+  {
+    "kitNumber": 53,
+    "concept": "General Science",
+    "kitName": "FUN WITH SUBLIMATION",
+    "category": "Discoverer",
+    "subject": "Chemistry",
+    "grade": 9,
+    "description": "limation and evaporation are damental phase transition cesses in materials science, mistry, and engineering. limation entails direct solid-to-gas version, while evaporation involves uid-to-gas transformation, both driven vapor pressure and temperature dients. Applications include eze-drying, solvent recovery, aerosol osition, and otechnology-enabled purification. ling effects from evaporation luence solid formation kinetics, and perature-dependent melting point fts control material phase stability morphology. Precise thermal agement enables tailored uctures, purity, and performance."
+  },
+  {
+    "kitNumber": 53,
+    "concept": "Science of",
+    "kitName": "FUN WITH",
+    "category": "Explorer",
+    "subject": "Chemistry",
+    "grade": 9,
+    "description": "Crystallization is a fundamental phase transition process with significant applications in materials science, chemistry, and engineering. Crystallization involves the formation of a solid crystal lattice from a solution, melt, or vapor, governed by nucleation and growth mechanisms. It is widely used in pharmaceutical purification, food processing, and semiconductor manufacturing. Understanding their principles enables precise control over material properties, purity, and morphology. Recent advances include computational modeling for process optimization and nanotechnology applications. This review discusses their mechanisms, influencing factors, and industrial relevance, highlighting emerging trends in sustainable and high-precision material processing. Page 23 of 23 scription Packing Requirements"
+  },
+  {
+    "kitNumber": 54,
+    "concept": "Density and",
+    "kitName": "BUOYANT SCIENCE: PLAY",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 9,
+    "description": "Why does a ship float while a stone ks? The answer lies in density and yancy. This kit lets students explore se concepts through simple ds-on activities. By testing floating sinking, changing shape, and paring mass and volume, students rn how density affects objects in ids and how buoyant force helps ects float. The kit encourages ervation, experimentation, and l-world connections in an engaging . Page 24 of 24 Status Description Packing Requirements"
+  },
+  {
+    "kitNumber": 54,
+    "concept": "Density and",
+    "kitName": "DESIGN A NEWTON'S",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 9,
+    "description": "The Newton's Boat kit is a hands-on ject that demonstrates a core nciple of physics: Newton's Third of Motion. This fan-powered boat allows users to construct a simple effective vessel that glides across er by creating an equal and osite reaction force. The kit ludes a pre-cut boat body, a small motor, a propeller, a battery pack, all necessary components for embly. Through building and testing boat, participants will observe how fan pushes air backward, propelling boat forward. This kit is a perfect cational tool for students and byists to explore fundamental cepts of force, motion, and pulsion in a fun, engaging, and hly visual way."
+  },
+  {
+    "kitNumber": 55,
+    "concept": "Fun with Gravity",
+    "kitName": "TILT SWITCH DESIGN",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 9,
+    "description": "This hands-on project demonstrates electrical circuits through a DIY gravity-controlled switch. Participants build a device that activates/deactivates via orientation changes, learning: Basic circuit completion Switching mechanisms Gravity's role in contact systems The activity combines physics with practical electronics, featuring prototyping challenges and assignments analyzing real-world applications in tilt sensors and safety cut-offs."
+  },
+  {
+    "kitNumber": 55,
+    "concept": "Fun with Gravity",
+    "kitName": "GRAVITY LANTERN",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 9,
+    "description": "The Gravity Lantern is a mesmerizing toy that blends science and wonder, creating a captivating visual experience. Using magnetic levitation or balanced airflow technology, it suspends a softly glowing orb mid-air, defying gravity as it hovers and rotates. The gentle light shifts colors, casting a dreamy ambiance, while the seamless floating effect sparks curiosity and imagination. Perfect for both play and decoration, the Gravity Lantern transforms any space into a realm of magic, demonstrating physics in a way that delights all ages. A fusion of art and innovation, it's not just a toy--it's a floating spectacle."
+  },
+  {
+    "kitNumber": 56,
+    "concept": "Satellite Science",
+    "kitName": "DESIGN A SEXTANT",
+    "category": "Discoverer",
+    "subject": "Astronomy",
+    "grade": 9,
+    "description": ""
+  },
+  {
+    "kitNumber": 56,
+    "concept": "Satellite Science",
+    "kitName": "DESIGN A GEO",
+    "category": "Explorer",
+    "subject": "Astronomy",
+    "grade": 9,
+    "description": ""
+  },
+  {
+    "kitNumber": 58,
+    "concept": "Push Pull Dynamics",
+    "kitName": "MINI CATAPULT",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 1,
+    "description": "This project introduces young learners to fundamental physics concepts through the construction of a balloon-powered slingshot and catapult. Students will explore elastic energy, forces (push/pull), and projectile motion by launching lightweight objects with their handmade toys. The activity demonstrates how stored energy in a Page 25 of 25 Description Packing Requirements stretched balloon converts into kinetic energy to propel objects, linking to Newton's Laws of Motion. Through trial and error, children will investigate variables like balloon size, launch angle, and tension to optimize performance. The project fosters creativity, problem-solving, and an early understanding of energy transfer--all while having fun!"
+  },
+  {
+    "kitNumber": 58,
+    "concept": "Push Pull Dynamics",
+    "kitName": "SLING SHOT AND SLING",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 1,
+    "description": ""
+  },
+  {
+    "kitNumber": 59,
+    "concept": "Pet a plant",
+    "kitName": "CARD GAME",
+    "category": "Discoverer",
+    "subject": "Ecology",
+    "grade": 1,
+    "description": ""
+  },
+  {
+    "kitNumber": 59,
+    "concept": "Pet a plant",
+    "kitName": "GROW YOUR PLANT",
+    "category": "Explorer",
+    "subject": "Ecology",
+    "grade": 1,
+    "description": "In this DIY activity, sprout green gram and peanut seeds on damp tissue in plastic containers for seven days, measuring root and shoot growth. Transplant seedlings into pots, compare stem height, root length to illustrate water uptake and seedling growth."
+  },
+  {
+    "kitNumber": 60,
+    "concept": "Nutri Science",
+    "kitName": "PLAY WITH HEALTHY FOOD",
+    "category": "Discoverer",
+    "subject": "Human Body",
+    "grade": 1,
+    "description": "play and grow. Also using the colored foods like gems, get to know about the"
+  },
+  {
+    "kitNumber": 60,
+    "concept": "Nutri Science",
+    "kitName": "SAFE FUN EXPERIMENTS",
+    "category": "Explorer",
+    "subject": "Human Body",
+    "grade": 1,
+    "description": "Healthy eating activity, explains that healthy foods give our bodies energy to"
+  },
+  {
+    "kitNumber": 61,
+    "concept": "Ocean of Air",
+    "kitName": "POP GUN PARACHUTE",
+    "category": "Discoverer",
+    "subject": "Earth Science",
+    "grade": 2,
+    "description": "The Pop Gun Parachute is an exciting and innovative DIY kit that combines the thrill of a classic toy with the principles of aerodynamics. This kit allows users to build a unique launching mechanism that uses compressed air to propel a parachute high into the air. Participants will assemble the \"pop gun\" launcher and the miniature parachute, learning about the physics of air pressure, projectile motion, and descent control as they experiment with their creation. The kit includes all components, from the air pump and launch tube to the lightweight parachute fabric and detailed instructions, ensuring a successful and educational building experience. The Pop Gun Parachute kit is perfect for young engineers and curious minds, offering a fun, hands-on way"
+  },
+  {
+    "kitNumber": 61,
+    "concept": "Ocean of Air",
+    "kitName": "DESIGN FLYING TOYS",
+    "category": "Explorer",
+    "subject": "Earth Science",
+    "grade": 2,
+    "description": "food colors used in junk foods. The Design Flying Toys Kit is an engaging and educational DIY kit that introduces users to the fundamental principles of flight through hands-on experimentation. This kit includes three distinct projects--a Parachute with Launcher, a Flying Saucer, and a collection of \"Fun with Flying\" activities--each designed to explore different aspects of aerodynamics. Users will build, test, and modify their own flying models, learning about concepts such as lift, drag, propulsion, and gravity in a fun and interactive way. The kit includes all the necessary components, from pre-cut materials to a detailed instruction guide, making it a perfect project for aspiring engineers, young scientists, and anyone curious about how things fly. The Design Flying Toys Kit provides a unique blend of creative building and scientific discovery, offering hours of rewarding and educational play. Page 26 of 26 us Description Packing Requirements"
+  },
+  {
+    "kitNumber": 62,
+    "concept": "Play With Tops",
+    "kitName": "SOLAR SYSTEM AND",
+    "category": "Discoverer",
+    "subject": "Astronomy",
+    "grade": 2,
+    "description": "Welcome to the Solar System and Page 27 of 27 Status Description Packing Requirements Revolution Kit! In this module, we explore our cosmic neighborhood--a busy place where planets, moons, and stars are always on the move. You will learn that the Earth isn't just sitting still; it is actually a giant spaceship traveling at incredible speeds around a massive, glowing ball of fire called the Sun. We will focus on the core themes of Celestial Motion, Orbits, and Gravitational Pull."
+  },
+  {
+    "kitNumber": 62,
+    "concept": "Play With Tops",
+    "kitName": "ROTATION AND",
+    "category": "Explorer",
+    "subject": "Astronomy",
+    "grade": 2,
+    "description": "In this module, we will explore the exciting world of motion and balance through a simple toy -- the spinning top. You may think a top is just for play, but it actually shows us important science ideas happening right before our eyes. When a top spins, it is not just moving -- it is demonstrating the concept of Rotation, balance, force, and friction. In this kit, you will investigate how objects rotate in one place, why spinning fast helps with balance, and what causes a top to wobble and fall. You will conduct hands-on experiments such as the Spin and Observe Test, the Surface Challenge, and the Spin Strength Investigation to discover what affects spinning time. You will also create your own improved spinning top design and test ways to make it spin longer and stay upright. By the end of these projects, you will begin to notice rotation everywhere -- in fans, wheels, coins, and even playground rides -- and understand the science behind how things spin and stay balanced."
+  },
+  {
+    "kitNumber": 63,
+    "concept": "Sound Specialist",
+    "kitName": "BUILD A BUGLE",
+    "category": "Discoverer",
+    "subject": "EVS",
+    "grade": 1,
+    "description": "The Toy Bugle Kit is an interactive STEM learning tool that combines musical creativity with hands-on acoustics experimentation. This DIY kit allows young scientists and musicians to assemble a functional bugle while discovering the physics of sound production in brass instruments."
+  },
+  {
+    "kitNumber": 63,
+    "concept": "Sound Specialist",
+    "kitName": "SOUND INSTRUMENTS",
+    "category": "Explorer",
+    "subject": "EVS",
+    "grade": 1,
+    "description": "Sound Toys is an innovative STEM kit that combines traditional acoustic instruments with electronic sensors to teach sound physics and engineering through play. This hands-on kit features three hybrid musical devices"
+  },
+  {
+    "kitNumber": 65,
+    "concept": "Be an",
+    "kitName": "RGB REMIX",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 7,
+    "description": "The Eye Spy Kit is an educational and engaging project designed to introduce young scientists to the concept of biological traits and environmental adaptations."
+  },
+  {
+    "kitNumber": 65,
+    "concept": "Be an 3D",
+    "kitName": "VISION CRAFTS",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 7,
+    "description": "This project introduces students to the science of light and lenses by constructing a simple functional camera."
+  },
+  {
+    "kitNumber": 66,
+    "concept": "Animal Food Habits",
+    "kitName": "LIFE CYCLE CARD GAME",
+    "category": "Explorer",
+    "subject": "Ecology",
+    "grade": 1,
+    "description": "This activity-based learning module helps students understand concepts through play and interaction, not rote learning. Visual tools and hands-on tasks make learning faster and more memorable. The Life Cycle Card Game simplifies complex processes into an engaging sequencing challenge. Students learn by doing, thinking, and correcting in real time. Simple, effective, and impactful."
+  },
+  {
+    "kitNumber": 67,
+    "concept": "Unbalanced forces",
+    "kitName": "FUN WITH",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 7,
+    "description": "We live at the bottom of an ocean of air, yet we rarely notice the heavy pressure pushing down on us. This kit uncovers the invisible laws of Aerodynamics and Fluid Dynamics. Through a series of high-energy experiments, Grade 7 students will investigate Bernoulli's Principle--the scientific rule that explains how 500-ton airplanes stay in the sky. Students will build a functional Atomizer to visualize pressure differentials, manipulate air streams to create a Hovering Ball trap, and engineer Flying Toys to master the four forces of flight. By controlling the speed of air, students will learn how to control the pressure of air, turning abstract physics into tangible levitation and spray power."
+  },
+  {
+    "kitNumber": 67,
+    "concept": "Unbalanced forces 360-DEGREE",
+    "kitName": "FAN",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 7,
+    "description": "The 360\u00c2\u00b0 Fun kit is an engaging STEM experiment that brings Newton's laws to life with a whimsical twist. This Page 28 of 28 s Description Packing Requirements hands-on fan demonstrates unbalanced forces and rotational motion in a mesmerizing way--all because one of its blades is intentionally trimmed!"
+  },
+  {
+    "kitNumber": 68,
+    "concept": "Habitat Harmony",
+    "kitName": "HUMAN EFFECT ON",
+    "category": "Explorer",
+    "subject": "Ecology",
+    "grade": 2,
+    "description": ""
+  },
+  {
+    "kitNumber": 69,
+    "concept": "Power up",
+    "kitName": "WORK AND ENERGY",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 9,
+    "description": ""
+  },
+  {
+    "kitNumber": 69,
+    "concept": "Power up",
+    "kitName": "HEXAWHEEL CAR",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 9,
+    "description": ""
+  },
+  {
+    "kitNumber": 73,
+    "concept": "Sound and Light",
+    "kitName": "SOS LIGHT",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 5,
+    "description": ""
+  },
+  {
+    "kitNumber": 73,
+    "concept": "Sound and Light",
+    "kitName": "TABLE TOP BELL",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 5,
+    "description": ""
+  },
+  {
+    "kitNumber": 75,
+    "concept": "Seperation Science",
+    "kitName": "SEPARATION SCIENCE",
+    "category": "Explorer",
+    "subject": "Chemistry",
+    "grade": 9,
+    "description": "The Separation Science Kit is a comprehensive dive into the physical and chemical properties of matter. In this module, you will learn that every substance has a \"unique ID\"--like its magnetism, its size, or its ability to dissolve. By using these IDs, you can pull a mixture apart into its original pieces. The core scientific themes include Solubility, Magnetism, and Coagulation. You will perform four distinct projects: Page 29 of 29 s Description Packing Requirements growing Borax crystals on shoelaces, testing the solubility of Citric Acid, using magnets to pull iron from sand, and using Potash Alum to \"capture\" mud particles in water. Each project demonstrates a different way to purify and separate substances."
+  },
+  {
+    "kitNumber": 76,
+    "concept": "Be a Fashion",
+    "kitName": "THREAD ART |PAPER",
+    "category": "Discoverer",
+    "subject": "Chemistry",
+    "grade": 6,
+    "description": ""
+  },
+  {
+    "kitNumber": 76,
+    "concept": "Be a Fashion",
+    "kitName": "TIE AND DYE KIT",
+    "category": "Explorer",
+    "subject": "Chemistry",
+    "grade": 6,
+    "description": ""
+  },
+  {
+    "kitNumber": 77,
+    "concept": "Be a Naval Architect",
+    "kitName": "DENSITY CRAFTS",
+    "category": "Discoverer",
+    "subject": "Physics",
+    "grade": 6,
+    "description": "relationship between Buoyancy, Hydrodynamics, and Structural Balance. By constructing a twin-hull vessel, you will learn how spreading a boat's weight across two points of contact with the water creates a more stable platform than a traditional monohull boat. The core scientific themes include Archimedes' Principle (the law of buoyancy) and Center of Mass. In this project, you will design the hulls, connect them with a crossbeam (the bridge), and test the vessel's \"payload\" capacity to see how much weight it can carry before the hulls submerge. The Centrifugal Pump Kit is a hands-on exploration of Hydrodynamics and the Conservation of Energy. In this module, you will construct a working pump using syringes and acrylic tubes to see how spinning motion can \"throw\" water outward, creating enough pressure to move it through a pipe. The core scientific themes include Centrifugal Force, Pressure Differentials, and Fluid Flow. You will use the 6ml and 2.5ml syringes as the pump casing and plunger, while the steel ball acts as a \"check valve\" to ensure water only moves in one direction. By the end of this project, you will understand how speed and pressure work together to fight gravity and move liquids upward. Page 30 of 30 tatus Description Packing Requirements"
+  },
+  {
+    "kitNumber": 77,
+    "concept": "Be a Naval Architect",
+    "kitName": "DESIGN A CATAMARAN",
+    "category": "Explorer",
+    "subject": "Physics",
+    "grade": 6,
+    "description": "The Dual-Hull Catamaran Kit challenges you to explore the"
+  },
+  {
+    "kitNumber": 80,
+    "concept": "Things around us",
+    "kitName": "PLAY GHOST EGGS | CLAP",
+    "category": "Discoverer",
+    "subject": "Material",
+    "grade": 4,
+    "description": ""
+  },
+  {
+    "kitNumber": 80,
+    "concept": "Things around us",
+    "kitName": "",
+    "category": "Explorer",
+    "subject": "General",
+    "grade": 4,
+    "description": "This kit explores the world of Materials Science, specifically focusing on the unique properties of Polymers and Plasticity. You will learn how the microscopic structure of a material determines how it behaves when we pull, poke, or stretch it. Through the \"Skewer Through the Pouch\" and \"Stretch Test\" projects, we will see how molecules can act like \"molecular spaghetti,\" sliding past each other to create a seal or changing shape without snapping. Core Themes: Polymers, Plasticity, Elasticity, and Material Strength."
+  },
+  {
+    "kitNumber": 81,
+    "concept": "Bublology",
+    "kitName": "BUILD YOUR OWN WAND",
+    "category": "Discoverer",
+    "subject": "Material",
+    "grade": 5,
+    "description": ""
+  },
+  {
+    "kitNumber": 81,
+    "concept": "Bublology",
+    "kitName": "SNAKE BUBBLE",
+    "category": "Explorer",
+    "subject": "Material",
+    "grade": 5,
+    "description": ""
+  },
+  {
+    "kitNumber": 83,
+    "concept": "Thermodynamics",
+    "kitName": "POP-POP BOAT | UNDER",
+    "category": "Discoverer",
+    "subject": "Chemistry",
+    "grade": 7,
+    "description": ""
+  },
+  {
+    "kitNumber": 83,
+    "concept": "Thermodynamics",
+    "kitName": "BI METALLIC STRIP LAMP",
+    "category": "Explorer",
+    "subject": "Chemistry",
+    "grade": 7,
+    "description": ""
+  },
+  {
+    "kitNumber": 85,
+    "concept": "Wizardy Circuits",
+    "kitName": "GLOWING GREETING CARD",
+    "category": "Discoverer",
+    "subject": "Tech",
+    "grade": 1,
+    "description": "basic electronics using a simple series LED circuit. Students connect multiple"
+  },
+  {
+    "kitNumber": 85,
+    "concept": "Wizardy Circuits",
+    "kitName": "WIZARD PEN STAND",
+    "category": "Explorer",
+    "subject": "Tech",
+    "grade": 1,
+    "description": "The LED Wizard Stand is a fun, hands-on STEM kit designed to teach"
+  },
+  {
+    "kitNumber": 86,
+    "concept": "Be a Farmer",
+    "kitName": "GRASSY PUPPET",
+    "category": "Explorer",
+    "subject": "Ecology",
+    "grade": 2,
+    "description": ""
+  },
+  {
+    "kitNumber": 86,
+    "concept": "Be a Farmer",
+    "kitName": "PLANTS WE EAT",
+    "category": "Explorer",
+    "subject": "Ecology",
+    "grade": 2,
+    "description": "LEDs to create a glowing wizard-themed display, learning how current flows in a series. It's a magical way to introduce circuits, creativity, and science together. This project provides an educational framework for understanding plant biology through a hands-on \"Grow Vegetables\" kit. The core objective is to guide students through the fundamental stages of plant life, from seed to Page 31 of 31 atus Description Packing Requirements harvest. Through five key learning goals, including identifying plant needs, mastering proper planting techniques, documenting growth, practicing consistent care, and successfully harvesting, students will gain practical experience and a foundational understanding of botanical principles. This initiative is designed to be engaging for children, fostering curiosity and a deeper appreciation for the natural world."
+  },
+  {
+    "kitNumber": 88,
+    "concept": "Traffic Inspector",
+    "kitName": "DESIGA MAGNETIC CAR",
+    "category": "Discoverer",
+    "subject": "Social Science",
+    "grade": 2,
+    "description": ""
+  },
+  {
+    "kitNumber": 88,
+    "concept": "Traffic Inspector",
+    "kitName": "DESIGN A TRAFFIC SIGNAL",
+    "category": "Explorer",
+    "subject": "Social Science",
+    "grade": 2,
+    "description": ""
+  },
+  {
+    "kitNumber": 91,
+    "concept": "Change is Inevitable",
+    "kitName": "INTRODUCTION TO",
+    "category": "Discoverer",
+    "subject": "Chemistry",
+    "grade": 7,
+    "description": "By investigating how substances interact, change form, and sometimes create entirely new materials, students will learn to distinguish between the"
+  },
+  {
+    "kitNumber": 91,
+    "concept": "Change is Inevitable",
+    "kitName": "PHYSICAL & CHEMICAL",
+    "category": "Explorer",
+    "subject": "Chemistry",
+    "grade": 7,
+    "description": "Welcome to the Magic of Transformation kit! In this module, Junior Scientists will explore the invisible world of molecular changes."
+  },
+  {
+    "kitNumber": 95,
+    "concept": "Chemical Reactions",
+    "kitName": "ATOMS AND ELEMENTS",
+    "category": "Discoverer",
+    "subject": "Chemistry",
+    "grade": 10,
+    "description": ""
+  },
+  {
+    "kitNumber": 95,
+    "concept": "Chemical Reactions",
+    "kitName": "CHEMICAL REACTIONS",
+    "category": "Explorer",
+    "subject": "Chemistry",
+    "grade": 10,
+    "description": "temporary shifts in physical appearance and the permanent transformations of chemical reactions. This kit focuses on the core scientific themes of Matter and Its Interactions, Properties of Substances, and Chemical Indicators. Through three hands-on projects--The Pink Reveal, The Disappearing Ink, and The Blue Precipitate--scientists will master the art of observation and data collection to prove whether a change has truly occurred at the molecular level. Chemistry is not just about color changes; it is about the transfer of energy and electrons. This kit explores two fundamental concepts of chemical reactions: Thermodynamics (Energy changes) and Redox (Reduction-Oxidation). Page 32 of 32 Status Description Packing Requirements In the first module, students will engineer their own \"Hot Packs\" and \"Cold Packs.\" By dissolving specific salts in water, they will observe how breaking and forming chemical bonds can either release massive amounts of heat (Exothermic) or absorb energy to freeze water (Endothermic). In the second module, students will visualize the invisible movement of electrons. Using an iron nail and copper sulfate solution, they will witness a Single Displacement Reaction, identifying which elements are oxidized and which are reduced, providing a tangible look at the chemistry behind batteries and corrosion."
+  },
+  {
+    "kitNumber": 96,
+    "concept": "Acid, Bases and INDICATORS:",
+    "kitName": "SOIL TEST",
+    "category": "Discoverer",
+    "subject": "Chemistry",
+    "grade": 7,
+    "description": "active active Page 33 of 33"
+  },
+  {
+    "kitNumber": 96,
+    "concept": "Acid, Bases and",
+    "kitName": "PH SPY: INDICATORS | ART",
+    "category": "Explorer",
+    "subject": "Chemistry",
+    "grade": 7,
+    "description": "This hands-on experiment teaches core scientific concepts through creating lava lamps. Students discover density by layering oil and water, observe solubility as food coloring mixes only with water, and witness acid-base reactions when citric acid generates colorful bubbling movement. The engaging activity makes chemistry principles tangible while developing observation and critical thinking skills"
+  }
+]
