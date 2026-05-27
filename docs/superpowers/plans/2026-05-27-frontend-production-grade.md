@@ -133,15 +133,81 @@ git commit -m "ui: add semantic neutral + status tokens to tailwind config"
 
 ---
 
-## Task 3: Refresh global stylesheet (`index.css`)
+## Task 3: Migrate theme to Tailwind v4 `@theme` in CSS
+
+**Revision note (2026-05-27):** First attempt at Task 3 failed — Tailwind v4 (`@tailwindcss/postcss` 4.3.x) does not resolve custom theme colors added via `extend.colors` in `tailwind.config.ts` when used inside `@apply`. Tailwind v4's CSS-first theming via `@theme` is the supported path. So this task supersedes the JS-config additions from Task 2: it strips `tailwind.config.ts` back to just content paths and declares ALL theme tokens (existing scoring palette + new semantic neutrals + fonts/shadows/radius) in `@theme` inside `src/index.css`.
 
 **Files:**
-- Modify: `src/index.css`
+- Modify: `tailwind.config.ts` (simplify back to content-only)
+- Modify: `src/index.css` (add `@theme` block + base styles)
 
-- [ ] **Step 1: Replace `src/index.css` with**
+- [ ] **Step 1: Simplify `tailwind.config.ts`**
+
+Replace its entire content with:
+
+```ts
+import type { Config } from "tailwindcss";
+export default {
+  content: ["./index.html", "./src/**/*.{ts,tsx}"],
+} satisfies Config;
+```
+
+- [ ] **Step 2: Replace `src/index.css`**
 
 ```css
 @import "tailwindcss";
+
+@theme {
+  /* Brand */
+  --color-accent: #0F6E56;
+  --color-accent-deep: #085041;
+
+  /* Semantic neutrals (crisp SaaS) */
+  --color-surface: #FFFFFF;
+  --color-surface-muted: #F7F7F8;
+  --color-surface-sunken: #FAFAF8;
+  --color-ink: #0F1115;
+  --color-ink-muted: #5B6470;
+  --color-ink-subtle: #8A93A0;
+  --color-line: #E5E7EB;
+  --color-line-strong: #D1D5DB;
+
+  /* Scoring palette (used by ScoreRow + PDFs) */
+  --color-good-50: #E1F5EE;
+  --color-good-200: #9FE1CB;
+  --color-good-400: #1D9E75;
+  --color-good-600: #0F6E56;
+  --color-good-800: #085041;
+  --color-ok-50: #EAF3DE;
+  --color-ok-400: #639922;
+  --color-ok-600: #3B6D11;
+  --color-ok-800: #27500A;
+  --color-warn-50: #FAEEDA;
+  --color-warn-400: #EF9F27;
+  --color-warn-600: #854F0B;
+  --color-warn-800: #633806;
+  --color-bad-50: #FCEBEB;
+  --color-bad-200: #F09595;
+  --color-bad-600: #A32D2D;
+  --color-bad-800: #791F1F;
+
+  /* Status aliases for primitives */
+  --color-danger: #A32D2D;
+  --color-danger-soft: #FCEBEB;
+  --color-success: #0F6E56;
+  --color-success-soft: #E1F5EE;
+
+  /* Type */
+  --font-sans: "DM Sans", system-ui, sans-serif;
+  --font-serif: "DM Serif Display", serif;
+
+  /* Shadows */
+  --shadow-card: 0 1px 2px 0 rgba(15, 17, 21, 0.04), 0 1px 3px 0 rgba(15, 17, 21, 0.06);
+  --shadow-pop: 0 8px 24px -8px rgba(15, 17, 21, 0.18), 0 2px 6px -2px rgba(15, 17, 21, 0.08);
+
+  /* Radius */
+  --radius: 8px;
+}
 
 @layer base {
   html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
@@ -152,7 +218,7 @@ git commit -m "ui: add semantic neutral + status tokens to tailwind config"
     @apply outline-none ring-2 ring-accent/40 ring-offset-2 ring-offset-surface-sunken rounded;
   }
 
-  /* Inputs get a subtle hover/focus border */
+  /* Inputs get a subtle border */
   input, textarea, select { @apply border-line; }
 }
 
@@ -161,16 +227,16 @@ git commit -m "ui: add semantic neutral + status tokens to tailwind config"
 }
 ```
 
-- [ ] **Step 2: Run app, verify nothing visually exploded**
+- [ ] **Step 3: Verify build picks up tokens**
 
-Run: `npm run dev` and open `http://localhost:5173/sign-in`.
-Expected: page renders with new neutral background, focus ring appears on tabbed inputs. Stop the dev server.
+Run: `npm run build`
+Expected: success. Build must succeed because `@apply bg-surface-sunken` etc. need `--color-surface-sunken` to resolve.
 
-- [ ] **Step 3: Commit**
+- [ ] **Step 4: Commit**
 
 ```powershell
-git add src/index.css
-git commit -m "ui: global tokens, focus ring, body styles"
+git add tailwind.config.ts src/index.css
+git commit -m "ui: migrate theme to @theme (Tailwind v4), wire base styles"
 ```
 
 ---
