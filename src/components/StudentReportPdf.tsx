@@ -41,8 +41,8 @@ const s = StyleSheet.create({
   repHeaderRight:    { alignItems: "flex-end" },
   repHeaderPct:      { fontFamily: "DM Serif Display", fontSize: 32, color: "#FFFFFF",
                        marginBottom: 2 },
-  repHeaderBand:     { fontFamily: "DM Serif Display", fontSize: 12, color: "#E1F5EE",
-                       marginBottom: 8 },
+  repHeaderGradeBand: { fontFamily: "DM Serif Display", fontSize: 12, color: "#E1F5EE",
+                        marginBottom: 8 },
   repHeaderMeta:     { fontSize: 8, color: "#E1F5EE" },
   repHeaderEnrolled: { fontSize: 9, color: "#E1F5EE" },
 
@@ -165,7 +165,7 @@ function ReportHeader({
           {overall ? (
             <>
               <Text style={s.repHeaderPct}>{overall.pct}%</Text>
-              <Text style={s.repHeaderBand}>{overall.band}</Text>
+              <Text style={s.repHeaderGradeBand}>{overall.band}</Text>
               <Text style={s.repHeaderMeta}>{overall.kitCount} kits assessed</Text>
               <Text style={s.repHeaderMeta}>Issued {formatIssueDate()}</Text>
             </>
