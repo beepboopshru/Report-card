@@ -1,10 +1,16 @@
+// src/pages/ClassDetail.tsx
 import { useParams, Link } from "react-router-dom";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
-import Breadcrumbs from "../components/Breadcrumbs";
-import EmptyState from "../components/EmptyState";
 import { useState } from "react";
+import { Plus, Trash2, FileText, BookOpen } from "lucide-react";
+import PageHeader from "../components/PageHeader";
+import EmptyState from "../components/EmptyState";
+import { Card, CardHeader, CardBody } from "../components/ui/Card";
+import { Badge, categoryTone } from "../components/ui/Badge";
+import { Button } from "../components/ui/Button";
+import { Input } from "../components/ui/Input";
 
 export default function ClassDetail() {
   const { classId } = useParams<{ classId: string }>();
@@ -15,8 +21,9 @@ export default function ClassDetail() {
   const addStudent = useMutation(api.students.create);
   const removeStudent = useMutation(api.students.remove);
   const [name, setName] = useState("");
+  const [scoringFor, setScoringFor] = useState<string | null>(null);
 
-  if (!cls) return <p className="text-sm text-gray-500">Loading…</p>;
+  if (!cls) return <p className="text-sm text-ink-muted">Loading…</p>;
 
   async function add(e: React.FormEvent) {
     e.preventDefault();
@@ -27,111 +34,160 @@ export default function ClassDetail() {
 
   return (
     <>
-      <Breadcrumbs crumbs={[{ label: "Classes", to: "/" }, { label: cls.name }]} />
-      <div className="flex items-baseline justify-between mb-1">
-        <h1 className="font-serif text-2xl text-accent">{cls.name}</h1>
-        <Link
-          to={`/class/${id}/report`}
-          className="text-sm text-accent hover:underline"
-        >
-          Class report →
-        </Link>
-      </div>
-      <p className="text-sm text-gray-500 mb-6">
-        Grade {cls.grade} · {cls.academicYear}
-      </p>
+      <PageHeader
+        breadcrumbs={[{ label: "Classes", to: "/" }, { label: cls.name }]}
+        title={cls.name}
+        description={`Grade ${cls.grade} · ${cls.academicYear}`}
+        actions={
+          <>
+            <Link to={`/class/${id}/curriculum`}>
+              <Button variant="secondary">
+                <BookOpen className="w-4 h-4" />
+                Curriculum
+              </Button>
+            </Link>
+            <Link to={`/class/${id}/report`}>
+              <Button>
+                <FileText className="w-4 h-4" />
+                Class report
+              </Button>
+            </Link>
+          </>
+        }
+      />
 
-      <section className="bg-white border rounded-xl mb-6">
-        <header className="flex items-center justify-between px-4 py-3 border-b">
-          <h2 className="text-sm font-medium">Curriculum ({kits?.length ?? 0} kits)</h2>
-          <Link
-            to={`/class/${id}/curriculum`}
-            className="text-xs text-accent hover:underline"
-          >
-            Manage curriculum
-          </Link>
-        </header>
-        {kits && kits.length === 0 ? (
-          <p className="px-4 py-6 text-sm text-gray-500">
-            No kits attached. Add some from "Manage curriculum".
-          </p>
-        ) : (
-          <ul className="divide-y">
-            {kits?.map((k) => (
-              <li key={k._id} className="px-4 py-2.5 text-sm">
-                #{k.kit!.kitNumber} · {k.kit!.kitName}{" "}
-                <span className="text-xs text-gray-500">({k.kit!.category})</span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
-
-      <section className="bg-white border rounded-xl">
-        <header className="px-4 py-3 border-b text-sm font-medium">
-          Students ({students?.length ?? 0})
-        </header>
-        <form onSubmit={add} className="px-4 py-3 flex gap-2 border-b">
-          <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Student name"
-            className="flex-1 border rounded px-3 py-1.5 text-sm"
-          />
-          <button className="bg-accent text-white rounded-md px-4 py-1.5 text-sm">Add</button>
-        </form>
-        {students && students.length === 0 && (
-          <EmptyState
-            title="No students"
-            description="Add students above to begin scoring."
-          />
-        )}
-        <ul className="divide-y">
-          {students?.map((s) => (
-            <li
-              key={s._id}
-              className="px-4 py-2.5 flex items-center justify-between text-sm"
+      <Card className="mb-6">
+        <CardHeader
+          title="Curriculum"
+          description={`${kits?.length ?? 0} kits attached`}
+          action={
+            <Link
+              to={`/class/${id}/curriculum`}
+              className="text-xs text-accent hover:underline"
             >
-              <span className="font-medium">{s.name}</span>
-              <div className="flex items-center gap-3 flex-wrap justify-end">
-                {kits && kits.length > 0 && (
-                  <div className="flex flex-wrap gap-1">
-                    {kits.slice(0, 3).map((k) => (
-                      <Link
-                        key={k._id}
-                        to={`/class/${id}/students/${s._id}/score/${k.kitId}`}
-                        className="text-xs border rounded px-2 py-0.5 hover:bg-good-50 hover:border-good-200"
-                      >
-                        Score{" "}
-                        {k.kit!.kitName.length > 16
-                          ? k.kit!.kitName.slice(0, 16) + "…"
-                          : k.kit!.kitName}
-                      </Link>
-                    ))}
-                    {kits.length > 3 && (
-                      <span className="text-xs text-gray-400">+{kits.length - 3} more</span>
-                    )}
+              Manage
+            </Link>
+          }
+        />
+        <CardBody padding="none">
+          {kits && kits.length === 0 ? (
+            <p className="px-5 py-8 text-sm text-ink-muted text-center">
+              No kits attached. Open "Manage" to add some.
+            </p>
+          ) : (
+            <ul className="divide-y divide-line/60">
+              {kits?.map((k) => (
+                <li
+                  key={k._id}
+                  className="px-5 py-3 flex items-center justify-between gap-3 text-sm"
+                >
+                  <div className="min-w-0">
+                    <div className="font-medium text-ink truncate">
+                      #{k.kit!.kitNumber} · {k.kit!.kitName}
+                    </div>
+                    <div className="text-xs text-ink-muted truncate">
+                      {k.kit!.concept}
+                    </div>
                   </div>
-                )}
-                <Link
-                  to={`/class/${id}/students/${s._id}/report`}
-                  className="text-xs text-accent hover:underline"
+                  <Badge tone={categoryTone(k.kit!.category)} size="sm">
+                    {k.kit!.category}
+                  </Badge>
+                </li>
+              ))}
+            </ul>
+          )}
+        </CardBody>
+      </Card>
+
+      <Card>
+        <CardHeader
+          title="Students"
+          description={`${students?.length ?? 0} enrolled`}
+        />
+        <CardBody padding="none">
+          <form onSubmit={add} className="px-5 py-3 flex gap-2 border-b border-line/60">
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Student name"
+            />
+            <Button type="submit" size="md">
+              <Plus className="w-4 h-4" />
+              Add
+            </Button>
+          </form>
+          {students && students.length === 0 ? (
+            <EmptyState
+              title="No students yet"
+              description="Add students above to begin scoring."
+            />
+          ) : (
+            <ul className="divide-y divide-line/60">
+              {students?.map((s) => (
+                <li
+                  key={s._id}
+                  className="px-5 py-3 flex items-center justify-between gap-3 text-sm"
                 >
-                  Report
-                </Link>
-                <button
-                  onClick={() => {
-                    if (confirm(`Delete ${s.name}?`)) removeStudent({ studentId: s._id });
-                  }}
-                  className="text-xs text-bad-600 hover:underline"
-                >
-                  Delete
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </section>
+                  <div className="min-w-0 flex-1">
+                    <div className="font-medium text-ink truncate">
+                      {s.name}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    {kits && kits.length > 0 && (
+                      <div className="relative">
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          onClick={() =>
+                            setScoringFor(scoringFor === s._id ? null : s._id)
+                          }
+                        >
+                          Score
+                        </Button>
+                        {scoringFor === s._id && (
+                          <div className="absolute right-0 top-full mt-1 z-10 bg-surface border border-line rounded-lg shadow-pop w-64 max-h-80 overflow-y-auto py-1">
+                            {kits.map((k) => (
+                              <Link
+                                key={k._id}
+                                to={`/class/${id}/students/${s._id}/score/${k.kitId}`}
+                                onClick={() => setScoringFor(null)}
+                                className="block px-3 py-2 text-xs hover:bg-surface-muted"
+                              >
+                                <div className="font-medium text-ink truncate">
+                                  #{k.kit!.kitNumber} · {k.kit!.kitName}
+                                </div>
+                                <div className="text-[11px] text-ink-muted">
+                                  {k.kit!.category}
+                                </div>
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    <Link to={`/class/${id}/students/${s._id}/report`}>
+                      <Button variant="ghost" size="sm">
+                        Report
+                      </Button>
+                    </Link>
+                    <button
+                      onClick={() => {
+                        if (confirm(`Delete ${s.name}?`))
+                          removeStudent({ studentId: s._id });
+                      }}
+                      className="text-ink-subtle hover:text-danger p-1.5 rounded transition-colors"
+                      aria-label={`Delete ${s.name}`}
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </CardBody>
+      </Card>
     </>
   );
 }
