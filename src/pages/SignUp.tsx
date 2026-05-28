@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useNavigate, Link } from "react-router-dom";
+import AuthLayout from "../components/AuthLayout";
+import { FormField } from "../components/ui/FormField";
+import { Input } from "../components/ui/Input";
+import { Button } from "../components/ui/Button";
 
 export default function SignUp() {
   const { signIn } = useAuthActions();
@@ -25,27 +29,52 @@ export default function SignUp() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
-      <form onSubmit={onSubmit} className="w-full max-w-sm bg-white border rounded-2xl p-8 space-y-4">
-        <h1 className="font-serif text-2xl text-accent">Create account</h1>
-        <label className="block">
-          <span className="text-xs uppercase tracking-wide text-gray-500">Email</span>
-          <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
-                 className="mt-1 w-full border rounded-md px-3 py-2 text-sm" />
-        </label>
-        <label className="block">
-          <span className="text-xs uppercase tracking-wide text-gray-500">Password</span>
-          <input type="password" required minLength={8} value={password} onChange={(e) => setPassword(e.target.value)}
-                 className="mt-1 w-full border rounded-md px-3 py-2 text-sm" />
-        </label>
-        {error && <p className="text-sm text-bad-600">{error}</p>}
-        <button disabled={busy} className="w-full bg-accent text-white rounded-md py-2 text-sm font-medium disabled:opacity-50">
-          {busy ? "Creating..." : "Create account"}
-        </button>
-        <p className="text-xs text-gray-500 text-center">
-          Already have one? <Link to="/sign-in" className="text-accent underline">Sign in</Link>
+    <AuthLayout>
+      <header className="mb-7">
+        <h1 className="font-serif text-3xl text-accent-deep">Create account</h1>
+        <p className="text-sm text-ink-muted mt-1">
+          Start scoring your first class in minutes.
+        </p>
+      </header>
+      <form onSubmit={onSubmit} className="space-y-4">
+        <FormField label="Email">
+          {(id, describedBy) => (
+            <Input
+              id={id}
+              type="email"
+              required
+              autoComplete="email"
+              aria-describedby={describedBy}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          )}
+        </FormField>
+        <FormField label="Password" hint="At least 8 characters.">
+          {(id, describedBy) => (
+            <Input
+              id={id}
+              type="password"
+              required
+              minLength={8}
+              autoComplete="new-password"
+              aria-describedby={describedBy}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          )}
+        </FormField>
+        {error && <p className="text-sm text-danger">{error}</p>}
+        <Button type="submit" loading={busy} className="w-full">
+          {busy ? "Creating…" : "Create account"}
+        </Button>
+        <p className="text-xs text-ink-muted text-center pt-1">
+          Already have one?{" "}
+          <Link to="/sign-in" className="text-accent hover:underline">
+            Sign in
+          </Link>
         </p>
       </form>
-    </div>
+    </AuthLayout>
   );
 }
