@@ -1,8 +1,9 @@
+// src/pages/ClassCurriculum.tsx
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
-import Breadcrumbs from "../components/Breadcrumbs";
+import PageHeader from "../components/PageHeader";
 import KitPicker from "../components/KitPicker";
 
 export default function ClassCurriculum() {
@@ -13,7 +14,7 @@ export default function ClassCurriculum() {
   const add = useMutation(api.classKits.add);
   const remove = useMutation(api.classKits.remove);
 
-  if (!cls || !links) return <p className="text-sm text-gray-500">Loading…</p>;
+  if (!cls || !links) return <p className="text-sm text-ink-muted">Loading…</p>;
   const selectedIds = new Set<string>(links.map((l) => l.kitId as unknown as string));
 
   function onToggle(kitId: Id<"kits">, selected: boolean) {
@@ -27,17 +28,15 @@ export default function ClassCurriculum() {
 
   return (
     <>
-      <Breadcrumbs
-        crumbs={[
+      <PageHeader
+        breadcrumbs={[
           { label: "Classes", to: "/" },
           { label: cls.name, to: `/class/${id}` },
           { label: "Curriculum" },
         ]}
+        title="Curriculum"
+        description="Pick the kits you'll teach this class. Only your assigned kits are shown."
       />
-      <h1 className="font-serif text-2xl text-accent mb-1">Curriculum</h1>
-      <p className="text-sm text-gray-500 mb-6">
-        Pick the kits you'll teach this class. Only your assigned kits are shown.
-      </p>
       <KitPicker selectedKitIds={selectedIds} onToggle={onToggle} />
     </>
   );
