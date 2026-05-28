@@ -11,6 +11,10 @@ import { Button } from "../components/ui/Button";
 import { downloadClassReport } from "../components/ClassReportPdf";
 import { totalOf, maxScore } from "../lib/totals";
 import { toneFromRatio } from "../lib/progress";
+import { useState } from "react";
+import { pdf } from "@react-pdf/renderer";
+import { StudentReportDoc, type ScoredKit } from "../components/StudentReportPdf";
+import { buildReportZip, downloadBlob } from "../lib/buildReportZip";
 
 const TONE_BG: Record<string, string> = {
   good: "bg-good-50 text-good-800",
@@ -48,6 +52,66 @@ export default function ClassReport() {
       })),
   }));
 
+  type FullKit = {
+    kit: { kitNumber: number; kitName: string; concept: string; category: string };
+    rubric: { criteria: Array<{
+      id: string; label: string; sub: string; c4: string; c3: string; c2: string; c1: string;
+    }> };
+    criterionScores: Record<string, number>;
+    observations?: string;
+    absent?: boolean;
+    _id: string;
+  };
+
+  const fullBlocks: { student: { name: string; rollNo?: string }; scores: FullKit[] }[] =
+    blocks.map((b) => ({
+      student: { name: b.student.name, rollNo: b.student.rollNo },
+      scores: b.scores
+        .filter(
+          (s): s is typeof s & { kit: NonNullable<typeof s.kit>; rubric: NonNullable<typeof s.rubric> } =>
+            s.kit !== null && s.rubric !== null,
+        )
+        .map((s) => ({
+          kit: {
+            kitNumber: s.kit.kitNumber,
+            kitName: s.kit.kitName,
+            concept: s.kit.concept,
+            category: s.kit.category,
+          },
+          rubric: { criteria: s.rubric.criteria },
+          criterionScores: s.criterionScores,
+          observations: s.observations,
+          absent: s.absent ?? false,
+          _id: s._id,
+        })),
+    }));
+
+  const [zipProgress, setZipProgress] = useState<{ done: number; total: number } | null>(null);
+
+  async function downloadAllPerStudent() {
+    setZipProgress({ done: 0, total: fullBlocks.length });
+    const entries: { fileLabel: string; blob: Blob }[] = [];
+    for (let i = 0; i < fullBlocks.length; i++) {
+      const b = fullBlocks[i];
+      const pdfRows: ScoredKit[] = b.scores.map((s) => ({
+        kit: s.kit,
+        rubric: s.rubric,
+        criterionScores: s.criterionScores,
+        observations: s.observations,
+        absent: s.absent,
+      }));
+      const blob = await pdf(
+        <StudentReportDoc studentName={b.student.name} className={cls!.name} scored={pdfRows} />,
+      ).toBlob();
+      const prefix = b.student.rollNo ?? String(i + 1).padStart(2, "0");
+      entries.push({ fileLabel: `${prefix}-${b.student.name}`, blob });
+      setZipProgress({ done: i + 1, total: fullBlocks.length });
+    }
+    const zip = await buildReportZip(entries);
+    downloadBlob(zip, `${cls!.name.replace(/\s+/g, "_")}_report_cards.zip`);
+    setZipProgress(null);
+  }
+
   return (
     <>
       <PageHeader
@@ -59,13 +123,25 @@ export default function ClassReport() {
         title={`${cls.name} · Class report`}
         description={`Grade ${cls.grade} · ${cls.academicYear}`}
         actions={
-          <Button
-            onClick={() => downloadClassReport(cls.name, cleaned)}
-            disabled={cleaned.length === 0}
-          >
-            <Download className="w-4 h-4" />
-            Download all (PDF)
-          </Button>
+          <>
+            <Button
+              variant="secondary"
+              onClick={() => downloadClassReport(cls.name, cleaned)}
+              disabled={cleaned.length === 0}
+            >
+              <Download className="w-4 h-4" />
+              Combined PDF
+            </Button>
+            <Button
+              onClick={downloadAllPerStudent}
+              disabled={!!zipProgress || cleaned.length === 0}
+            >
+              <Download className="w-4 h-4" />
+              {zipProgress
+                ? `Generating ${zipProgress.done}/${zipProgress.total}…`
+                : "Per-student ZIP"}
+            </Button>
+          </>
         }
       />
 
