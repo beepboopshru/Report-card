@@ -73,6 +73,37 @@ export default function KitScoreSheet() {
     [rows, kid, setAbsent],
   );
 
+  useEffect(() => {
+    function handler(e: KeyboardEvent) {
+      if (!rows || !criterion) return;
+      const target = e.target as HTMLElement;
+      if (target.tagName === "INPUT" || target.tagName === "TEXTAREA") return;
+      if (e.key >= "1" && e.key <= "4") {
+        e.preventDefault();
+        onPickScore(focusIndex, parseInt(e.key, 10) as 1 | 2 | 3 | 4);
+      } else if (e.key === "0") {
+        e.preventDefault();
+        onToggleAbsent(focusIndex);
+      } else if (e.key === "ArrowDown" || e.key === "Enter") {
+        e.preventDefault();
+        setFocusIndex((i) => Math.min(rows.length - 1, i + 1));
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setFocusIndex((i) => Math.max(0, i - 1));
+      } else if (e.key === "PageDown") {
+        e.preventDefault();
+        setFocusIndex((i) => Math.min(rows.length - 1, i + 10));
+      } else if (e.key === "PageUp") {
+        e.preventDefault();
+        setFocusIndex((i) => Math.max(0, i - 10));
+      } else if (e.key === "Escape") {
+        navigate(`/class/${cid}`);
+      }
+    }
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [rows, criterion, focusIndex, onPickScore, onToggleAbsent, navigate, cid]);
+
   const onPrev = () => setParams({ c: String(Math.max(0, cIndex - 1)) });
   const onNext = () => setParams({ c: String(Math.min(total - 1, cIndex + 1)) });
 
@@ -130,6 +161,9 @@ export default function KitScoreSheet() {
             onPrev={onPrev}
             onNext={onNext}
           />
+          <div className="bg-gray-50 px-4 py-1.5 text-xs text-gray-500 border-b hidden md:block">
+            Keyboard: <b>1</b>–<b>4</b> score · <b>0</b> absent · <b>↓</b>/<b>↑</b> navigate · <b>Esc</b> exit
+          </div>
           <div className="bg-white border-x">
             {rows.map((r, i) => (
               <BulkScoreRow
