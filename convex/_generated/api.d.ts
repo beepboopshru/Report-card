@@ -15,6 +15,7 @@ import type * as classes from "../classes.js";
 import type * as http from "../http.js";
 import type * as kits from "../kits.js";
 import type * as lib_access from "../lib/access.js";
+import type * as lib_username from "../lib/username.js";
 import type * as profiles from "../profiles.js";
 import type * as rubrics from "../rubrics.js";
 import type * as scores from "../scores.js";
@@ -37,6 +38,7 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   kits: typeof kits;
   "lib/access": typeof lib_access;
+  "lib/username": typeof lib_username;
   profiles: typeof profiles;
   rubrics: typeof rubrics;
   scores: typeof scores;

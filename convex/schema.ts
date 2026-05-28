@@ -10,6 +10,7 @@ export default defineSchema({
     username: v.string(),
     displayName: v.string(),
     role: v.union(v.literal("admin"), v.literal("teacher")),
+    disabled: v.optional(v.boolean()),
   })
     .index("by_user", ["userId"])
     .index("by_username", ["username"]),
