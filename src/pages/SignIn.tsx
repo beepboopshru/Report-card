@@ -5,11 +5,15 @@ import AuthLayout from "../components/AuthLayout";
 import { FormField } from "../components/ui/FormField";
 import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
+import {
+  assertValidUsername,
+  normalizeUsername,
+} from "../../convex/lib/username";
 
 export default function SignIn() {
   const { signIn } = useAuthActions();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -19,7 +23,13 @@ export default function SignIn() {
     setBusy(true);
     setError(null);
     try {
-      await signIn("password", { email, password, flow: "signIn" });
+      const normalized = normalizeUsername(username);
+      assertValidUsername(normalized);
+      await signIn("password", {
+        username: normalized,
+        password,
+        flow: "signIn",
+      });
       navigate("/");
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Sign in failed");
@@ -35,16 +45,18 @@ export default function SignIn() {
         <p className="text-sm text-ink-muted mt-1">Sign in to keep scoring.</p>
       </header>
       <form onSubmit={onSubmit} className="space-y-4">
-        <FormField label="Email">
+        <FormField label="Username">
           {(id, describedBy) => (
             <Input
               id={id}
-              type="email"
+              type="text"
               required
-              autoComplete="email"
+              autoComplete="username"
+              autoCapitalize="none"
+              spellCheck={false}
               aria-describedby={describedBy}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           )}
         </FormField>

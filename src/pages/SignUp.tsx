@@ -5,11 +5,15 @@ import AuthLayout from "../components/AuthLayout";
 import { FormField } from "../components/ui/FormField";
 import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
+import {
+  assertValidUsername,
+  normalizeUsername,
+} from "../../convex/lib/username";
 
 export default function SignUp() {
   const { signIn } = useAuthActions();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -19,7 +23,13 @@ export default function SignUp() {
     setBusy(true);
     setError(null);
     try {
-      await signIn("password", { email, password, flow: "signUp" });
+      const normalized = normalizeUsername(username);
+      assertValidUsername(normalized);
+      await signIn("password", {
+        username: normalized,
+        password,
+        flow: "signUp",
+      });
       navigate("/");
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Sign up failed");
@@ -37,16 +47,24 @@ export default function SignUp() {
         </p>
       </header>
       <form onSubmit={onSubmit} className="space-y-4">
-        <FormField label="Email">
+        <FormField
+          label="Username"
+          hint="Lowercase letters, digits, '.', '_', '-'. 3-32 characters."
+        >
           {(id, describedBy) => (
             <Input
               id={id}
-              type="email"
+              type="text"
               required
-              autoComplete="email"
+              minLength={3}
+              maxLength={32}
+              autoComplete="username"
+              autoCapitalize="none"
+              spellCheck={false}
+              pattern="[a-z0-9._\-]{3,32}"
               aria-describedby={describedBy}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           )}
         </FormField>

@@ -16,7 +16,7 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const { profile } = useCurrentProfile();
   const { signOut } = useAuthActions();
   const isAdmin = profile?.role === "admin";
-  const initials = (profile?.displayName || profile?.email || "?")
+  const initials = (profile?.displayName || profile?.username || "?")
     .slice(0, 2)
     .toUpperCase();
 
@@ -86,7 +86,7 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                 {profile.displayName || "Teacher"}
               </div>
               <div className="text-[11px] text-ink-subtle truncate">
-                {profile.email}
+                @{profile.username}
               </div>
             </div>
           </div>

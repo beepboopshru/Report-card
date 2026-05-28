@@ -50,7 +50,7 @@ export default function AdminDashboard() {
               <thead>
                 <tr className="text-left text-[11px] uppercase tracking-wide text-ink-muted border-b border-line/60">
                   <th className="px-5 py-2.5 font-medium">Name</th>
-                  <th className="px-5 py-2.5 font-medium">Email</th>
+                  <th className="px-5 py-2.5 font-medium">Username</th>
                   <th className="px-5 py-2.5 font-medium text-right">Actions</th>
                 </tr>
               </thead>
@@ -63,7 +63,7 @@ export default function AdminDashboard() {
                     <td className="px-5 py-3 font-medium text-ink">
                       {t.displayName}
                     </td>
-                    <td className="px-5 py-3 text-ink-muted">{t.email}</td>
+                    <td className="px-5 py-3 text-ink-muted">@{t.username}</td>
                     <td className="px-5 py-3 text-right">
                       <Button
                         size="sm"
@@ -95,7 +95,7 @@ function AssignmentsDrawer({
   teacher,
   onClose,
 }: {
-  teacher: { _id: Id<"profiles">; displayName: string; email: string };
+  teacher: { _id: Id<"profiles">; displayName: string; username: string };
   onClose: () => void;
 }) {
   const kits = useQuery(api.kits.list);
@@ -140,7 +140,7 @@ function AssignmentsDrawer({
               {teacher.displayName}
             </div>
             <div className="text-xs text-ink-muted truncate">
-              {teacher.email} · {assignedSet.size} of {kits?.length ?? 0} assigned
+              @{teacher.username} · {assignedSet.size} of {kits?.length ?? 0} assigned
             </div>
           </div>
           <button
