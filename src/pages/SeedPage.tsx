@@ -1,7 +1,10 @@
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useState } from "react";
-import Breadcrumbs from "../components/Breadcrumbs";
+import { Sprout } from "lucide-react";
+import PageHeader from "../components/PageHeader";
+import { Card, CardBody } from "../components/ui/Card";
+import { Button } from "../components/ui/Button";
 
 export default function SeedPage() {
   const count = useQuery(api.kits.count);
@@ -25,20 +28,39 @@ export default function SeedPage() {
 
   return (
     <>
-      <Breadcrumbs crumbs={[{ label: "Admin", to: "/admin" }, { label: "Seed" }]} />
-      <h1 className="font-serif text-2xl text-accent mb-4">Seed kits & rubrics</h1>
-      <p className="text-sm text-gray-600 mb-6">
-        Current kit count in database: <strong>{count ?? "…"}</strong>. Running this is safe —
-        it inserts only missing rows and never overwrites existing rubrics.
-      </p>
-      <button
-        onClick={run}
-        disabled={busy}
-        className="bg-accent text-white rounded-md px-5 py-2 text-sm disabled:opacity-50"
-      >
-        {busy ? "Seeding..." : "Run seed"}
-      </button>
-      {result && <p className="mt-4 text-sm text-gray-700">{result}</p>}
+      <PageHeader
+        breadcrumbs={[{ label: "Admin", to: "/admin" }, { label: "Seed" }]}
+        title="Seed kits & rubrics"
+        description="One-time setup. Safe to re-run — only missing rows are inserted."
+      />
+      <Card>
+        <CardBody>
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 rounded-lg bg-good-50 text-good-600 inline-flex items-center justify-center flex-shrink-0">
+              <Sprout className="w-5 h-5" />
+            </div>
+            <div className="flex-1">
+              <p className="text-sm text-ink">
+                Current kit count in database:{" "}
+                <strong className="text-ink">{count ?? "…"}</strong>
+              </p>
+              <p className="text-xs text-ink-muted mt-1">
+                Inserts kits from <code>convex/seed/kits.ts</code> and rubrics
+                from <code>convex/seed/rubrics.ts</code>. Existing rubrics are
+                preserved.
+              </p>
+              <div className="mt-4 flex items-center gap-3">
+                <Button onClick={run} loading={busy}>
+                  Run seed
+                </Button>
+                {result && (
+                  <span className="text-sm text-ink-muted">{result}</span>
+                )}
+              </div>
+            </div>
+          </div>
+        </CardBody>
+      </Card>
     </>
   );
 }
