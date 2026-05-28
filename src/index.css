@@ -47,6 +47,17 @@
   /* Shadows */
   --shadow-card: 0 1px 2px 0 rgba(15, 17, 21, 0.04), 0 1px 3px 0 rgba(15, 17, 21, 0.06);
   --shadow-pop: 0 8px 24px -8px rgba(15, 17, 21, 0.18), 0 2px 6px -2px rgba(15, 17, 21, 0.08);
+  --shadow-soft: 0 1px 3px 0 rgba(15, 17, 21, 0.05);
+
+  /* Semantic score tokens — alias to existing palette so ScoreRow + PDFs stay consistent */
+  --color-score-1: var(--color-bad-600);
+  --color-score-2: var(--color-warn-600);
+  --color-score-3: var(--color-ok-600);
+  --color-score-4: var(--color-good-400);
+  --color-score-1-soft: var(--color-bad-50);
+  --color-score-2-soft: var(--color-warn-50);
+  --color-score-3-soft: var(--color-ok-50);
+  --color-score-4-soft: var(--color-good-50);
 
   /* Radius */
   --radius: 8px;
