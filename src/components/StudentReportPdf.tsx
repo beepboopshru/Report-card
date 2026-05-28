@@ -1,5 +1,25 @@
-import { Document, Page, Text, View, StyleSheet, pdf } from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet, pdf, Font } from "@react-pdf/renderer";
 import { totalOf, maxScore, gradeBand } from "../lib/totals";
+
+// Use the v1 endpoint which returns stable raw font URLs.
+// If these ever 404, @react-pdf/renderer silently falls back to Helvetica
+// and the document still renders — that's the documented degraded state.
+try {
+  Font.register({
+    family: "DM Serif Display",
+    src: "https://fonts.gstatic.com/s/dmserifdisplay/v15/-nFnOHM81r4j6k0gjAW3mujVU2B2K_d709jy92k.ttf",
+  });
+  Font.register({
+    family: "DM Sans",
+    fonts: [
+      { src: "https://fonts.gstatic.com/s/dmsans/v15/rP2tp2ywxg089UriI5-g4vlH9VoD8C.ttf" },
+      { src: "https://fonts.gstatic.com/s/dmsans/v15/rP2Hp2ywxg089UriCZawIIBSFFOZ-Lo3.ttf", fontWeight: 700 },
+    ],
+  });
+  Font.registerHyphenationCallback((word) => [word]);
+} catch {
+  // ignored — fall back to Helvetica
+}
 
 const s = StyleSheet.create({
   page: { padding: 36, fontSize: 10, fontFamily: "Helvetica" },
