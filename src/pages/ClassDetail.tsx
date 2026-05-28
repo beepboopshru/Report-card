@@ -90,9 +90,14 @@ export default function ClassDetail() {
                       {k.kit!.concept}
                     </div>
                   </div>
-                  <Badge tone={categoryTone(k.kit!.category)} size="sm">
-                    {k.kit!.category}
-                  </Badge>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <Badge tone={categoryTone(k.kit!.category)} size="sm">
+                      {k.kit!.category}
+                    </Badge>
+                    <Link to={`/class/${id}/kit/${k.kitId}/score`}>
+                      <Button size="sm">Score class →</Button>
+                    </Link>
+                  </div>
                 </li>
               ))}
             </ul>
