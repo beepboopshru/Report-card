@@ -27,7 +27,3 @@ type Props = HTMLAttributes<HTMLSpanElement> & VariantProps<typeof badge>;
 export function Badge({ tone, size, className, ...rest }: Props) {
   return <span className={badge({ tone, size, className })} {...rest} />;
 }
-
-export function categoryTone(category: string): "ok" | "accent" {
-  return category === "Explorer" ? "ok" : "accent";
-}

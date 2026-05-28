@@ -6,7 +6,8 @@ import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import PageHeader from "../components/PageHeader";
 import { Card, CardBody } from "../components/ui/Card";
-import { Badge, categoryTone } from "../components/ui/Badge";
+import { Badge } from "../components/ui/Badge";
+import { categoryTone } from "../lib/badgeUtils";
 import { Input } from "../components/ui/Input";
 
 export default function AdminKits() {

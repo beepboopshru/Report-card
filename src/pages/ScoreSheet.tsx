@@ -9,7 +9,8 @@ import ScoreRow from "../components/ScoreRow";
 import SaveStatus, { type SaveState } from "../components/SaveStatus";
 import { useDebounce } from "../lib/useDebouncedMutation";
 import { Card, CardHeader, CardBody } from "../components/ui/Card";
-import { Badge, categoryTone } from "../components/ui/Badge";
+import { Badge } from "../components/ui/Badge";
+import { categoryTone } from "../lib/badgeUtils";
 import { Textarea } from "../components/ui/Input";
 import { gradeBand, maxScore, scoredCount, totalOf } from "../lib/totals";
 

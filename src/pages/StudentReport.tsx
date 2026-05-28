@@ -7,7 +7,8 @@ import { Download } from "lucide-react";
 import PageHeader from "../components/PageHeader";
 import EmptyState from "../components/EmptyState";
 import { Card, CardBody } from "../components/ui/Card";
-import { Badge, categoryTone } from "../components/ui/Badge";
+import { Badge } from "../components/ui/Badge";
+import { categoryTone } from "../lib/badgeUtils";
 import { Button } from "../components/ui/Button";
 import {
   downloadStudentReport,

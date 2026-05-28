@@ -4,7 +4,8 @@ import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { Search } from "lucide-react";
-import { Badge, categoryTone } from "./ui/Badge";
+import { Badge } from "./ui/Badge";
+import { categoryTone } from "../lib/badgeUtils";
 import { Card, CardBody } from "./ui/Card";
 import { Input } from "./ui/Input";
 
