@@ -197,3 +197,38 @@ export const setAbsent = mutation({
     }
   },
 });
+
+export const listForClassAndKit = query({
+  args: { classId: v.id("classes"), kitId: v.id("kits") },
+  handler: async (ctx, { classId, kitId }) => {
+    await requireOwnsClass(ctx, classId);
+    const students = await ctx.db
+      .query("students")
+      .withIndex("by_class", (q) => q.eq("classId", classId))
+      .collect();
+    const studentScores = await Promise.all(
+      students.map(async (student) => {
+        const score = await ctx.db
+          .query("scores")
+          .withIndex("by_student_and_kit", (q) =>
+            q.eq("studentId", student._id).eq("kitId", kitId),
+          )
+          .unique();
+        return {
+          student: { _id: student._id, name: student.name, rollNo: student.rollNo },
+          criterionScores: score?.criterionScores ?? {},
+          absent: score?.absent ?? false,
+        };
+      }),
+    );
+    studentScores.sort((a, b) => {
+      const ra = a.student.rollNo;
+      const rb = b.student.rollNo;
+      if (ra && rb) return ra.localeCompare(rb, undefined, { numeric: true });
+      if (ra) return -1;
+      if (rb) return 1;
+      return a.student.name.localeCompare(b.student.name);
+    });
+    return studentScores;
+  },
+});
