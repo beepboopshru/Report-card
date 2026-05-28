@@ -1,7 +1,12 @@
 import { action, internalMutation, internalQuery } from "./_generated/server";
 import { v } from "convex/values";
 import { internal } from "./_generated/api";
-import { createAccount } from "@convex-dev/auth/server";
+import type { Id } from "./_generated/dataModel";
+import {
+  createAccount,
+  modifyAccountCredentials,
+  invalidateSessions,
+} from "@convex-dev/auth/server";
 import { normalizeUsername, assertValidUsername } from "./lib/username";
 import { generatePassword } from "./lib/passwordGen";
 import { requireAdmin } from "./lib/access";
@@ -76,5 +81,44 @@ export const insertTeacherProfile = internalMutation({
       displayName: args.displayName,
       role: "teacher",
     });
+  },
+});
+
+export const resetTeacherPassword = action({
+  args: { profileId: v.id("profiles") },
+  returns: v.object({ username: v.string(), password: v.string() }),
+  handler: async (ctx, { profileId }) => {
+    await ctx.runQuery(internal.admin.requireAdminCaller, {});
+    const target: {
+      role: "admin" | "teacher";
+      username: string;
+      userId: Id<"users">;
+    } = await ctx.runQuery(internal.admin.getProfileForReset, {
+      profileId,
+    });
+    if (target.role !== "teacher") {
+      throw new Error("Admin password reset must be done from the dashboard");
+    }
+    const password = generatePassword();
+    await modifyAccountCredentials(ctx, {
+      provider: "password",
+      account: { id: target.username, secret: password },
+    });
+    await invalidateSessions(ctx, { userId: target.userId });
+    return { username: target.username, password };
+  },
+});
+
+export const getProfileForReset = internalQuery({
+  args: { profileId: v.id("profiles") },
+  returns: v.object({
+    role: v.union(v.literal("admin"), v.literal("teacher")),
+    username: v.string(),
+    userId: v.id("users"),
+  }),
+  handler: async (ctx, { profileId }) => {
+    const p = await ctx.db.get(profileId);
+    if (!p) throw new Error("Profile not found");
+    return { role: p.role, username: p.username, userId: p.userId };
   },
 });
