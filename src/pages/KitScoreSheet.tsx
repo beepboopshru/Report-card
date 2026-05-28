@@ -3,6 +3,7 @@ import { useParams, useSearchParams, useNavigate, Link } from "react-router-dom"
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
+import { isResolved } from "../lib/totals";
 import Breadcrumbs from "../components/Breadcrumbs";
 import CriterionHeader from "../components/CriterionHeader";
 import BulkScoreRow from "../components/BulkScoreRow";
@@ -32,9 +33,7 @@ export default function KitScoreSheet() {
 
   useEffect(() => {
     if (!rows || !criterion) return;
-    const firstUnsettled = rows.findIndex(
-      (r) => !r.absent && (r.criterionScores[criterion.id] ?? 0) < 1,
-    );
+    const firstUnsettled = rows.findIndex((r) => !isResolved(r, criterion.id));
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setFocusIndex(firstUnsettled === -1 ? 0 : firstUnsettled);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -69,6 +68,7 @@ export default function KitScoreSheet() {
       setTimeout(() => {
         setFlashRow(null);
         if (rowIdx < rows.length - 1) setFocusIndex(rowIdx + 1);
+        else document.getElementById("next-criterion-btn")?.focus();
       }, 250);
     },
     [rows, kid, setAbsent],
@@ -110,9 +110,7 @@ export default function KitScoreSheet() {
 
   const settledCount = useMemo(() => {
     if (!rows || !criterion) return 0;
-    return rows.filter(
-      (r) => r.absent || (r.criterionScores[criterion.id] ?? 0) >= 1,
-    ).length;
+    return rows.filter((r) => isResolved(r, criterion.id)).length;
   }, [rows, criterion]);
 
   if (!cls || !kit || !rubric || !rows) return <p className="text-sm text-gray-500">Loading…</p>;
