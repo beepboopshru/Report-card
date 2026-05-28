@@ -9,7 +9,12 @@ import { generatePassword } from "./lib/passwordGen";
 // is safe to leave deployed — it can only run once per deployment lifetime.
 export const createFirstAdmin = action({
   args: { username: v.string(), displayName: v.string() },
-  returns: v.object({ username: v.string(), password: v.string() }),
+  returns: v.object({
+    username: v.string(),
+    password: v.string(),
+    userId: v.id("users"),
+    profileId: v.id("profiles"),
+  }),
   handler: async (ctx, args) => {
     const adminExists = await ctx.runQuery(internal.bootstrap.anyAdminExists, {});
     if (adminExists) {
@@ -37,13 +42,13 @@ export const createFirstAdmin = action({
       shouldLinkViaPhone: false,
     });
 
-    await ctx.runMutation(internal.bootstrap.insertAdminProfile, {
+    const profileId = await ctx.runMutation(internal.bootstrap.insertAdminProfile, {
       userId: created.user._id,
       username,
       displayName,
     });
 
-    return { username, password };
+    return { username, password, userId: created.user._id, profileId };
   },
 });
 
