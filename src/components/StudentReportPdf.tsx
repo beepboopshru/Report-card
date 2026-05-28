@@ -260,6 +260,15 @@ function ResultsRow({
   );
 }
 
+const ROWS_PER_PAGE = 14;
+const MAX_CRITERION_COLUMNS = 8;
+
+function chunk<T>(arr: T[], size: number): T[][] {
+  const out: T[][] = [];
+  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+  return out.length ? out : [[]];
+}
+
 function ResultsPages({
   studentName,
   className,
@@ -280,62 +289,86 @@ function ResultsPages({
     );
   }
 
-  const criterionUnion = buildCriterionUnion(scored);
+  const fullUnion = buildCriterionUnion(scored);
+  const wide = fullUnion.length > MAX_CRITERION_COLUMNS;
+  const criterionUnion = wide ? [] : fullUnion;
+
   const overallTotal = scored.reduce((a, sk) => a + totalOf(sk.criterionScores), 0);
   const overallMax = scored.reduce((a, sk) => a + maxScore(sk.rubric.criteria.length), 0);
   const overallPct = overallMax ? Math.round((overallTotal / overallMax) * 100) : 0;
+  const pages = chunk(scored, ROWS_PER_PAGE);
 
   return (
-    <Page size="A4" style={s.resPage}>
-      <ResultsHeaderBand studentName={studentName} className={className} />
-      <View style={s.resBody}>
-        <View style={s.resHeader}>
-          <Text style={[s.resKit, s.resHeaderTxt]}>Kit</Text>
-          <Text style={[s.resCategory, s.resHeaderTxt]}>Category</Text>
-          {criterionUnion.map((_, i) => (
-            <Text key={i} style={[s.resChipCol, s.resHeaderTxt, { textAlign: "center" }]}>
-              C{i + 1}
-            </Text>
-          ))}
-          <Text style={[s.resTotal, s.resHeaderTxt]}>Total</Text>
-          <Text style={[s.resGrade, s.resHeaderTxt]}>Grade</Text>
-        </View>
-
-        {scored.map((sk) => (
-          <ResultsRow key={sk.kit.kitNumber} sk={sk} criterionUnion={criterionUnion} />
-        ))}
-
-        <View style={s.resOverall}>
-          <Text style={s.resOverallLbl}>Overall</Text>
-          <Text style={s.resTotal}>{overallTotal}/{overallMax}</Text>
-          <Text style={[s.resGrade, { color: "#085041" }]}>
-            {overallPct}%  {gradeBand(overallPct)}
-          </Text>
-        </View>
-
-        <View style={s.resLegend}>
-          <View style={s.resLegendRow}>
-            <Text style={s.resLegendTxt}>Scores:</Text>
-            {[
-              { n: 4, label: "Excellent" },
-              { n: 3, label: "Good" },
-              { n: 2, label: "Developing" },
-              { n: 1, label: "Needs support" },
-            ].map((d) => (
-              <View key={d.n} style={{ flexDirection: "row", alignItems: "center" }}>
-                <View style={[s.resLegendDot, { backgroundColor: chipStyle(d.n).color }]} />
-                <Text style={s.resLegendTxt}>{d.n} {d.label}</Text>
+    <>
+      {pages.map((rows, pageIdx) => {
+        const isLast = pageIdx === pages.length - 1;
+        return (
+          <Page key={pageIdx} size="A4" style={s.resPage}>
+            <ResultsHeaderBand studentName={studentName} className={className} />
+            <View style={s.resBody}>
+              <View style={s.resHeader}>
+                <Text style={[s.resKit, s.resHeaderTxt]}>Kit</Text>
+                <Text style={[s.resCategory, s.resHeaderTxt]}>Category</Text>
+                {criterionUnion.map((_, i) => (
+                  <Text key={i} style={[s.resChipCol, s.resHeaderTxt, { textAlign: "center" }]}>
+                    C{i + 1}
+                  </Text>
+                ))}
+                <Text style={[s.resTotal, s.resHeaderTxt]}>Total</Text>
+                <Text style={[s.resGrade, s.resHeaderTxt]}>Grade</Text>
               </View>
-            ))}
-          </View>
-          <View style={s.resLegendRow}>
-            <Text style={s.resLegendTxt}>
-              Criteria:  {criterionUnion.map((c, i) => `C${i + 1} = ${c.label}`).join("  ·  ")}
-            </Text>
-          </View>
-        </View>
-      </View>
-    </Page>
+
+              {rows.map((sk) => (
+                <ResultsRow key={sk.kit.kitNumber} sk={sk} criterionUnion={criterionUnion} />
+              ))}
+
+              {isLast && (
+                <>
+                  <View style={s.resOverall}>
+                    <Text style={s.resOverallLbl}>Overall</Text>
+                    <Text style={s.resTotal}>{overallTotal}/{overallMax}</Text>
+                    <Text style={[s.resGrade, { color: "#085041" }]}>
+                      {overallPct}%  {gradeBand(overallPct)}
+                    </Text>
+                  </View>
+
+                  <View style={s.resLegend}>
+                    <View style={s.resLegendRow}>
+                      <Text style={s.resLegendTxt}>Scores:</Text>
+                      {[
+                        { n: 4, label: "Excellent" },
+                        { n: 3, label: "Good" },
+                        { n: 2, label: "Developing" },
+                        { n: 1, label: "Needs support" },
+                      ].map((d) => (
+                        <View key={d.n} style={{ flexDirection: "row", alignItems: "center" }}>
+                          <View style={[s.resLegendDot, { backgroundColor: chipStyle(d.n).color }]} />
+                          <Text style={s.resLegendTxt}>{d.n} {d.label}</Text>
+                        </View>
+                      ))}
+                    </View>
+                    {!wide && (
+                      <View style={s.resLegendRow}>
+                        <Text style={s.resLegendTxt}>
+                          Criteria:  {criterionUnion.map((c, i) => `C${i + 1} = ${c.label}`).join("  ·  ")}
+                        </Text>
+                      </View>
+                    )}
+                    {wide && (
+                      <View style={s.resLegendRow}>
+                        <Text style={s.resLegendTxt}>
+                          Per-criterion detail omitted — rubric exceeds {MAX_CRITERION_COLUMNS} criteria.
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+                </>
+              )}
+            </View>
+          </Page>
+        );
+      })}
+    </>
   );
 }
 

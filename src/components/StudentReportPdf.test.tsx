@@ -29,6 +29,21 @@ describe("StudentReportDoc", () => {
     expect(out).toBeTruthy();
   });
 
+  it("renders without throwing for 20 scored kits (multi-page)", async () => {
+    const many: ScoredKit[] = Array.from({ length: 20 }, (_, i) => ({
+      kit: { kitNumber: i + 1, kitName: `Kit ${i + 1}`, concept: "C", category: "Build" },
+      rubric: { criteria: [
+        { id: "c1", label: "Observation", c4: "", c3: "", c2: "", c1: "" },
+        { id: "c2", label: "Reasoning",   c4: "", c3: "", c2: "", c1: "" },
+      ] },
+      criterionScores: { c1: 3, c2: 4 },
+    }));
+    const out = await renderToString(
+      <StudentReportDoc studentName="Aarav" className="V-B" scored={many} />,
+    );
+    expect(out).toBeTruthy();
+  });
+
   it("renders without throwing for kits with mixed rubric shapes", async () => {
     const kitA: ScoredKit = {
       kit: { kitNumber: 3, kitName: "Solar Oven", concept: "Energy", category: "Build" },
