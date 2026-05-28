@@ -122,3 +122,32 @@ export const getProfileForReset = internalQuery({
     return { role: p.role, username: p.username, userId: p.userId };
   },
 });
+
+export const setTeacherDisabled = action({
+  args: { profileId: v.id("profiles"), disabled: v.boolean() },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const userId: Id<"users"> = await ctx.runMutation(
+      internal.admin.patchTeacherDisabled,
+      args,
+    );
+    if (args.disabled) {
+      await invalidateSessions(ctx, { userId });
+    }
+    return null;
+  },
+});
+
+export const patchTeacherDisabled = internalMutation({
+  args: { profileId: v.id("profiles"), disabled: v.boolean() },
+  returns: v.id("users"),
+  handler: async (ctx, { profileId, disabled }) => {
+    const caller = await requireAdmin(ctx);
+    if (caller._id === profileId) throw new Error("Cannot disable yourself");
+    const target = await ctx.db.get(profileId);
+    if (!target) throw new Error("Profile not found");
+    if (target.role === "admin") throw new Error("Cannot disable an admin");
+    await ctx.db.patch(profileId, { disabled: disabled || undefined });
+    return target.userId;
+  },
+});
