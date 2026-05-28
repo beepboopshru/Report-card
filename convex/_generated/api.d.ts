@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as admin from "../admin.js";
 import type * as assignments from "../assignments.js";
 import type * as auth from "../auth.js";
 import type * as classKits from "../classKits.js";
@@ -15,6 +16,7 @@ import type * as classes from "../classes.js";
 import type * as http from "../http.js";
 import type * as kits from "../kits.js";
 import type * as lib_access from "../lib/access.js";
+import type * as lib_passwordGen from "../lib/passwordGen.js";
 import type * as lib_username from "../lib/username.js";
 import type * as profiles from "../profiles.js";
 import type * as rubrics from "../rubrics.js";
@@ -31,6 +33,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  admin: typeof admin;
   assignments: typeof assignments;
   auth: typeof auth;
   classKits: typeof classKits;
@@ -38,6 +41,7 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   kits: typeof kits;
   "lib/access": typeof lib_access;
+  "lib/passwordGen": typeof lib_passwordGen;
   "lib/username": typeof lib_username;
   profiles: typeof profiles;
   rubrics: typeof rubrics;
