@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
-import { Download } from "lucide-react";
+import { Download, Share2 } from "lucide-react";
 import PageHeader from "../components/PageHeader";
 import EmptyState from "../components/EmptyState";
 import { Card, CardBody } from "../components/ui/Card";
@@ -12,9 +12,13 @@ import { categoryTone } from "../lib/badgeUtils";
 import { Button } from "../components/ui/Button";
 import {
   downloadStudentReport,
+  StudentReportDoc,
   type ScoredKit,
 } from "../components/StudentReportPdf";
 import { totalOf, maxScore, gradeBand } from "../lib/totals";
+import { useState } from "react";
+import { pdf } from "@react-pdf/renderer";
+import { shareReportCard } from "../lib/shareReportCard";
 
 const SCORE_BADGE: Record<number, "good" | "ok" | "warn" | "bad" | "neutral"> = {
   4: "good",
@@ -54,6 +58,25 @@ export default function StudentReport() {
     absent: s.absent ?? false,
   }));
 
+  const [sharing, setSharing] = useState(false);
+  async function onShare() {
+    if (!student || !cls) return;
+    setSharing(true);
+    try {
+      const blob = await pdf(
+        <StudentReportDoc studentName={student.name} className={cls.name} scored={pdfRows} />,
+      ).toBlob();
+      await shareReportCard({
+        blob,
+        filename: `${student.name.replace(/\s+/g, "_")}_report.pdf`,
+        title: `${student.name} — Report card`,
+        text: `${cls.name} — Term report`,
+      });
+    } finally {
+      setSharing(false);
+    }
+  }
+
   return (
     <>
       <PageHeader
@@ -65,13 +88,23 @@ export default function StudentReport() {
         title={`${student.name} · Report`}
         description={`Grade ${cls.grade} · ${cls.academicYear}`}
         actions={
-          <Button
-            onClick={() => downloadStudentReport(student.name, cls.name, pdfRows)}
-            disabled={filtered.length === 0}
-          >
-            <Download className="w-4 h-4" />
-            Download PDF
-          </Button>
+          <>
+            <Button
+              variant="secondary"
+              onClick={() => downloadStudentReport(student.name, cls.name, pdfRows)}
+              disabled={filtered.length === 0}
+            >
+              <Download className="w-4 h-4" />
+              Download PDF
+            </Button>
+            <Button
+              onClick={onShare}
+              disabled={sharing || filtered.length === 0}
+            >
+              <Share2 className="w-4 h-4" />
+              {sharing ? "Preparing…" : "Share"}
+            </Button>
+          </>
         }
       />
 
