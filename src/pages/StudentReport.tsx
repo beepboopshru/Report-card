@@ -51,6 +51,7 @@ export default function StudentReport() {
     rubric: { criteria: s.rubric.criteria },
     criterionScores: s.criterionScores,
     observations: s.observations,
+    absent: s.absent ?? false,
   }));
 
   return (
@@ -111,24 +112,28 @@ export default function StudentReport() {
                         </div>
                       </div>
                     </div>
-                    <ul className="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-2">
-                      {sk.rubric.criteria.map((c) => {
-                        const v = sk.criterionScores[c.id] ?? 0;
-                        return (
-                          <li
-                            key={c.id}
-                            className="flex items-center justify-between gap-2 text-xs"
-                          >
-                            <span className="text-ink-muted truncate">
-                              {c.label}
-                            </span>
-                            <Badge tone={SCORE_BADGE[v]} size="sm">
-                              {v > 0 ? `${v}/4` : "—"}
-                            </Badge>
-                          </li>
-                        );
-                      })}
-                    </ul>
+                    {sk.absent ? (
+                      <Badge tone="bad" size="sm">Absent for this kit</Badge>
+                    ) : (
+                      <ul className="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-2">
+                        {sk.rubric.criteria.map((c) => {
+                          const v = sk.criterionScores[c.id] ?? 0;
+                          return (
+                            <li
+                              key={c.id}
+                              className="flex items-center justify-between gap-2 text-xs"
+                            >
+                              <span className="text-ink-muted truncate">
+                                {c.label}
+                              </span>
+                              <Badge tone={SCORE_BADGE[v]} size="sm">
+                                {v > 0 ? `${v}/4` : "—"}
+                              </Badge>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
                     {sk.observations && (
                       <p className="text-xs text-ink-muted mt-3 italic border-t border-line/60 pt-3">
                         "{sk.observations}"

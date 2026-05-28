@@ -85,6 +85,7 @@ export type ScoredKit = {
   rubric: { criteria: Criterion[] };
   criterionScores: Record<string, number>;
   observations?: string;
+  absent?: boolean;
 };
 
 type CriterionRef = { id: string; label: string };
@@ -199,6 +200,26 @@ function ResultsRow({
   sk: ScoredKit;
   criterionUnion: CriterionRef[];
 }) {
+  if (sk.absent) {
+    return (
+      <View style={s.resRow} wrap={false}>
+        <View style={s.resKit}>
+          <Text>
+            <Text style={s.resKitNum}>#{sk.kit.kitNumber}  </Text>
+            <Text style={s.resKitName}>{sk.kit.kitName}</Text>
+          </Text>
+        </View>
+        <Text style={s.resCategory}>{sk.kit.category}</Text>
+        {criterionUnion.map((c) => (
+          <View key={c.id} style={s.resChipCol}>
+            <Text style={{ color: "#8A93A0", fontSize: 9 }}>—</Text>
+          </View>
+        ))}
+        <Text style={[s.resTotal, { color: "#A32D2D" }]}>Absent</Text>
+        <Text style={s.resGrade}>{" "}</Text>
+      </View>
+    );
+  }
   const ownIds = new Set(sk.rubric.criteria.map((c) => c.id));
   const total = totalOf(sk.criterionScores);
   const max = maxScore(sk.rubric.criteria.length);
@@ -265,8 +286,9 @@ function ResultsPages({
   const wide = fullUnion.length > MAX_CRITERION_COLUMNS;
   const criterionUnion = wide ? [] : fullUnion;
 
-  const overallTotal = scored.reduce((a, sk) => a + totalOf(sk.criterionScores), 0);
-  const overallMax = scored.reduce((a, sk) => a + maxScore(sk.rubric.criteria.length), 0);
+  const present = scored.filter((sk) => !sk.absent);
+  const overallTotal = present.reduce((a, sk) => a + totalOf(sk.criterionScores), 0);
+  const overallMax = present.reduce((a, sk) => a + maxScore(sk.rubric.criteria.length), 0);
   const overallPct = overallMax ? Math.round((overallTotal / overallMax) * 100) : 0;
   const overallBand = gradeBand(overallPct);
 
