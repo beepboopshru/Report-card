@@ -125,3 +125,41 @@ export const listForClass = query({
     );
   },
 });
+
+export const setCriterion = mutation({
+  args: {
+    studentId: v.id("students"),
+    kitId: v.id("kits"),
+    criterionId: v.string(),
+    value: v.union(v.literal(1), v.literal(2), v.literal(3), v.literal(4)),
+  },
+  handler: async (ctx, args) => {
+    const profile = await assertScoringAllowed(ctx, args.studentId, args.kitId);
+    const existing = await ctx.db
+      .query("scores")
+      .withIndex("by_student_and_kit", (q) =>
+        q.eq("studentId", args.studentId).eq("kitId", args.kitId),
+      )
+      .unique();
+    const updatedAt = Date.now();
+    if (existing) {
+      const nextScores = {
+        ...existing.criterionScores,
+        [args.criterionId]: args.value,
+      };
+      await ctx.db.patch(existing._id, {
+        criterionScores: nextScores,
+        scoredByProfileId: profile._id,
+        updatedAt,
+      });
+    } else {
+      await ctx.db.insert("scores", {
+        studentId: args.studentId,
+        kitId: args.kitId,
+        criterionScores: { [args.criterionId]: args.value },
+        scoredByProfileId: profile._id,
+        updatedAt,
+      });
+    }
+  },
+});
