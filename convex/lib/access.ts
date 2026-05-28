@@ -12,6 +12,7 @@ export async function requireProfile(
     .withIndex("by_user", (q) => q.eq("userId", userId))
     .unique();
   if (!profile) throw new Error("Profile missing — sign out and back in");
+  if (profile.disabled === true) throw new Error("Account disabled");
   return profile;
 }
 
