@@ -49,7 +49,7 @@ export default function SignUp() {
       <form onSubmit={onSubmit} className="space-y-4">
         <FormField
           label="Username"
-          hint="Lowercase letters, digits, '.', '_', '-'. 3-32 characters."
+          hint="Letters, digits, '.', '_', '-'. 3-32 characters."
         >
           {(id, describedBy) => (
             <Input
@@ -61,7 +61,6 @@ export default function SignUp() {
               autoComplete="username"
               autoCapitalize="none"
               spellCheck={false}
-              pattern="[a-z0-9._\-]{3,32}"
               aria-describedby={describedBy}
               value={username}
               onChange={(e) => setUsername(e.target.value)}
