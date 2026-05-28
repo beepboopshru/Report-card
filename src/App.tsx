@@ -8,6 +8,7 @@ import AdminKits from "./pages/AdminKits";
 import EditRubric from "./pages/EditRubric";
 import SeedPage from "./pages/SeedPage";
 import TeacherDashboard from "./pages/TeacherDashboard";
+import ReportsIndex from "./pages/ReportsIndex";
 import ClassDetail from "./pages/ClassDetail";
 import ClassCurriculum from "./pages/ClassCurriculum";
 import ScoreSheet from "./pages/ScoreSheet";
@@ -22,6 +23,7 @@ export default function App() {
 
       <Route element={<TeacherRoute />}>
         <Route path="/" element={<TeacherDashboard />} />
+        <Route path="/reports" element={<ReportsIndex />} />
         <Route path="/class/:classId" element={<ClassDetail />} />
         <Route path="/class/:classId/curriculum" element={<ClassCurriculum />} />
         <Route
