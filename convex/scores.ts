@@ -163,3 +163,37 @@ export const setCriterion = mutation({
     }
   },
 });
+
+export const setAbsent = mutation({
+  args: {
+    studentId: v.id("students"),
+    kitId: v.id("kits"),
+    absent: v.boolean(),
+  },
+  handler: async (ctx, args) => {
+    const profile = await assertScoringAllowed(ctx, args.studentId, args.kitId);
+    const existing = await ctx.db
+      .query("scores")
+      .withIndex("by_student_and_kit", (q) =>
+        q.eq("studentId", args.studentId).eq("kitId", args.kitId),
+      )
+      .unique();
+    const updatedAt = Date.now();
+    if (existing) {
+      await ctx.db.patch(existing._id, {
+        absent: args.absent,
+        scoredByProfileId: profile._id,
+        updatedAt,
+      });
+    } else {
+      await ctx.db.insert("scores", {
+        studentId: args.studentId,
+        kitId: args.kitId,
+        criterionScores: {},
+        absent: args.absent,
+        scoredByProfileId: profile._id,
+        updatedAt,
+      });
+    }
+  },
+});
