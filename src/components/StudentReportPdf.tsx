@@ -50,6 +50,30 @@ function buildCriterionUnion(scored: ScoredKit[]): CriterionRef[] {
   return out;
 }
 
+function formatIssueDate(d: Date = new Date()): string {
+  return new Intl.DateTimeFormat("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(d);
+}
+
+function formatClassPrefix(name: string): string {
+  return `of ${name}`;
+}
+
+type ChipStyle = { backgroundColor: string; color: string };
+
+function chipStyle(score: number): ChipStyle {
+  switch (score) {
+    case 4: return { backgroundColor: "#E1F5EE", color: "#1D9E75" }; // good-50 / good-400
+    case 3: return { backgroundColor: "#EAF3DE", color: "#3B6D11" }; // ok-50 / ok-600
+    case 2: return { backgroundColor: "#FAEEDA", color: "#854F0B" }; // warn-50 / warn-600
+    case 1: return { backgroundColor: "#FCEBEB", color: "#A32D2D" }; // bad-50 / bad-600
+    default: return { backgroundColor: "transparent", color: "#8A93A0" }; // ink-subtle
+  }
+}
+
 export function StudentReportDoc({
   studentName,
   className,
@@ -127,4 +151,4 @@ export async function downloadStudentReport(
   URL.revokeObjectURL(url);
 }
 
-export const __test = { buildCriterionUnion };
+export const __test = { buildCriterionUnion, formatIssueDate, formatClassPrefix, chipStyle };

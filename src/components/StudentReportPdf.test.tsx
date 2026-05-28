@@ -65,3 +65,37 @@ describe("buildCriterionUnion", () => {
     ]);
   });
 });
+
+describe("formatIssueDate", () => {
+  it("formats a date as DD MMM YYYY (en-IN)", () => {
+    // freeze on a known date
+    const d = new Date("2026-05-28T12:00:00Z");
+    expect(__test.formatIssueDate(d)).toBe("28 May 2026");
+  });
+});
+
+describe("formatClassPrefix", () => {
+  it("always prepends 'of '", () => {
+    expect(__test.formatClassPrefix("Class V")).toBe("of Class V");
+    expect(__test.formatClassPrefix("V-B")).toBe("of V-B");
+  });
+});
+
+describe("chipStyle", () => {
+  it("returns no background for score 0", () => {
+    const s = __test.chipStyle(0);
+    expect(s.backgroundColor).toBe("transparent");
+  });
+
+  it("returns score-4 colors for score 4", () => {
+    const s = __test.chipStyle(4);
+    expect(s.backgroundColor).toBe("#E1F5EE"); // good-50
+    expect(s.color).toBe("#1D9E75");           // good-400
+  });
+
+  it("returns score-1 colors for score 1", () => {
+    const s = __test.chipStyle(1);
+    expect(s.backgroundColor).toBe("#FCEBEB"); // bad-50
+    expect(s.color).toBe("#A32D2D");           // bad-600
+  });
+});
