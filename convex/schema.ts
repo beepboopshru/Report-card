@@ -7,12 +7,12 @@ export default defineSchema({
 
   profiles: defineTable({
     userId: v.id("users"),
-    email: v.string(),
+    username: v.string(),
     displayName: v.string(),
     role: v.union(v.literal("admin"), v.literal("teacher")),
   })
     .index("by_user", ["userId"])
-    .index("by_email", ["email"]),
+    .index("by_username", ["username"]),
 
   kits: defineTable({
     kitNumber: v.number(),

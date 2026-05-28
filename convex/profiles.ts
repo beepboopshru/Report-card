@@ -1,6 +1,7 @@
 import { mutation, query } from "./_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
-import { isAdminEmail, requireProfile } from "./lib/access";
+import { requireProfile } from "./lib/access";
+import { normalizeUsername } from "./lib/username";
 
 export const ensure = mutation({
   args: {},
@@ -14,20 +15,15 @@ export const ensure = mutation({
       .query("profiles")
       .withIndex("by_user", (q) => q.eq("userId", userId))
       .unique();
-    if (existing) {
-      const expectedRole = isAdminEmail(existing.email) ? "admin" : "teacher";
-      if (existing.role !== expectedRole) {
-        await ctx.db.patch(existing._id, { role: expectedRole });
-      }
-      return existing._id;
-    }
+    if (existing) return existing._id;
 
-    const email = (user.email ?? "").toLowerCase();
+    const username = normalizeUsername(user.email ?? "");
+    if (!username) throw new Error("Auth user missing username");
     return await ctx.db.insert("profiles", {
       userId,
-      email,
-      displayName: user.name ?? email.split("@")[0],
-      role: isAdminEmail(email) ? "admin" : "teacher",
+      username,
+      displayName: username,
+      role: "teacher",
     });
   },
 });
