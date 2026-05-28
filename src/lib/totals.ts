@@ -21,3 +21,14 @@ export function gradeBand(
   if (pct >= 50) return "Developing";
   return "Beginning";
 }
+
+export type StudentScoreState = {
+  criterionScores: CriterionScores;
+  absent?: boolean;
+};
+
+export function isResolved(state: StudentScoreState, criterionId: string): boolean {
+  if (state.absent) return true;
+  const v = state.criterionScores[criterionId];
+  return typeof v === "number" && v >= 1 && v <= 4;
+}
