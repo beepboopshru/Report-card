@@ -15,6 +15,8 @@ import { useState } from "react";
 import { pdf } from "@react-pdf/renderer";
 import { StudentReportDoc, type ScoredKit } from "../components/StudentReportPdf";
 import { buildReportZip, downloadBlob } from "../lib/buildReportZip";
+import { shareReportCard } from "../lib/shareReportCard";
+import { Share2 } from "lucide-react";
 
 const TONE_BG: Record<string, string> = {
   good: "bg-good-50 text-good-800",
@@ -112,6 +114,25 @@ export default function ClassReport() {
     setZipProgress(null);
   }
 
+  async function shareStudent(block: typeof fullBlocks[number]) {
+    const pdfRows: ScoredKit[] = block.scores.map((s) => ({
+      kit: s.kit,
+      rubric: s.rubric,
+      criterionScores: s.criterionScores,
+      observations: s.observations,
+      absent: s.absent,
+    }));
+    const blob = await pdf(
+      <StudentReportDoc studentName={block.student.name} className={cls!.name} scored={pdfRows} />,
+    ).toBlob();
+    await shareReportCard({
+      blob,
+      filename: `${block.student.name.replace(/\s+/g, "_")}_report.pdf`,
+      title: `${block.student.name} — Report card`,
+      text: `${cls!.name} — Term report`,
+    });
+  }
+
   return (
     <>
       <PageHeader
@@ -177,13 +198,24 @@ export default function ClassReport() {
               </thead>
               <tbody>
                 {cleaned.map((b, i) => {
+                  const fullBlock = fullBlocks[i];
                   const byKit = new Map<string, (typeof b.scores)[number]>();
                   for (const s of b.scores)
                     byKit.set(String(s.kit.kitNumber), s);
                   return (
                     <tr key={i} className="border-b border-line/60 last:border-b-0">
                       <td className="sticky left-0 bg-surface px-4 py-2.5 font-medium text-ink border-r border-line/60 truncate max-w-[200px]">
-                        {b.student.name}
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="truncate">{b.student.name}</span>
+                          <button
+                            onClick={() => shareStudent(fullBlock)}
+                            className="text-ink-subtle hover:text-accent p-1 rounded transition-colors flex-shrink-0"
+                            aria-label={`Share ${b.student.name}'s report`}
+                            title="Share report card"
+                          >
+                            <Share2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
                       </td>
                       {kits.map((k) => {
                         const s = byKit.get(String(k.kit!.kitNumber));
