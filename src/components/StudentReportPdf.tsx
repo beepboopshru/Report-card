@@ -23,38 +23,28 @@ try {
 
 const s = StyleSheet.create({
   // shared
-  page:         { padding: 36, fontSize: 10, fontFamily: "DM Sans" },
-  serif:        { fontFamily: "DM Serif Display" },
-
-  // certificate page
-  certPage:     { padding: 0, fontSize: 10, fontFamily: "DM Sans" },
-  certOuter:    { flex: 1, margin: 18, borderWidth: 1.5, borderColor: "#085041", padding: 18 },
-  certInner:    { flex: 1, borderWidth: 0.5, borderColor: "#085041", padding: 28,
-                  alignItems: "center", justifyContent: "center" },
-  certProgram:  { fontFamily: "DM Serif Display", fontSize: 16, color: "#085041",
-                  letterSpacing: 2, marginBottom: 4 },
-  certRule:     { width: 80, height: 1, backgroundColor: "#0F6E56", marginBottom: 28 },
-  certTitle:    { fontFamily: "DM Serif Display", fontSize: 26, color: "#0F1115",
-                  marginBottom: 36 },
-  certIntro:    { fontSize: 11, color: "#5B6470", marginBottom: 16 },
-  certName:     { fontFamily: "DM Serif Display", fontSize: 32, color: "#0F1115",
-                  letterSpacing: 2, marginBottom: 24, textAlign: "center" },
-  certBody:     { fontSize: 11, color: "#5B6470", textAlign: "center",
-                  marginBottom: 28, maxWidth: 360, lineHeight: 1.5 },
-  certScore:    { fontFamily: "DM Serif Display", fontSize: 56, color: "#0F6E56",
-                  marginBottom: 4 },
-  certBand:     { fontFamily: "DM Serif Display", fontSize: 16, color: "#085041",
-                  marginBottom: 28 },
-  certMeta:     { fontSize: 10, color: "#5B6470", marginBottom: 6 },
+  page:              { padding: 36, fontSize: 10, fontFamily: "DM Sans" },
 
   // results page
-  resPage:      { padding: 0, fontSize: 9, fontFamily: "DM Sans" },
-  resBand:      { backgroundColor: "#0F6E56", paddingHorizontal: 36, paddingVertical: 12,
-                  flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
-  resBandTitle: { fontFamily: "DM Serif Display", fontSize: 16, color: "#FFFFFF",
-                  letterSpacing: 1 },
-  resBandName:  { fontSize: 10, color: "#FFFFFF", textAlign: "right" },
-  resBandClass: { fontSize: 8, color: "#E1F5EE", textAlign: "right" },
+  resPage:           { padding: 0, fontSize: 9, fontFamily: "DM Sans" },
+
+  // header band
+  repHeaderBand:     { backgroundColor: "#0F6E56", paddingHorizontal: 36, paddingVertical: 20,
+                       flexDirection: "row", justifyContent: "space-between",
+                       alignItems: "flex-start" },
+  repHeaderLeft:     { flexDirection: "column" },
+  repHeaderBrand:    { fontFamily: "DM Serif Display", fontSize: 10, color: "#FFFFFF",
+                       letterSpacing: 2, marginBottom: 8 },
+  repHeaderName:     { fontFamily: "DM Serif Display", fontSize: 24, color: "#FFFFFF",
+                       letterSpacing: 1, marginBottom: 2 },
+  repHeaderClass:    { fontSize: 9, color: "#E1F5EE" },
+  repHeaderRight:    { alignItems: "flex-end" },
+  repHeaderPct:      { fontFamily: "DM Serif Display", fontSize: 32, color: "#FFFFFF",
+                       marginBottom: 2 },
+  repHeaderBand:     { fontFamily: "DM Serif Display", fontSize: 12, color: "#E1F5EE",
+                       marginBottom: 8 },
+  repHeaderMeta:     { fontSize: 8, color: "#E1F5EE" },
+  repHeaderEnrolled: { fontSize: 9, color: "#E1F5EE" },
 
   resBody:      { paddingHorizontal: 36, paddingVertical: 18 },
   resHeader:    { flexDirection: "row", borderBottomWidth: 1, borderColor: "#0F1115",
@@ -74,10 +64,6 @@ const s = StyleSheet.create({
   resChipTxt:   { fontSize: 9, fontFamily: "DM Sans" },
   resTotal:     { width: 50, textAlign: "right", fontSize: 10, color: "#0F1115" },
   resGrade:     { width: 80, textAlign: "right", fontSize: 9 },
-
-  resOverall:   { flexDirection: "row", alignItems: "center", paddingVertical: 8,
-                  borderTopWidth: 1, borderColor: "#0F1115", marginTop: 4 },
-  resOverallLbl:{ flex: 1, fontFamily: "DM Serif Display", fontSize: 11, color: "#0F1115" },
 
   resLegend:    { marginTop: 24, paddingTop: 12, borderTopWidth: 0.5, borderColor: "#E5E7EB" },
   resLegendRow: { flexDirection: "row", justifyContent: "center", marginBottom: 4 },
@@ -141,63 +127,59 @@ function chipStyle(score: number): ChipStyle {
   }
 }
 
-function CertificatePage({
+/**
+ * ReportHeader — the green band that appears at the top of every page.
+ *
+ * Props:
+ *   studentName  — displayed upper-cased on first page; plain on compact pages.
+ *   className    — raw class string; formatted via formatClassPrefix.
+ *   overall      — when provided (first page, non-empty): { pct, band, kitCount }.
+ *   empty        — when true (zero kits, first page): show enrolment line instead of score.
+ *   compact      — when true (continuation pages): left column only, no right block.
+ */
+function ReportHeader({
   studentName,
   className,
-  scored,
+  overall,
+  empty = false,
+  compact = false,
 }: {
   studentName: string;
   className: string;
-  scored: ScoredKit[];
+  overall?: { pct: number; band: string; kitCount: number };
+  empty?: boolean;
+  compact?: boolean;
 }) {
-  const isEmpty = scored.length === 0;
-
-  let overallTotal = 0;
-  let overallMax = 0;
-  for (const sk of scored) {
-    overallTotal += totalOf(sk.criterionScores);
-    overallMax += maxScore(sk.rubric.criteria.length);
-  }
-  const pct = overallMax ? Math.round((overallTotal / overallMax) * 100) : 0;
-  const band = gradeBand(pct);
-
   return (
-    <Page size="A4" style={s.certPage}>
-      <View style={s.certOuter}>
-        <View style={s.certInner}>
-          <Text style={s.certProgram}>SCIENCEUTSAV · C-STEM</Text>
-          <View style={s.certRule} />
-
-          <Text style={s.certTitle}>Certificate of Assessment</Text>
-
-          {isEmpty ? (
-            <Text style={s.certIntro}>This certifies enrolment of</Text>
-          ) : (
-            <Text style={s.certIntro}>This certifies that</Text>
-          )}
-
-          <Text style={s.certName}>{studentName.toUpperCase()}</Text>
-
-          {isEmpty ? (
-            <Text style={s.certBody}>
-              {formatClassPrefix(className)} is currently enrolled in the C-STEM program.
-            </Text>
-          ) : (
-            <>
-              <Text style={s.certBody}>
-                {formatClassPrefix(className)} has completed the C-STEM assessment
-                with an overall score of
-              </Text>
-              <Text style={s.certScore}>{pct}%</Text>
-              <Text style={s.certBand}>{band}</Text>
-              <Text style={s.certMeta}>{scored.length} kits assessed</Text>
-            </>
-          )}
-
-          <Text style={s.certMeta}>Issued {formatIssueDate()}</Text>
-        </View>
+    <View style={s.repHeaderBand}>
+      {/* Left column: brand mark + student name + class line */}
+      <View style={s.repHeaderLeft}>
+        <Text style={s.repHeaderBrand}>SCIENCEUTSAV · C-STEM</Text>
+        <Text style={s.repHeaderName}>{studentName.toUpperCase()}</Text>
+        <Text style={s.repHeaderClass}>{formatClassPrefix(className)}</Text>
       </View>
-    </Page>
+
+      {/* Right column: score block OR enrolment note OR nothing on compact pages */}
+      {!compact && (
+        <View style={s.repHeaderRight}>
+          {overall ? (
+            <>
+              <Text style={s.repHeaderPct}>{overall.pct}%</Text>
+              <Text style={s.repHeaderBand}>{overall.band}</Text>
+              <Text style={s.repHeaderMeta}>{overall.kitCount} kits assessed</Text>
+              <Text style={s.repHeaderMeta}>Issued {formatIssueDate()}</Text>
+            </>
+          ) : empty ? (
+            <>
+              <Text style={s.repHeaderEnrolled}>
+                is currently enrolled in the C-STEM program.
+              </Text>
+              <Text style={s.repHeaderMeta}>Issued {formatIssueDate()}</Text>
+            </>
+          ) : null}
+        </View>
+      )}
+    </View>
   );
 }
 
@@ -206,21 +188,6 @@ function ScoreChip({ score }: { score: number }) {
   return (
     <View style={[s.resChip, { backgroundColor: cs.backgroundColor }]}>
       <Text style={[s.resChipTxt, { color: cs.color }]}>{score > 0 ? score : "—"}</Text>
-    </View>
-  );
-}
-
-function ResultsHeaderBand({
-  studentName,
-  className,
-}: { studentName: string; className: string }) {
-  return (
-    <View style={s.resBand}>
-      <Text style={s.resBandTitle}>RESULTS</Text>
-      <View>
-        <Text style={s.resBandName}>{studentName}</Text>
-        <Text style={s.resBandClass}>{className}</Text>
-      </View>
     </View>
   );
 }
@@ -278,10 +245,15 @@ function ResultsPages({
   className: string;
   scored: ScoredKit[];
 }) {
+  // Empty state
   if (scored.length === 0) {
     return (
       <Page size="A4" style={s.resPage}>
-        <ResultsHeaderBand studentName={studentName} className={className} />
+        <ReportHeader
+          studentName={studentName}
+          className={className}
+          empty={true}
+        />
         <View style={s.resBody}>
           <Text style={{ color: "#5B6470", fontSize: 10 }}>No kits assessed yet.</Text>
         </View>
@@ -296,15 +268,23 @@ function ResultsPages({
   const overallTotal = scored.reduce((a, sk) => a + totalOf(sk.criterionScores), 0);
   const overallMax = scored.reduce((a, sk) => a + maxScore(sk.rubric.criteria.length), 0);
   const overallPct = overallMax ? Math.round((overallTotal / overallMax) * 100) : 0;
+  const overallBand = gradeBand(overallPct);
+
   const pages = chunk(scored, ROWS_PER_PAGE);
 
   return (
     <>
       {pages.map((rows, pageIdx) => {
+        const isFirst = pageIdx === 0;
         const isLast = pageIdx === pages.length - 1;
         return (
           <Page key={pageIdx} size="A4" style={s.resPage}>
-            <ResultsHeaderBand studentName={studentName} className={className} />
+            <ReportHeader
+              studentName={studentName}
+              className={className}
+              overall={isFirst ? { pct: overallPct, band: overallBand, kitCount: scored.length } : undefined}
+              compact={!isFirst}
+            />
             <View style={s.resBody}>
               <View style={s.resHeader}>
                 <Text style={[s.resKit, s.resHeaderTxt]}>Kit</Text>
@@ -323,46 +303,36 @@ function ResultsPages({
               ))}
 
               {isLast && (
-                <>
-                  <View style={s.resOverall}>
-                    <Text style={s.resOverallLbl}>Overall</Text>
-                    <Text style={s.resTotal}>{overallTotal}/{overallMax}</Text>
-                    <Text style={[s.resGrade, { color: "#085041" }]}>
-                      {overallPct}%  {gradeBand(overallPct)}
-                    </Text>
+                <View style={s.resLegend}>
+                  <View style={s.resLegendRow}>
+                    <Text style={s.resLegendTxt}>Scores:</Text>
+                    {[
+                      { n: 4, label: "Excellent" },
+                      { n: 3, label: "Good" },
+                      { n: 2, label: "Developing" },
+                      { n: 1, label: "Needs support" },
+                    ].map((d) => (
+                      <View key={d.n} style={{ flexDirection: "row", alignItems: "center" }}>
+                        <View style={[s.resLegendDot, { backgroundColor: chipStyle(d.n).color }]} />
+                        <Text style={s.resLegendTxt}>{d.n} {d.label}</Text>
+                      </View>
+                    ))}
                   </View>
-
-                  <View style={s.resLegend}>
+                  {!wide && (
                     <View style={s.resLegendRow}>
-                      <Text style={s.resLegendTxt}>Scores:</Text>
-                      {[
-                        { n: 4, label: "Excellent" },
-                        { n: 3, label: "Good" },
-                        { n: 2, label: "Developing" },
-                        { n: 1, label: "Needs support" },
-                      ].map((d) => (
-                        <View key={d.n} style={{ flexDirection: "row", alignItems: "center" }}>
-                          <View style={[s.resLegendDot, { backgroundColor: chipStyle(d.n).color }]} />
-                          <Text style={s.resLegendTxt}>{d.n} {d.label}</Text>
-                        </View>
-                      ))}
+                      <Text style={s.resLegendTxt}>
+                        Criteria:  {criterionUnion.map((c, i) => `C${i + 1} = ${c.label}`).join("  ·  ")}
+                      </Text>
                     </View>
-                    {!wide && (
-                      <View style={s.resLegendRow}>
-                        <Text style={s.resLegendTxt}>
-                          Criteria:  {criterionUnion.map((c, i) => `C${i + 1} = ${c.label}`).join("  ·  ")}
-                        </Text>
-                      </View>
-                    )}
-                    {wide && (
-                      <View style={s.resLegendRow}>
-                        <Text style={s.resLegendTxt}>
-                          Per-criterion detail omitted — rubric exceeds {MAX_CRITERION_COLUMNS} criteria.
-                        </Text>
-                      </View>
-                    )}
-                  </View>
-                </>
+                  )}
+                  {wide && (
+                    <View style={s.resLegendRow}>
+                      <Text style={s.resLegendTxt}>
+                        Per-criterion detail omitted — rubric exceeds {MAX_CRITERION_COLUMNS} criteria.
+                      </Text>
+                    </View>
+                  )}
+                </View>
               )}
             </View>
           </Page>
@@ -383,7 +353,6 @@ export function StudentReportDoc({
 }) {
   return (
     <Document>
-      <CertificatePage studentName={studentName} className={className} scored={scored} />
       <ResultsPages studentName={studentName} className={className} scored={scored} />
     </Document>
   );
