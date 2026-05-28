@@ -43,6 +43,7 @@ export default function ClassReport() {
         kit: { kitNumber: s.kit.kitNumber, kitName: s.kit.kitName },
         rubric: { criteria: s.rubric.criteria.map((c) => ({ id: c.id })) },
         criterionScores: s.criterionScores,
+        absent: s.absent ?? false,
         _id: s._id,
       })),
   }));
@@ -117,6 +118,15 @@ export default function ClassReport() {
                               className="px-3 py-2.5 text-center text-xs text-ink-subtle"
                             >
                               —
+                            </td>
+                          );
+                        }
+                        if (s.absent) {
+                          return (
+                            <td key={k._id} className="px-1.5 py-1.5 text-center">
+                              <span className="inline-block min-w-[44px] rounded px-2 py-1 text-xs font-medium text-bad-800">
+                                Absent
+                              </span>
                             </td>
                           );
                         }

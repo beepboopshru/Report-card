@@ -30,6 +30,7 @@ type StudentBlock = {
     kit: { kitNumber: number; kitName: string };
     rubric: { criteria: { id: string }[] };
     criterionScores: Record<string, number>;
+    absent?: boolean;
   }[];
 };
 
@@ -59,6 +60,14 @@ export function ClassReportDoc({
             <Text>(no kits scored)</Text>
           ) : (
             b.scores.map((sk, j) => {
+              if (sk.absent) {
+                return (
+                  <View key={j} style={s.tr}>
+                    <Text style={s.cellKit}>#{sk.kit.kitNumber} · {sk.kit.kitName}</Text>
+                    <Text style={{ ...s.cellTotal, color: "#a32d2d" }}>Absent</Text>
+                  </View>
+                );
+              }
               const total = totalOf(sk.criterionScores);
               const max = maxScore(sk.rubric.criteria.length);
               return (
