@@ -22,20 +22,41 @@ try {
 }
 
 const s = StyleSheet.create({
-  page: { padding: 36, fontSize: 10, fontFamily: "Helvetica" },
-  h1: { fontSize: 18, marginBottom: 4 },
-  h2: { fontSize: 13, marginTop: 18, marginBottom: 6 },
-  meta: { fontSize: 9, color: "#555", marginBottom: 10 },
-  row: {
-    flexDirection: "row",
-    borderBottomWidth: 0.5,
-    borderColor: "#ccc",
-    paddingVertical: 4,
-  },
-  cellLabel: { width: 160 },
-  cellScore: { width: 40, textAlign: "center" },
-  cellDesc: { flex: 1, color: "#444" },
-  totalBar: { marginTop: 8, fontSize: 11, fontWeight: 700 },
+  // shared
+  page:         { padding: 36, fontSize: 10, fontFamily: "DM Sans" },
+  serif:        { fontFamily: "DM Serif Display" },
+
+  // certificate page
+  certPage:     { padding: 0, fontSize: 10, fontFamily: "DM Sans" },
+  certOuter:    { flex: 1, margin: 18, borderWidth: 1.5, borderColor: "#085041", padding: 18 },
+  certInner:    { flex: 1, borderWidth: 0.5, borderColor: "#085041", padding: 28,
+                  alignItems: "center", justifyContent: "center" },
+  certProgram:  { fontFamily: "DM Serif Display", fontSize: 16, color: "#085041",
+                  letterSpacing: 2, marginBottom: 4 },
+  certRule:     { width: 80, height: 1, backgroundColor: "#0F6E56", marginBottom: 28 },
+  certTitle:    { fontFamily: "DM Serif Display", fontSize: 26, color: "#0F1115",
+                  marginBottom: 36 },
+  certIntro:    { fontSize: 11, color: "#5B6470", marginBottom: 16 },
+  certName:     { fontFamily: "DM Serif Display", fontSize: 32, color: "#0F1115",
+                  letterSpacing: 2, marginBottom: 24, textAlign: "center" },
+  certBody:     { fontSize: 11, color: "#5B6470", textAlign: "center",
+                  marginBottom: 28, maxWidth: 360, lineHeight: 1.5 },
+  certScore:    { fontFamily: "DM Serif Display", fontSize: 56, color: "#0F6E56",
+                  marginBottom: 4 },
+  certBand:     { fontFamily: "DM Serif Display", fontSize: 16, color: "#085041",
+                  marginBottom: 28 },
+  certMeta:     { fontSize: 10, color: "#5B6470", marginBottom: 6 },
+
+  // results page (unchanged for now — placeholder; Task 6 replaces this)
+  h1:           { fontSize: 18, marginBottom: 4 },
+  h2:           { fontSize: 13, marginTop: 18, marginBottom: 6 },
+  meta:         { fontSize: 9, color: "#555", marginBottom: 10 },
+  row:          { flexDirection: "row", borderBottomWidth: 0.5, borderColor: "#ccc",
+                  paddingVertical: 4 },
+  cellLabel:    { width: 160 },
+  cellScore:    { width: 40, textAlign: "center" },
+  cellDesc:     { flex: 1, color: "#444" },
+  totalBar:     { marginTop: 8, fontSize: 11, fontWeight: 700 },
 });
 
 type Criterion = {
@@ -94,6 +115,66 @@ function chipStyle(score: number): ChipStyle {
   }
 }
 
+function CertificatePage({
+  studentName,
+  className,
+  scored,
+}: {
+  studentName: string;
+  className: string;
+  scored: ScoredKit[];
+}) {
+  const isEmpty = scored.length === 0;
+
+  let overallTotal = 0;
+  let overallMax = 0;
+  for (const sk of scored) {
+    overallTotal += totalOf(sk.criterionScores);
+    overallMax += maxScore(sk.rubric.criteria.length);
+  }
+  const pct = overallMax ? Math.round((overallTotal / overallMax) * 100) : 0;
+  const band = gradeBand(pct);
+
+  return (
+    <Page size="A4" style={s.certPage}>
+      <View style={s.certOuter}>
+        <View style={s.certInner}>
+          <Text style={s.certProgram}>SCIENCEUTSAV · C-STEM</Text>
+          <View style={s.certRule} />
+
+          <Text style={s.certTitle}>Certificate of Assessment</Text>
+
+          {isEmpty ? (
+            <Text style={s.certIntro}>This certifies enrolment of</Text>
+          ) : (
+            <Text style={s.certIntro}>This certifies that</Text>
+          )}
+
+          <Text style={s.certName}>{studentName.toUpperCase()}</Text>
+
+          {isEmpty ? (
+            <Text style={s.certBody}>
+              {formatClassPrefix(className)} is currently enrolled in the C-STEM program.
+            </Text>
+          ) : (
+            <>
+              <Text style={s.certBody}>
+                {formatClassPrefix(className)} has completed the C-STEM assessment
+                with an overall score of
+              </Text>
+              <Text style={s.certScore}>{pct}%</Text>
+              <Text style={s.certBand}>{band}</Text>
+              <Text style={s.certMeta}>{scored.length} kits assessed</Text>
+            </>
+          )}
+
+          <Text style={s.certMeta}>Issued {formatIssueDate()}</Text>
+        </View>
+      </View>
+    </Page>
+  );
+}
+
 export function StudentReportDoc({
   studentName,
   className,
@@ -103,19 +184,9 @@ export function StudentReportDoc({
   className: string;
   scored: ScoredKit[];
 }) {
-  if (scored.length === 0) {
-    return (
-      <Document>
-        <Page size="A4" style={s.page}>
-          <Text style={s.h1}>{studentName}</Text>
-          <Text style={s.meta}>{className}</Text>
-          <Text>No kits scored yet.</Text>
-        </Page>
-      </Document>
-    );
-  }
   return (
     <Document>
+      <CertificatePage studentName={studentName} className={className} scored={scored} />
       {scored.map((sk, i) => {
         const total = totalOf(sk.criterionScores);
         const max = maxScore(sk.rubric.criteria.length);
