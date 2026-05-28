@@ -47,16 +47,42 @@ const s = StyleSheet.create({
                   marginBottom: 28 },
   certMeta:     { fontSize: 10, color: "#5B6470", marginBottom: 6 },
 
-  // results page (unchanged for now — placeholder; Task 6 replaces this)
-  h1:           { fontSize: 18, marginBottom: 4 },
-  h2:           { fontSize: 13, marginTop: 18, marginBottom: 6 },
-  meta:         { fontSize: 9, color: "#555", marginBottom: 10 },
-  row:          { flexDirection: "row", borderBottomWidth: 0.5, borderColor: "#ccc",
-                  paddingVertical: 4 },
-  cellLabel:    { width: 160 },
-  cellScore:    { width: 40, textAlign: "center" },
-  cellDesc:     { flex: 1, color: "#444" },
-  totalBar:     { marginTop: 8, fontSize: 11, fontWeight: 700 },
+  // results page
+  resPage:      { padding: 0, fontSize: 9, fontFamily: "DM Sans" },
+  resBand:      { backgroundColor: "#0F6E56", paddingHorizontal: 36, paddingVertical: 12,
+                  flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
+  resBandTitle: { fontFamily: "DM Serif Display", fontSize: 16, color: "#FFFFFF",
+                  letterSpacing: 1 },
+  resBandName:  { fontSize: 10, color: "#FFFFFF", textAlign: "right" },
+  resBandClass: { fontSize: 8, color: "#E1F5EE", textAlign: "right" },
+
+  resBody:      { paddingHorizontal: 36, paddingVertical: 18 },
+  resHeader:    { flexDirection: "row", borderBottomWidth: 1, borderColor: "#0F1115",
+                  paddingBottom: 4, marginBottom: 4 },
+  resHeaderTxt: { fontSize: 8, color: "#5B6470", textTransform: "uppercase",
+                  letterSpacing: 0.5 },
+  resRow:       { flexDirection: "row", alignItems: "center", paddingVertical: 6,
+                  borderBottomWidth: 0.5, borderColor: "#E5E7EB" },
+  resKit:       { flex: 1, paddingRight: 8 },
+  resKitNum:    { fontFamily: "DM Serif Display", fontSize: 10, color: "#0F1115" },
+  resKitName:   { fontSize: 10, color: "#0F1115" },
+  resCategory:  { width: 60, fontSize: 8, color: "#5B6470", textTransform: "uppercase",
+                  letterSpacing: 0.5 },
+  resChipCol:   { width: 28, alignItems: "center" },
+  resChip:      { width: 22, height: 16, borderRadius: 4, alignItems: "center",
+                  justifyContent: "center" },
+  resChipTxt:   { fontSize: 9, fontFamily: "DM Sans" },
+  resTotal:     { width: 50, textAlign: "right", fontSize: 10, color: "#0F1115" },
+  resGrade:     { width: 80, textAlign: "right", fontSize: 9 },
+
+  resOverall:   { flexDirection: "row", alignItems: "center", paddingVertical: 8,
+                  borderTopWidth: 1, borderColor: "#0F1115", marginTop: 4 },
+  resOverallLbl:{ flex: 1, fontFamily: "DM Serif Display", fontSize: 11, color: "#0F1115" },
+
+  resLegend:    { marginTop: 24, paddingTop: 12, borderTopWidth: 0.5, borderColor: "#E5E7EB" },
+  resLegendRow: { flexDirection: "row", justifyContent: "center", marginBottom: 4 },
+  resLegendDot: { width: 8, height: 8, borderRadius: 2, marginRight: 4, marginLeft: 12 },
+  resLegendTxt: { fontSize: 8, color: "#5B6470" },
 });
 
 type Criterion = {
@@ -175,6 +201,144 @@ function CertificatePage({
   );
 }
 
+function ScoreChip({ score }: { score: number }) {
+  const cs = chipStyle(score);
+  return (
+    <View style={[s.resChip, { backgroundColor: cs.backgroundColor }]}>
+      <Text style={[s.resChipTxt, { color: cs.color }]}>{score > 0 ? score : "—"}</Text>
+    </View>
+  );
+}
+
+function ResultsHeaderBand({
+  studentName,
+  className,
+}: { studentName: string; className: string }) {
+  return (
+    <View style={s.resBand}>
+      <Text style={s.resBandTitle}>RESULTS</Text>
+      <View>
+        <Text style={s.resBandName}>{studentName}</Text>
+        <Text style={s.resBandClass}>{className}</Text>
+      </View>
+    </View>
+  );
+}
+
+function ResultsRow({
+  sk,
+  criterionUnion,
+}: {
+  sk: ScoredKit;
+  criterionUnion: CriterionRef[];
+}) {
+  const ownIds = new Set(sk.rubric.criteria.map((c) => c.id));
+  const total = totalOf(sk.criterionScores);
+  const max = maxScore(sk.rubric.criteria.length);
+  const pct = max ? Math.round((total / max) * 100) : 0;
+  return (
+    <View style={s.resRow} wrap={false}>
+      <View style={s.resKit}>
+        <Text>
+          <Text style={s.resKitNum}>#{sk.kit.kitNumber}  </Text>
+          <Text style={s.resKitName}>{sk.kit.kitName}</Text>
+        </Text>
+      </View>
+      <Text style={s.resCategory}>{sk.kit.category}</Text>
+      {criterionUnion.map((c) => (
+        <View key={c.id} style={s.resChipCol}>
+          {ownIds.has(c.id)
+            ? <ScoreChip score={sk.criterionScores[c.id] ?? 0} />
+            : <Text style={{ color: "#8A93A0", fontSize: 9 }}>—</Text>}
+        </View>
+      ))}
+      <Text style={s.resTotal}>{total}/{max}</Text>
+      <Text style={[s.resGrade, { color: chipStyle(Math.ceil(pct / 25)).color }]}>
+        {gradeBand(pct)}
+      </Text>
+    </View>
+  );
+}
+
+function ResultsPages({
+  studentName,
+  className,
+  scored,
+}: {
+  studentName: string;
+  className: string;
+  scored: ScoredKit[];
+}) {
+  if (scored.length === 0) {
+    return (
+      <Page size="A4" style={s.resPage}>
+        <ResultsHeaderBand studentName={studentName} className={className} />
+        <View style={s.resBody}>
+          <Text style={{ color: "#5B6470", fontSize: 10 }}>No kits assessed yet.</Text>
+        </View>
+      </Page>
+    );
+  }
+
+  const criterionUnion = buildCriterionUnion(scored);
+  const overallTotal = scored.reduce((a, sk) => a + totalOf(sk.criterionScores), 0);
+  const overallMax = scored.reduce((a, sk) => a + maxScore(sk.rubric.criteria.length), 0);
+  const overallPct = overallMax ? Math.round((overallTotal / overallMax) * 100) : 0;
+
+  return (
+    <Page size="A4" style={s.resPage}>
+      <ResultsHeaderBand studentName={studentName} className={className} />
+      <View style={s.resBody}>
+        <View style={s.resHeader}>
+          <Text style={[s.resKit, s.resHeaderTxt]}>Kit</Text>
+          <Text style={[s.resCategory, s.resHeaderTxt]}>Category</Text>
+          {criterionUnion.map((_, i) => (
+            <Text key={i} style={[s.resChipCol, s.resHeaderTxt, { textAlign: "center" }]}>
+              C{i + 1}
+            </Text>
+          ))}
+          <Text style={[s.resTotal, s.resHeaderTxt]}>Total</Text>
+          <Text style={[s.resGrade, s.resHeaderTxt]}>Grade</Text>
+        </View>
+
+        {scored.map((sk) => (
+          <ResultsRow key={sk.kit.kitNumber} sk={sk} criterionUnion={criterionUnion} />
+        ))}
+
+        <View style={s.resOverall}>
+          <Text style={s.resOverallLbl}>Overall</Text>
+          <Text style={s.resTotal}>{overallTotal}/{overallMax}</Text>
+          <Text style={[s.resGrade, { color: "#085041" }]}>
+            {overallPct}%  {gradeBand(overallPct)}
+          </Text>
+        </View>
+
+        <View style={s.resLegend}>
+          <View style={s.resLegendRow}>
+            <Text style={s.resLegendTxt}>Scores:</Text>
+            {[
+              { n: 4, label: "Excellent" },
+              { n: 3, label: "Good" },
+              { n: 2, label: "Developing" },
+              { n: 1, label: "Needs support" },
+            ].map((d) => (
+              <View key={d.n} style={{ flexDirection: "row", alignItems: "center" }}>
+                <View style={[s.resLegendDot, { backgroundColor: chipStyle(d.n).color }]} />
+                <Text style={s.resLegendTxt}>{d.n} {d.label}</Text>
+              </View>
+            ))}
+          </View>
+          <View style={s.resLegendRow}>
+            <Text style={s.resLegendTxt}>
+              Criteria:  {criterionUnion.map((c, i) => `C${i + 1} = ${c.label}`).join("  ·  ")}
+            </Text>
+          </View>
+        </View>
+      </View>
+    </Page>
+  );
+}
+
 export function StudentReportDoc({
   studentName,
   className,
@@ -187,41 +351,7 @@ export function StudentReportDoc({
   return (
     <Document>
       <CertificatePage studentName={studentName} className={className} scored={scored} />
-      {scored.map((sk, i) => {
-        const total = totalOf(sk.criterionScores);
-        const max = maxScore(sk.rubric.criteria.length);
-        const pct = max ? Math.round((total / max) * 100) : 0;
-        return (
-          <Page key={i} size="A4" style={s.page}>
-            <Text style={s.h1}>{studentName}</Text>
-            <Text style={s.meta}>
-              {className} · #{sk.kit.kitNumber} · {sk.kit.kitName} · {sk.kit.category} ·{" "}
-              {sk.kit.concept}
-            </Text>
-            {sk.rubric.criteria.map((c) => {
-              const v = sk.criterionScores[c.id] ?? 0;
-              const desc =
-                v === 4 ? c.c4 : v === 3 ? c.c3 : v === 2 ? c.c2 : v === 1 ? c.c1 : "—";
-              return (
-                <View key={c.id} style={s.row} wrap={false}>
-                  <Text style={s.cellLabel}>{c.label}</Text>
-                  <Text style={s.cellScore}>{v || "—"}/4</Text>
-                  <Text style={s.cellDesc}>{desc}</Text>
-                </View>
-              );
-            })}
-            <Text style={s.totalBar}>
-              Total: {total}/{max} ({pct}% · {gradeBand(pct)})
-            </Text>
-            {sk.observations && (
-              <>
-                <Text style={s.h2}>Observations</Text>
-                <Text>{sk.observations}</Text>
-              </>
-            )}
-          </Page>
-        );
-      })}
+      <ResultsPages studentName={studentName} className={className} scored={scored} />
     </Document>
   );
 }

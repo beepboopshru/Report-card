@@ -28,6 +28,30 @@ describe("StudentReportDoc", () => {
     );
     expect(out).toBeTruthy();
   });
+
+  it("renders without throwing for kits with mixed rubric shapes", async () => {
+    const kitA: ScoredKit = {
+      kit: { kitNumber: 3, kitName: "Solar Oven", concept: "Energy", category: "Build" },
+      rubric: { criteria: [
+        { id: "c1", label: "Observation", c4: "", c3: "", c2: "", c1: "" },
+        { id: "c2", label: "Reasoning",   c4: "", c3: "", c2: "", c1: "" },
+      ] },
+      criterionScores: { c1: 4, c2: 3 },
+    };
+    const kitB: ScoredKit = {
+      kit: { kitNumber: 5, kitName: "Hydraulic Arm", concept: "Pressure", category: "Build" },
+      rubric: { criteria: [
+        { id: "c2", label: "Reasoning", c4: "", c3: "", c2: "", c1: "" },
+        { id: "c3", label: "Build",     c4: "", c3: "", c2: "", c1: "" },
+        { id: "c4", label: "Teamwork",  c4: "", c3: "", c2: "", c1: "" },
+      ] },
+      criterionScores: { c2: 2, c3: 4, c4: 3 },
+    };
+    const out = await renderToString(
+      <StudentReportDoc studentName="Aarav" className="V-B" scored={[kitA, kitB]} />,
+    );
+    expect(out).toBeTruthy();
+  });
 });
 
 describe("buildCriterionUnion", () => {
