@@ -1,10 +1,10 @@
 // src/pages/AdminDashboard.tsx
 import { Link } from "react-router-dom";
-import { useMutation, useQuery } from "convex/react";
+import { useAction, useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { useState, useMemo } from "react";
-import { Boxes, Search, X } from "lucide-react";
+import { Boxes, Search, X, Plus, KeyRound, Ban, RotateCcw } from "lucide-react";
 import PageHeader from "../components/PageHeader";
 import EmptyState from "../components/EmptyState";
 import { Card, CardBody } from "../components/ui/Card";
@@ -12,36 +12,85 @@ import { Badge } from "../components/ui/Badge";
 import { categoryTone } from "../lib/badgeUtils";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
+import CreateTeacherModal from "../components/CreateTeacherModal";
+import CredentialsModal from "../components/CredentialsModal";
 
 export default function AdminDashboard() {
   const teachers = useQuery(api.profiles.listTeachers);
+  const resetPassword = useAction(api.admin.resetTeacherPassword);
+  const setDisabled = useAction(api.admin.setTeacherDisabled);
+
   const [selectedTeacher, setSelected] = useState<Id<"profiles"> | null>(null);
+  const [creating, setCreating] = useState(false);
+  const [credentials, setCredentials] = useState<{
+    username: string;
+    password: string;
+  } | null>(null);
+  const [rowError, setRowError] = useState<string | null>(null);
+
   const teacherRows = useMemo(
     () => teachers?.filter((t) => t.role === "teacher") ?? [],
     [teachers],
   );
-
   const selected = teacherRows.find((t) => t._id === selectedTeacher);
+
+  async function onReset(profileId: Id<"profiles">, username: string) {
+    if (!confirm(`Reset password for ${username}? Their active sessions will be signed out.`)) return;
+    setRowError(null);
+    try {
+      const creds = await resetPassword({ profileId });
+      setCredentials(creds);
+    } catch (err) {
+      setRowError(err instanceof Error ? err.message : "Reset failed");
+    }
+  }
+
+  async function onToggleDisabled(
+    profileId: Id<"profiles">,
+    username: string,
+    nextDisabled: boolean,
+  ) {
+    const verb = nextDisabled ? "Disable" : "Enable";
+    if (!confirm(`${verb} ${username}?`)) return;
+    setRowError(null);
+    try {
+      await setDisabled({ profileId, disabled: nextDisabled });
+    } catch (err) {
+      setRowError(err instanceof Error ? err.message : `${verb} failed`);
+    }
+  }
 
   return (
     <>
       <PageHeader
         title="Teachers"
-        description="Assign kits to teachers. They can only score against their assigned kits."
+        description="Create teacher accounts, assign kits, and manage access."
         actions={
-          <Link to="/admin/kits">
-            <Button variant="secondary">
-              <Boxes className="w-4 h-4" />
-              Browse kits
+          <div className="flex gap-2">
+            <Link to="/admin/kits">
+              <Button variant="secondary">
+                <Boxes className="w-4 h-4" />
+                Browse kits
+              </Button>
+            </Link>
+            <Button onClick={() => setCreating(true)}>
+              <Plus className="w-4 h-4" />
+              Create teacher
             </Button>
-          </Link>
+          </div>
         }
       />
+
+      {rowError && (
+        <p className="text-sm text-danger mb-3" role="alert">
+          {rowError}
+        </p>
+      )}
 
       {teacherRows.length === 0 ? (
         <EmptyState
           title="No teachers yet"
-          description="Share the sign-up link with your teachers."
+          description='Click "Create teacher" above to provision the first account.'
         />
       ) : (
         <Card>
@@ -51,30 +100,78 @@ export default function AdminDashboard() {
                 <tr className="text-left text-[11px] uppercase tracking-wide text-ink-muted border-b border-line/60">
                   <th className="px-5 py-2.5 font-medium">Name</th>
                   <th className="px-5 py-2.5 font-medium">Username</th>
-                  <th className="px-5 py-2.5 font-medium text-right">Actions</th>
+                  <th className="px-5 py-2.5 font-medium">Status</th>
+                  <th className="px-5 py-2.5 font-medium text-right">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                {teacherRows.map((t) => (
-                  <tr
-                    key={t._id}
-                    className="border-b border-line/60 last:border-b-0 hover:bg-surface-muted/50"
-                  >
-                    <td className="px-5 py-3 font-medium text-ink">
-                      {t.displayName}
-                    </td>
-                    <td className="px-5 py-3 text-ink-muted">@{t.username}</td>
-                    <td className="px-5 py-3 text-right">
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        onClick={() => setSelected(t._id)}
-                      >
-                        Manage kits
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
+                {teacherRows.map((t) => {
+                  const isDisabled = t.disabled === true;
+                  return (
+                    <tr
+                      key={t._id}
+                      className="border-b border-line/60 last:border-b-0 hover:bg-surface-muted/50"
+                    >
+                      <td className="px-5 py-3 font-medium text-ink">
+                        {t.displayName}
+                      </td>
+                      <td className="px-5 py-3 text-ink-muted">
+                        @{t.username}
+                      </td>
+                      <td className="px-5 py-3">
+                        {isDisabled ? (
+                          <Badge tone="bad" size="sm">
+                            Disabled
+                          </Badge>
+                        ) : (
+                          <Badge tone="good" size="sm">
+                            Active
+                          </Badge>
+                        )}
+                      </td>
+                      <td className="px-5 py-3 text-right">
+                        <div className="inline-flex gap-1.5">
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            onClick={() => setSelected(t._id)}
+                          >
+                            Manage kits
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            onClick={() => onReset(t._id, t.username)}
+                          >
+                            <KeyRound className="w-3.5 h-3.5" />
+                            Reset
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant={isDisabled ? "secondary" : "danger"}
+                            onClick={() =>
+                              onToggleDisabled(t._id, t.username, !isDisabled)
+                            }
+                          >
+                            {isDisabled ? (
+                              <>
+                                <RotateCcw className="w-3.5 h-3.5" />
+                                Enable
+                              </>
+                            ) : (
+                              <>
+                                <Ban className="w-3.5 h-3.5" />
+                                Disable
+                              </>
+                            )}
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </CardBody>
@@ -85,6 +182,22 @@ export default function AdminDashboard() {
         <AssignmentsDrawer
           teacher={selected}
           onClose={() => setSelected(null)}
+        />
+      )}
+      {creating && (
+        <CreateTeacherModal
+          onClose={() => setCreating(false)}
+          onCreated={(creds) => {
+            setCreating(false);
+            setCredentials(creds);
+          }}
+        />
+      )}
+      {credentials && (
+        <CredentialsModal
+          username={credentials.username}
+          password={credentials.password}
+          onClose={() => setCredentials(null)}
         />
       )}
     </>
