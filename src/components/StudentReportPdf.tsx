@@ -34,6 +34,22 @@ export type ScoredKit = {
   observations?: string;
 };
 
+type CriterionRef = { id: string; label: string };
+
+function buildCriterionUnion(scored: ScoredKit[]): CriterionRef[] {
+  const out: CriterionRef[] = [];
+  const seen = new Set<string>();
+  for (const sk of scored) {
+    for (const c of sk.rubric.criteria) {
+      if (!seen.has(c.id)) {
+        seen.add(c.id);
+        out.push({ id: c.id, label: c.label });
+      }
+    }
+  }
+  return out;
+}
+
 export function StudentReportDoc({
   studentName,
   className,
@@ -110,3 +126,5 @@ export async function downloadStudentReport(
   a.click();
   URL.revokeObjectURL(url);
 }
+
+export const __test = { buildCriterionUnion };
