@@ -1,25 +1,24 @@
+import type { ReactElement } from "react";
 import { Document, Page, Text, View, StyleSheet, pdf, Font } from "@react-pdf/renderer";
+import type { DocumentProps } from "@react-pdf/renderer";
 import { totalOf, maxScore, gradeBand } from "../lib/totals";
 
-// Use the v1 endpoint which returns stable raw font URLs.
-// If these ever 404, @react-pdf/renderer silently falls back to Helvetica
-// and the document still renders — that's the documented degraded state.
-try {
-  Font.register({
-    family: "DM Serif Display",
-    src: "https://fonts.gstatic.com/s/dmserifdisplay/v15/-nFnOHM81r4j6k0gjAW3mujVU2B2K_d709jy92k.ttf",
-  });
-  Font.register({
-    family: "DM Sans",
-    fonts: [
-      { src: "https://fonts.gstatic.com/s/dmsans/v15/rP2tp2ywxg089UriI5-g4vlH9VoD8C.ttf" },
-      { src: "https://fonts.gstatic.com/s/dmsans/v15/rP2Hp2ywxg089UriCZawIIBSFFOZ-Lo3.ttf", fontWeight: 700 },
-    ],
-  });
-  Font.registerHyphenationCallback((word) => [word]);
-} catch {
-  // ignored — fall back to Helvetica
-}
+// Google Fonts URLs (the path version, e.g. v17, rotates occasionally — if
+// the PDF download starts failing, refresh these by fetching
+// https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=DM+Serif+Display
+// and copying the new ttf URLs. Render failure is caught in downloadStudentReport.
+Font.register({
+  family: "DM Serif Display",
+  src: "https://fonts.gstatic.com/s/dmserifdisplay/v17/-nFnOHM81r4j6k0gjAW3mujVU2B2K_c.ttf",
+});
+Font.register({
+  family: "DM Sans",
+  fonts: [
+    { src: "https://fonts.gstatic.com/s/dmsans/v17/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwAopxhTg.ttf" },
+    { src: "https://fonts.gstatic.com/s/dmsans/v17/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwARZthTg.ttf", fontWeight: 700 },
+  ],
+});
+Font.registerHyphenationCallback((word) => [word]);
 
 const s = StyleSheet.create({
   // shared
@@ -257,7 +256,7 @@ function chunk<T>(arr: T[], size: number): T[][] {
   return out.length ? out : [[]];
 }
 
-function ResultsPages({
+export function ResultsPages({
   studentName,
   className,
   scored,
@@ -329,10 +328,10 @@ function ResultsPages({
                   <View style={s.resLegendRow}>
                     <Text style={s.resLegendTxt}>Scores:</Text>
                     {[
-                      { n: 4, label: "Excellent" },
-                      { n: 3, label: "Good" },
+                      { n: 4, label: "Advanced" },
+                      { n: 3, label: "Proficient" },
                       { n: 2, label: "Developing" },
-                      { n: 1, label: "Needs support" },
+                      { n: 1, label: "Emerging" },
                     ].map((d) => (
                       <View key={d.n} style={{ flexDirection: "row", alignItems: "center" }}>
                         <View style={[s.resLegendDot, { backgroundColor: chipStyle(d.n).color }]} />
@@ -380,14 +379,37 @@ export function StudentReportDoc({
   );
 }
 
+/**
+ * Render a PDF document with the brand fonts, falling back to PDFKit
+ * built-ins if the Google Fonts URL has rotated and the ttf 404s.
+ * Shared by single-student and combined class PDFs.
+ */
+export async function renderPdfWithBrandFonts(doc: ReactElement<DocumentProps>): Promise<Blob> {
+  try {
+    return await pdf(doc).toBlob();
+  } catch (err) {
+    console.error("Brand-font render failed, retrying with built-in fonts.", err);
+    Font.register({ family: "DM Sans", src: "Helvetica" });
+    Font.register({
+      family: "DM Sans",
+      fonts: [
+        { src: "Helvetica" },
+        { src: "Helvetica-Bold", fontWeight: 700 },
+      ],
+    });
+    Font.register({ family: "DM Serif Display", src: "Times-Roman" });
+    return await pdf(doc).toBlob();
+  }
+}
+
 export async function downloadStudentReport(
   studentName: string,
   className: string,
   scored: ScoredKit[],
 ) {
-  const blob = await pdf(
+  const blob = await renderPdfWithBrandFonts(
     <StudentReportDoc studentName={studentName} className={className} scored={scored} />,
-  ).toBlob();
+  );
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;

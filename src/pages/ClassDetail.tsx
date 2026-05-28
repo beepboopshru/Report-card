@@ -1,10 +1,10 @@
 // src/pages/ClassDetail.tsx
 import { useParams, Link } from "react-router-dom";
-import { useMutation, useQuery } from "convex/react";
+import { useConvex, useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
-import { useState } from "react";
-import { Plus, Trash2, FileText, BookOpen } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Plus, Trash2, FileText, BookOpen, Download } from "lucide-react";
 import PageHeader from "../components/PageHeader";
 import EmptyState from "../components/EmptyState";
 import { Card, CardHeader, CardBody } from "../components/ui/Card";
@@ -12,6 +12,7 @@ import { Badge } from "../components/ui/Badge";
 import { categoryTone } from "../lib/badgeUtils";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
+import { downloadStudentReport, type ScoredKit } from "../components/StudentReportPdf";
 
 export default function ClassDetail() {
   const { classId } = useParams<{ classId: string }>();
@@ -21,8 +22,36 @@ export default function ClassDetail() {
   const kits = useQuery(api.classKits.listForClass, { classId: id });
   const addStudent = useMutation(api.students.create);
   const removeStudent = useMutation(api.students.remove);
+  const convex = useConvex();
   const [name, setName] = useState("");
   const [scoringFor, setScoringFor] = useState<string | null>(null);
+  const [downloadingFor, setDownloadingFor] = useState<string | null>(null);
+
+  const studentScores = useQuery(
+    api.scores.listForStudent,
+    scoringFor ? { studentId: scoringFor as Id<"students"> } : "skip",
+  );
+
+  const scoredKitStatus = useMemo(() => {
+    const map = new Map<string, "complete" | "partial">();
+    if (!studentScores) return map;
+    for (const s of studentScores) {
+      if (s.absent) {
+        map.set(s.kitId, "complete");
+        continue;
+      }
+      const criteriaCount = s.rubric?.criteria?.length ?? 0;
+      const validCount = Object.values(s.criterionScores).filter(
+        (v) => typeof v === "number" && v >= 1 && v <= 4,
+      ).length;
+      if (criteriaCount > 0 && validCount >= criteriaCount) {
+        map.set(s.kitId, "complete");
+      } else if (validCount > 0) {
+        map.set(s.kitId, "partial");
+      }
+    }
+    return map;
+  }, [studentScores]);
 
   if (!cls) return <p className="text-sm text-ink-muted">Loading…</p>;
 
@@ -33,10 +62,42 @@ export default function ClassDetail() {
     setName("");
   }
 
+  async function downloadFor(studentId: Id<"students">, studentName: string) {
+    if (!cls) return;
+    setDownloadingFor(studentId);
+    try {
+      const rows = await convex.query(api.scores.listForStudent, { studentId });
+      const scored: ScoredKit[] = rows
+        .filter(
+          (s): s is typeof s & {
+            kit: NonNullable<typeof s.kit>;
+            rubric: NonNullable<typeof s.rubric>;
+          } => s.kit !== null && s.rubric !== null,
+        )
+        .map((s) => ({
+          kit: {
+            kitNumber: s.kit.kitNumber,
+            kitName: s.kit.kitName,
+            concept: s.kit.concept,
+            category: s.kit.category,
+          },
+          rubric: { criteria: s.rubric.criteria },
+          criterionScores: s.criterionScores,
+          observations: s.observations,
+          absent: s.absent ?? false,
+        }));
+      await downloadStudentReport(studentName, cls.name, scored);
+    } finally {
+      setDownloadingFor(null);
+    }
+  }
+
   return (
     <>
       <PageHeader
         breadcrumbs={[{ label: "Classes", to: "/" }, { label: cls.name }]}
+        backTo="/"
+        backLabel="Back to classes"
         title={cls.name}
         description={`Grade ${cls.grade} · ${cls.academicYear}`}
         actions={
@@ -153,21 +214,36 @@ export default function ClassDetail() {
                         </Button>
                         {scoringFor === s._id && (
                           <div className="absolute right-0 top-full mt-1 z-10 bg-surface border border-line rounded-lg shadow-pop w-64 max-h-80 overflow-y-auto py-1">
-                            {kits.map((k) => (
-                              <Link
-                                key={k._id}
-                                to={`/class/${id}/students/${s._id}/score/${k.kitId}`}
-                                onClick={() => setScoringFor(null)}
-                                className="block px-3 py-2 text-xs hover:bg-surface-muted"
-                              >
-                                <div className="font-medium text-ink truncate">
-                                  #{k.kit!.kitNumber} · {k.kit!.kitName}
-                                </div>
-                                <div className="text-[11px] text-ink-muted">
-                                  {k.kit!.category}
-                                </div>
-                              </Link>
-                            ))}
+                            {kits.map((k) => {
+                              const status = scoredKitStatus.get(k.kitId);
+                              return (
+                                <Link
+                                  key={k._id}
+                                  to={`/class/${id}/students/${s._id}/score/${k.kitId}`}
+                                  onClick={() => setScoringFor(null)}
+                                  className="block px-3 py-2 text-xs hover:bg-surface-muted"
+                                >
+                                  <div className="flex items-center justify-between gap-2">
+                                    <div className="font-medium text-ink truncate">
+                                      #{k.kit!.kitNumber} · {k.kit!.kitName}
+                                    </div>
+                                    {status === "complete" && (
+                                      <Badge tone="good" size="sm" className="flex-shrink-0">
+                                        ✓ Scored
+                                      </Badge>
+                                    )}
+                                    {status === "partial" && (
+                                      <Badge tone="warn" size="sm" className="flex-shrink-0">
+                                        Partial
+                                      </Badge>
+                                    )}
+                                  </div>
+                                  <div className="text-[11px] text-ink-muted">
+                                    {k.kit!.category}
+                                  </div>
+                                </Link>
+                              );
+                            })}
                           </div>
                         )}
                       </div>
@@ -177,6 +253,15 @@ export default function ClassDetail() {
                         Report
                       </Button>
                     </Link>
+                    <button
+                      onClick={() => downloadFor(s._id, s.name)}
+                      disabled={downloadingFor === s._id}
+                      className="text-ink-subtle hover:text-accent p-1.5 rounded transition-colors disabled:opacity-50"
+                      aria-label={`Download ${s.name}'s report`}
+                      title="Download report card"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                    </button>
                     <button
                       onClick={() => {
                         if (confirm(`Delete ${s.name}?`))

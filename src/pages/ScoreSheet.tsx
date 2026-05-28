@@ -1,9 +1,10 @@
 // src/pages/ScoreSheet.tsx
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { useEffect, useMemo, useState } from "react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import PageHeader from "../components/PageHeader";
 import ScoreRow from "../components/ScoreRow";
 import SaveStatus, { type SaveState } from "../components/SaveStatus";
@@ -11,6 +12,7 @@ import { useDebounce } from "../lib/useDebouncedMutation";
 import { Card, CardHeader, CardBody } from "../components/ui/Card";
 import { Badge } from "../components/ui/Badge";
 import { categoryTone } from "../lib/badgeUtils";
+import { Button } from "../components/ui/Button";
 import { Textarea } from "../components/ui/Input";
 import { gradeBand, maxScore, scoredCount, totalOf } from "../lib/totals";
 
@@ -29,6 +31,7 @@ export default function ScoreSheet() {
   const kit = useQuery(api.kits.get, { kitId: kid });
   const rubric = useQuery(api.rubrics.getForKit, { kitId: kid });
   const score = useQuery(api.scores.get, { studentId: sid, kitId: kid });
+  const roster = useQuery(api.students.listForClass, { classId: cid });
   const upsert = useMutation(api.scores.upsert);
 
   const [criterionScores, setCriterionScores] = useState<Record<string, number>>({});
@@ -79,6 +82,14 @@ export default function ScoreSheet() {
   const pct = max ? Math.round((total / max) * 100) : 0;
   const scored = scoredCount(criterionScores, criteriaCount);
 
+  const rosterIndex = roster?.findIndex((s) => s._id === sid) ?? -1;
+  const prevStudent =
+    roster && rosterIndex > 0 ? roster[rosterIndex - 1] : null;
+  const nextStudent =
+    roster && rosterIndex >= 0 && rosterIndex < roster.length - 1
+      ? roster[rosterIndex + 1]
+      : null;
+
   if (!student || !cls || !kit || !rubric)
     return <p className="text-sm text-ink-muted">Loading…</p>;
 
@@ -94,6 +105,8 @@ export default function ScoreSheet() {
           },
           { label: kit.kitName },
         ]}
+        backTo={`/class/${cls._id}`}
+        backLabel={`Back to ${cls.name}`}
         title={student.name}
         description={
           <span className="inline-flex items-center gap-2 flex-wrap">
@@ -146,6 +159,48 @@ export default function ScoreSheet() {
           />
         </CardBody>
       </Card>
+
+      {roster && roster.length > 1 && (
+        <nav
+          aria-label="Student navigation"
+          className="mt-6 flex items-center justify-between gap-3 flex-wrap"
+        >
+          {prevStudent ? (
+            <Link
+              to={`/class/${cls._id}/students/${prevStudent._id}/score/${kit._id}`}
+            >
+              <Button variant="secondary">
+                <ArrowLeft className="w-4 h-4" />
+                <span className="truncate">{prevStudent.name}</span>
+              </Button>
+            </Link>
+          ) : (
+            <span />
+          )}
+
+          <span className="text-xs text-ink-muted">
+            Student {rosterIndex + 1} of {roster.length}
+          </span>
+
+          {nextStudent ? (
+            <Link
+              to={`/class/${cls._id}/students/${nextStudent._id}/score/${kit._id}`}
+            >
+              <Button>
+                <span className="truncate">Next: {nextStudent.name}</span>
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+            </Link>
+          ) : (
+            <Link to={`/class/${cls._id}`}>
+              <Button variant="secondary">
+                Done — back to class
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+            </Link>
+          )}
+        </nav>
+      )}
     </>
   );
 }

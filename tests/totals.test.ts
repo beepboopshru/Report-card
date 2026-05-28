@@ -13,9 +13,9 @@ describe("totals", () => {
     expect(maxScore(6)).toBe(24);
   });
   it("gradeBand thresholds", () => {
-    expect(gradeBand(95)).toBe("Outstanding");
+    expect(gradeBand(95)).toBe("Advanced");
     expect(gradeBand(80)).toBe("Proficient");
     expect(gradeBand(60)).toBe("Developing");
-    expect(gradeBand(30)).toBe("Beginning");
+    expect(gradeBand(30)).toBe("Emerging");
   });
 });

@@ -30,6 +30,8 @@ export default function SeedPage() {
     <>
       <PageHeader
         breadcrumbs={[{ label: "Admin", to: "/admin" }, { label: "Seed" }]}
+        backTo="/admin"
+        backLabel="Back to admin"
         title="Seed kits & rubrics"
         description="One-time setup. Safe to re-run — only missing rows are inserted."
       />

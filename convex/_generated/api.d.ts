@@ -11,6 +11,7 @@
 import type * as admin from "../admin.js";
 import type * as assignments from "../assignments.js";
 import type * as auth from "../auth.js";
+import type * as bootstrap from "../bootstrap.js";
 import type * as classKits from "../classKits.js";
 import type * as classes from "../classes.js";
 import type * as http from "../http.js";
@@ -36,6 +37,7 @@ declare const fullApi: ApiFromModules<{
   admin: typeof admin;
   assignments: typeof assignments;
   auth: typeof auth;
+  bootstrap: typeof bootstrap;
   classKits: typeof classKits;
   classes: typeof classes;
   http: typeof http;

@@ -4,6 +4,7 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { isResolved } from "../lib/totals";
+import { ArrowLeft } from "lucide-react";
 import Breadcrumbs from "../components/Breadcrumbs";
 import CriterionHeader from "../components/CriterionHeader";
 import BulkScoreRow from "../components/BulkScoreRow";
@@ -132,6 +133,13 @@ export default function KitScoreSheet() {
 
   return (
     <>
+      <Link
+        to={`/class/${cls._id}`}
+        className="inline-flex items-center gap-1 text-xs text-ink-muted hover:text-accent transition-colors mb-2"
+      >
+        <ArrowLeft aria-hidden className="w-3.5 h-3.5" />
+        Back to {cls.name}
+      </Link>
       <Breadcrumbs
         crumbs={[
           { label: "Classes", to: "/" },

@@ -141,13 +141,15 @@ export default function ClassReport() {
           { label: cls.name, to: `/class/${id}` },
           { label: "Report" },
         ]}
+        backTo={`/class/${id}`}
+        backLabel={`Back to ${cls.name}`}
         title={`${cls.name} · Class report`}
         description={`Grade ${cls.grade} · ${cls.academicYear}`}
         actions={
           <>
             <Button
               variant="secondary"
-              onClick={() => downloadClassReport(cls.name, cleaned)}
+              onClick={() => downloadClassReport(cls.name, fullBlocks)}
               disabled={cleaned.length === 0}
             >
               <Download className="w-4 h-4" />

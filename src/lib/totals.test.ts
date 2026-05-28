@@ -15,10 +15,10 @@ describe("totals", () => {
   });
 
   it("gradeBand maps percentages", () => {
-    expect(gradeBand(95)).toBe("Outstanding");
+    expect(gradeBand(95)).toBe("Advanced");
     expect(gradeBand(80)).toBe("Proficient");
     expect(gradeBand(60)).toBe("Developing");
-    expect(gradeBand(20)).toBe("Beginning");
+    expect(gradeBand(20)).toBe("Emerging");
   });
 
   describe("isResolved", () => {

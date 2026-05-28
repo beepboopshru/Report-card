@@ -15,11 +15,11 @@ export function scoredCount(scores: CriterionScores, criteriaCount: number): num
 
 export function gradeBand(
   pct: number,
-): "Outstanding" | "Proficient" | "Developing" | "Beginning" {
-  if (pct >= 90) return "Outstanding";
+): "Advanced" | "Proficient" | "Developing" | "Emerging" {
+  if (pct >= 90) return "Advanced";
   if (pct >= 75) return "Proficient";
   if (pct >= 50) return "Developing";
-  return "Beginning";
+  return "Emerging";
 }
 
 export type StudentScoreState = {

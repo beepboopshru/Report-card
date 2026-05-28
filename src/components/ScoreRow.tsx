@@ -28,10 +28,10 @@ const PANEL: Record<number, string> = {
   1: "bg-bad-50 border-bad-200 text-bad-800",
 };
 const LABEL: Record<number, string> = {
-  4: "Outstanding",
+  4: "Advanced",
   3: "Proficient",
   2: "Developing",
-  1: "Beginning",
+  1: "Emerging",
 };
 
 export default function ScoreRow({

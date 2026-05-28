@@ -86,6 +86,8 @@ export default function StudentReport() {
           { label: cls.name, to: `/class/${cls._id}` },
           { label: student.name },
         ]}
+        backTo={`/class/${cls._id}`}
+        backLabel={`Back to ${cls.name}`}
         title={`${student.name} · Report`}
         description={`Grade ${cls.grade} · ${cls.academicYear}`}
         actions={

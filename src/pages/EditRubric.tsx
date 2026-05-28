@@ -22,10 +22,10 @@ type Criterion = {
 };
 
 const LEVEL_LABELS: Record<string, string> = {
-  c4: "4 · Outstanding",
+  c4: "4 · Advanced",
   c3: "3 · Proficient",
   c2: "2 · Developing",
-  c1: "1 · Beginning",
+  c1: "1 · Emerging",
 };
 
 export default function EditRubric() {
@@ -70,6 +70,8 @@ export default function EditRubric() {
           { label: "Kits", to: "/admin/kits" },
           { label: kit.kitName },
         ]}
+        backTo="/admin/kits"
+        backLabel="Back to kits"
         title={kit.kitName}
         description={
           <span className="inline-flex items-center gap-2">

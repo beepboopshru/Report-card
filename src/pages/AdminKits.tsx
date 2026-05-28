@@ -36,6 +36,8 @@ export default function AdminKits() {
     <>
       <PageHeader
         breadcrumbs={[{ label: "Admin", to: "/admin" }, { label: "Kits" }]}
+        backTo="/admin"
+        backLabel="Back to admin"
         title="Kits"
         description={`${kits?.length ?? "…"} total · click any kit to edit its rubric.`}
       />

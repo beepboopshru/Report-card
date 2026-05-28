@@ -45,7 +45,15 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
         </div>
 
         <p className="relative text-xs text-white/60">
-          © {new Date().getFullYear()} ScienceUtsav
+          © {new Date().getFullYear()}{" "}
+          <a
+            href="https://beepboopshru.github.io/beepboopshru.github.io-nuoto/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline-offset-2 hover:underline"
+          >
+            nuoto.ai
+          </a>
         </p>
       </aside>
 
