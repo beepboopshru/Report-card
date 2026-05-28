@@ -74,6 +74,7 @@ export default defineSchema({
     kitId: v.id("kits"),
     criterionScores: v.record(v.string(), v.number()),
     observations: v.optional(v.string()),
+    absent: v.optional(v.boolean()),
     scoredByProfileId: v.id("profiles"),
     updatedAt: v.number(),
   })
