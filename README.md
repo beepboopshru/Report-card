@@ -5,13 +5,14 @@ for all C-STEM kits and producing PDF report cards.
 
 ## Roles
 
-- **Admin** — a profile with `role: "admin"`. Admins can manage kit
-  assignments per teacher and edit any rubric. New sign-ups always default
-  to `teacher`; promote to admin by editing the row in the Convex dashboard
-  (`profiles` table → set `role` to `"admin"`).
-- **Teacher** — anyone who signs up via `/sign-up`. Teachers can create
-  classes, attach kits the admin has assigned them, add students, score
-  them, and download report cards.
+- **Admin** — a profile with `role: "admin"`. Admins manage kit
+  assignments per teacher, edit any rubric, and provision teacher
+  accounts (see "Teacher accounts" below). The first admin is
+  promoted manually in the Convex dashboard (`profiles` table → set
+  `role` to `"admin"`).
+- **Teacher** — provisioned by an admin from the dashboard. Teachers
+  can create classes, attach kits the admin has assigned them, add
+  students, score them, and download report cards.
 
 ## First-time setup
 
@@ -22,11 +23,26 @@ npm run parse-kits           # PDF → data/kits.json (already committed)
 npm run generate-rubrics     # → convex/seed/*.ts (already committed)
 ```
 
-After the schema is deployed, sign up at `/sign-up` with a username (3–32
-chars, lowercase letters / digits / `.` / `_` / `-`), then promote that
-profile to `admin` in the Convex dashboard. Visit `/admin/seed` and click
-**Run seed** once to insert all 157 kits and their generated rubrics.
-Re-running is safe — it never overwrites edited rubrics.
+After the schema is deployed, manually create the first profile in
+the Convex dashboard: insert a row into `profiles` with your `userId`
+(from the `users` table), a `username` (3–32 chars, lowercase letters
+/ digits / `.` / `_` / `-`), a `displayName`, and `role: "admin"`.
+Then sign in at `/sign-in`, visit `/admin/seed`, and click **Run seed**
+once to insert all 157 kits and their generated rubrics. Re-running
+is safe — it never overwrites edited rubrics.
+
+## Teacher accounts
+
+Teachers do not sign up themselves; there is no `/sign-up` page. From
+the admin dashboard (`/admin`):
+
+- **Create teacher** — enter a username and display name. The admin
+  receives a one-time copyable bundle (URL, username, generated
+  password, usage instructions) to share with the teacher.
+- **Reset** — generates a new password and shows the same bundle.
+  The teacher's active sessions are signed out.
+- **Disable / Enable** — revokes or restores access without deleting
+  the account. Disabled teachers cannot sign in or run any query.
 
 ## Daily dev
 
