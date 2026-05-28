@@ -12,6 +12,7 @@ import ReportsIndex from "./pages/ReportsIndex";
 import ClassDetail from "./pages/ClassDetail";
 import ClassCurriculum from "./pages/ClassCurriculum";
 import ScoreSheet from "./pages/ScoreSheet";
+import KitScoreSheet from "./pages/KitScoreSheet";
 import StudentReport from "./pages/StudentReport";
 import ClassReport from "./pages/ClassReport";
 
@@ -29,6 +30,10 @@ export default function App() {
         <Route
           path="/class/:classId/students/:studentId/score/:kitId"
           element={<ScoreSheet />}
+        />
+        <Route
+          path="/class/:classId/kit/:kitId/score"
+          element={<KitScoreSheet />}
         />
         <Route
           path="/class/:classId/students/:studentId/report"
