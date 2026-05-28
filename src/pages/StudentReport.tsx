@@ -35,6 +35,8 @@ export default function StudentReport() {
   const student = useQuery(api.students.get, { studentId: sid });
   const scored = useQuery(api.scores.listForStudent, { studentId: sid });
 
+  const [sharing, setSharing] = useState(false);
+
   if (!cls || !student || !scored)
     return <p className="text-sm text-ink-muted">Loading…</p>;
 
@@ -58,7 +60,6 @@ export default function StudentReport() {
     absent: s.absent ?? false,
   }));
 
-  const [sharing, setSharing] = useState(false);
   async function onShare() {
     if (!student || !cls) return;
     setSharing(true);

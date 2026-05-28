@@ -35,6 +35,7 @@ export default function KitScoreSheet() {
     const firstUnsettled = rows.findIndex(
       (r) => !r.absent && (r.criterionScores[criterion.id] ?? 0) < 1,
     );
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setFocusIndex(firstUnsettled === -1 ? 0 : firstUnsettled);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cIndex, rubric?._id]);

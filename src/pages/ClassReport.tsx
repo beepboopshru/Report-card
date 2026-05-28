@@ -33,6 +33,8 @@ export default function ClassReport() {
   const blocks = useQuery(api.scores.listForClass, { classId: id });
   const kits = useQuery(api.classKits.listForClass, { classId: id });
 
+  const [zipProgress, setZipProgress] = useState<{ done: number; total: number } | null>(null);
+
   if (!cls || !blocks || !kits)
     return <p className="text-sm text-ink-muted">Loading…</p>;
 
@@ -87,8 +89,6 @@ export default function ClassReport() {
           _id: s._id,
         })),
     }));
-
-  const [zipProgress, setZipProgress] = useState<{ done: number; total: number } | null>(null);
 
   async function downloadAllPerStudent() {
     setZipProgress({ done: 0, total: fullBlocks.length });
