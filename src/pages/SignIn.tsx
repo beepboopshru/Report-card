@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AuthLayout from "../components/AuthLayout";
 import { FormField } from "../components/ui/FormField";
 import { Input } from "../components/ui/Input";
@@ -77,12 +77,6 @@ export default function SignIn() {
         <Button type="submit" loading={busy} className="w-full">
           {busy ? "Signing in…" : "Sign in"}
         </Button>
-        <p className="text-xs text-ink-muted text-center pt-1">
-          No account?{" "}
-          <Link to="/sign-up" className="text-accent hover:underline">
-            Create one
-          </Link>
-        </p>
       </form>
     </AuthLayout>
   );
