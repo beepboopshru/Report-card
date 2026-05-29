@@ -18,7 +18,7 @@ export default function TeacherDashboard() {
   const create = useMutation(api.classes.create);
   const [name, setName] = useState("");
   const [grade, setGrade] = useState(4);
-  const [year, setYear] = useState("2025-26");
+  const [year, setYear] = useState("2026-27");
   const [showForm, setShowForm] = useState(false);
 
   async function onCreate(e: React.FormEvent) {
