@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useConvexAuth } from "convex/react";
 import AuthLayout from "../components/AuthLayout";
 import { FormField } from "../components/ui/FormField";
 import { Input } from "../components/ui/Input";
@@ -13,10 +14,15 @@ import {
 export default function SignIn() {
   const { signIn } = useAuthActions();
   const navigate = useNavigate();
+  const { isAuthenticated, isLoading } = useConvexAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+
+  if (isLoading)
+    return <div className="p-6 text-sm text-ink-muted">Loading…</div>;
+  if (isAuthenticated) return <Navigate to="/" replace />;
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
