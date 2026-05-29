@@ -42,7 +42,7 @@ export default function ReportsIndex() {
                       {c.name}
                     </div>
                     <div className="text-xs text-ink-muted">
-                      Grade {c.grade} · {c.academicYear}
+                      {c.academicYear}
                     </div>
                   </div>
                   <span className="text-xs text-accent inline-flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">

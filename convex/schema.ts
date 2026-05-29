@@ -52,7 +52,9 @@ export default defineSchema({
   classes: defineTable({
     teacherProfileId: v.id("profiles"),
     name: v.string(),
-    grade: v.number(),
+    // Legacy field — no longer set on new classes; kept optional so existing
+    // documents continue to validate.
+    grade: v.optional(v.number()),
     academicYear: v.string(),
   }).index("by_teacher", ["teacherProfileId"]),
 

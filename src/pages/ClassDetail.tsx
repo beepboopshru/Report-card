@@ -4,7 +4,7 @@ import { useConvex, useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { useMemo, useState } from "react";
-import { Plus, Trash2, FileText, BookOpen, Download } from "lucide-react";
+import { Plus, Trash2, FileText, BookOpen, Download, Pencil, ArrowUp, ArrowDown } from "lucide-react";
 import PageHeader from "../components/PageHeader";
 import EmptyState from "../components/EmptyState";
 import { Card, CardHeader, CardBody } from "../components/ui/Card";
@@ -22,10 +22,39 @@ export default function ClassDetail() {
   const kits = useQuery(api.classKits.listForClass, { classId: id });
   const addStudent = useMutation(api.students.create);
   const removeStudent = useMutation(api.students.remove);
+  const updateStudent = useMutation(api.students.update);
   const convex = useConvex();
   const [name, setName] = useState("");
+  const [rollNo, setRollNo] = useState("");
   const [scoringFor, setScoringFor] = useState<string | null>(null);
   const [downloadingFor, setDownloadingFor] = useState<string | null>(null);
+  const [editingStudent, setEditingStudent] = useState<Id<"students"> | null>(null);
+  const [editStudentName, setEditStudentName] = useState("");
+  const [editStudentRoll, setEditStudentRoll] = useState("");
+  const [sortKey, setSortKey] = useState<"name" | "rollNo">("name");
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
+
+  const sortedStudents = useMemo(() => {
+    if (!students) return students;
+    const dir = sortDir === "asc" ? 1 : -1;
+    return [...students].sort((a, b) => {
+      const av = (sortKey === "name" ? a.name : a.rollNo) ?? "";
+      const bv = (sortKey === "name" ? b.name : b.rollNo) ?? "";
+      // Blank values always sort to the end, regardless of direction.
+      if (av === "" && bv !== "") return 1;
+      if (bv === "" && av !== "") return -1;
+      return av.localeCompare(bv, undefined, { numeric: true }) * dir;
+    });
+  }, [students, sortKey, sortDir]);
+
+  function toggleSort(key: "name" | "rollNo") {
+    if (sortKey === key) {
+      setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+    } else {
+      setSortKey(key);
+      setSortDir("asc");
+    }
+  }
 
   const studentScores = useQuery(
     api.scores.listForStudent,
@@ -58,8 +87,32 @@ export default function ClassDetail() {
   async function add(e: React.FormEvent) {
     e.preventDefault();
     if (!name.trim()) return;
-    await addStudent({ classId: id, name: name.trim() });
+    const roll = rollNo.trim();
+    await addStudent({
+      classId: id,
+      name: name.trim(),
+      rollNo: roll === "" ? undefined : roll,
+    });
     setName("");
+    setRollNo("");
+  }
+
+  function startEditStudent(s: { _id: Id<"students">; name: string; rollNo?: string }) {
+    setEditingStudent(s._id);
+    setEditStudentName(s.name);
+    setEditStudentRoll(s.rollNo ?? "");
+  }
+
+  async function saveStudent(e: React.FormEvent) {
+    e.preventDefault();
+    if (!editingStudent || !editStudentName.trim()) return;
+    const roll = editStudentRoll.trim();
+    await updateStudent({
+      studentId: editingStudent,
+      name: editStudentName.trim(),
+      rollNo: roll === "" ? undefined : roll,
+    });
+    setEditingStudent(null);
   }
 
   async function downloadFor(studentId: Id<"students">, studentName: string) {
@@ -99,7 +152,7 @@ export default function ClassDetail() {
         backTo="/"
         backLabel="Back to classes"
         title={cls.name}
-        description={`Grade ${cls.grade} · ${cls.academicYear}`}
+        description={cls.academicYear}
         actions={
           <>
             <Link to={`/class/${id}/curriculum`}>
@@ -170,13 +223,47 @@ export default function ClassDetail() {
         <CardHeader
           title="Students"
           description={`${students?.length ?? 0} enrolled`}
+          action={
+            students && students.length > 1 ? (
+              <div className="flex items-center gap-1 text-xs">
+                <span className="text-ink-subtle">Sort:</span>
+                {(["name", "rollNo"] as const).map((key) => (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => toggleSort(key)}
+                    className={`inline-flex items-center gap-0.5 px-2 py-1 rounded transition-colors ${
+                      sortKey === key
+                        ? "bg-accent/10 text-accent font-medium"
+                        : "text-ink-muted hover:text-ink"
+                    }`}
+                  >
+                    {key === "name" ? "Name" : "Roll no"}
+                    {sortKey === key &&
+                      (sortDir === "asc" ? (
+                        <ArrowUp className="w-3 h-3" />
+                      ) : (
+                        <ArrowDown className="w-3 h-3" />
+                      ))}
+                  </button>
+                ))}
+              </div>
+            ) : undefined
+          }
         />
         <CardBody padding="none">
-          <form onSubmit={add} className="px-5 py-3 flex gap-2 border-b border-line/60">
+          <form onSubmit={add} className="px-5 py-3 flex flex-col sm:flex-row gap-2 border-b border-line/60">
             <Input
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Student name"
+              className="flex-1"
+            />
+            <Input
+              value={rollNo}
+              onChange={(e) => setRollNo(e.target.value)}
+              placeholder="Roll no (optional)"
+              className="sm:w-40"
             />
             <Button type="submit" size="md">
               <Plus className="w-4 h-4" />
@@ -190,7 +277,41 @@ export default function ClassDetail() {
             />
           ) : (
             <ul className="divide-y divide-line/60">
-              {students?.map((s) => (
+              {sortedStudents?.map((s) =>
+                editingStudent === s._id ? (
+                  <li key={s._id} className="px-5 py-3">
+                    <form
+                      onSubmit={saveStudent}
+                      className="flex flex-col sm:flex-row sm:items-center gap-2"
+                    >
+                      <Input
+                        value={editStudentName}
+                        onChange={(e) => setEditStudentName(e.target.value)}
+                        placeholder="Student name"
+                        className="flex-1"
+                      />
+                      <Input
+                        value={editStudentRoll}
+                        onChange={(e) => setEditStudentRoll(e.target.value)}
+                        placeholder="Roll no (optional)"
+                        className="sm:w-40"
+                      />
+                      <div className="flex gap-2">
+                        <Button type="submit" size="sm">
+                          Save
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          size="sm"
+                          onClick={() => setEditingStudent(null)}
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </form>
+                  </li>
+                ) : (
                 <li
                   key={s._id}
                   className="px-5 py-3 flex items-center justify-between gap-3 text-sm"
@@ -199,6 +320,11 @@ export default function ClassDetail() {
                     <div className="font-medium text-ink truncate">
                       {s.name}
                     </div>
+                    {s.rollNo && (
+                      <div className="text-xs text-ink-muted truncate">
+                        Roll no. {s.rollNo}
+                      </div>
+                    )}
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">
                     {kits && kits.length > 0 && (
@@ -263,6 +389,14 @@ export default function ClassDetail() {
                       <Download className="w-3.5 h-3.5" />
                     </button>
                     <button
+                      onClick={() => startEditStudent(s)}
+                      className="text-ink-subtle hover:text-accent p-1.5 rounded transition-colors"
+                      aria-label={`Edit ${s.name}`}
+                      title="Edit student"
+                    >
+                      <Pencil className="w-3.5 h-3.5" />
+                    </button>
+                    <button
                       onClick={() => {
                         if (confirm(`Delete ${s.name}?`))
                           removeStudent({ studentId: s._id });
@@ -274,7 +408,8 @@ export default function ClassDetail() {
                     </button>
                   </div>
                 </li>
-              ))}
+                ),
+              )}
             </ul>
           )}
         </CardBody>

@@ -22,10 +22,18 @@ export const get = query({
 });
 
 export const create = mutation({
-  args: { name: v.string(), grade: v.number(), academicYear: v.string() },
+  args: { name: v.string(), academicYear: v.string() },
   handler: async (ctx, args) => {
     const profile = await requireTeacher(ctx);
     return await ctx.db.insert("classes", { ...args, teacherProfileId: profile._id });
+  },
+});
+
+export const update = mutation({
+  args: { classId: v.id("classes"), name: v.string(), academicYear: v.string() },
+  handler: async (ctx, { classId, name, academicYear }) => {
+    await requireOwnsClass(ctx, classId);
+    await ctx.db.patch(classId, { name, academicYear });
   },
 });
 
