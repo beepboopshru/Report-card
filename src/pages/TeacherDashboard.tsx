@@ -81,7 +81,7 @@ export default function TeacherDashboard() {
             onSubmit={onCreate}
             className="grid grid-cols-1 md:grid-cols-[1fr_140px_auto] gap-3 items-end p-5"
           >
-            <FormField label="Name">
+            <FormField label="Grade">
               {(id) => (
                 <Input
                   id={id}
