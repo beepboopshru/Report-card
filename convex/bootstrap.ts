@@ -1,4 +1,9 @@
-import { action, internalMutation, internalQuery } from "./_generated/server";
+import {
+  action,
+  internalAction,
+  internalMutation,
+  internalQuery,
+} from "./_generated/server";
 import { v } from "convex/values";
 import { internal } from "./_generated/api";
 import { createAccount } from "@convex-dev/auth/server";
@@ -59,6 +64,55 @@ export const createFirstAdmin = action({
       username,
       displayName,
     });
+
+    return { username, password, userId: created.user._id, profileId };
+  },
+});
+
+// Mints an additional admin from the CLI/deploy-key (no admin session required).
+// Safe to leave deployed — internalAction can only be called via runtime/deploy
+// key, never from a client.
+export const createAdminFromCli = internalAction({
+  args: { username: v.string(), displayName: v.string() },
+  returns: v.object({
+    username: v.string(),
+    password: v.string(),
+    userId: v.id("users"),
+    profileId: v.id("profiles"),
+  }),
+  handler: async (
+    ctx,
+    args,
+  ): Promise<{
+    username: string;
+    password: string;
+    userId: Id<"users">;
+    profileId: Id<"profiles">;
+  }> => {
+    const username = normalizeUsername(args.username);
+    assertValidUsername(username);
+    const displayName = args.displayName.trim();
+    if (displayName.length === 0) throw new Error("Display name is required");
+
+    const taken: Id<"profiles"> | null = await ctx.runQuery(
+      internal.bootstrap.findProfileByUsername,
+      { username },
+    );
+    if (taken) throw new Error("Username already taken");
+
+    const password = generatePassword();
+    const created = await createAccount(ctx, {
+      provider: "password",
+      account: { id: username, secret: password },
+      profile: { email: username },
+      shouldLinkViaEmail: false,
+      shouldLinkViaPhone: false,
+    });
+
+    const profileId: Id<"profiles"> = await ctx.runMutation(
+      internal.bootstrap.insertAdminProfile,
+      { userId: created.user._id, username, displayName },
+    );
 
     return { username, password, userId: created.user._id, profileId };
   },
