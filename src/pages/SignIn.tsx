@@ -26,7 +26,7 @@ export default function SignIn() {
       const normalized = normalizeUsername(username);
       assertValidUsername(normalized);
       await signIn("password", {
-        username: normalized,
+        email: normalized,
         password,
         flow: "signIn",
       });

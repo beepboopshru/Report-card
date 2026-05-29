@@ -4,6 +4,7 @@ import { internal } from "./_generated/api";
 import { createAccount } from "@convex-dev/auth/server";
 import { normalizeUsername, assertValidUsername } from "./lib/username";
 import { generatePassword } from "./lib/passwordGen";
+import type { Id } from "./_generated/dataModel";
 
 // Creates the first admin profile. Refuses if any admin already exists, so it
 // is safe to leave deployed — it can only run once per deployment lifetime.
@@ -15,8 +16,19 @@ export const createFirstAdmin = action({
     userId: v.id("users"),
     profileId: v.id("profiles"),
   }),
-  handler: async (ctx, args) => {
-    const adminExists = await ctx.runQuery(internal.bootstrap.anyAdminExists, {});
+  handler: async (
+    ctx,
+    args,
+  ): Promise<{
+    username: string;
+    password: string;
+    userId: Id<"users">;
+    profileId: Id<"profiles">;
+  }> => {
+    const adminExists: boolean = await ctx.runQuery(
+      internal.bootstrap.anyAdminExists,
+      {},
+    );
     if (adminExists) {
       throw new Error(
         "An admin already exists. Use the admin dashboard to provision new users.",
@@ -42,7 +54,7 @@ export const createFirstAdmin = action({
       shouldLinkViaPhone: false,
     });
 
-    const profileId = await ctx.runMutation(internal.bootstrap.insertAdminProfile, {
+    const profileId: Id<"profiles"> = await ctx.runMutation(internal.bootstrap.insertAdminProfile, {
       userId: created.user._id,
       username,
       displayName,
