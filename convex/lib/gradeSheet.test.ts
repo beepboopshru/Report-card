@@ -36,3 +36,41 @@ describe("readGridTarget", () => {
     expect(readGridTarget([header])).toEqual({ error: "No student rows found in the file." });
   });
 });
+
+import { buildImportPlan } from "./gradeSheet";
+import type { RubricCriterion, StudentLite, ExistingScore } from "./gradeSheet";
+
+const CRITERIA: RubricCriterion[] = [
+  { id: "foo", label: "Foo" },
+  { id: "bar", label: "Bar" },
+];
+const STUDENTS: StudentLite[] = [
+  { _id: "s1", name: "Alice", rollNo: "1" },
+  { _id: "s2", name: "Bob", rollNo: "2" },
+];
+
+function header(): string[] {
+  return [
+    "class_id",
+    "kit_id",
+    "student_id",
+    "roll_no",
+    "name",
+    "absent",
+    "Foo ⟨foo⟩",
+    "Bar ⟨bar⟩",
+    "observations",
+  ];
+}
+
+describe("buildImportPlan structural checks", () => {
+  it("errors when criterion columns don't match the rubric", () => {
+    const grid = [
+      ["class_id", "kit_id", "student_id", "roll_no", "name", "absent", "Foo ⟨foo⟩", "observations"],
+      ["c1", "k1", "s1", "1", "Alice", "", "4", ""],
+    ];
+    const plan = buildImportPlan(CRITERIA, STUDENTS, {}, grid);
+    expect(plan.diffs).toEqual([]);
+    expect(plan.errors[0].reason).toMatch(/columns do not match/i);
+  });
+});
