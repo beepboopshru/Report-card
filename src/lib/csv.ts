@@ -1,4 +1,5 @@
 // Minimal RFC-4180-style CSV parser. Returns rows of string cells.
+// Handles LF, CRLF, and lone CR as row terminators.
 export function parseCsv(text: string): string[][] {
   const rows: string[][] = [];
   let row: string[] = [];
@@ -6,7 +7,6 @@ export function parseCsv(text: string): string[][] {
   let inQuotes = false;
   let i = 0;
   const n = text.length;
-  let sawAny = false;
 
   const endField = () => {
     row.push(field);
@@ -20,7 +20,6 @@ export function parseCsv(text: string): string[][] {
 
   while (i < n) {
     const c = text[i];
-    sawAny = true;
     if (inQuotes) {
       if (c === '"') {
         if (text[i + 1] === '"') {
@@ -47,8 +46,8 @@ export function parseCsv(text: string): string[][] {
       continue;
     }
     if (c === "\r") {
-      // swallow; \n (or end) closes the row
-      i++;
+      endRow();
+      i += text[i + 1] === "\n" ? 2 : 1;
       continue;
     }
     if (c === "\n") {
@@ -60,11 +59,8 @@ export function parseCsv(text: string): string[][] {
     i++;
   }
 
-  // Flush the final field/row unless the input ended exactly on a row break
-  // (i.e. field empty AND row empty AND the last char was a newline).
-  const endedOnNewline = n > 0 && (text[n - 1] === "\n" || text[n - 1] === "\r");
-  if (field !== "" || row.length > 0 || (sawAny && !endedOnNewline)) {
-    endRow();
-  }
+  // Flush the final field/row if there is anything pending.
+  // A trailing row terminator leaves field === "" and row empty, so no phantom row is added.
+  if (field !== "" || row.length > 0) endRow();
   return rows;
 }

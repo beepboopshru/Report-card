@@ -33,4 +33,15 @@ describe("parseCsv", () => {
   it("returns [] for empty input", () => {
     expect(parseCsv("")).toEqual([]);
   });
+
+  it("preserves empty fields", () => {
+    expect(parseCsv("a,,b")).toEqual([["a", "", "b"]]);
+  });
+
+  it("treats a lone CR as a row terminator", () => {
+    expect(parseCsv("a,b\rc,d")).toEqual([
+      ["a", "b"],
+      ["c", "d"],
+    ]);
+  });
 });
