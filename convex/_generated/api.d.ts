@@ -17,6 +17,7 @@ import type * as classes from "../classes.js";
 import type * as http from "../http.js";
 import type * as kits from "../kits.js";
 import type * as lib_access from "../lib/access.js";
+import type * as lib_gradeSheet from "../lib/gradeSheet.js";
 import type * as lib_passwordGen from "../lib/passwordGen.js";
 import type * as lib_username from "../lib/username.js";
 import type * as profiles from "../profiles.js";
@@ -43,6 +44,7 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   kits: typeof kits;
   "lib/access": typeof lib_access;
+  "lib/gradeSheet": typeof lib_gradeSheet;
   "lib/passwordGen": typeof lib_passwordGen;
   "lib/username": typeof lib_username;
   profiles: typeof profiles;
