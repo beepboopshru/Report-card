@@ -1,6 +1,6 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
-import { requireOwnsClass, requireTeacher } from "./lib/access";
+import { requireOwnsClass, requireTeacher, requireAdmin } from "./lib/access";
 
 export const listMine = query({
   args: {},
@@ -10,6 +10,20 @@ export const listMine = query({
       .query("classes")
       .withIndex("by_teacher", (q) => q.eq("teacherProfileId", profile._id))
       .collect();
+  },
+});
+
+export const listAllForAdmin = query({
+  args: {},
+  handler: async (ctx) => {
+    await requireAdmin(ctx);
+    const classes = await ctx.db.query("classes").collect();
+    return await Promise.all(
+      classes.map(async (cls) => {
+        const teacher = await ctx.db.get(cls.teacherProfileId);
+        return { ...cls, teacherName: teacher?.displayName ?? "—" };
+      }),
+    );
   },
 });
 
