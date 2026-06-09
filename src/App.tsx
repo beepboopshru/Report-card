@@ -4,6 +4,7 @@ import AdminRoute from "./routes/AdminRoute";
 import TeacherRoute from "./routes/TeacherRoute";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminKits from "./pages/AdminKits";
+import AdminGrades from "./pages/AdminGrades";
 import EditRubric from "./pages/EditRubric";
 import SeedPage from "./pages/SeedPage";
 import TeacherDashboard from "./pages/TeacherDashboard";
@@ -43,6 +44,7 @@ export default function App() {
       <Route element={<AdminRoute />}>
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/kits" element={<AdminKits />} />
+        <Route path="/admin/grades" element={<AdminGrades />} />
         <Route path="/admin/rubrics/:kitId" element={<EditRubric />} />
         <Route path="/admin/seed" element={<SeedPage />} />
       </Route>

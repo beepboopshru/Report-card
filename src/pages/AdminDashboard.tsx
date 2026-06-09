@@ -73,6 +73,9 @@ export default function AdminDashboard() {
                 Browse kits
               </Button>
             </Link>
+            <Link to="/admin/grades">
+              <Button variant="secondary">Grade sheets</Button>
+            </Link>
             <Button onClick={() => setCreating(true)}>
               <Plus className="w-4 h-4" />
               Create teacher
