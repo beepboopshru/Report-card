@@ -13,5 +13,12 @@ export function useCurrentProfile() {
     }
   }, [isAuthenticated, me, ensure]);
 
+  // Flag student sessions so main.tsx signs them out when the browser closes.
+  useEffect(() => {
+    if (!me) return;
+    if (me.role === "student") localStorage.setItem("studentSession", "1");
+    else localStorage.removeItem("studentSession");
+  }, [me]);
+
   return { profile: me, isAuthenticated, isLoading };
 }

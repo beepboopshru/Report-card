@@ -22,16 +22,18 @@ export default defineSchema({
     .index("by_username", ["username"]),
 
   // One row per teacher/school account, filled on first login.
-  // Each entry in `sections` is one grade-section; attendance = kids in it.
+  // `sections` is legacy from the old grade-section setup; new rows omit it.
   schoolDetails: defineTable({
     teacherProfileId: v.id("profiles"),
     address: v.string(),
-    sections: v.array(
-      v.object({
-        grade: v.string(),
-        section: v.string(),
-        attendance: v.number(),
-      }),
+    sections: v.optional(
+      v.array(
+        v.object({
+          grade: v.string(),
+          section: v.string(),
+          attendance: v.number(),
+        }),
+      ),
     ),
   }).index("by_teacher", ["teacherProfileId"]),
 

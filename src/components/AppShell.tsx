@@ -42,7 +42,7 @@ export default function AppShell() {
           <span className="w-7" />
         </div>
 
-        <main className="max-w-[1080px] mx-auto px-5 md:px-8 py-6 md:py-8">
+        <main className="max-w-[1080px] mx-auto px-5 md:px-8 pt-10 md:pt-14 pb-10 md:pb-14">
           <Outlet />
         </main>
       </div>

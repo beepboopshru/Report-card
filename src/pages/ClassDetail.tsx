@@ -4,22 +4,99 @@ import { useConvex, useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { useMemo, useState } from "react";
-import { Plus, Trash2, FileText, BookOpen, Download, Pencil, ArrowUp, ArrowDown, Upload, KeyRound } from "lucide-react";
+import {
+  Plus,
+  Trash2,
+  FileText,
+  BookOpen,
+  Download,
+  Pencil,
+  ArrowUp,
+  ArrowDown,
+  KeyRound,
+  X,
+  ClipboardCheck,
+} from "lucide-react";
 import PageHeader from "../components/PageHeader";
 import EmptyState from "../components/EmptyState";
 import { Card, CardHeader, CardBody } from "../components/ui/Card";
 import { Badge } from "../components/ui/Badge";
-import { categoryTone } from "../lib/badgeUtils";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { downloadStudentReport, type ScoredKit } from "../components/StudentReportPdf";
-import {
-  buildClassListTemplateBlob,
-  buildCredentialsCsv,
-  parseClassListCsv,
-} from "../lib/classListSheet";
+import { buildCredentialsCsv } from "../lib/classListSheet";
 import { downloadBlob, sanitizeFilename } from "../lib/buildReportZip";
 import { formatSessionKey } from "../../convex/lib/lmsCatalog";
+
+type QuizRow = {
+  studentId: Id<"students">;
+  studentName: string;
+  sessionKey: string;
+  score: number;
+  total: number;
+  attempts: number;
+};
+
+function QuizScoresDialog({
+  studentName,
+  rows,
+  onClose,
+}: {
+  studentName: string;
+  rows: QuizRow[];
+  onClose: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-ink/40" onClick={onClose} aria-hidden />
+      <div className="relative w-full max-w-md bg-surface rounded-lg shadow-pop">
+        <header className="px-5 py-4 border-b border-line/60 flex items-center justify-between">
+          <h2 className="font-serif text-lg text-accent-deep">
+            {studentName} · Quiz scores
+          </h2>
+          <button
+            onClick={onClose}
+            className="p-1.5 rounded hover:bg-surface-muted"
+            aria-label="Close"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </header>
+        <div className="p-5">
+          {rows.length === 0 ? (
+            <p className="text-sm text-ink-muted">
+              No quiz submissions yet. Scores appear here when the student
+              submits an evaluate quiz in the LMS.
+            </p>
+          ) : (
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-left text-xs text-ink-subtle border-b border-line/60">
+                  <th className="py-2 font-medium">Session</th>
+                  <th className="py-2 font-medium">Score</th>
+                  <th className="py-2 font-medium">Attempts</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-line/60">
+                {rows.map((r) => (
+                  <tr key={r.sessionKey}>
+                    <td className="py-2.5 text-ink-muted">
+                      {formatSessionKey(r.sessionKey)}
+                    </td>
+                    <td className="py-2.5 font-medium text-ink">
+                      {r.score} / {r.total}
+                    </td>
+                    <td className="py-2.5 text-ink-muted">{r.attempts}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function ClassDetail() {
   const { classId } = useParams<{ classId: string }>();
@@ -29,8 +106,6 @@ export default function ClassDetail() {
   const kits = useQuery(api.classKits.listForClass, { classId: id });
   const quizScores = useQuery(api.lms.quizScoresForClass, { classId: id });
   const addStudent = useMutation(api.students.create);
-  const bulkCreate = useMutation(api.students.bulkCreate);
-  const submitForApproval = useMutation(api.classes.submitForApproval);
   const removeStudent = useMutation(api.students.remove);
   const updateStudent = useMutation(api.students.update);
   const convex = useConvex();
@@ -38,11 +113,24 @@ export default function ClassDetail() {
   const [rollNo, setRollNo] = useState("");
   const [scoringFor, setScoringFor] = useState<string | null>(null);
   const [downloadingFor, setDownloadingFor] = useState<string | null>(null);
+  const [quizFor, setQuizFor] = useState<Id<"students"> | null>(null);
   const [editingStudent, setEditingStudent] = useState<Id<"students"> | null>(null);
   const [editStudentName, setEditStudentName] = useState("");
   const [editStudentRoll, setEditStudentRoll] = useState("");
   const [sortKey, setSortKey] = useState<"name" | "rollNo">("name");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
+
+  const hasRobotics = kits?.some((k) => k.kit!.category === "Robotics") ?? false;
+
+  const quizByStudent = useMemo(() => {
+    const map = new Map<Id<"students">, QuizRow[]>();
+    for (const r of quizScores ?? []) {
+      const list = map.get(r.studentId) ?? [];
+      list.push(r);
+      map.set(r.studentId, list);
+    }
+    return map;
+  }, [quizScores]);
 
   const sortedStudents = useMemo(() => {
     if (!students) return students;
@@ -93,37 +181,6 @@ export default function ClassDetail() {
   }, [studentScores]);
 
   if (!cls) return <p className="text-sm text-ink-muted">Loading…</p>;
-
-  async function downloadTemplate() {
-    const blob = await buildClassListTemplateBlob();
-    downloadBlob(blob, "class_list_template.xlsx");
-  }
-
-  async function onImportFile(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    e.target.value = "";
-    if (!file) return;
-    const rows = parseClassListCsv(await file.text());
-    if (rows.length === 0) {
-      alert("No students found in that file. Expected columns: Name, Roll No.");
-      return;
-    }
-    const result = await bulkCreate({ classId: id, rows });
-    alert(
-      `Imported ${result.added} student${result.added === 1 ? "" : "s"}` +
-        (result.skipped > 0 ? ` (${result.skipped} skipped as duplicates/blank)` : "") +
-        ".",
-    );
-  }
-
-  async function onSubmitForApproval() {
-    if (!confirm("Submit this class list for approval? An admin will then generate student logins.")) return;
-    try {
-      await submitForApproval({ classId: id });
-    } catch (err) {
-      alert(err instanceof Error ? err.message : "Could not submit");
-    }
-  }
 
   async function downloadCredentials() {
     if (!cls) return;
@@ -203,6 +260,8 @@ export default function ClassDetail() {
     }
   }
 
+  const quizStudent = quizFor ? students?.find((s) => s._id === quizFor) : null;
+
   return (
     <>
       <PageHeader
@@ -213,14 +272,16 @@ export default function ClassDetail() {
         description={cls.academicYear}
         actions={
           <>
-            <Link to={`/class/${id}/curriculum`}>
-              <Button variant="secondary">
-                <BookOpen className="w-4 h-4" />
-                Curriculum
-              </Button>
-            </Link>
+            {!hasRobotics && (
+              <Link to={`/class/${id}/curriculum`}>
+                <Button variant="secondary" title="Manage and score the kits attached to this class">
+                  <BookOpen className="w-4 h-4" />
+                  Curriculum
+                </Button>
+              </Link>
+            )}
             <Link to={`/class/${id}/report`}>
-              <Button>
+              <Button title="The whole class's scores in one report">
                 <FileText className="w-4 h-4" />
                 Class report
               </Button>
@@ -229,183 +290,48 @@ export default function ClassDetail() {
         }
       />
 
-      <Card className="mb-6">
-        <CardHeader
-          title="Curriculum"
-          description={`${kits?.length ?? 0} kits attached`}
-          action={
-            <Link
-              to={`/class/${id}/curriculum`}
-              className="text-xs text-accent hover:underline"
-            >
-              Manage
-            </Link>
-          }
+      {quizFor && quizStudent && (
+        <QuizScoresDialog
+          studentName={quizStudent.name}
+          rows={quizByStudent.get(quizFor) ?? []}
+          onClose={() => setQuizFor(null)}
         />
-        <CardBody padding="none">
-          {kits && kits.length === 0 ? (
-            <p className="px-5 py-8 text-sm text-ink-muted text-center">
-              No kits attached. Open "Manage" to add some.
-            </p>
-          ) : (
-            <ul className="divide-y divide-line/60">
-              {kits?.map((k) => (
-                <li
-                  key={k._id}
-                  className="px-5 py-3 flex items-center justify-between gap-3 text-sm"
-                >
-                  <div className="min-w-0">
-                    <div className="font-medium text-ink truncate">
-                      #{k.kit!.kitNumber} · {k.kit!.kitName}
-                    </div>
-                    <div className="text-xs text-ink-muted truncate">
-                      {k.kit!.concept}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    <Badge tone={categoryTone(k.kit!.category)} size="sm">
-                      {k.kit!.category}
-                    </Badge>
-                    <Link to={`/class/${id}/kit/${k.kitId}/score`}>
-                      <Button size="sm">Score class →</Button>
-                    </Link>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
-        </CardBody>
-      </Card>
+      )}
 
-      <Card className="mb-6">
-        <CardHeader
-          title="Class list & student logins"
-          description="Upload your class list, submit it for approval, then hand out the generated logins."
-          action={
-            cls.status === "approved" ? (
-              <Badge tone="good">Approved</Badge>
-            ) : cls.status === "submitted" ? (
-              <Badge tone="warn">Awaiting approval</Badge>
-            ) : (
-              <Badge>Draft</Badge>
-            )
-          }
-        />
-        <CardBody>
-          <div className="flex flex-wrap gap-2">
-            <Button variant="secondary" size="sm" onClick={downloadTemplate}>
-              <Download className="w-4 h-4" />
-              Sample sheet (.xlsx)
-            </Button>
-            <label className="inline-flex items-center gap-2 cursor-pointer text-sm text-accent hover:underline px-2">
-              <Upload className="w-4 h-4" />
-              <span>Import class list (.csv)</span>
-              <input
-                type="file"
-                accept=".csv,text/csv"
-                className="hidden"
-                onChange={onImportFile}
-              />
-            </label>
-            {cls.status !== "approved" && (
-              <Button
-                size="sm"
-                onClick={onSubmitForApproval}
-                disabled={cls.status === "submitted" || (students?.length ?? 0) === 0}
-              >
-                {cls.status === "submitted" ? "Submitted" : "Submit for approval"}
-              </Button>
-            )}
-            {cls.status === "approved" && (
-              <Button size="sm" onClick={downloadCredentials}>
-                <KeyRound className="w-4 h-4" />
-                Download student logins
-              </Button>
-            )}
-          </div>
-          <p className="mt-3 text-xs text-ink-muted">
-            Fill the sample sheet, save it as CSV, and import it here. Once you
-            submit, an admin approves the class and creates a login for every
-            student.
-          </p>
-        </CardBody>
-      </Card>
-
-      {quizScores && quizScores.length > 0 && (
-        <Card className="mb-6">
-          <CardHeader
-            title="LMS quiz scores"
-            description="Best attempt per student per session, recorded when they submit the evaluate quiz."
-          />
-          <CardBody padding="none">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="text-left text-xs text-ink-subtle border-b border-line/60">
-                    <th className="px-5 py-2 font-medium">Student</th>
-                    <th className="px-5 py-2 font-medium">Session</th>
-                    <th className="px-5 py-2 font-medium">Score</th>
-                    <th className="px-5 py-2 font-medium">Attempts</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-line/60">
-                  {quizScores.map((r) => (
-                    <tr key={`${r.studentName}-${r.sessionKey}`}>
-                      <td className="px-5 py-2.5 text-ink">{r.studentName}</td>
-                      <td className="px-5 py-2.5 text-ink-muted">
-                        {formatSessionKey(r.sessionKey)}
-                      </td>
-                      <td className="px-5 py-2.5 font-medium text-ink">
-                        {r.score} / {r.total}
-                      </td>
-                      <td className="px-5 py-2.5 text-ink-muted">{r.attempts}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </CardBody>
-        </Card>
+      {cls.status !== "approved" && (
+        <div className="mb-6 rounded-lg border border-line/60 bg-surface-sunken px-4 py-3 text-sm text-ink-muted">
+          This class is awaiting admin approval — student logins appear here
+          once it's approved.
+        </div>
       )}
 
       <Card>
         <CardHeader
           title="Students"
-          description={`${students?.length ?? 0} enrolled`}
+          description={`${students?.length ?? 0} enrolled — logins, scores, and reports in one place`}
           action={
-            students && students.length > 1 ? (
-              <div className="flex items-center gap-1 text-xs">
-                <span className="text-ink-subtle">Sort:</span>
-                {(["name", "rollNo"] as const).map((key) => (
-                  <button
-                    key={key}
-                    type="button"
-                    onClick={() => toggleSort(key)}
-                    className={`inline-flex items-center gap-0.5 px-2 py-1 rounded transition-colors ${
-                      sortKey === key
-                        ? "bg-accent/10 text-accent font-medium"
-                        : "text-ink-muted hover:text-ink"
-                    }`}
-                  >
-                    {key === "name" ? "Name" : "Roll no"}
-                    {sortKey === key &&
-                      (sortDir === "asc" ? (
-                        <ArrowUp className="w-3 h-3" />
-                      ) : (
-                        <ArrowDown className="w-3 h-3" />
-                      ))}
-                  </button>
-                ))}
-              </div>
+            cls.status === "approved" ? (
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={downloadCredentials}
+                title="Download every student's username and password as a CSV"
+              >
+                <KeyRound className="w-4 h-4" />
+                Download logins
+              </Button>
             ) : undefined
           }
         />
         <CardBody padding="none">
-          <form onSubmit={add} className="px-5 py-3 flex flex-col sm:flex-row gap-2 border-b border-line/60">
+          <form
+            onSubmit={add}
+            className="px-6 py-4 flex flex-col sm:flex-row gap-2 border-b border-line/60"
+          >
             <Input
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Student name"
+              placeholder="Add a student (name)"
               className="flex-1"
             />
             <Input
@@ -425,141 +351,205 @@ export default function ClassDetail() {
               description="Add students above to begin scoring."
             />
           ) : (
-            <ul className="divide-y divide-line/60">
-              {sortedStudents?.map((s) =>
-                editingStudent === s._id ? (
-                  <li key={s._id} className="px-5 py-3">
-                    <form
-                      onSubmit={saveStudent}
-                      className="flex flex-col sm:flex-row sm:items-center gap-2"
-                    >
-                      <Input
-                        value={editStudentName}
-                        onChange={(e) => setEditStudentName(e.target.value)}
-                        placeholder="Student name"
-                        className="flex-1"
-                      />
-                      <Input
-                        value={editStudentRoll}
-                        onChange={(e) => setEditStudentRoll(e.target.value)}
-                        placeholder="Roll no (optional)"
-                        className="sm:w-40"
-                      />
-                      <div className="flex gap-2">
-                        <Button type="submit" size="sm">
-                          Save
-                        </Button>
-                        <Button
+            <div className="overflow-x-auto pb-6">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-left text-xs text-ink-subtle border-b border-line/60">
+                    {(["name", "rollNo"] as const).map((key) => (
+                      <th key={key} className="px-6 py-3 font-medium">
+                        <button
                           type="button"
-                          variant="secondary"
-                          size="sm"
-                          onClick={() => setEditingStudent(null)}
+                          onClick={() => toggleSort(key)}
+                          className={`inline-flex items-center gap-0.5 transition-colors ${
+                            sortKey === key ? "text-accent" : "hover:text-ink"
+                          }`}
+                          title={`Sort by ${key === "name" ? "name" : "roll number"}`}
                         >
-                          Cancel
-                        </Button>
-                      </div>
-                    </form>
-                  </li>
-                ) : (
-                <li
-                  key={s._id}
-                  className="px-5 py-3 flex items-center justify-between gap-3 text-sm"
-                >
-                  <div className="min-w-0 flex-1">
-                    <div className="font-medium text-ink truncate">
-                      {s.name}
-                    </div>
-                    {s.rollNo && (
-                      <div className="text-xs text-ink-muted truncate">
-                        Roll no. {s.rollNo}
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    {kits && kits.length > 0 && (
-                      <div className="relative">
-                        <Button
-                          variant="secondary"
-                          size="sm"
-                          onClick={() =>
-                            setScoringFor(scoringFor === s._id ? null : s._id)
-                          }
-                        >
-                          Score
-                        </Button>
-                        {scoringFor === s._id && (
-                          <div className="absolute right-0 top-full mt-1 z-10 bg-surface border border-line rounded-lg shadow-pop w-64 max-h-80 overflow-y-auto py-1">
-                            {kits.map((k) => {
-                              const status = scoredKitStatus.get(k.kitId);
-                              return (
-                                <Link
-                                  key={k._id}
-                                  to={`/class/${id}/students/${s._id}/score/${k.kitId}`}
-                                  onClick={() => setScoringFor(null)}
-                                  className="block px-3 py-2 text-xs hover:bg-surface-muted"
+                          {key === "name" ? "Student" : "Roll no"}
+                          {sortKey === key &&
+                            (sortDir === "asc" ? (
+                              <ArrowUp className="w-3 h-3" />
+                            ) : (
+                              <ArrowDown className="w-3 h-3" />
+                            ))}
+                        </button>
+                      </th>
+                    ))}
+                    <th className="px-6 py-3 font-medium">Login</th>
+                    <th className="px-6 py-3 font-medium">Password</th>
+                    <th className="px-6 py-3 font-medium text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-line/60">
+                  {sortedStudents?.map((s) =>
+                    editingStudent === s._id ? (
+                      <tr key={s._id}>
+                        <td colSpan={5} className="px-5 py-3">
+                          <form
+                            onSubmit={saveStudent}
+                            className="flex flex-col sm:flex-row sm:items-center gap-2"
+                          >
+                            <Input
+                              value={editStudentName}
+                              onChange={(e) => setEditStudentName(e.target.value)}
+                              placeholder="Student name"
+                              className="flex-1"
+                            />
+                            <Input
+                              value={editStudentRoll}
+                              onChange={(e) => setEditStudentRoll(e.target.value)}
+                              placeholder="Roll no (optional)"
+                              className="sm:w-40"
+                            />
+                            <div className="flex gap-2">
+                              <Button type="submit" size="sm">
+                                Save
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="secondary"
+                                size="sm"
+                                onClick={() => setEditingStudent(null)}
+                              >
+                                Cancel
+                              </Button>
+                            </div>
+                          </form>
+                        </td>
+                      </tr>
+                    ) : (
+                      <tr key={s._id}>
+                        <td className="px-6 py-4 font-medium text-ink">
+                          {s.name}
+                        </td>
+                        <td className="px-6 py-4 text-ink-muted">
+                          {s.rollNo ?? "—"}
+                        </td>
+                        <td className="px-6 py-4 font-mono text-xs text-ink-muted">
+                          {s.username ?? "—"}
+                        </td>
+                        <td className="px-6 py-4 font-mono text-xs text-ink-muted">
+                          {s.initialPassword ?? "—"}
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center justify-end gap-1.5">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => setQuizFor(s._id)}
+                              title="This student's LMS quiz scores, one row per session"
+                            >
+                              <ClipboardCheck className="w-3.5 h-3.5" />
+                              Quizzes
+                              {(quizByStudent.get(s._id)?.length ?? 0) > 0 && (
+                                <span className="text-xs text-ink-subtle">
+                                  ({quizByStudent.get(s._id)!.length})
+                                </span>
+                              )}
+                            </Button>
+                            {kits && kits.length > 0 && (
+                              <div className="relative">
+                                <Button
+                                  variant="secondary"
+                                  size="sm"
+                                  onClick={() =>
+                                    setScoringFor(
+                                      scoringFor === s._id ? null : s._id,
+                                    )
+                                  }
+                                  title="Score this student on a kit"
                                 >
-                                  <div className="flex items-center justify-between gap-2">
-                                    <div className="font-medium text-ink truncate">
-                                      #{k.kit!.kitNumber} · {k.kit!.kitName}
-                                    </div>
-                                    {status === "complete" && (
-                                      <Badge tone="good" size="sm" className="flex-shrink-0">
-                                        ✓ Scored
-                                      </Badge>
-                                    )}
-                                    {status === "partial" && (
-                                      <Badge tone="warn" size="sm" className="flex-shrink-0">
-                                        Partial
-                                      </Badge>
-                                    )}
+                                  Score
+                                </Button>
+                                {scoringFor === s._id && (
+                                  <div className="absolute right-0 top-full mt-1 z-10 bg-surface border border-line rounded-lg shadow-pop w-64 max-h-80 overflow-y-auto py-1 text-left">
+                                    {kits.map((k) => {
+                                      const status = scoredKitStatus.get(k.kitId);
+                                      return (
+                                        <Link
+                                          key={k._id}
+                                          to={`/class/${id}/students/${s._id}/score/${k.kitId}`}
+                                          onClick={() => setScoringFor(null)}
+                                          className="block px-3 py-2 text-xs hover:bg-surface-muted"
+                                        >
+                                          <div className="flex items-center justify-between gap-2">
+                                            <div className="font-medium text-ink truncate">
+                                              #{k.kit!.kitNumber} · {k.kit!.kitName}
+                                            </div>
+                                            {status === "complete" && (
+                                              <Badge
+                                                tone="good"
+                                                size="sm"
+                                                className="flex-shrink-0"
+                                              >
+                                                ✓ Scored
+                                              </Badge>
+                                            )}
+                                            {status === "partial" && (
+                                              <Badge
+                                                tone="warn"
+                                                size="sm"
+                                                className="flex-shrink-0"
+                                              >
+                                                Partial
+                                              </Badge>
+                                            )}
+                                          </div>
+                                          <div className="text-[11px] text-ink-muted">
+                                            {k.kit!.category}
+                                          </div>
+                                        </Link>
+                                      );
+                                    })}
                                   </div>
-                                  <div className="text-[11px] text-ink-muted">
-                                    {k.kit!.category}
-                                  </div>
-                                </Link>
-                              );
-                            })}
+                                )}
+                              </div>
+                            )}
+                            <Link to={`/class/${id}/students/${s._id}/report`}>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                title="View this student's report card"
+                              >
+                                Report
+                              </Button>
+                            </Link>
+                            <button
+                              onClick={() => downloadFor(s._id, s.name)}
+                              disabled={downloadingFor === s._id}
+                              className="text-ink-subtle hover:text-accent p-1.5 rounded transition-colors disabled:opacity-50"
+                              aria-label={`Download ${s.name}'s report`}
+                              title="Download report card"
+                            >
+                              <Download className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              onClick={() => startEditStudent(s)}
+                              className="text-ink-subtle hover:text-accent p-1.5 rounded transition-colors"
+                              aria-label={`Edit ${s.name}`}
+                              title="Edit student"
+                            >
+                              <Pencil className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              onClick={() => {
+                                if (confirm(`Delete ${s.name}?`))
+                                  removeStudent({ studentId: s._id });
+                              }}
+                              className="text-ink-subtle hover:text-danger p-1.5 rounded transition-colors"
+                              aria-label={`Delete ${s.name}`}
+                              title="Delete student"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
                           </div>
-                        )}
-                      </div>
-                    )}
-                    <Link to={`/class/${id}/students/${s._id}/report`}>
-                      <Button variant="ghost" size="sm">
-                        Report
-                      </Button>
-                    </Link>
-                    <button
-                      onClick={() => downloadFor(s._id, s.name)}
-                      disabled={downloadingFor === s._id}
-                      className="text-ink-subtle hover:text-accent p-1.5 rounded transition-colors disabled:opacity-50"
-                      aria-label={`Download ${s.name}'s report`}
-                      title="Download report card"
-                    >
-                      <Download className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                      onClick={() => startEditStudent(s)}
-                      className="text-ink-subtle hover:text-accent p-1.5 rounded transition-colors"
-                      aria-label={`Edit ${s.name}`}
-                      title="Edit student"
-                    >
-                      <Pencil className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                      onClick={() => {
-                        if (confirm(`Delete ${s.name}?`))
-                          removeStudent({ studentId: s._id });
-                      }}
-                      className="text-ink-subtle hover:text-danger p-1.5 rounded transition-colors"
-                      aria-label={`Delete ${s.name}`}
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </li>
-                ),
-              )}
-            </ul>
+                        </td>
+                      </tr>
+                    ),
+                  )}
+                </tbody>
+              </table>
+            </div>
           )}
         </CardBody>
       </Card>
