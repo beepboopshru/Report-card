@@ -7,6 +7,7 @@ import {
   Boxes,
   Sprout,
   LogOut,
+  School,
 } from "lucide-react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useCurrentProfile } from "../lib/useCurrentProfile";
@@ -57,6 +58,12 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
               icon={Users}
               label="Teachers"
               end
+              onClick={onNavigate}
+            />
+            <SidebarNavItem
+              to="/admin/classes"
+              icon={School}
+              label="Classes"
               onClick={onNavigate}
             />
             <SidebarNavItem

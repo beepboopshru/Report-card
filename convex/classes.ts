@@ -21,9 +21,60 @@ export const listAllForAdmin = query({
     return await Promise.all(
       classes.map(async (cls) => {
         const teacher = await ctx.db.get(cls.teacherProfileId);
-        return { ...cls, teacherName: teacher?.displayName ?? "—" };
+        const students = await ctx.db
+          .query("students")
+          .withIndex("by_class", (q) => q.eq("classId", cls._id))
+          .collect();
+        const levels = await ctx.db
+          .query("classLevels")
+          .withIndex("by_class", (q) => q.eq("classId", cls._id))
+          .collect();
+        // Average of all criterion scores (1-4 scale) across the class, as %.
+        let sum = 0;
+        let count = 0;
+        for (const s of students) {
+          const scores = await ctx.db
+            .query("scores")
+            .withIndex("by_student", (q) => q.eq("studentId", s._id))
+            .collect();
+          for (const sc of scores) {
+            if (sc.absent) continue;
+            for (const val of Object.values(sc.criterionScores)) {
+              if (val >= 1 && val <= 4) {
+                sum += val;
+                count++;
+              }
+            }
+          }
+        }
+        return {
+          ...cls,
+          teacherName: teacher?.displayName ?? "—",
+          studentCount: students.length,
+          accountCount: students.filter((s) => s.userId).length,
+          levelIds: levels.map((l) => l.levelId),
+          avgScorePct: count === 0 ? null : Math.round((sum / (count * 4)) * 100),
+        };
       }),
     );
+  },
+});
+
+export const submitForApproval = mutation({
+  args: { classId: v.id("classes") },
+  returns: v.null(),
+  handler: async (ctx, { classId }) => {
+    const { cls } = await requireOwnsClass(ctx, classId);
+    if (cls.status === "approved") throw new Error("Class already approved");
+    const students = await ctx.db
+      .query("students")
+      .withIndex("by_class", (q) => q.eq("classId", classId))
+      .collect();
+    if (students.length === 0) {
+      throw new Error("Add students before submitting for approval");
+    }
+    await ctx.db.patch(classId, { status: "submitted" });
+    return null;
   },
 });
 

@@ -1,9 +1,8 @@
-// src/routes/TeacherRoute.tsx
-import { Navigate } from "react-router-dom";
+// src/routes/StudentRoute.tsx
+import { Navigate, Outlet } from "react-router-dom";
 import { useCurrentProfile } from "../lib/useCurrentProfile";
-import AppShell from "../components/AppShell";
 
-export default function TeacherRoute() {
+export default function StudentRoute() {
   const { profile, isAuthenticated, isLoading } = useCurrentProfile();
   if (isLoading)
     return <div className="p-6 text-sm text-ink-muted">Loading…</div>;
@@ -14,6 +13,6 @@ export default function TeacherRoute() {
     return (
       <div className="p-6 text-sm text-ink-muted">Setting up profile…</div>
     );
-  if (profile.role === "student") return <Navigate to="/lms" replace />;
-  return <AppShell />;
+  if (profile.role !== "student") return <Navigate to="/" replace />;
+  return <Outlet />;
 }

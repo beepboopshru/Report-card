@@ -4,7 +4,7 @@ import { useConvex, useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { useMemo, useState } from "react";
-import { Plus, Trash2, FileText, BookOpen, Download, Pencil, ArrowUp, ArrowDown } from "lucide-react";
+import { Plus, Trash2, FileText, BookOpen, Download, Pencil, ArrowUp, ArrowDown, Upload, KeyRound } from "lucide-react";
 import PageHeader from "../components/PageHeader";
 import EmptyState from "../components/EmptyState";
 import { Card, CardHeader, CardBody } from "../components/ui/Card";
@@ -13,6 +13,12 @@ import { categoryTone } from "../lib/badgeUtils";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { downloadStudentReport, type ScoredKit } from "../components/StudentReportPdf";
+import {
+  buildClassListTemplateBlob,
+  buildCredentialsCsv,
+  parseClassListCsv,
+} from "../lib/classListSheet";
+import { downloadBlob, sanitizeFilename } from "../lib/buildReportZip";
 
 export default function ClassDetail() {
   const { classId } = useParams<{ classId: string }>();
@@ -21,6 +27,8 @@ export default function ClassDetail() {
   const students = useQuery(api.students.listForClass, { classId: id });
   const kits = useQuery(api.classKits.listForClass, { classId: id });
   const addStudent = useMutation(api.students.create);
+  const bulkCreate = useMutation(api.students.bulkCreate);
+  const submitForApproval = useMutation(api.classes.submitForApproval);
   const removeStudent = useMutation(api.students.remove);
   const updateStudent = useMutation(api.students.update);
   const convex = useConvex();
@@ -83,6 +91,54 @@ export default function ClassDetail() {
   }, [studentScores]);
 
   if (!cls) return <p className="text-sm text-ink-muted">Loading…</p>;
+
+  async function downloadTemplate() {
+    const blob = await buildClassListTemplateBlob();
+    downloadBlob(blob, "class_list_template.xlsx");
+  }
+
+  async function onImportFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    const rows = parseClassListCsv(await file.text());
+    if (rows.length === 0) {
+      alert("No students found in that file. Expected columns: Name, Roll No.");
+      return;
+    }
+    const result = await bulkCreate({ classId: id, rows });
+    alert(
+      `Imported ${result.added} student${result.added === 1 ? "" : "s"}` +
+        (result.skipped > 0 ? ` (${result.skipped} skipped as duplicates/blank)` : "") +
+        ".",
+    );
+  }
+
+  async function onSubmitForApproval() {
+    if (!confirm("Submit this class list for approval? An admin will then generate student logins.")) return;
+    try {
+      await submitForApproval({ classId: id });
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Could not submit");
+    }
+  }
+
+  async function downloadCredentials() {
+    if (!cls) return;
+    const rows = await convex.query(api.students.credentialsForClass, {
+      classId: id,
+    });
+    const withLogins = rows.filter((r) => r.username !== "");
+    if (withLogins.length === 0) {
+      alert("No student logins yet — ask your admin to approve the class.");
+      return;
+    }
+    const csv = buildCredentialsCsv(withLogins, `${location.origin}/sign-in`);
+    downloadBlob(
+      new Blob([csv], { type: "text/csv" }),
+      `${sanitizeFilename(cls.name)}_student_logins.csv`,
+    );
+  }
 
   async function add(e: React.FormEvent) {
     e.preventDefault();
@@ -216,6 +272,60 @@ export default function ClassDetail() {
               ))}
             </ul>
           )}
+        </CardBody>
+      </Card>
+
+      <Card className="mb-6">
+        <CardHeader
+          title="Class list & student logins"
+          description="Upload your class list, submit it for approval, then hand out the generated logins."
+          action={
+            cls.status === "approved" ? (
+              <Badge tone="good">Approved</Badge>
+            ) : cls.status === "submitted" ? (
+              <Badge tone="warn">Awaiting approval</Badge>
+            ) : (
+              <Badge>Draft</Badge>
+            )
+          }
+        />
+        <CardBody>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="secondary" size="sm" onClick={downloadTemplate}>
+              <Download className="w-4 h-4" />
+              Sample sheet (.xlsx)
+            </Button>
+            <label className="inline-flex items-center gap-2 cursor-pointer text-sm text-accent hover:underline px-2">
+              <Upload className="w-4 h-4" />
+              <span>Import class list (.csv)</span>
+              <input
+                type="file"
+                accept=".csv,text/csv"
+                className="hidden"
+                onChange={onImportFile}
+              />
+            </label>
+            {cls.status !== "approved" && (
+              <Button
+                size="sm"
+                onClick={onSubmitForApproval}
+                disabled={cls.status === "submitted" || (students?.length ?? 0) === 0}
+              >
+                {cls.status === "submitted" ? "Submitted" : "Submit for approval"}
+              </Button>
+            )}
+            {cls.status === "approved" && (
+              <Button size="sm" onClick={downloadCredentials}>
+                <KeyRound className="w-4 h-4" />
+                Download student logins
+              </Button>
+            )}
+          </div>
+          <p className="mt-3 text-xs text-ink-muted">
+            Fill the sample sheet, save it as CSV, and import it here. Once you
+            submit, an admin approves the class and creates a login for every
+            student.
+          </p>
         </CardBody>
       </Card>
 

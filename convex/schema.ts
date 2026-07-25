@@ -9,8 +9,14 @@ export default defineSchema({
     userId: v.id("users"),
     username: v.string(),
     displayName: v.string(),
-    role: v.union(v.literal("admin"), v.literal("teacher")),
+    role: v.union(
+      v.literal("admin"),
+      v.literal("teacher"),
+      v.literal("student"),
+    ),
     disabled: v.optional(v.boolean()),
+    // Set only for role "student" — links the login to the class-roster row.
+    studentId: v.optional(v.id("students")),
   })
     .index("by_user", ["userId"])
     .index("by_username", ["username"]),
@@ -56,12 +62,25 @@ export default defineSchema({
     // documents continue to validate.
     grade: v.optional(v.number()),
     academicYear: v.string(),
+    // undefined = draft (teacher still editing the roster)
+    status: v.optional(v.union(v.literal("submitted"), v.literal("approved"))),
   }).index("by_teacher", ["teacherProfileId"]),
 
   students: defineTable({
     classId: v.id("classes"),
     name: v.string(),
     rollNo: v.optional(v.string()),
+    // Set when an admin approves the class and accounts are generated.
+    userId: v.optional(v.id("users")),
+    username: v.optional(v.string()),
+    // ponytail: plaintext by design — teachers re-download credential sheets.
+    // Only exposed via teacher/admin-gated functions; reset overwrites it.
+    initialPassword: v.optional(v.string()),
+  }).index("by_class", ["classId"]),
+
+  classLevels: defineTable({
+    classId: v.id("classes"),
+    levelId: v.string(),
   }).index("by_class", ["classId"]),
 
   classKits: defineTable({

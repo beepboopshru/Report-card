@@ -90,7 +90,7 @@ export const resetTeacherPassword = action({
   handler: async (ctx, { profileId }) => {
     await ctx.runQuery(internal.admin.requireAdminCaller, {});
     const target: {
-      role: "admin" | "teacher";
+      role: "admin" | "teacher" | "student";
       username: string;
       userId: Id<"users">;
     } = await ctx.runQuery(internal.admin.getProfileForReset, {
@@ -112,7 +112,11 @@ export const resetTeacherPassword = action({
 export const getProfileForReset = internalQuery({
   args: { profileId: v.id("profiles") },
   returns: v.object({
-    role: v.union(v.literal("admin"), v.literal("teacher")),
+    role: v.union(
+      v.literal("admin"),
+      v.literal("teacher"),
+      v.literal("student"),
+    ),
     username: v.string(),
     userId: v.id("users"),
   }),

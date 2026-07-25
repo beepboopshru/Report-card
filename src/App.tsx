@@ -2,7 +2,10 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import SignIn from "./pages/SignIn";
 import AdminRoute from "./routes/AdminRoute";
 import TeacherRoute from "./routes/TeacherRoute";
+import StudentRoute from "./routes/StudentRoute";
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminClasses from "./pages/AdminClasses";
+import StudentLms from "./pages/StudentLms";
 import AdminKits from "./pages/AdminKits";
 import AdminGrades from "./pages/AdminGrades";
 import EditRubric from "./pages/EditRubric";
@@ -41,8 +44,13 @@ export default function App() {
         <Route path="/class/:classId/report" element={<ClassReport />} />
       </Route>
 
+      <Route element={<StudentRoute />}>
+        <Route path="/lms" element={<StudentLms />} />
+      </Route>
+
       <Route element={<AdminRoute />}>
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/classes" element={<AdminClasses />} />
         <Route path="/admin/kits" element={<AdminKits />} />
         <Route path="/admin/grades" element={<AdminGrades />} />
         <Route path="/admin/rubrics/:kitId" element={<EditRubric />} />
