@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5E Session</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body data-page="all-5e">
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="../index.html"><span class="brand-mark">SU</span><span><strong>ScienceUtsav LMS</strong><small data-all5e-label>5E Session</small></span></a>
+        </div>
+    </header>
+
+    <main class="container single-page all5e-page">
+        <section class="common-hero all5e-hero">
+            <img data-all5e-cover src="../assets/logos/year-1/im-a-robo-scientist-y1-enhanced.png" alt="Session cover">
+            <div>
+                <p class="phase-label" data-all5e-session>5E Session</p>
+                <h1 data-all5e-title>Robotics Lesson</h1>
+                <div class="all5e-hero-actions">
+                    <a class="back-btn" href="../index.html" data-back-to-sessions>Back to Sessions</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="common-layout all5e-layout">
+            <aside class="common-dialogue-nav" aria-label="5E phase navigation">
+                <p class="phase-label">Select 5E</p>
+                <button type="button" class="dialogue-option active" data-phase="engage"><span>1</span><strong>Engage</strong><small>Curiosity kickoff</small></button>
+                <button type="button" class="dialogue-option" data-phase="explore"><span>2</span><strong>Explore</strong><small>Project setup</small></button>
+                <button type="button" class="dialogue-option" data-phase="explain"><span>3</span><strong>Explain</strong><small>Code and hardware</small></button>
+                <button type="button" class="dialogue-option" data-phase="elaborate"><span>4</span><strong>Elaborate</strong><small>Physical build</small></button>
+                <button type="button" class="dialogue-option" data-phase="evaluate"><span>5</span><strong>Evaluate</strong><small>Test and score</small></button>
+            </aside>
+
+            <section class="all5e-content-card" id="all5eContent">
+                <div class="all5e-tools">
+                    <button type="button" class="download-btn" id="enter5eFullscreen">Full Screen</button>
+                    <button type="button" class="download-btn secondary-download" id="exit5eFullscreen">Exit Full Screen</button>
+                </div>
+                <article class="phase-card engage all5e-section active" data-all5e-phase="engage"></article>
+                <article class="phase-card explore all5e-section" data-all5e-phase="explore"></article>
+                <article class="phase-card explain all5e-section" data-all5e-phase="explain"></article>
+                <article class="phase-card elaborate all5e-section" data-all5e-phase="elaborate"></article>
+                <article class="phase-card evaluate all5e-section" data-all5e-phase="evaluate"></article>
+            </section>
+        </div>
+    </main>
+
+    <script src="../js/session-content.js"></script>
+    <script src="../js/session-content-extra.js"></script>
+    <script src="../js/year1-sessions-4-10.js"></script>
+    <script src="../js/year2-sessions.js"></script>
+    <script src="../js/year2-fixes.js"></script>
+    <script src="../js/year2-session10-elaborate.js"></script>
+    <script src="../js/year2-session10-elaborate-fix.js"></script>
+    <script src="../js/explore-curiosity-pages.js"></script>
+    <script src="../js/engage-content.js"></script>
+    <script src="../js/hardware-content.js"></script>
+    <script src="../js/evaluate-content.js"></script>
+    <script src="../js/common-introduction-content.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+</html>

@@ -19,6 +19,7 @@ import {
   parseClassListCsv,
 } from "../lib/classListSheet";
 import { downloadBlob, sanitizeFilename } from "../lib/buildReportZip";
+import { formatSessionKey } from "../../convex/lib/lmsCatalog";
 
 export default function ClassDetail() {
   const { classId } = useParams<{ classId: string }>();
@@ -26,6 +27,7 @@ export default function ClassDetail() {
   const cls = useQuery(api.classes.get, { classId: id });
   const students = useQuery(api.students.listForClass, { classId: id });
   const kits = useQuery(api.classKits.listForClass, { classId: id });
+  const quizScores = useQuery(api.lms.quizScoresForClass, { classId: id });
   const addStudent = useMutation(api.students.create);
   const bulkCreate = useMutation(api.students.bulkCreate);
   const submitForApproval = useMutation(api.classes.submitForApproval);
@@ -328,6 +330,43 @@ export default function ClassDetail() {
           </p>
         </CardBody>
       </Card>
+
+      {quizScores && quizScores.length > 0 && (
+        <Card className="mb-6">
+          <CardHeader
+            title="LMS quiz scores"
+            description="Best attempt per student per session, recorded when they submit the evaluate quiz."
+          />
+          <CardBody padding="none">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-left text-xs text-ink-subtle border-b border-line/60">
+                    <th className="px-5 py-2 font-medium">Student</th>
+                    <th className="px-5 py-2 font-medium">Session</th>
+                    <th className="px-5 py-2 font-medium">Score</th>
+                    <th className="px-5 py-2 font-medium">Attempts</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-line/60">
+                  {quizScores.map((r) => (
+                    <tr key={`${r.studentName}-${r.sessionKey}`}>
+                      <td className="px-5 py-2.5 text-ink">{r.studentName}</td>
+                      <td className="px-5 py-2.5 text-ink-muted">
+                        {formatSessionKey(r.sessionKey)}
+                      </td>
+                      <td className="px-5 py-2.5 font-medium text-ink">
+                        {r.score} / {r.total}
+                      </td>
+                      <td className="px-5 py-2.5 text-ink-muted">{r.attempts}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardBody>
+        </Card>
+      )}
 
       <Card>
         <CardHeader

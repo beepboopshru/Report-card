@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="I'm a Robo Scientist LMS dashboard for Level 1 Creative Automation and Level 2 Sensational Sensors robotics lessons.">
+    <title>I'm a Robo Scientist LMS</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="home">
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="index.html" aria-label="ScienceUtsav LMS home">
+                <span class="brand-mark">SU</span>
+                <span>
+                    <strong>ScienceUtsav LMS</strong>
+                    <small>Level 1 Creative Automation and Level 2 Sensational Sensors</small>
+                </span>
+            </a>
+        </div>
+    </header>
+
+    <main class="home-flow">
+        <section class="home-panel active" id="homeIntro">
+            <div class="container home-center">
+                <img class="home-logo hero-logo" src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/logos/year-1/im-a-robo-scientist-y1-enhanced.png" alt="I'm a Robo Scientist Level 1 Creative Automation logo">
+                <h1>I'm a Robo Scientist</h1>
+                <button class="btn-primary begin-session-btn" type="button" data-show-panel="yearSelect">Enter</button>
+            </div>
+        </section>
+
+        <section class="home-panel" id="yearSelect">
+            <div class="container">
+                <div class="selection-header">
+                    <img class="home-logo small-logo" src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/logos/year-1/im-a-robo-scientist-y1-enhanced.png" alt="I'm a Robo Scientist logo">
+                    <div>
+                        <p class="phase-label">Program</p>
+                        <h1>Select Level</h1>
+                    </div>
+                </div>
+
+                <div class="selection-grid">
+                    <button class="selection-card" type="button" data-year="1">
+                        <span>L1</span>
+                        <strong>Level 1 Creative Automation</strong>
+                        <p>Classes 4, 5, 6, 7</p>
+                    </button>
+                    <button class="selection-card" type="button" data-year="2">
+                        <span>L2</span>
+                        <strong>Level 2 Sensational Sensors</strong>
+                        <p>Classes 6, 7, 8, 9</p>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="home-panel" id="classSelect">
+            <div class="container">
+                <div class="selection-header">
+                    <button class="back-btn" type="button" data-show-panel="yearSelect">Back</button>
+                    <img class="home-logo small-logo" src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/logos/year-1/im-a-robo-scientist-y1-enhanced.png" alt="I'm a Robo Scientist logo">
+                    <div>
+                        <p class="phase-label" data-selected-year-label>Level 1 Creative Automation</p>
+                        <h1>Select Class</h1>
+                    </div>
+                </div>
+
+                <div class="selection-grid">
+                    <button class="selection-card" type="button" data-grade="4">
+                        <span>4</span>
+                        <strong>Class 4</strong>
+                        <p>Beginner</p>
+                    </button>
+                    <button class="selection-card" type="button" data-grade="5">
+                        <span>5</span>
+                        <strong>Class 5</strong>
+                        <p>Intermediate</p>
+                    </button>
+                    <button class="selection-card" type="button" data-grade="6">
+                        <span>6</span>
+                        <strong>Class 6</strong>
+                        <p>Advanced</p>
+                    </button>
+                    <button class="selection-card" type="button" data-grade="7">
+                        <span>7</span>
+                        <strong>Class 7</strong>
+                        <p>Expert</p>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="home-panel" id="sessionSelect">
+            <div class="container">
+                <div class="selection-header">
+                    <button class="back-btn" type="button" data-show-panel="classSelect">Back</button>
+                    <div>
+                        <p class="phase-label" id="selectedClassLabel">Level 1 Creative Automation</p>
+                        <h1>Select Session</h1>
+                    </div>
+                </div>
+
+                <div class="session-grid">
+                    <a class="session-card available" href="#" data-session="0">
+                        <img src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/logos/year-1/im-a-robo-scientist-y1-enhanced.png" alt="Introduction Session cover" loading="lazy" decoding="async">
+                        <span>Introduction Session</span>
+                        <strong>Introduction to STEM, Robotics, and Arduino IDE</strong>
+                        <p>Common session ready</p>
+                    </a>
+                    <a class="session-card available" href="#" data-session="1">
+                        <img src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/images/pdf/year-1/session-1-cover.jpg" alt="Session 1 cover" loading="lazy" decoding="async">
+                        <span>Session 1</span>
+                        <strong>Basics of Light and Sound Circuits</strong>
+                        <p>5E lesson ready</p>
+                    </a>
+                    <a class="session-card available" href="#" data-session="2">
+                        <img src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/images/pdf/year-1/session-2-cover.jpg" alt="Session 2 cover" loading="lazy" decoding="async">
+                        <span>Session 2</span>
+                        <strong>Sequential Lighting and Switching Systems</strong>
+                        <p>5E lesson ready</p>
+                    </a>
+                    <a class="session-card available" href="#" data-session="3">
+                        <img src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/images/pdf/year-1/session-3-cover.jpg" alt="Session 3 cover" loading="lazy" decoding="async">
+                        <span>Session 3</span>
+                        <strong>Color Mixing and Interactive RGB Systems</strong>
+                        <p>5E lesson ready</p>
+                    </a>
+                    <a class="session-card available" href="#" data-session="4">
+                        <img src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/images/pdf/year-1/session-4-cover.jpg" alt="Session 4 cover" loading="lazy" decoding="async">
+                        <span>Session 4</span>
+                        <strong>Smart Switching and Door Sensor Automation</strong>
+                        <p>5E lesson ready</p>
+                    </a>
+                    <a class="session-card available" href="#" data-session="5">
+                        <img src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/images/pdf/year-1/session-5-cover.jpg" alt="Session 5 cover" loading="lazy" decoding="async">
+                        <span>Session 5</span>
+                        <strong>Button and Switch Logic</strong>
+                        <p>5E lesson ready</p>
+                    </a>
+                    <a class="session-card available" href="#" data-session="6">
+                        <img src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/images/pdf/year-1/session-6-cover.jpg" alt="Session 6 cover" loading="lazy" decoding="async">
+                        <span>Session 6</span>
+                        <strong>Light and Sensor Practice Builds</strong>
+                        <p>Explore PDF pending</p>
+                    </a>
+                    <a class="session-card available" href="#" data-session="7">
+                        <img src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/images/pdf/year-1/session-7-cover.jpg" alt="Session 7 cover" loading="lazy" decoding="async">
+                        <span>Session 7</span>
+                        <strong>Touch-Based Smart Control Systems</strong>
+                        <p>5E lesson ready</p>
+                    </a>
+                    <a class="session-card available" href="#" data-session="8">
+                        <img src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/images/pdf/year-1/session-8-cover.jpg" alt="Session 8 cover" loading="lazy" decoding="async">
+                        <span>Session 8</span>
+                        <strong>Light Sensing and Automatic Lighting Systems</strong>
+                        <p>5E lesson ready</p>
+                    </a>
+                    <a class="session-card available" href="#" data-session="9">
+                        <img src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/images/pdf/year-1/session-9-cover.jpg" alt="Session 9 cover" loading="lazy" decoding="async">
+                        <span>Session 9</span>
+                        <strong>Sensor-Based Automation Builds</strong>
+                        <p>Explore PDF pending</p>
+                    </a>
+                    <a class="session-card available" href="#" data-session="10">
+                        <img src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/images/pdf/year-1/session-10-cover.jpg" alt="Session 10 cover" loading="lazy" decoding="async">
+                        <span>Session 10</span>
+                        <strong>Motor and Advanced Control</strong>
+                        <p>5E lesson ready</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="session-modal" id="sessionModal" hidden>
+        <div class="session-modal-card" role="dialog" aria-modal="true" aria-labelledby="sessionModalTitle">
+            <img src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/images/pdf/year-1/session-1-cover.jpg" alt="Session 1 Basics of Light and Sound Circuits cover">
+            <p class="phase-label">Session 1</p>
+            <h2 id="sessionModalTitle">Basics of Light and Sound Circuits</h2>
+            <button class="btn-primary begin-session-btn" type="button" id="startSelectedSession">Start Session</button>
+            <button class="back-btn" type="button" id="closeSessionModal">Close</button>
+        </div>
+    </div>
+
+    <script src="js/session-content.js"></script>
+    <script src="js/session-content-extra.js"></script>
+    <script src="js/year1-sessions-4-10.js"></script>
+    <script src="js/year2-sessions.js"></script>
+    <script src="js/year2-fixes.js"></script>
+    <script src="js/year2-session10-elaborate.js"></script>
+    <script src="js/year2-session10-elaborate-fix.js"></script>
+    <script src="js/explore-curiosity-pages.js"></script>
+    <script src="js/engage-content.js"></script>
+    <script src="js/hardware-content.js"></script>
+    <script src="js/common-introduction-content.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

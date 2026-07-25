@@ -83,6 +83,24 @@ export default defineSchema({
     levelId: v.string(),
   }).index("by_class", ["classId"]),
 
+  // One row per student per LMS session quiz; keeps the student's best attempt.
+  lmsScores: defineTable({
+    studentId: v.id("students"),
+    classId: v.id("classes"),
+    // "<year>-<grade>-<session>" as used by the vendored LMS, e.g. "1-4-3"
+    sessionKey: v.string(),
+    score: v.number(),
+    total: v.number(),
+    mcqScore: v.number(),
+    mcqTotal: v.number(),
+    codeScore: v.number(),
+    codeMax: v.number(),
+    attempts: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_student_and_sessionKey", ["studentId", "sessionKey"])
+    .index("by_class", ["classId"]),
+
   classKits: defineTable({
     classId: v.id("classes"),
     kitId: v.id("kits"),
