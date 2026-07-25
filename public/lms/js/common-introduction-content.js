@@ -8,7 +8,7 @@
     cover: "assets/logos/year-1/im-a-robo-scientist-y1-enhanced.png",
     folders: [
       {
-        title: "intro to robotics",
+        title: "What is STEM",
         items: [
           {
             folder: "1.WHAT IS STEM",
@@ -64,7 +64,7 @@
         ]
       },
       {
-        title: "mastering arduino ide",
+        title: "Mastering Arduino Uno",
         items: [
           {
             folder: "1.why arduino ide",
@@ -142,6 +142,49 @@
             ]
           }
         ]
+      },
+      {
+        title: "Kit Spec",
+        items: [
+          {
+            folder: "1.Level 1 Material List",
+            type: "pdf",
+            level: "1",
+            file: "level1 .pdf",
+            title: "Level 1 Creative Automation Material List",
+            src: "assets/material/level1 .pdf"
+          },
+          {
+            folder: "1.Level 2 Material List",
+            type: "pdf",
+            level: "2",
+            file: "level 2.pdf",
+            title: "Level 2 Sensational Sensors Material List",
+            src: "assets/material/level 2.pdf"
+          },
+          {
+            folder: "2.Know How to Use Our Board",
+            folderPath: "",
+            type: "docx",
+            file: "know how to use our board.docx",
+            title: "Know How to Use Our Board",
+            lead: "This board guide explains the major connectors on the robotics board and shows what each connector is used for during projects.",
+            images: [
+              [`${imageRoot}/know-how-board/know-how-board-01.png`, "Look at the board layout. Which connectors are for motors, sensors, communication modules, and direct pin access?"]
+            ],
+            sections: [
+              ["Motor Driver", "The Motor Driver connector is used to connect and control motors that require more current than an Arduino pin can supply. It allows Arduino to control motor speed, direction, and movement through dedicated motor output terminals."],
+              ["SPI Devices", "The SPI connector is designed for high-speed communication modules such as RFID readers, SD card modules, TFT displays, Ethernet modules, and wireless communication modules."],
+              ["UART Devices / Bluetooth", "The UART connector uses TX and RX pins for serial communication. It is commonly used with Bluetooth modules, GPS modules, GSM modules, and serial sensors."],
+              ["GPIO Digital 3-Pin", "The digital 3-pin connectors provide Signal, VCC, and GND together. They are useful for LEDs, buzzers, touch sensors, IR sensors, relay modules, push buttons, ultrasonic sensors, and servo motors."],
+              ["I2C Devices", "The I2C connector uses SDA and SCL communication lines. It is commonly used for LCD displays, OLED displays, RTC modules, temperature sensors, accelerometers, and other I2C modules."],
+              ["GPIO Analog Pins", "Analog pins read changing voltage values from sensors such as LDRs, potentiometers, gas sensors, moisture sensors, sound sensors, flex sensors, and joysticks."],
+              ["GPIO Digital 2-Pin", "Digital 2-pin connectors are simple two-wire connections for push buttons, limit switches, reed switches, LEDs, and other basic digital components."],
+              ["Keypad / Direct Connection", "The direct connection header gives access to Arduino input and output pins. It is useful for matrix keypads, jumper-wire testing, custom circuits, and external modules."],
+              ["Bottom I2C Connector", "The additional bottom I2C connector gives another place to connect I2C modules using SDA, SCL, VCC, and GND. Multiple I2C devices can share the same bus."]
+            ]
+          }
+        ]
       }
     ]
   };
@@ -179,6 +222,11 @@
     return renderDoc(item);
   };
 
+  const visibleFoldersForLevel = (data, selectedYear) => data.folders.map((folder) => ({
+    ...folder,
+    items: folder.items.filter((item) => !item.level || item.level === selectedYear)
+  })).filter((folder) => folder.items.length);
+
   document.addEventListener("DOMContentLoaded", () => {
     const params = new URLSearchParams(window.location.search);
     const selectedYear = params.get("year") || "1";
@@ -197,8 +245,11 @@
     if (!root || !data) return;
 
     document.title = data.topic;
-    const navItems = data.folders.flatMap((folder) => folder.items.map((item) => ({
+    const visibleFolders = visibleFoldersForLevel(data, selectedYear);
+    const navItems = visibleFolders.flatMap((folder, folderIndex) => folder.items.map((item, itemIndex) => ({
       folder: folder.title,
+      folderIndex,
+      itemIndex,
       title: item.title,
       subfolder: item.folder,
       id: slugify(`${folder.title}-${item.folder}`)
@@ -217,14 +268,23 @@
         <div class="common-layout">
             <aside class="common-dialogue-nav" aria-label="Introduction folder navigation">
                 <p class="phase-label">Select Topic</p>
-                ${navItems.map((item, index) => `<button type="button" class="dialogue-option${index === 0 ? " active" : ""}" data-common-target="${item.id}">
-                    <span>${index + 1}</span>
-                    <strong>${escapeHtml(item.subfolder)}</strong>
-                    <small>${escapeHtml(item.folder)}</small>
-                </button>`).join("")}
+                ${visibleFolders.map((folder, folderIndex) => `<div class="common-dialogue-group${folderIndex === 0 ? " active" : ""}" data-common-group="${folderIndex}">
+                    <button type="button" class="dialogue-option common-folder-option${folderIndex === 0 ? " active" : ""}" data-common-folder="${folderIndex}">
+                        <span>${folderIndex + 1}</span>
+                        <strong>${escapeHtml(folder.title)}</strong>
+                        <small>${folder.items.length} topic${folder.items.length === 1 ? "" : "s"}</small>
+                    </button>
+                    <div class="common-subdialogue-list" aria-label="${escapeHtml(folder.title)} subtopics">
+                        ${navItems.filter((item) => item.folderIndex === folderIndex).map((item, index) => `<button type="button" class="dialogue-option common-subdialogue-option${folderIndex === 0 && index === 0 ? " active" : ""}" data-common-folder-child="${item.folderIndex}" data-common-target="${item.id}">
+                            <span>${item.itemIndex + 1}</span>
+                            <strong>${escapeHtml(item.subfolder)}</strong>
+                            <small>${escapeHtml(item.title)}</small>
+                        </button>`).join("")}
+                    </div>
+                </div>`).join("")}
             </aside>
             <div class="common-content-flow">
-                ${data.folders.map((folder, folderIndex) => `<section class="common-folder-block">
+                ${visibleFolders.map((folder, folderIndex) => `<section class="common-folder-block${folderIndex === 0 ? " active" : ""}" data-common-folder-section="${folderIndex}">
                     <div class="common-folder-title">
                         <span>${folderIndex + 1}</span>
                         <h2>${escapeHtml(folder.title)}</h2>
@@ -241,8 +301,18 @@
         </div>`;
 
     const options = root.querySelectorAll("[data-common-target]");
+    const folderOptions = root.querySelectorAll("[data-common-folder]");
     const sections = root.querySelectorAll("[data-common-section]");
     const folders = root.querySelectorAll(".common-folder-block");
+    const subOptions = root.querySelectorAll("[data-common-folder-child]");
+    const showFolder = (folderIndex) => {
+      root.querySelectorAll(".common-dialogue-group").forEach((group) => {
+        group.classList.toggle("active", group.dataset.commonGroup === String(folderIndex));
+      });
+      folderOptions.forEach((option) => option.classList.toggle("active", option.dataset.commonFolder === String(folderIndex)));
+      const firstChild = root.querySelector(`[data-common-folder-child="${folderIndex}"]`);
+      if (firstChild) showSection(firstChild.dataset.commonTarget);
+    };
     const showSection = (target) => {
       options.forEach((option) => option.classList.toggle("active", option.dataset.commonTarget === target));
       sections.forEach((section) => section.classList.toggle("active", section.dataset.commonSection === target));
@@ -255,6 +325,9 @@
 
     options.forEach((option) => {
       option.addEventListener("click", () => showSection(option.dataset.commonTarget));
+    });
+    folderOptions.forEach((option) => {
+      option.addEventListener("click", () => showFolder(option.dataset.commonFolder));
     });
   });
 }());

@@ -1,4 +1,4 @@
-// Generated curriculum data for Level 1 Creative Automation Sessions 4 to 10. Sessions 6 and 9 Explore remain pending until PDFs are added.
+// Generated curriculum data for Level 1 Creative Automation Sessions 4 to 10. Session 9 Explore remains pending until PDFs are added.
 Object.assign(window.LMS_CONTENT, {
   "4-4": {
     "grade": "4th Class",
@@ -2852,9 +2852,35 @@ Object.assign(window.LMS_CONTENT, {
     },
     "explore": {
       "title": "Hands-on Coding",
-      "note": "Explore PDF pending for this session. Add the Explore PDF later to unlock source project pages.",
+      "note": "Level 1 Creative Automation Class 4 Session 6 Explore source pages.",
       "downloads": [],
-      "pages": [],
+      "pages": [
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-01.jpg",
+          "Curiosity Kickoff",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-02.jpg",
+          "Component Connection",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-03.jpg",
+          "Class 4 Digital Display Setup",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-04.jpg",
+          "Digital Display Code",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-05.jpg",
+          "Try This Yourself",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ]
+      ],
       "codes": {}
     },
     "explain": {
@@ -3121,9 +3147,9 @@ Object.assign(window.LMS_CONTENT, {
           0
         ],
         [
-          "What should be done when Explore PDF is pending?",
+          "What did the added Explore PDF unlock for this session?",
           [
-            "Add the PDF later and regenerate content",
+            "Source project pages for coding practice",
             "Delete the session",
             "Ignore all phases"
           ],
@@ -3183,9 +3209,45 @@ Object.assign(window.LMS_CONTENT, {
     },
     "explore": {
       "title": "Hands-on Coding",
-      "note": "Explore PDF pending for this session. Add the Explore PDF later to unlock source project pages.",
+      "note": "Level 1 Creative Automation Class 5 Session 6 Explore source pages.",
       "downloads": [],
-      "pages": [],
+      "pages": [
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-01.jpg",
+          "Curiosity Kickoff",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-02.jpg",
+          "Component Connection",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-06.jpg",
+          "Class 5 Digital Tap Counter Setup",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-07.jpg",
+          "Tap Counter Code",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-08.jpg",
+          "Tap Counter Code Explanation",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-09.jpg",
+          "Try This Yourself",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-10.jpg",
+          "Try This Yourself Continued",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ]
+      ],
       "codes": {}
     },
     "explain": {
@@ -3409,9 +3471,9 @@ Object.assign(window.LMS_CONTENT, {
           0
         ],
         [
-          "What should be done when Explore PDF is pending?",
+          "What did the added Explore PDF unlock for this session?",
           [
-            "Add the PDF later and regenerate content",
+            "Source project pages for coding practice",
             "Delete the session",
             "Ignore all phases"
           ],
@@ -3471,9 +3533,45 @@ Object.assign(window.LMS_CONTENT, {
     },
     "explore": {
       "title": "Hands-on Coding",
-      "note": "Explore PDF pending for this session. Add the Explore PDF later to unlock source project pages.",
+      "note": "Level 1 Creative Automation Class 6 Session 6 Explore source pages.",
       "downloads": [],
-      "pages": [],
+      "pages": [
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-01.jpg",
+          "Curiosity Kickoff",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-02.jpg",
+          "Component Connection",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-11.jpg",
+          "Class 6 Digital Button Counter Setup",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-12.jpg",
+          "Button Counter Code",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-13.jpg",
+          "Button Counter Code Explanation",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-14.jpg",
+          "Try This Yourself",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-15.jpg",
+          "Student Learning Objective",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ]
+      ],
       "codes": {}
     },
     "explain": {
@@ -3692,9 +3790,9 @@ Object.assign(window.LMS_CONTENT, {
           0
         ],
         [
-          "What should be done when Explore PDF is pending?",
+          "What did the added Explore PDF unlock for this session?",
           [
-            "Add the PDF later and regenerate content",
+            "Source project pages for coding practice",
             "Delete the session",
             "Ignore all phases"
           ],
@@ -3754,9 +3852,50 @@ Object.assign(window.LMS_CONTENT, {
     },
     "explore": {
       "title": "Hands-on Coding",
-      "note": "Explore PDF pending for this session. Add the Explore PDF later to unlock source project pages.",
+      "note": "Level 1 Creative Automation Class 7 Session 6 Explore source pages.",
       "downloads": [],
-      "pages": [],
+      "pages": [
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-01.jpg",
+          "Curiosity Kickoff",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-02.jpg",
+          "Component Connection",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-16.jpg",
+          "Class 7 Sound Display Counter Setup",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-17.jpg",
+          "Sound Display Code",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-18.jpg",
+          "Sound Display Code Explanation",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-19.jpg",
+          "Try This Yourself",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-20.jpg",
+          "Try This Yourself Continued",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ],
+        [
+          "assets/images/pdf/year-1/session-6-explore/explore-y1-s6-page-21.jpg",
+          "Try Out Other Things",
+          "Source page from Level 1 Session 6 Explore PDF."
+        ]
+      ],
       "codes": {}
     },
     "explain": {
@@ -3990,9 +4129,9 @@ Object.assign(window.LMS_CONTENT, {
           0
         ],
         [
-          "What should be done when Explore PDF is pending?",
+          "What did the added Explore PDF unlock for this session?",
           [
-            "Add the PDF later and regenerate content",
+            "Source project pages for coding practice",
             "Delete the session",
             "Ignore all phases"
           ],
