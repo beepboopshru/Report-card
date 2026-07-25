@@ -269,7 +269,7 @@ export default function ClassDetail() {
         backTo="/"
         backLabel="Back to classes"
         title={cls.name}
-        description={cls.academicYear}
+        description={`${cls.teacherName} · ${cls.academicYear}`}
         actions={
           <>
             {!hasRobotics && (

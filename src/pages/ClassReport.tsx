@@ -168,7 +168,7 @@ export default function ClassReport() {
         backTo={`/class/${id}`}
         backLabel={`Back to ${cls.name}`}
         title={`${cls.name} · Class report`}
-        description={cls.academicYear}
+        description={`${cls.teacherName} · ${cls.academicYear}`}
         actions={
           <>
             <Button

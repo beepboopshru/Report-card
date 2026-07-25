@@ -102,7 +102,8 @@ export const get = query({
   args: { classId: v.id("classes") },
   handler: async (ctx, { classId }) => {
     const { cls } = await requireOwnsClass(ctx, classId);
-    return cls;
+    const teacher = await ctx.db.get(cls.teacherProfileId);
+    return { ...cls, teacherName: teacher?.displayName ?? "—" };
   },
 });
 
