@@ -1,7 +1,8 @@
-# ScienceUtsav Report Card
+# ScienceUtsav Classroom
 
-A Vite + React + Convex web app for scoring students against per-kit rubrics
-for all C-STEM kits and producing PDF report cards.
+A Vite + React + Convex web app for teachers and students: teachers score
+students against per-kit rubrics for all C-STEM kits and produce PDF report
+cards; students sign in to work through LMS levels and quizzes.
 
 ## Roles
 

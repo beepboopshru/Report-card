@@ -1,26 +1,73 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 import { requireAdmin, requireOwnsClass, requireProfile } from "./lib/access";
-import { LMS_LEVEL_IDS } from "./lib/lmsCatalog";
+import { LMS_LEVEL_BY_ID } from "./lib/lmsCatalog";
 
-/** Admin assigns which LMS levels a class can see (replaces existing set). */
+/**
+ * Admin assigns which LMS levels a class can see, and which LMS classes
+ * (grades) within each level (replaces the existing set).
+ */
 export const setClassLevels = mutation({
-  args: { classId: v.id("classes"), levelIds: v.array(v.string()) },
+  args: {
+    classId: v.id("classes"),
+    levels: v.array(
+      v.object({ levelId: v.string(), grades: v.array(v.string()) }),
+    ),
+  },
   returns: v.null(),
-  handler: async (ctx, { classId, levelIds }) => {
+  handler: async (ctx, { classId, levels }) => {
     await requireAdmin(ctx);
     const cls = await ctx.db.get(classId);
     if (!cls) throw new Error("Class not found");
-    for (const id of levelIds) {
-      if (!LMS_LEVEL_IDS.has(id)) throw new Error(`Unknown LMS level: ${id}`);
-    }
+    const seen = new Set<string>();
+    const rows = levels.map(({ levelId, grades }) => {
+      const level = LMS_LEVEL_BY_ID.get(levelId);
+      if (!level) throw new Error(`Unknown LMS level: ${levelId}`);
+      if (seen.has(levelId)) throw new Error(`Duplicate LMS level: ${levelId}`);
+      seen.add(levelId);
+      const chosen = new Set(grades);
+      const valid = level.grades.filter((g) => chosen.has(g));
+      if (valid.length === 0) {
+        throw new Error(`Pick at least one class for ${levelId}`);
+      }
+      return { classId, levelId, grades: valid };
+    });
     const existing = await ctx.db
       .query("classLevels")
       .withIndex("by_class", (q) => q.eq("classId", classId))
       .collect();
     for (const row of existing) await ctx.db.delete(row._id);
-    for (const levelId of new Set(levelIds)) {
-      await ctx.db.insert("classLevels", { classId, levelId });
+    for (const row of rows) await ctx.db.insert("classLevels", row);
+
+    // Attach each assigned level's robotics curriculum kit so teachers can
+    // rubric-score it and it shows on the class report. Additive only:
+    // un-assigning a level keeps the kit (and any scores) on the class.
+    for (const { levelId } of rows) {
+      const kitNumber = LMS_LEVEL_BY_ID.get(levelId)!.kitNumber;
+      const kit = await ctx.db
+        .query("kits")
+        .withIndex("by_kitNumber_and_category", (q) =>
+          q.eq("kitNumber", kitNumber).eq("category", "Robotics"),
+        )
+        .unique();
+      if (!kit) continue; // robotics curriculum not seeded yet
+      const attached = await ctx.db
+        .query("classKits")
+        .withIndex("by_class_and_kit", (q) =>
+          q.eq("classId", classId).eq("kitId", kit._id),
+        )
+        .unique();
+      if (attached) continue;
+      const all = await ctx.db
+        .query("classKits")
+        .withIndex("by_class", (q) => q.eq("classId", classId))
+        .collect();
+      const maxOrder = all.reduce((m, l) => Math.max(m, l.order), -1);
+      await ctx.db.insert("classKits", {
+        classId,
+        kitId: kit._id,
+        order: maxOrder + 1,
+      });
     }
     return null;
   },
@@ -41,7 +88,7 @@ export const forClass = query({
 
 /**
  * Called by the student app when the embedded LMS reports a quiz submission.
- * Keeps the best attempt per session.
+ * One submission per session per student; repeats are rejected.
  * ponytail: the quiz is scored client-side in the vendored LMS, so values are
  * client-trusted; we bound-check them, but real anti-cheat would need the quiz
  * answers to move server-side.
@@ -92,7 +139,12 @@ export const recordQuizResult = mutation({
       )
       .unique();
 
-    const fields = {
+    if (existing) throw new Error("Test already submitted");
+    await ctx.db.insert("lmsScores", {
+      studentId: profile.studentId,
+      classId: student.classId,
+      sessionKey,
+      attempts: 1,
       score: args.score,
       total: args.total,
       mcqScore: args.mcqScore,
@@ -100,27 +152,35 @@ export const recordQuizResult = mutation({
       codeScore: args.codeScore,
       codeMax: args.codeMax,
       updatedAt: Date.now(),
-    };
-    if (!existing) {
-      await ctx.db.insert("lmsScores", {
-        studentId: profile.studentId,
-        classId: student.classId,
-        sessionKey,
-        attempts: 1,
-        ...fields,
-      });
-    } else if (args.score >= existing.score) {
-      await ctx.db.patch(existing._id, {
-        ...fields,
-        attempts: existing.attempts + 1,
-      });
-    } else {
-      await ctx.db.patch(existing._id, {
-        attempts: existing.attempts + 1,
-        updatedAt: fields.updatedAt,
-      });
-    }
+    });
     return null;
+  },
+});
+
+/** The signed-in student's submitted quiz results, for locking retakes in the LMS. */
+export const myQuizScores = query({
+  args: {},
+  returns: v.array(
+    v.object({
+      sessionKey: v.string(),
+      score: v.number(),
+      total: v.number(),
+    }),
+  ),
+  handler: async (ctx) => {
+    const profile = await requireProfile(ctx);
+    if (profile.role !== "student" || !profile.studentId) return [];
+    const rows = await ctx.db
+      .query("lmsScores")
+      .withIndex("by_student_and_sessionKey", (q) =>
+        q.eq("studentId", profile.studentId!),
+      )
+      .collect();
+    return rows.map((r) => ({
+      sessionKey: r.sessionKey,
+      score: r.score,
+      total: r.total,
+    }));
   },
 });
 
@@ -129,6 +189,7 @@ export const quizScoresForClass = query({
   args: { classId: v.id("classes") },
   returns: v.array(
     v.object({
+      studentId: v.id("students"),
       studentName: v.string(),
       sessionKey: v.string(),
       score: v.number(),
@@ -147,6 +208,7 @@ export const quizScoresForClass = query({
       rows.map(async (r) => {
         const student = await ctx.db.get(r.studentId);
         return {
+          studentId: r.studentId,
           studentName: student?.name ?? "—",
           sessionKey: r.sessionKey,
           score: r.score,
@@ -164,7 +226,11 @@ export const quizScoresForClass = query({
   },
 });
 
-/** What the signed-in student sees: their name, class, and assigned levels. */
+/**
+ * What the signed-in student sees: their name, class, and assigned levels with
+ * the LMS classes (grades) picked within each. Legacy rows without grades mean
+ * the whole level.
+ */
 export const myLms = query({
   args: {},
   returns: v.union(
@@ -172,7 +238,9 @@ export const myLms = query({
     v.object({
       studentName: v.string(),
       className: v.string(),
-      levelIds: v.array(v.string()),
+      levels: v.array(
+        v.object({ levelId: v.string(), grades: v.array(v.string()) }),
+      ),
     }),
   ),
   handler: async (ctx) => {
@@ -189,7 +257,10 @@ export const myLms = query({
     return {
       studentName: student.name,
       className: cls.name,
-      levelIds: rows.map((r) => r.levelId),
+      levels: rows.map((r) => ({
+        levelId: r.levelId,
+        grades: r.grades ?? LMS_LEVEL_BY_ID.get(r.levelId)?.grades ?? [],
+      })),
     };
   },
 });

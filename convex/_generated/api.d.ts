@@ -26,9 +26,11 @@ import type * as lib_username from "../lib/username.js";
 import type * as lms from "../lms.js";
 import type * as profiles from "../profiles.js";
 import type * as rubrics from "../rubrics.js";
+import type * as school from "../school.js";
 import type * as scores from "../scores.js";
 import type * as seed from "../seed.js";
 import type * as seed_kits from "../seed/kits.js";
+import type * as seed_robotics from "../seed/robotics.js";
 import type * as seed_rubrics from "../seed/rubrics.js";
 import type * as students from "../students.js";
 
@@ -57,9 +59,11 @@ declare const fullApi: ApiFromModules<{
   lms: typeof lms;
   profiles: typeof profiles;
   rubrics: typeof rubrics;
+  school: typeof school;
   scores: typeof scores;
   seed: typeof seed;
   "seed/kits": typeof seed_kits;
+  "seed/robotics": typeof seed_robotics;
   "seed/rubrics": typeof seed_rubrics;
   students: typeof students;
 }>;

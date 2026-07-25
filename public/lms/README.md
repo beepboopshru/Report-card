@@ -9,7 +9,10 @@ Local patches (keep when re-vendoring):
 
 1. `js/main.js` + `js/common-introduction-content.js`: `assetPrefix` points at
    the jsDelivr CDN instead of relative paths.
-2. `index.html`: hardcoded `src="assets/..."` rewritten to the CDN.
+2. `index.html` + `pages/all5e.html`: hardcoded `src="assets/..."` rewritten
+   to the CDN. In `js/main.js`, the dynamic cover assignments in
+   `refreshSessionCards` and the session modal are prefixed with `assetPrefix`
+   (upstream assigns the relative `cover` path directly, which 404s here).
 3. `js/main.js`: the quiz submit handler posts a `su-lms-quiz-result` message
    to the parent window so the Report Card app can store per-student scores
    (see `src/pages/StudentLms.tsx`).

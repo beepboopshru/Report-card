@@ -28,13 +28,13 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
 
         <div className="relative space-y-6 max-w-md">
           <h2 className="font-serif text-4xl leading-tight text-balance">
-            Score 159 STEM kits.<br />Print real report cards.
+            One classroom.<br />Teachers and students.
           </h2>
           <ul className="space-y-3 text-white/85">
             {[
-              "Score every student against every kit's rubric.",
-              "Download per-student and full-class PDF report cards.",
-              "Built for ScienceUtsav teachers.",
+              "Teachers: score STEM kits and share PDF report cards.",
+              "Students: work through robotics levels and take quizzes.",
+              "One sign-in for everyone at ScienceUtsav.",
             ].map((line) => (
               <li key={line} className="flex items-start gap-3 text-sm">
                 <CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-good-200" />

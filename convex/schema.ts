@@ -21,11 +21,29 @@ export default defineSchema({
     .index("by_user", ["userId"])
     .index("by_username", ["username"]),
 
+  // One row per teacher/school account, filled on first login.
+  // Each entry in `sections` is one grade-section; attendance = kids in it.
+  schoolDetails: defineTable({
+    teacherProfileId: v.id("profiles"),
+    address: v.string(),
+    sections: v.array(
+      v.object({
+        grade: v.string(),
+        section: v.string(),
+        attendance: v.number(),
+      }),
+    ),
+  }).index("by_teacher", ["teacherProfileId"]),
+
   kits: defineTable({
     kitNumber: v.number(),
     concept: v.string(),
     kitName: v.string(),
-    category: v.union(v.literal("Explorer"), v.literal("Discoverer")),
+    category: v.union(
+      v.literal("Explorer"),
+      v.literal("Discoverer"),
+      v.literal("Robotics"),
+    ),
     subject: v.string(),
     grade: v.number(),
     description: v.string(),
@@ -81,6 +99,8 @@ export default defineSchema({
   classLevels: defineTable({
     classId: v.id("classes"),
     levelId: v.string(),
+    // Selected LMS classes (grades) within the level; missing = all (legacy rows).
+    grades: v.optional(v.array(v.string())),
   }).index("by_class", ["classId"]),
 
   // One row per student per LMS session quiz; keeps the student's best attempt.

@@ -63,8 +63,8 @@ export default function AdminDashboard() {
   return (
     <>
       <PageHeader
-        title="Teachers"
-        description="Create teacher accounts, assign kits, and manage access."
+        title="Schools / Teachers"
+        description="Create accounts for schools or teachers, assign kits, and manage access. One account can be shared by a school's staff."
         actions={
           <div className="flex gap-2">
             <Link to="/admin/kits">
@@ -220,9 +220,9 @@ function AssignmentsDrawer({
   });
   const setAssign = useMutation(api.assignments.set);
   const [q, setQ] = useState("");
-  const [filter, setFilter] = useState<"all" | "Explorer" | "Discoverer">(
-    "all",
-  );
+  const [filter, setFilter] = useState<
+    "all" | "Explorer" | "Discoverer" | "Robotics"
+  >("all");
 
   const assignedSet = useMemo(
     () => new Set(assigned?.map((a) => a.kitId) ?? []),
@@ -278,7 +278,7 @@ function AssignmentsDrawer({
             />
           </div>
           <div className="flex gap-1 bg-surface-muted rounded-md p-1">
-            {(["all", "Explorer", "Discoverer"] as const).map((f) => (
+            {(["all", "Explorer", "Discoverer", "Robotics"] as const).map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}

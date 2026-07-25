@@ -13,9 +13,9 @@ import { Input } from "../components/ui/Input";
 export default function AdminKits() {
   const kits = useQuery(api.kits.list);
   const [q, setQ] = useState("");
-  const [filter, setFilter] = useState<"all" | "Explorer" | "Discoverer">(
-    "all",
-  );
+  const [filter, setFilter] = useState<
+    "all" | "Explorer" | "Discoverer" | "Robotics"
+  >("all");
 
   const visible = useMemo(() => {
     if (!kits) return [];
@@ -53,7 +53,7 @@ export default function AdminKits() {
           />
         </div>
         <div className="flex gap-1 bg-surface-muted rounded-md p-1">
-          {(["all", "Explorer", "Discoverer"] as const).map((f) => (
+          {(["all", "Explorer", "Discoverer", "Robotics"] as const).map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}

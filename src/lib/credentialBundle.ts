@@ -11,7 +11,7 @@ export function formatCredentialBundle({
 }: CredentialBundleInput): string {
   const cleanOrigin = origin.replace(/\/+$/, "");
   return [
-    "Welcome to Report Card!",
+    "Welcome to ScienceUtsav Classroom!",
     "",
     "Your teacher account is ready.",
     "",

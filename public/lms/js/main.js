@@ -34,6 +34,18 @@ document.addEventListener("DOMContentLoaded", () => {
         "1": "Level 1 Creative Automation",
         "2": "Level 2 Sensational Sensors"
     };
+    // patched: the report-card app restricts which classes a student sees via a
+    // ?grades=4,5 param. Persisted per level in sessionStorage so the filter
+    // survives navigating into a lesson and back (those links drop the param).
+    const gradesStoreKey = (yearValue) => `su-lms-allowed-grades-${yearValue}`;
+    if (params.get("grades") !== null) {
+        try { sessionStorage.setItem(gradesStoreKey(year), params.get("grades")); } catch (e) { /* storage unavailable */ }
+    }
+    const allowedGradesFor = (yearValue) => {
+        let stored = null;
+        try { stored = sessionStorage.getItem(gradesStoreKey(yearValue)); } catch (e) { /* storage unavailable */ }
+        return (stored || "").split(",").filter(Boolean);
+    };
     let selectedHomeYear = year;
     let selectedHomeGrade = grade;
     let selectedHomeSessionUrl = "pages/all5e.html?year=1&grade=4&session=1";
@@ -60,10 +72,13 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const refreshClassCards = () => {
-        const classes = yearClasses[selectedHomeYear] || yearClasses["1"];
+        const allowedGrades = allowedGradesFor(selectedHomeYear);
+        const classes = (yearClasses[selectedHomeYear] || yearClasses["1"])
+            .filter((item) => !allowedGrades.length || allowedGrades.includes(item[0]));
         const classButtons = document.querySelectorAll(".selection-card[data-grade]");
         classButtons.forEach((classButton, index) => {
             const item = classes[index];
+            classButton.style.display = item ? "" : "none";
             if (!item) return;
             classButton.dataset.grade = item[0];
             const number = classButton.querySelector("span");
@@ -94,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const title = card.querySelector("strong");
                 const status = card.querySelector("p");
                 if (image) {
-                    image.src = cardLesson.cover;
+                    image.src = `${assetPrefix}${cardLesson.cover}`; // patched: covers live on the CDN
                     image.alt = `${cardLesson.session} ${cardLesson.topic} cover`;
                 }
                 if (sessionLabel) sessionLabel.textContent = cardLesson.session;
@@ -143,7 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const modalTitle = document.querySelector("#sessionModalTitle");
             if (selectedLesson) {
                 if (modalImage) {
-                    modalImage.src = selectedLesson.cover;
+                    modalImage.src = `${assetPrefix}${selectedLesson.cover}`; // patched: covers live on the CDN
                     modalImage.alt = `${selectedLesson.session} ${selectedLesson.topic} cover`;
                 }
                 if (modalLabel) modalLabel.textContent = selectedLesson.session;
@@ -876,6 +891,32 @@ void loop() {
         const codeMax = 5;
         const totalScore = totalQuestions + codeMax;
 
+        // patched: a test can only be submitted once. After submission (or when
+        // the hosting app reports a stored score) the form is locked read-only.
+        let testLocked = false;
+        const lockTest = (note) => {
+            testLocked = true;
+            sessionTest.querySelectorAll("input, textarea, button").forEach((el) => {
+                el.disabled = true;
+            });
+            const actions = sessionTest.querySelector(".test-actions");
+            if (actions) {
+                const p = document.createElement("p");
+                p.className = "source-note";
+                p.textContent = note;
+                actions.replaceChildren(p);
+            }
+        };
+
+        const sessionKey = `${year}-${grade}-${session}`;
+        window.addEventListener("message", (event) => {
+            if (event.origin !== window.location.origin || testLocked) return;
+            const d = event.data;
+            if (!d || d.type !== "su-lms-quiz-scores") return;
+            const done = (d.scores || []).find((s) => s.sessionKey === sessionKey);
+            if (done) lockTest(`Test already submitted. Score: ${done.score} / ${done.total}`);
+        });
+
         const scoreCodeChallenge = () => {
             const codeCard = sessionTest.querySelector(".code-challenge-card");
             if (!codeCard) return codeMax;
@@ -919,6 +960,8 @@ void loop() {
 
         sessionTest.addEventListener("submit", (event) => {
             event.preventDefault();
+            if (testLocked) return;
+            if (!window.confirm("Submit the test? You can only submit once — answers cannot be changed after submission.")) return;
 
             let mcqScore = 0;
             const questions = sessionTest.querySelectorAll(".test-question");
@@ -967,9 +1010,15 @@ void loop() {
                     codeMax,
                 }, window.location.origin);
             }
+
+            lockTest("Test submitted. Answers are locked.");
         });
 
-        sessionTest.addEventListener("reset", () => {
+        sessionTest.addEventListener("reset", (event) => {
+            if (testLocked) {
+                event.preventDefault();
+                return;
+            }
             sessionTest.querySelectorAll(".test-question").forEach((question) => {
                 question.classList.remove("answered-correct", "answered-wrong");
             });

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { ArrowLeft, BookOpen, LogOut } from "lucide-react";
@@ -14,8 +14,24 @@ import {
 export default function StudentLms() {
   const { signOut } = useAuthActions();
   const lms = useQuery(api.lms.myLms);
+  const myScores = useQuery(api.lms.myQuizScores);
   const recordQuizResult = useMutation(api.lms.recordQuizResult);
-  const [openLevel, setOpenLevel] = useState<LmsLevel | null>(null);
+  const [openLevel, setOpenLevel] = useState<{
+    level: LmsLevel;
+    grades: string[];
+  } | null>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  // Tell the embedded LMS which sessions are already submitted so it locks
+  // those tests. Sent on every iframe navigation and whenever scores change.
+  const pushScores = () => {
+    if (!myScores) return;
+    iframeRef.current?.contentWindow?.postMessage(
+      { type: "su-lms-quiz-scores", scores: myScores },
+      window.location.origin,
+    );
+  };
+  useEffect(pushScores);
 
   // The vendored LMS posts quiz submissions from its (same-origin) iframe.
   useEffect(() => {
@@ -44,11 +60,21 @@ export default function StudentLms() {
   if (lms === undefined)
     return <div className="p-6 text-sm text-ink-muted">Loading…</div>;
 
-  const levels = LMS_LEVELS.filter((l) => lms?.levelIds.includes(l.id));
+  const levels = LMS_LEVELS.flatMap((level) => {
+    const assigned = lms?.levels.find((a) => a.levelId === level.id);
+    return assigned && assigned.grades.length
+      ? [{ level, grades: assigned.grades }]
+      : [];
+  });
 
   return (
     <div className="min-h-screen bg-canvas flex flex-col">
-      <header className="border-b border-line bg-surface">
+      {/* ponytail: CSS-only auto-collapse — shrinks to a strip while a course is open, expands on hover */}
+      <header
+        className={`border-b border-line bg-surface overflow-hidden transition-all duration-300 ${
+          openLevel ? "max-h-2 hover:max-h-24 bg-accent/20" : "max-h-24"
+        }`}
+      >
         <div className="max-w-5xl mx-auto px-5 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             {openLevel && (
@@ -79,8 +105,10 @@ export default function StudentLms() {
 
       {openLevel ? (
         <iframe
-          src={lmsLevelPath(openLevel)}
-          title={openLevel.name}
+          ref={iframeRef}
+          src={lmsLevelPath(openLevel.level, openLevel.grades)}
+          title={openLevel.level.name}
+          onLoad={pushScores}
           className="flex-1 w-full border-0"
         />
       ) : (
@@ -103,17 +131,17 @@ export default function StudentLms() {
             </Card>
           ) : (
             <div className="space-y-4">
-              {levels.map((level) => (
+              {levels.map(({ level, grades }) => (
                 <Card key={level.id}>
                   <CardBody>
                     <div className="flex items-center justify-between gap-4">
                       <div>
                         <div className="font-medium text-ink">{level.name}</div>
                         <div className="text-xs text-ink-muted mt-0.5">
-                          {level.classes}
+                          {grades.map((g) => `Class ${g}`).join(" · ")}
                         </div>
                       </div>
-                      <Button onClick={() => setOpenLevel(level)}>
+                      <Button onClick={() => setOpenLevel({ level, grades })}>
                         <BookOpen className="w-4 h-4" />
                         Open course
                       </Button>

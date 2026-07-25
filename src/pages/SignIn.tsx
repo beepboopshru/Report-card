@@ -48,7 +48,9 @@ export default function SignIn() {
     <AuthLayout>
       <header className="mb-7">
         <h1 className="font-serif text-3xl text-accent-deep">Welcome back</h1>
-        <p className="text-sm text-ink-muted mt-1">Sign in to keep scoring.</p>
+        <p className="text-sm text-ink-muted mt-1">
+          Sign in with the username and password you were given.
+        </p>
       </header>
       <form onSubmit={onSubmit} className="space-y-4">
         <FormField label="Username">

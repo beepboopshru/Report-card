@@ -32,7 +32,7 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
           <span className="w-7 h-7 rounded-md bg-accent text-white inline-flex items-center justify-center text-sm font-sans">
             SU
           </span>
-          Report Card
+          Classroom
         </Link>
       </div>
 
@@ -56,7 +56,7 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
             <SidebarNavItem
               to="/admin"
               icon={Users}
-              label="Teachers"
+              label="Schools / Teachers"
               end
               onClick={onNavigate}
             />

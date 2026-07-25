@@ -6,12 +6,24 @@ import {
 } from "../../convex/lib/lmsCatalog";
 
 describe("lmsLevelPath", () => {
-  it("deep-links each level into the vendored LMS", () => {
+  it("deep-links each level into the vendored LMS with all its classes", () => {
     expect(lmsLevelPath(LMS_LEVELS[0])).toBe(
-      "/lms/index.html?panel=classSelect&year=1",
+      "/lms/index.html?panel=classSelect&year=1&grades=4,5,6,7",
     );
     expect(lmsLevelPath(LMS_LEVELS[1])).toBe(
-      "/lms/index.html?panel=classSelect&year=2",
+      "/lms/index.html?panel=classSelect&year=2&grades=6,7,8,9",
+    );
+  });
+
+  it("restricts the class list to the assigned grades", () => {
+    expect(lmsLevelPath(LMS_LEVELS[0], ["5", "6"])).toBe(
+      "/lms/index.html?panel=classSelect&year=1&grades=5,6",
+    );
+  });
+
+  it("skips class select when a single class is assigned", () => {
+    expect(lmsLevelPath(LMS_LEVELS[1], ["8"])).toBe(
+      "/lms/index.html?panel=sessionSelect&year=2&grade=8&grades=8",
     );
   });
 });

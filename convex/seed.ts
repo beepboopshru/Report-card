@@ -1,19 +1,21 @@
-import { mutation } from "./_generated/server";
+import {
+  internalMutation,
+  mutation,
+  type MutationCtx,
+} from "./_generated/server";
+import { v } from "convex/values";
 import { requireAdmin } from "./lib/access";
 import { SEED_KITS } from "./seed/kits";
 import { SEED_RUBRICS } from "./seed/rubrics";
+import { ROBOTICS_KITS, ROBOTICS_RUBRICS } from "./seed/robotics";
 
-export const seedKitsAndRubrics = mutation({
-  args: {},
-  handler: async (ctx) => {
-    await requireAdmin(ctx);
+async function seedAll(ctx: MutationCtx) {
+  let kitsInserted = 0;
+  let kitsSkipped = 0;
+  let rubricsInserted = 0;
+  let rubricsSkipped = 0;
 
-    let kitsInserted = 0;
-    let kitsSkipped = 0;
-    let rubricsInserted = 0;
-    let rubricsSkipped = 0;
-
-    for (const seed of SEED_KITS) {
+  for (const seed of [...SEED_KITS, ...ROBOTICS_KITS]) {
       const existing = await ctx.db
         .query("kits")
         .withIndex("by_kitNumber_and_category", (q) =>
@@ -28,7 +30,7 @@ export const seedKitsAndRubrics = mutation({
       }
     }
 
-    for (const seed of SEED_RUBRICS) {
+    for (const seed of [...SEED_RUBRICS, ...ROBOTICS_RUBRICS]) {
       const kit = await ctx.db
         .query("kits")
         .withIndex("by_kitNumber_and_category", (q) =>
@@ -49,5 +51,30 @@ export const seedKitsAndRubrics = mutation({
     }
 
     return { kitsInserted, kitsSkipped, rubricsInserted, rubricsSkipped };
+}
+
+const seedResult = v.object({
+  kitsInserted: v.number(),
+  kitsSkipped: v.number(),
+  rubricsInserted: v.number(),
+  rubricsSkipped: v.number(),
+});
+
+export const seedKitsAndRubrics = mutation({
+  args: {},
+  returns: seedResult,
+  handler: async (ctx) => {
+    await requireAdmin(ctx);
+    return await seedAll(ctx);
+  },
+});
+
+// Same seed, runnable from the CLI/dashboard without a signed-in admin:
+// `npx convex run seed:seedFromCli`
+export const seedFromCli = internalMutation({
+  args: {},
+  returns: seedResult,
+  handler: async (ctx) => {
+    return await seedAll(ctx);
   },
 });

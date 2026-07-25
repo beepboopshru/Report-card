@@ -38,7 +38,7 @@ export default function AppShell() {
           >
             {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
-          <span className="font-serif text-accent-deep">Report Card</span>
+          <span className="font-serif text-accent-deep">Classroom</span>
           <span className="w-7" />
         </div>
 

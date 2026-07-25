@@ -1,6 +1,7 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 import { requireOwnsClass, requireTeacher, requireAdmin } from "./lib/access";
+import { LMS_LEVEL_BY_ID } from "./lib/lmsCatalog";
 
 export const listMine = query({
   args: {},
@@ -29,6 +30,12 @@ export const listAllForAdmin = query({
           .query("classLevels")
           .withIndex("by_class", (q) => q.eq("classId", cls._id))
           .collect();
+        const school = await ctx.db
+          .query("schoolDetails")
+          .withIndex("by_teacher", (q) =>
+            q.eq("teacherProfileId", cls.teacherProfileId),
+          )
+          .unique();
         // Average of all criterion scores (1-4 scale) across the class, as %.
         let sum = 0;
         let count = 0;
@@ -50,9 +57,21 @@ export const listAllForAdmin = query({
         return {
           ...cls,
           teacherName: teacher?.displayName ?? "—",
+          // From the teacher's first-login school setup; null if not filled yet.
+          declared: school
+            ? {
+                students: school.sections.reduce((n, s) => n + s.attendance, 0),
+                sections: school.sections.length,
+                grades: new Set(school.sections.map((s) => s.grade)).size,
+              }
+            : null,
           studentCount: students.length,
           accountCount: students.filter((s) => s.userId).length,
-          levelIds: levels.map((l) => l.levelId),
+          lmsLevels: levels.map((l) => ({
+            levelId: l.levelId,
+            // Legacy rows without grades mean the whole level.
+            grades: l.grades ?? LMS_LEVEL_BY_ID.get(l.levelId)?.grades ?? [],
+          })),
           avgScorePct: count === 0 ? null : Math.round((sum / (count * 4)) * 100),
         };
       }),

@@ -17,6 +17,7 @@ import { StudentReportDoc, type ScoredKit } from "../components/StudentReportPdf
 import { buildReportZip, downloadBlob } from "../lib/buildReportZip";
 import { shareReportCard } from "../lib/shareReportCard";
 import { Share2 } from "lucide-react";
+import { formatSessionKey } from "../../convex/lib/lmsCatalog";
 
 const TONE_BG: Record<string, string> = {
   good: "bg-good-50 text-good-800",
@@ -26,20 +27,43 @@ const TONE_BG: Record<string, string> = {
   neutral: "bg-surface-muted text-ink-subtle",
 };
 
+/** "1-4-3" → "L1·C4·S3" for compact column headers. */
+function shortSessionLabel(key: string): string {
+  const [year, grade, session] = key.split("-");
+  if (!year || !grade || !session) return key;
+  return `L${year}·C${grade}·${session === "0" ? "Intro" : `S${session}`}`;
+}
+
 export default function ClassReport() {
   const { classId } = useParams<{ classId: string }>();
   const id = classId as Id<"classes">;
   const cls = useQuery(api.classes.get, { classId: id });
   const blocks = useQuery(api.scores.listForClass, { classId: id });
   const kits = useQuery(api.classKits.listForClass, { classId: id });
+  const quizRows = useQuery(api.lms.quizScoresForClass, { classId: id });
 
   const [zipProgress, setZipProgress] = useState<{ done: number; total: number } | null>(null);
 
-  if (!cls || !blocks || !kits)
+  if (!cls || !blocks || !kits || !quizRows)
     return <p className="text-sm text-ink-muted">Loading…</p>;
 
+  // Robotics evaluate tests: one column per LMS session anyone in the class
+  // has submitted, joined to students by id.
+  const sessionKeys = [...new Set(quizRows.map((r) => r.sessionKey))].sort(
+    (a, b) => a.localeCompare(b, undefined, { numeric: true }),
+  );
+  const quizByStudent = new Map<string, Map<string, { score: number; total: number }>>();
+  for (const r of quizRows) {
+    let perStudent = quizByStudent.get(r.studentId);
+    if (!perStudent) {
+      perStudent = new Map();
+      quizByStudent.set(r.studentId, perStudent);
+    }
+    perStudent.set(r.sessionKey, { score: r.score, total: r.total });
+  }
+
   const cleaned = blocks.map((b) => ({
-    student: { name: b.student.name },
+    student: { _id: b.student._id, name: b.student.name },
     scores: b.scores
       .filter(
         (s): s is typeof s & {
@@ -173,7 +197,7 @@ export default function ClassReport() {
           title="No students"
           description="Add students to this class to generate a report."
         />
-      ) : kits.length === 0 ? (
+      ) : kits.length === 0 && sessionKeys.length === 0 ? (
         <EmptyState
           title="No curriculum"
           description="Attach kits to this class to start scoring."
@@ -194,6 +218,15 @@ export default function ClassReport() {
                       title={k.kit!.kitName}
                     >
                       #{k.kit!.kitNumber}
+                    </th>
+                  ))}
+                  {sessionKeys.map((key, i) => (
+                    <th
+                      key={key}
+                      className={`px-3 py-2.5 text-[11px] font-medium text-ink-muted border-b border-line/60 text-center min-w-[80px] whitespace-nowrap ${i === 0 ? "border-l border-line/60" : ""}`}
+                      title={`Evaluate test — ${formatSessionKey(key)}`}
+                    >
+                      {shortSessionLabel(key)}
                     </th>
                   ))}
                 </tr>
@@ -250,6 +283,32 @@ export default function ClassReport() {
                               className={`inline-block min-w-[44px] rounded px-2 py-1 text-xs font-medium ${TONE_BG[tone]}`}
                             >
                               {total}/{max}
+                            </span>
+                          </td>
+                        );
+                      })}
+                      {sessionKeys.map((key, si) => {
+                        const q = quizByStudent.get(b.student._id)?.get(key);
+                        if (!q) {
+                          return (
+                            <td
+                              key={key}
+                              className={`px-3 py-2.5 text-center text-xs text-ink-subtle ${si === 0 ? "border-l border-line/60" : ""}`}
+                            >
+                              —
+                            </td>
+                          );
+                        }
+                        const tone = toneFromRatio(q.total ? q.score / q.total : 0);
+                        return (
+                          <td
+                            key={key}
+                            className={`px-1.5 py-1.5 text-center ${si === 0 ? "border-l border-line/60" : ""}`}
+                          >
+                            <span
+                              className={`inline-block min-w-[44px] rounded px-2 py-1 text-xs font-medium ${TONE_BG[tone]}`}
+                            >
+                              {q.score}/{q.total}
                             </span>
                           </td>
                         );

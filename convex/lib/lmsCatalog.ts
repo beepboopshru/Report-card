@@ -7,6 +7,13 @@ export interface LmsLevel {
   year: "1" | "2";
   name: string;
   classes: string;
+  /** `grade` URL params of the classes inside this level, in display order. */
+  grades: string[];
+  /**
+   * kitNumber of the level's "Robotics" catalog kit (convex/seed/robotics.ts),
+   * which carries the teacher-scoring rubric for this level's curriculum.
+   */
+  kitNumber: number;
 }
 
 export const LMS_LEVELS: LmsLevel[] = [
@@ -15,20 +22,35 @@ export const LMS_LEVELS: LmsLevel[] = [
     year: "1",
     name: "Level 1 · Creative Automation",
     classes: "Classes 4–7",
+    grades: ["4", "5", "6", "7"],
+    kitNumber: 101,
   },
   {
     id: "level2",
     year: "2",
     name: "Level 2 · Sensational Sensors",
     classes: "Classes 6–9",
+    grades: ["6", "7", "8", "9"],
+    kitNumber: 102,
   },
 ];
 
-export const LMS_LEVEL_IDS = new Set(LMS_LEVELS.map((l) => l.id));
+export const LMS_LEVEL_BY_ID = new Map(LMS_LEVELS.map((l) => [l.id, l]));
 
-/** Entry URL for a level inside the vendored LMS (relative to the app origin). */
-export function lmsLevelPath(level: LmsLevel): string {
-  return `/lms/index.html?panel=classSelect&year=${level.year}`;
+/**
+ * Entry URL for a level inside the vendored LMS (relative to the app origin).
+ * `grades` restricts which classes the LMS shows (it reads the param and
+ * filters its class cards); a single grade deep-links straight to its sessions.
+ */
+export function lmsLevelPath(
+  level: LmsLevel,
+  grades: string[] = level.grades,
+): string {
+  const gradesParam = `&grades=${grades.join(",")}`;
+  if (grades.length === 1) {
+    return `/lms/index.html?panel=sessionSelect&year=${level.year}&grade=${grades[0]}${gradesParam}`;
+  }
+  return `/lms/index.html?panel=classSelect&year=${level.year}${gradesParam}`;
 }
 
 /** "1-4-3" → "Level 1 · Class 4 · Session 3" (session 0 is the intro session). */
