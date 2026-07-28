@@ -15,6 +15,8 @@ import { LMS_LEVELS } from "../../convex/lib/lmsCatalog";
 export default function AdminClasses() {
   const classes = useQuery(api.classes.listAllForAdmin);
   const approveClass = useAction(api.enrollment.approveClass);
+  const resetClassPassword = useAction(api.enrollment.resetClassPassword);
+  const recreateClassLogins = useAction(api.enrollment.recreateClassLogins);
   const setClassLevels = useMutation(api.lms.setClassLevels);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
@@ -23,14 +25,23 @@ export default function AdminClasses() {
 
   const years = [...new Set(classes?.map((c) => c.academicYear) ?? [])].sort();
   const q = search.trim().toLowerCase();
-  const filtered = classes?.filter(
-    (c) =>
-      (!q ||
-        c.name.toLowerCase().includes(q) ||
-        c.teacherName.toLowerCase().includes(q)) &&
-      (!statusFilter || c.status === statusFilter) &&
-      (!yearFilter || c.academicYear === yearFilter),
-  );
+  const archived = classes?.filter((c) => c.archived) ?? [];
+  const filtered = classes
+    ?.filter((c) => !c.archived)
+    .filter(
+      (c) =>
+        (!q ||
+          c.name.toLowerCase().includes(q) ||
+          c.teacherName.toLowerCase().includes(q)) &&
+        (!statusFilter || c.status === statusFilter) &&
+        (!yearFilter || c.academicYear === yearFilter),
+    )
+    // Awaiting-approval classes first, newest created first within each group.
+    .sort(
+      (a, b) =>
+        Number(b.status === "submitted") - Number(a.status === "submitted") ||
+        b._creationTime - a._creationTime,
+    );
 
   async function onApprove(
     classId: Id<"classes">,
@@ -56,6 +67,46 @@ export default function AdminClasses() {
       );
     } catch (err) {
       alert(err instanceof Error ? err.message : "Approval failed");
+    } finally {
+      setBusyId(null);
+    }
+  }
+
+  async function onResetPassword(classId: Id<"classes">, className: string) {
+    if (
+      !confirm(
+        `Give every student in "${className}" one new shared password?\n\nOld passwords stop working and students are signed out. The teacher can re-download the credential sheet afterwards.`,
+      )
+    )
+      return;
+    setBusyId(classId);
+    try {
+      const { password, updated } = await resetClassPassword({ classId });
+      alert(
+        `Set shared password for ${updated} student${updated === 1 ? "" : "s"}:\n\n${password}`,
+      );
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Password reset failed");
+    } finally {
+      setBusyId(null);
+    }
+  }
+
+  async function onRecreateLogins(classId: Id<"classes">, className: string) {
+    if (
+      !confirm(
+        `Recreate ALL student logins in "${className}"?\n\nEvery existing login is deleted and rebuilt from the current roster: new usernames, one new shared password, all students signed out. Report card and quiz data is kept.\n\nThis cannot be undone.`,
+      )
+    )
+      return;
+    setBusyId(classId);
+    try {
+      const { created, password } = await recreateClassLogins({ classId });
+      alert(
+        `Recreated ${created} login${created === 1 ? "" : "s"}. New shared password:\n\n${password}\n\nThe teacher can re-download the credential sheet from the class page.`,
+      );
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Recreating logins failed");
     } finally {
       setBusyId(null);
     }
@@ -246,21 +297,75 @@ export default function AdminClasses() {
                       );
                     })}
                   </fieldset>
-                  <Button
-                    size="sm"
-                    onClick={() => onApprove(c._id, c.name, c.declared)}
-                    disabled={busyId === c._id || c.studentCount === 0}
-                    loading={busyId === c._id}
-                  >
-                    {c.status === "approved"
-                      ? "Create missing logins"
-                      : "Approve & create logins"}
-                  </Button>
+                  <div className="flex flex-wrap gap-2">
+                    {c.accountCount > 0 && (
+                      <>
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          onClick={() => onResetPassword(c._id, c.name)}
+                          disabled={busyId === c._id}
+                        >
+                          New class password
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          onClick={() => onRecreateLogins(c._id, c.name)}
+                          disabled={busyId === c._id}
+                        >
+                          Recreate all logins
+                        </Button>
+                      </>
+                    )}
+                    <Button
+                      size="sm"
+                      onClick={() => onApprove(c._id, c.name, c.declared)}
+                      disabled={busyId === c._id || c.studentCount === 0}
+                      loading={busyId === c._id}
+                    >
+                      {c.status === "approved"
+                        ? "Create missing logins"
+                        : "Approve & create logins"}
+                    </Button>
+                  </div>
                 </div>
               </CardBody>
             </Card>
           ))}
         </div>
+      )}
+
+      {archived.length > 0 && (
+        <details className="mt-8">
+          <summary className="cursor-pointer text-sm font-medium text-ink-muted hover:text-ink">
+            Archived ({archived.length}) — classes of disabled accounts
+          </summary>
+          <div className="mt-3 space-y-2">
+            {archived.map((c) => (
+              <div
+                key={c._id}
+                className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-line bg-surface px-4 py-3 text-sm"
+              >
+                <div>
+                  <span className="font-medium text-ink">{c.name}</span>
+                  <span className="text-ink-muted">
+                    {" "}
+                    · {c.teacherName} · {c.academicYear} · {c.studentCount}{" "}
+                    students
+                  </span>
+                </div>
+                <Link
+                  to={`/class/${c._id}/report`}
+                  className="inline-flex items-center gap-1 text-accent hover:underline"
+                >
+                  <FileText className="w-3.5 h-3.5" />
+                  Class report
+                </Link>
+              </div>
+            ))}
+          </div>
+        </details>
       )}
     </>
   );

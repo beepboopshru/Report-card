@@ -8,6 +8,8 @@ import {
   Sprout,
   LogOut,
   School,
+  BookOpen,
+  KeyRound,
 } from "lucide-react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useCurrentProfile } from "../lib/useCurrentProfile";
@@ -67,9 +69,21 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
               onClick={onNavigate}
             />
             <SidebarNavItem
+              to="/admin/lms"
+              icon={BookOpen}
+              label="LMS"
+              onClick={onNavigate}
+            />
+            <SidebarNavItem
               to="/admin/kits"
               icon={Boxes}
               label="Kits"
+              onClick={onNavigate}
+            />
+            <SidebarNavItem
+              to="/admin/logins"
+              icon={KeyRound}
+              label="Logins"
               onClick={onNavigate}
             />
             <SidebarNavItem

@@ -13,6 +13,14 @@ export async function requireProfile(
     .unique();
   if (!profile) throw new Error("Profile missing — sign out and back in");
   if (profile.disabled === true) throw new Error("Account disabled");
+  // Disabling a teacher/school account archives its classes: students in
+  // those classes are locked out too, until the account is re-enabled.
+  if (profile.role === "student" && profile.studentId) {
+    const student = await ctx.db.get(profile.studentId);
+    const cls = student && (await ctx.db.get(student.classId));
+    const teacher = cls && (await ctx.db.get(cls.teacherProfileId));
+    if (teacher?.disabled === true) throw new Error("Account disabled");
+  }
   return profile;
 }
 

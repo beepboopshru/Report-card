@@ -113,7 +113,7 @@ export default function AdminGrades() {
               className="flex-1 rounded-lg border border-line bg-surface px-3 py-2 text-sm"
             >
               <option value="">Select a class…</option>
-              {classes?.map((c) => (
+              {classes?.filter((c) => !c.archived).map((c) => (
                 <option key={c._id} value={c._id}>
                   {c.name} · {c.academicYear} ({c.teacherName})
                 </option>

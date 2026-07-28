@@ -57,6 +57,9 @@ export const listAllForAdmin = query({
         return {
           ...cls,
           teacherName: teacher?.displayName ?? "—",
+          // Disabled teacher = class is archived (hidden from active views,
+          // data kept; reappears if the account is re-enabled).
+          archived: teacher?.disabled === true,
           // From the teacher's first-login school setup; null if not filled yet
           // (new setups only collect the address, not grade-sections).
           declared: school?.sections

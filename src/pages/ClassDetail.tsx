@@ -262,6 +262,18 @@ export default function ClassDetail() {
 
   const quizStudent = quizFor ? students?.find((s) => s._id === quizFor) : null;
 
+  // One shared class password when every login has the same one; null when a
+  // legacy class still has per-student passwords.
+  const passwords = [
+    ...new Set(
+      (students ?? [])
+        .filter((s) => s.username && s.initialPassword)
+        .map((s) => s.initialPassword as string),
+    ),
+  ];
+  const classPassword = passwords.length === 1 ? passwords[0] : null;
+  const sampleUsername = students?.find((s) => s.username)?.username;
+
   return (
     <>
       <PageHeader
@@ -296,6 +308,37 @@ export default function ClassDetail() {
           rows={quizByStudent.get(quizFor) ?? []}
           onClose={() => setQuizFor(null)}
         />
+      )}
+
+      {cls.status === "approved" && sampleUsername && (
+        <div className="mb-6 rounded-lg border-2 border-accent/40 bg-surface px-6 py-5 flex flex-wrap items-start gap-x-12 gap-y-4">
+          <div>
+            <div className="text-xs uppercase tracking-wide text-ink-subtle font-semibold">
+              Username format
+            </div>
+            <div className="mt-1 font-mono text-2xl font-bold text-ink break-all">
+              studentname.classname
+            </div>
+            <div className="mt-1 text-sm text-ink-muted">
+              e.g. <span className="font-mono">{sampleUsername}</span>
+            </div>
+          </div>
+          <div>
+            <div className="text-xs uppercase tracking-wide text-ink-subtle font-semibold">
+              Class password
+            </div>
+            {classPassword ? (
+              <div className="mt-1 font-mono text-2xl font-bold text-ink break-all">
+                {classPassword}
+              </div>
+            ) : (
+              <div className="mt-1 text-sm text-ink-muted max-w-xs">
+                Each student has their own password — see the table below or
+                ask your admin to set one class password.
+              </div>
+            )}
+          </div>
+        </div>
       )}
 
       {cls.status !== "approved" && (
