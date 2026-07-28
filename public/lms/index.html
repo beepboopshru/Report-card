@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="I'm a Robo Scientist LMS dashboard for Level 1 Creative Automation and Level 2 Sensational Sensors robotics lessons.">
     <title>I'm a Robo Scientist LMS</title>
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/logos/favicon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body data-page="home">
@@ -23,7 +27,9 @@
     <main class="home-flow">
         <section class="home-panel active" id="homeIntro">
             <div class="container home-center">
-                <img class="home-logo hero-logo" src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/logos/year-1/im-a-robo-scientist-y1-enhanced.png" alt="I'm a Robo Scientist Level 1 Creative Automation logo">
+                <div class="home-logo-frame hero-logo-frame">
+                    <img class="home-logo" src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/logos/year-1/im-a-robo-scientist-y1-enhanced.png" alt="I'm a Robo Scientist Level 1 Creative Automation logo">
+                </div>
                 <h1>I'm a Robo Scientist</h1>
                 <button class="btn-primary begin-session-btn" type="button" data-show-panel="yearSelect">Enter</button>
             </div>
@@ -32,7 +38,9 @@
         <section class="home-panel" id="yearSelect">
             <div class="container">
                 <div class="selection-header">
-                    <img class="home-logo small-logo" src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/logos/year-1/im-a-robo-scientist-y1-enhanced.png" alt="I'm a Robo Scientist logo">
+                    <div class="home-logo-frame small-logo-frame">
+                        <img class="home-logo" src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/logos/year-1/im-a-robo-scientist-y1-enhanced.png" alt="I'm a Robo Scientist logo">
+                    </div>
                     <div>
                         <p class="phase-label">Program</p>
                         <h1>Select Level</h1>
@@ -58,7 +66,9 @@
             <div class="container">
                 <div class="selection-header">
                     <button class="back-btn" type="button" data-show-panel="yearSelect">Back</button>
-                    <img class="home-logo small-logo" src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/logos/year-1/im-a-robo-scientist-y1-enhanced.png" alt="I'm a Robo Scientist logo">
+                    <div class="home-logo-frame small-logo-frame">
+                        <img class="home-logo" src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/logos/year-1/im-a-robo-scientist-y1-enhanced.png" alt="I'm a Robo Scientist logo">
+                    </div>
                     <div>
                         <p class="phase-label" data-selected-year-label>Level 1 Creative Automation</p>
                         <h1>Select Class</h1>
@@ -194,5 +204,12 @@
     <script src="js/hardware-content.js"></script>
     <script src="js/common-introduction-content.js"></script>
     <script src="js/main.js"></script>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <span>&copy; 2026 ScienceUtsav &middot; I'm a Robo Scientist LMS</span>
+            <a href="https://scienceutsav.com" target="_blank" rel="noopener">scienceutsav.com</a>
+        </div>
+    </footer>
 </body>
 </html>

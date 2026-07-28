@@ -1,5 +1,5 @@
 (function () {
-  const pdfRoot = "assets/COMMON SESSION FOR ALL TEH LEVELS/LMS/LMS";
+  const pdfRoot = "assets/common-session-all-levels/LMS/LMS";
   const imageRoot = "assets/images/common-session/docx";
 
   window.COMMON_SESSION_CONTENT = {

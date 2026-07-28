@@ -1,4 +1,4 @@
-// Hardware explanations sourced from the hardware explanation Word documents in assets/hardware explanantion level 1/.
+// Hardware explanations sourced from the Word documents in assets/hardware-explanation-level-1/.
 (function () {
   if (!window.LMS_CONTENT) return;
 

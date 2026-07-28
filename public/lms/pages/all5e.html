@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ScienceUtsav robotics LMS lesson with Engage, Explore, Explain, Elaborate, and Evaluate learning phases.">
     <title>5E Session</title>
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/logos/favicon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body data-page="all-5e">
@@ -20,7 +25,7 @@
                 <p class="phase-label" data-all5e-session>5E Session</p>
                 <h1 data-all5e-title>Robotics Lesson</h1>
                 <div class="all5e-hero-actions">
-                    <a class="back-btn" href="../index.html" data-back-to-sessions>Back to Sessions</a>
+                    <a class="back-btn icon-button-label" href="../index.html" data-back-to-sessions><i data-lucide="arrow-left" aria-hidden="true"></i><span>Back to Sessions</span></a>
                 </div>
             </div>
         </section>
@@ -37,8 +42,8 @@
 
             <section class="all5e-content-card" id="all5eContent">
                 <div class="all5e-tools">
-                    <button type="button" class="download-btn" id="enter5eFullscreen">Full Screen</button>
-                    <button type="button" class="download-btn secondary-download" id="exit5eFullscreen">Exit Full Screen</button>
+                    <button type="button" class="download-btn" id="enter5eFullscreen"><i data-lucide="maximize-2" aria-hidden="true"></i><span>Full Screen</span></button>
+                    <button type="button" class="download-btn secondary-download" id="exit5eFullscreen"><i data-lucide="minimize-2" aria-hidden="true"></i><span>Exit Full Screen</span></button>
                 </div>
                 <article class="phase-card engage all5e-section active" data-all5e-phase="engage"></article>
                 <article class="phase-card explore all5e-section" data-all5e-phase="explore"></article>
@@ -49,18 +54,30 @@
         </div>
     </main>
 
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <span>&copy; 2026 ScienceUtsav &middot; I'm a Robo Scientist LMS</span>
+            <a class="icon-button-label" href="https://scienceutsav.com" target="_blank" rel="noopener"><span>scienceutsav.com</span><i data-lucide="external-link" aria-hidden="true"></i></a>
+        </div>
+    </footer>
+
     <script src="../js/session-content.js"></script>
+    <script src="../js/session1-code-fixes.js"></script>
     <script src="../js/session-content-extra.js"></script>
     <script src="../js/year1-sessions-4-10.js"></script>
+  <script src="../js/session6-code-fixes.js"></script>
+  <script src="../js/level1-pdf-code-fixes.js"></script>
     <script src="../js/year2-sessions.js"></script>
     <script src="../js/year2-fixes.js"></script>
     <script src="../js/year2-session10-elaborate.js"></script>
-    <script src="../js/year2-session10-elaborate-fix.js"></script>
+  <script src="../js/year2-session10-elaborate-fix.js"></script>
+  <script src="../js/level2-pdf-code-fixes.js"></script>
     <script src="../js/explore-curiosity-pages.js"></script>
     <script src="../js/engage-content.js"></script>
     <script src="../js/hardware-content.js"></script>
     <script src="../js/evaluate-content.js"></script>
     <script src="../js/common-introduction-content.js"></script>
+    <script src="../js/lucide.min.js"></script>
     <script src="../js/main.js"></script>
 </body>
 </html>

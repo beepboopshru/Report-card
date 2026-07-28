@@ -16,6 +16,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const lessonData = window.LMS_CONTENT ? (window.LMS_CONTENT[contentKey] || window.LMS_CONTENT[legacyContentKey]) : null;
     const query = `?year=${year}&grade=${grade}&session=${session}`;
     const assetPrefix = "https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/"; // patched: assets stay in the upstream GitHub repo
+    // patched: the report-card app restricts which classes a student sees via a
+    // ?grades=4,5 param. Persisted per level in sessionStorage so the filter
+    // survives navigating into a lesson and back (those links drop the param).
+    const gradesStoreKey = (yearValue) => `su-lms-allowed-grades-${yearValue}`;
+    if (params.get("grades") !== null) {
+        try { sessionStorage.setItem(gradesStoreKey(year), params.get("grades")); } catch (e) { /* storage unavailable */ }
+    }
+    const allowedGradesFor = (yearValue) => {
+        let stored = null;
+        try { stored = sessionStorage.getItem(gradesStoreKey(yearValue)); } catch (e) { /* storage unavailable */ }
+        return (stored || "").split(",").filter(Boolean);
+    };
     const yearClasses = {
         "1": [
             ["4", "Class 4", "Beginner"],
@@ -33,18 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const levelLabels = {
         "1": "Level 1 Creative Automation",
         "2": "Level 2 Sensational Sensors"
-    };
-    // patched: the report-card app restricts which classes a student sees via a
-    // ?grades=4,5 param. Persisted per level in sessionStorage so the filter
-    // survives navigating into a lesson and back (those links drop the param).
-    const gradesStoreKey = (yearValue) => `su-lms-allowed-grades-${yearValue}`;
-    if (params.get("grades") !== null) {
-        try { sessionStorage.setItem(gradesStoreKey(year), params.get("grades")); } catch (e) { /* storage unavailable */ }
-    }
-    const allowedGradesFor = (yearValue) => {
-        let stored = null;
-        try { stored = sessionStorage.getItem(gradesStoreKey(yearValue)); } catch (e) { /* storage unavailable */ }
-        return (stored || "").split(",").filter(Boolean);
     };
     let selectedHomeYear = year;
     let selectedHomeGrade = grade;
@@ -197,6 +197,29 @@ document.addEventListener("DOMContentLoaded", () => {
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;");
 
+    const iconMarkup = (name) => `<i data-lucide="${name}" aria-hidden="true"></i>`;
+
+    const refreshIcons = () => {
+        if (window.lucide && typeof window.lucide.createIcons === "function") {
+            window.lucide.createIcons({
+                attrs: {
+                    width: 18,
+                    height: 18,
+                    "stroke-width": 2.25
+                }
+            });
+        }
+    };
+
+    const setButtonLabel = (button, label) => {
+        const labelNode = button.querySelector("[data-button-label]");
+        if (labelNode) {
+            labelNode.textContent = label;
+        } else {
+            button.textContent = label;
+        }
+    };
+
     const renderAll5ePage = () => {
         if (currentPage !== "all-5e") return;
         if (mode === "introduction") return;
@@ -222,7 +245,8 @@ document.addEventListener("DOMContentLoaded", () => {
             evaluate: "Evaluate"
         };
 
-        document.title = `${lessonData.year || levelLabels[year] || `Level ${year}`} | ${lessonData.grade} | ${lessonData.session}`;
+        const sessionTitle = `${lessonData.year || levelLabels[year] || `Level ${year}`} | ${lessonData.grade} | ${lessonData.session}`;
+        document.title = `${sessionTitle} | Engage`;
         if (label) label.textContent = `${lessonData.year || levelLabels[year] || `Level ${year}`} ${lessonData.grade} ${lessonData.tier}`;
         if (cover) {
             cover.src = `${assetPrefix}${lessonData.cover}`;
@@ -233,8 +257,26 @@ document.addEventListener("DOMContentLoaded", () => {
         if (backToSessions) backToSessions.href = `../index.html?panel=sessionSelect&year=${year}&grade=${grade}`;
         phaseCards.forEach((card) => renderPhaseCard(card.dataset.all5ePhase, card));
 
-        const showPhase = (selectedPhase) => {
-            phaseButtons.forEach((item) => item.classList.toggle("active", item.dataset.phase === selectedPhase));
+        let activePhase = "engage";
+        const visitedPhases = new Set(["engage"]);
+
+        const showPhase = (selectedPhase, immediate = false) => {
+            if (!phaseOrder.includes(selectedPhase)) return;
+            if (selectedPhase === activePhase && !immediate) return;
+
+            activePhase = selectedPhase;
+            visitedPhases.add(selectedPhase);
+            document.title = `${sessionTitle} | ${phaseNames[selectedPhase]}`;
+            phaseButtons.forEach((item) => {
+                const isActive = item.dataset.phase === selectedPhase;
+                item.classList.toggle("active", isActive);
+                item.classList.toggle("visited", visitedPhases.has(item.dataset.phase));
+                if (isActive) {
+                    item.setAttribute("aria-current", "step");
+                } else {
+                    item.removeAttribute("aria-current");
+                }
+            });
             phaseCards.forEach((card) => card.classList.toggle("active", card.dataset.all5ePhase === selectedPhase));
             const activeCard = document.querySelector(`[data-all5e-phase="${selectedPhase}"]`);
             if (activeCard) activeCard.scrollTop = 0;
@@ -247,6 +289,8 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll("[data-next-e]").forEach((button) => {
             button.addEventListener("click", () => showPhase(button.dataset.nextE));
         });
+
+        showPhase("engage", true);
 
         if (enterFullscreen && contentCard) {
             enterFullscreen.addEventListener("click", async () => {
@@ -296,15 +340,28 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!copied) throw new Error("Copy command failed");
     };
 
+    const mediaLoader = (label) => `<div class="media-loader" role="status" aria-live="polite">
+        <span class="media-spinner" aria-hidden="true"></span>
+        <span data-media-status>${label}</span>
+    </div>`;
+
+    const loadingImage = (src, alt, stageClass = "") => `<div class="media-stage is-loading ${stageClass}">
+        ${mediaLoader("Loading image")}
+        <img src="${src}" alt="${alt}" loading="lazy" decoding="async">
+    </div>`;
+
     const pageCard = (page) => {
         const [src, title, caption, codeTemplate, pageType] = page;
         const copyButton = codeTemplate
-            ? `<button type="button" class="copy-page-code-btn" data-code-template="${codeTemplate}">Copy Code</button>`
+            ? `<button type="button" class="copy-page-code-btn" data-code-template="${codeTemplate}">${iconMarkup("copy")}<span data-button-label>Copy Code</span></button>`
             : "";
         const isPdf = pageType === "pdf" || String(src).toLowerCase().endsWith(".pdf");
         const media = isPdf
-            ? `<iframe class="embedded-pdf" src="${assetPrefix}${src}#view=FitH" title="${title}" loading="lazy"></iframe>`
-            : `<img src="${assetPrefix}${src}" alt="${title}" loading="lazy" decoding="async">`;
+            ? `<div class="media-stage pdf-media-stage is-loading">
+                ${mediaLoader("Loading PDF")}
+                <iframe class="embedded-pdf" src="${assetPrefix}${src}#view=FitH" title="${title}" loading="lazy"></iframe>
+            </div>`
+            : loadingImage(`${assetPrefix}${src}`, title, "pdf-media-stage");
         return `<article class="pdf-frame${codeTemplate ? "" : " feature-page"}">
             ${copyButton}
             ${media}
@@ -321,8 +378,38 @@ document.addEventListener("DOMContentLoaded", () => {
     const renderHardwareImages = (images, title) => {
         const list = Array.isArray(images) ? images : [images];
         return `<div class="hardware-image-stack">
-            ${list.filter(Boolean).map((image) => `<img src="${assetPrefix}${image}" alt="${title}" loading="lazy" decoding="async">`).join("")}
+            ${list.filter(Boolean).map((image) => loadingImage(`${assetPrefix}${image}`, title, "hardware-media-stage")).join("")}
         </div>`;
+    };
+
+    const initializeMediaLoading = () => {
+        document.querySelectorAll(".media-stage").forEach((stage) => {
+            const media = stage.querySelector("img, iframe");
+            const status = stage.querySelector("[data-media-status]");
+            if (!media || stage.dataset.mediaReady === "true") return;
+
+            stage.dataset.mediaReady = "true";
+            const finish = () => {
+                stage.classList.remove("is-loading", "is-error");
+                stage.classList.add("is-loaded");
+            };
+            const fail = () => {
+                stage.classList.remove("is-loading", "is-loaded");
+                stage.classList.add("is-error");
+                if (status) status.textContent = "Media could not be loaded";
+            };
+
+            media.addEventListener("load", finish, { once: true });
+            media.addEventListener("error", fail, { once: true });
+
+            if (media instanceof HTMLImageElement && media.complete) {
+                if (media.naturalWidth > 0) {
+                    finish();
+                } else {
+                    fail();
+                }
+            }
+        });
     };
 
     const escapeRegExp = (value) => String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -454,8 +541,8 @@ document.addEventListener("DOMContentLoaded", () => {
         };
         const nextPhase = phaseOrder[phaseOrder.indexOf(phase) + 1];
         const phaseFooter = nextPhase
-            ? `<div class="all5e-next-row"><button type="button" class="download-btn" data-next-e="${nextPhase}">Next: ${phaseNames[nextPhase]}</button></div>`
-            : `<div class="all5e-next-row"><a class="download-btn secondary-download" href="../index.html?panel=sessionSelect&year=${year}&grade=${grade}">Finish Session</a></div>`;
+            ? `<div class="all5e-next-row"><button type="button" class="download-btn" data-next-e="${nextPhase}"><span>Next: ${phaseNames[nextPhase]}</span>${iconMarkup("arrow-right")}</button></div>`
+            : `<div class="all5e-next-row"><a class="download-btn secondary-download" href="../index.html?panel=sessionSelect&year=${year}&grade=${grade}">${iconMarkup("circle-check")}<span>Finish Session</span></a></div>`;
         const header = `<div class="phase-header">
             <span class="phase-number">${phaseNumber}</span>
             <div><p class="phase-label">${phaseTitle}</p><h1>${lessonData[phase]?.title || phaseTitle}</h1></div>
@@ -468,7 +555,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p class="lead-text">${data.lead}</p>
                 <div class="trigger-grid">
                     ${data.triggers.map((item, index) => `<article class="trigger-card${item[0] ? "" : " no-image"}">
-                        ${item[0] ? `<img src="${assetPrefix}${item[0]}" alt="${item[1]}" loading="lazy" decoding="async">` : ""}
+                        ${item[0] ? loadingImage(`${assetPrefix}${item[0]}`, item[1], "trigger-media-stage") : ""}
                         <div>
                             <h2>${index + 1}. ${item[1]}</h2>
                             <p><strong>Trigger Question:</strong> ${item[2]}</p>
@@ -487,7 +574,7 @@ document.addEventListener("DOMContentLoaded", () => {
             card.className = `${card.classList.contains("active") ? "active " : ""}phase-card explore all5e-section`;
             const downloads = data.downloads?.length ? `<div class="download-panel">
                 <div><h2>Arduino Code Files</h2><p>Download the ready-to-upload project code.</p></div>
-                <div class="download-actions">${data.downloads.map(([href, label, type]) => `<a class="download-btn ${type === "secondary" ? "secondary-download" : ""}" href="${assetPrefix}${href}" download>${label}</a>`).join("")}</div>
+                <div class="download-actions">${data.downloads.map(([href, label, type]) => `<a class="download-btn ${type === "secondary" ? "secondary-download" : ""}" href="${assetPrefix}${href}" download>${iconMarkup("download")}<span>${label}</span></a>`).join("")}</div>
             </div>` : "";
             const pendingExplore = !data.pages?.length
                 ? `<article class="craft-card project-working-card"><h2>Explore PDF Pending</h2><p>The Explore PDF for this session is not in the workspace yet. Engage, Explain, Elaborate, and Evaluate are ready, and this section can be regenerated after the Explore PDF is added.</p></article>`
@@ -516,7 +603,7 @@ document.addEventListener("DOMContentLoaded", () => {
             card.innerHTML = `${header}
                 <article class="code-focus">
                     <h2>Code</h2>
-                    <div class="code-copy-wrap"><button type="button" class="copy-code-btn">Copy Code</button><pre><code>${escapeHtml(data.code)}</code></pre></div>
+                    <div class="code-copy-wrap"><button type="button" class="copy-code-btn">${iconMarkup("copy")}<span data-button-label>Copy Code</span></button><pre><code>${escapeHtml(data.code)}</code></pre></div>
                 </article>
                 <div class="explain-steps">${data.steps.map((step, index) => `<article><h3>${index + 1}. ${step[0]}</h3><p>${step[1]}</p></article>`).join("")}</div>
                 ${hardwareSection}${phaseFooter}`;
@@ -528,7 +615,7 @@ document.addEventListener("DOMContentLoaded", () => {
             card.innerHTML = `${header}<p class="source-note">${data.note}</p>
                 <section class="project-gallery-block"><h2>Materials and Components</h2>${renderGallery(data.materials)}</section>
                 ${data.projects.map((project) => {
-                    const download = project.download ? `<div class="download-panel compact-download"><div><h3>${project.title} Code</h3><p>Download the Arduino code for this build.</p></div><a class="download-btn ${project.download[2] === "secondary" ? "secondary-download" : ""}" href="${assetPrefix}${project.download[0]}" download>${project.download[1]}</a></div>` : "";
+                    const download = project.download ? `<div class="download-panel compact-download"><div><h3>${project.title} Code</h3><p>Download the Arduino code for this build.</p></div><a class="download-btn ${project.download[2] === "secondary" ? "secondary-download" : ""}" href="${assetPrefix}${project.download[0]}" download>${iconMarkup("download")}<span>${project.download[1]}</span></a></div>` : "";
                     return `<section class="project-gallery-block"><h2>${project.title}</h2>${download}${renderGallery(project.pages)}<article class="craft-card project-working-card"><h2>How It Works</h2><p>${project.working}</p></article></section>`;
                 }).join("")}${renderTemplates(data.codes)}${phaseFooter}`;
         }
@@ -591,7 +678,7 @@ void loop() {
     }
 
     const renderLessonPage = () => {
-        if (!lessonData || !currentPage || currentPage === "home") return;
+        if (!lessonData || !currentPage || currentPage === "home" || currentPage === "all-5e") return;
 
         const brandSmall = document.querySelector(".brand small");
         if (brandSmall) brandSmall.textContent = `${lessonData.year || levelLabels[year] || `Level ${year}`} ${lessonData.grade} ${lessonData.tier}`;
@@ -626,7 +713,7 @@ void loop() {
                 <p class="lead-text">${data.lead}</p>
                 <div class="trigger-grid">
                     ${data.triggers.map((item, index) => `<article class="trigger-card${item[0] ? "" : " no-image"}">
-                        ${item[0] ? `<img src="${assetPrefix}${item[0]}" alt="${item[1]}" loading="lazy" decoding="async">` : ""}
+                        ${item[0] ? loadingImage(`${assetPrefix}${item[0]}`, item[1], "trigger-media-stage") : ""}
                         <div>
                             <h2>${index + 1}. ${item[1]}</h2>
                             <p><strong>Trigger Question:</strong> ${item[2]}</p>
@@ -645,7 +732,7 @@ void loop() {
             card.className = "phase-card explore";
             const downloads = data.downloads?.length ? `<div class="download-panel">
                 <div><h2>Arduino Code Files</h2><p>Download the ready-to-upload project code.</p></div>
-                <div class="download-actions">${data.downloads.map(([href, label, type]) => `<a class="download-btn ${type === "secondary" ? "secondary-download" : ""}" href="${assetPrefix}${href}" download>${label}</a>`).join("")}</div>
+                <div class="download-actions">${data.downloads.map(([href, label, type]) => `<a class="download-btn ${type === "secondary" ? "secondary-download" : ""}" href="${assetPrefix}${href}" download>${iconMarkup("download")}<span>${label}</span></a>`).join("")}</div>
             </div>` : "";
             const pendingExplore = !data.pages?.length
                 ? `<article class="craft-card project-working-card"><h2>Explore PDF Pending</h2><p>The Explore PDF for this session is not in the workspace yet. Engage, Explain, Elaborate, and Evaluate are ready, and this section can be regenerated after the Explore PDF is added.</p></article>`
@@ -680,7 +767,7 @@ void loop() {
             card.innerHTML = `${header}
                 <article class="code-focus">
                     <h2>Code</h2>
-                    <div class="code-copy-wrap"><button type="button" class="copy-code-btn">Copy Code</button><pre><code>${escapeHtml(data.code)}</code></pre></div>
+                    <div class="code-copy-wrap"><button type="button" class="copy-code-btn">${iconMarkup("copy")}<span data-button-label>Copy Code</span></button><pre><code>${escapeHtml(data.code)}</code></pre></div>
                 </article>
                 <div class="explain-steps">${data.steps.map((step, index) => `<article><h3>${index + 1}. ${step[0]}</h3><p>${step[1]}</p></article>`).join("")}</div>
                 ${hardwareSection}`;
@@ -692,7 +779,7 @@ void loop() {
             card.innerHTML = `${header}<p class="source-note">${data.note}</p>
                 <section class="project-gallery-block"><h2>Materials and Components</h2>${renderGallery(data.materials)}</section>
                 ${data.projects.map((project) => {
-                    const download = project.download ? `<div class="download-panel compact-download"><div><h3>${project.title} Code</h3><p>Download the Arduino code for this build.</p></div><a class="download-btn ${project.download[2] === "secondary" ? "secondary-download" : ""}" href="${assetPrefix}${project.download[0]}" download>${project.download[1]}</a></div>` : "";
+                    const download = project.download ? `<div class="download-panel compact-download"><div><h3>${project.title} Code</h3><p>Download the Arduino code for this build.</p></div><a class="download-btn ${project.download[2] === "secondary" ? "secondary-download" : ""}" href="${assetPrefix}${project.download[0]}" download>${iconMarkup("download")}<span>${project.download[1]}</span></a></div>` : "";
                     return `<section class="project-gallery-block"><h2>${project.title}</h2>${download}${renderGallery(project.pages)}<article class="craft-card project-working-card"><h2>How It Works</h2><p>${project.working}</p></article></section>`;
                 }).join("")}${renderTemplates(data.codes)}`;
         }
@@ -756,6 +843,8 @@ void loop() {
 
     renderAll5ePage();
     renderLessonPage();
+    initializeMediaLoading();
+    refreshIcons();
 
     if (menuToggle && mainNav) {
         menuToggle.addEventListener("click", () => {
@@ -841,16 +930,16 @@ void loop() {
 
             try {
                 await copyText(text);
-                button.textContent = "Copied";
+                setButtonLabel(button, "Copied");
                 button.classList.add("copied");
                 setTimeout(() => {
-                    button.textContent = "Copy Code";
+                    setButtonLabel(button, "Copy Code");
                     button.classList.remove("copied");
                 }, 1400);
             } catch (error) {
-                button.textContent = "Copy failed";
+                setButtonLabel(button, "Copy failed");
                 setTimeout(() => {
-                    button.textContent = "Copy Code";
+                    setButtonLabel(button, "Copy Code");
                 }, 1400);
             }
         });
@@ -866,16 +955,16 @@ void loop() {
 
             try {
                 await copyText(text);
-                button.textContent = "Copied";
+                setButtonLabel(button, "Copied");
                 button.classList.add("copied");
                 setTimeout(() => {
-                    button.textContent = "Copy Code";
+                    setButtonLabel(button, "Copy Code");
                     button.classList.remove("copied");
                 }, 1400);
             } catch (error) {
-                button.textContent = "Copy failed";
+                setButtonLabel(button, "Copy failed");
                 setTimeout(() => {
-                    button.textContent = "Copy Code";
+                    setButtonLabel(button, "Copy Code");
                 }, 1400);
             }
         });
@@ -890,32 +979,6 @@ void loop() {
         const totalQuestions = sessionTest.querySelectorAll(".test-question").length;
         const codeMax = 5;
         const totalScore = totalQuestions + codeMax;
-
-        // patched: a test can only be submitted once. After submission (or when
-        // the hosting app reports a stored score) the form is locked read-only.
-        let testLocked = false;
-        const lockTest = (note) => {
-            testLocked = true;
-            sessionTest.querySelectorAll("input, textarea, button").forEach((el) => {
-                el.disabled = true;
-            });
-            const actions = sessionTest.querySelector(".test-actions");
-            if (actions) {
-                const p = document.createElement("p");
-                p.className = "source-note";
-                p.textContent = note;
-                actions.replaceChildren(p);
-            }
-        };
-
-        const sessionKey = `${year}-${grade}-${session}`;
-        window.addEventListener("message", (event) => {
-            if (event.origin !== window.location.origin || testLocked) return;
-            const d = event.data;
-            if (!d || d.type !== "su-lms-quiz-scores") return;
-            const done = (d.scores || []).find((s) => s.sessionKey === sessionKey);
-            if (done) lockTest(`Test already submitted. Score: ${done.score} / ${done.total}`);
-        });
 
         const scoreCodeChallenge = () => {
             const codeCard = sessionTest.querySelector(".code-challenge-card");
@@ -957,6 +1020,32 @@ void loop() {
             if (result) result.textContent = `Code score: ${isCorrect ? codeMax : 0} / ${codeMax}`;
             return isCorrect ? codeMax : 0;
         };
+
+        // patched: a test can only be submitted once. After submission (or when
+        // the hosting app reports a stored score) the form is locked read-only.
+        let testLocked = false;
+        const lockTest = (note) => {
+            testLocked = true;
+            sessionTest.querySelectorAll("input, textarea, button").forEach((el) => {
+                el.disabled = true;
+            });
+            const actions = sessionTest.querySelector(".test-actions");
+            if (actions) {
+                const p = document.createElement("p");
+                p.className = "source-note";
+                p.textContent = note;
+                actions.replaceChildren(p);
+            }
+        };
+
+        const sessionKey = `${year}-${grade}-${session}`;
+        window.addEventListener("message", (event) => {
+            if (event.origin !== window.location.origin || testLocked) return;
+            const d = event.data;
+            if (!d || d.type !== "su-lms-quiz-scores") return;
+            const done = (d.scores || []).find((s) => s.sessionKey === sessionKey);
+            if (done) lockTest(`Test already submitted. Score: ${done.score} / ${done.total}`);
+        });
 
         sessionTest.addEventListener("submit", (event) => {
             event.preventDefault();

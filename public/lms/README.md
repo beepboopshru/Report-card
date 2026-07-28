@@ -15,7 +15,10 @@ Local patches (keep when re-vendoring):
    (upstream assigns the relative `cover` path directly, which 404s here).
 3. `js/main.js`: the quiz submit handler posts a `su-lms-quiz-result` message
    to the parent window so the Report Card app can store per-student scores
-   (see `src/pages/StudentLms.tsx`).
+   (see `src/pages/StudentLms.tsx`), and the test locks after one submission
+   (or when the parent reports a stored score via `su-lms-quiz-scores`).
+4. `js/main.js`: a `?grades=4,5` param (persisted per level in sessionStorage)
+   filters which class cards are shown, so students only see their own grade.
 
 To update content: re-run the sparse clone of the upstream repo, copy
 `index.html css/ js/ pages/` over this directory, and re-apply the patches above.
