@@ -19,6 +19,11 @@ export default function AdminClasses() {
   const recreateClassLogins = useAction(api.enrollment.recreateClassLogins);
   const setClassLevels = useMutation(api.lms.setClassLevels);
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [loginsId, setLoginsId] = useState<Id<"classes"> | null>(null);
+  const credentials = useQuery(
+    api.students.credentialsForClass,
+    loginsId ? { classId: loginsId } : "skip",
+  );
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [yearFilter, setYearFilter] = useState("");
@@ -303,6 +308,15 @@ export default function AdminClasses() {
                         <Button
                           size="sm"
                           variant="secondary"
+                          onClick={() =>
+                            setLoginsId(loginsId === c._id ? null : c._id)
+                          }
+                        >
+                          {loginsId === c._id ? "Hide logins" : "View logins"}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="secondary"
                           onClick={() => onResetPassword(c._id, c.name)}
                           disabled={busyId === c._id}
                         >
@@ -330,6 +344,47 @@ export default function AdminClasses() {
                     </Button>
                   </div>
                 </div>
+
+                {loginsId === c._id && (
+                  <div className="mt-4 overflow-x-auto">
+                    {!credentials ? (
+                      <p className="text-sm text-ink-muted">Loading logins…</p>
+                    ) : credentials.filter((r) => r.username).length === 0 ? (
+                      <p className="text-sm text-ink-muted">No logins yet.</p>
+                    ) : (
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="text-left text-xs uppercase tracking-wide text-ink-subtle">
+                            <th className="py-2 pr-4">Student</th>
+                            <th className="py-2 pr-4">Roll no</th>
+                            <th className="py-2 pr-4">Username</th>
+                            <th className="py-2">Password</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {credentials
+                            .filter((r) => r.username)
+                            .map((r, i) => (
+                              <tr key={i} className="border-t border-line">
+                                <td className="py-2 pr-4 font-medium text-ink">
+                                  {r.name}
+                                </td>
+                                <td className="py-2 pr-4 text-ink-muted">
+                                  {r.rollNo || "—"}
+                                </td>
+                                <td className="py-2 pr-4 font-mono">
+                                  {r.username}
+                                </td>
+                                <td className="py-2 font-mono">
+                                  {r.password || "—"}
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    )}
+                  </div>
+                )}
               </CardBody>
             </Card>
           ))}
