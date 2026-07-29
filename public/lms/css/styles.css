@@ -37,7 +37,7 @@ body {
         radial-gradient(circle at 80% 92%, rgba(42, 182, 125, 0.12), transparent 300px),
         linear-gradient(180deg, #fff7df 0%, #fffaf2 310px, #f6fbff 100%);
     line-height: 1.6;
-    animation: pageIn 0.55s ease both;
+    animation: pageIn 0.55s ease;
 }
 
 @keyframes pageIn {
@@ -69,11 +69,9 @@ a {
 @keyframes phaseIn {
     from {
         opacity: 0;
-        transform: translateY(8px);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
     }
 }
 
@@ -91,6 +89,7 @@ button {
 .download-btn,
 .copy-code-btn,
 .copy-page-code-btn,
+.language-toggle,
 .submit-test,
 .reset-test,
 .page-nav a {
@@ -112,6 +111,7 @@ button {
 .download-btn:active,
 .copy-code-btn:active,
 .copy-page-code-btn:active,
+.language-toggle:active,
 .submit-test:active,
 .reset-test:active,
 .page-nav a:active {
@@ -124,6 +124,7 @@ button {
 .download-btn:disabled,
 .copy-code-btn:disabled,
 .copy-page-code-btn:disabled,
+.language-toggle:disabled,
 .submit-test:disabled,
 .reset-test:disabled {
     opacity: 0.55;
@@ -377,6 +378,7 @@ body[data-page="home"] .hero-copy h1 {
 .download-btn:hover,
 .copy-code-btn:hover,
 .copy-page-code-btn:hover,
+.language-toggle:hover,
 .submit-test:hover,
 .reset-test:hover,
 .page-nav a:hover {
@@ -938,8 +940,7 @@ body[data-page="home"] .hero-copy h1 {
     border-radius: var(--radius);
     background: var(--surface);
     box-shadow: 0 12px 34px rgba(37, 48, 71, 0.08);
-    transform: translateY(0);
-    transition: box-shadow 0.28s ease, transform 0.28s ease;
+    transition: box-shadow 0.28s ease;
 }
 
 .phase-card:hover {
@@ -982,8 +983,46 @@ body[data-page="home"] .hero-copy h1 {
 .phase-header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 14px;
     margin-bottom: 20px;
+}
+
+.phase-heading {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.language-toggle {
+    min-height: 42px;
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 14px;
+    border: 1px solid #bfd8ff;
+    border-radius: 8px;
+    color: #1f5fb7;
+    background: #eef6ff;
+    box-shadow: 0 8px 20px rgba(47, 128, 237, 0.12);
+}
+
+.language-toggle svg {
+    width: 18px;
+    height: 18px;
+}
+
+.phase-card[lang="hi"] {
+    font-family: "Nirmala UI", Mangal, Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+.phase-card[lang="hi"] p,
+.phase-card[lang="hi"] li,
+.phase-card[lang="hi"] label {
+    line-height: 1.75;
 }
 
 .phase-number {
@@ -1495,6 +1534,14 @@ li + li {
     min-width: 0;
 }
 
+body[data-page="all-5e"] .all5e-section.active .language-toggle {
+    position: fixed;
+    right: max(18px, calc((100vw - var(--max-width)) / 2 + 18px));
+    bottom: 18px;
+    z-index: 18;
+    box-shadow: 0 12px 28px rgba(47, 128, 237, 0.2);
+}
+
 .all5e-tools {
     position: sticky;
     top: 88px;
@@ -1555,9 +1602,22 @@ li + li {
     background: transparent;
 }
 
+.all5e-content-card.fullscreen-mode .all5e-section.active .language-toggle,
+.all5e-content-card:fullscreen .all5e-section.active .language-toggle {
+    position: fixed;
+    top: 14px;
+    right: 220px;
+    bottom: auto;
+    z-index: 9;
+    box-shadow: 0 12px 28px rgba(47, 128, 237, 0.2);
+}
+
 .all5e-content-card.fullscreen-mode .all5e-section.active,
 .all5e-content-card:fullscreen .all5e-section.active {
     min-height: calc(100vh - 80px);
+    padding-top: 88px;
+    animation: none;
+    transform: none;
 }
 
 .trigger-card.no-image {
@@ -2710,6 +2770,7 @@ code {
         padding: 10px;
         scrollbar-color: var(--blue) #e8edf5;
         scrollbar-width: thin;
+        scroll-margin-top: 82px;
     }
 
     body[data-page="all-5e"] .all5e-layout > .common-dialogue-nav > .phase-label {
@@ -2800,6 +2861,25 @@ code {
         padding: 20px;
     }
 
+    .phase-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .phase-heading {
+        width: 100%;
+    }
+
+    .language-toggle {
+        align-self: flex-end;
+    }
+
+    .all5e-content-card.fullscreen-mode .all5e-section.active .language-toggle,
+    .all5e-content-card:fullscreen .all5e-section.active .language-toggle {
+        left: 18px;
+        right: auto;
+    }
+
     .footer-inner {
         align-items: flex-start;
         flex-direction: column;
@@ -2831,6 +2911,7 @@ code {
         gap: 6px;
         padding: 8px;
         scroll-snap-type: x proximity;
+        scroll-margin-top: 74px;
     }
 
     body[data-page="all-5e"] .all5e-layout > .common-dialogue-nav .dialogue-option,

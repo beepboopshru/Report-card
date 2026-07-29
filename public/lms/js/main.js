@@ -46,6 +46,152 @@ document.addEventListener("DOMContentLoaded", () => {
         "1": "Level 1 Creative Automation",
         "2": "Level 2 Sensational Sensors"
     };
+    const translatablePhases = new Set(["engage", "explain", "evaluate"]);
+    const hindiTranslations = window.LMS_HINDI_TRANSLATIONS || {};
+    const hindiTranslationOverrides = {
+        "Assessment": "मूल्यांकन",
+        "Curiosity Kickoff": "जिज्ञासा की शुरुआत",
+        "Real-Life Curiosity Kickoff": "वास्तविक जीवन से जिज्ञासा की शुरुआत",
+        "Deep Learning": "गहराई से समझें",
+        "Hardware Explanation": "हार्डवेयर की व्याख्या"
+    };
+    const phaseUi = {
+        en: {
+            engage: "Engage",
+            explore: "Explore",
+            explain: "Explain",
+            elaborate: "Elaborate",
+            evaluate: "Evaluate",
+            switchLanguage: "Change this phase to Hindi",
+            languageButton: "हिंदी",
+            next: "Next",
+            finishSession: "Finish Session",
+            triggerQuestion: "Trigger Question:",
+            objectives: "Objectives",
+            code: "Code",
+            copyCode: "Copy Code",
+            copied: "Copied",
+            copyFailed: "Copy failed",
+            hardwareExplanation: "Hardware Explanation",
+            codeChallenge: "Code Challenge",
+            codeChallengePoints: "Code challenge carries 5 points.",
+            fillEveryBlank: "Fill every blank before submitting the test.",
+            reviewCorrectedCode: "Review and submit the corrected code.",
+            sessionTest: "Session Test",
+            mcqPoints: "MCQs carry {count} points. Total score: {total} points.",
+            submitTest: "Submit Test",
+            reset: "Reset",
+            testSubmitted: "Test Submitted",
+            score: "Score",
+            reviewLesson: "Review the lesson and try again.",
+            close: "Close",
+            howCompleteCode: "How to Complete the Code",
+            readTarget: "Read the target behavior first.",
+            editCode: "Edit the code so the setup and loop match the session project.",
+            submitAfterCheck: "Submit the test after checking the corrected code and MCQs.",
+            howFillBlanks: "How to Fill the Code Blanks",
+            fillOnlyMissing: "Fill each blank with only the missing value or keyword. Do not type extra brackets, semicolons, or full lines.",
+            pinBlank: "Pin blanks need the Arduino pin number used in this session.",
+            modeBlank: "Mode/state blanks need Arduino words like OUTPUT, INPUT, HIGH, or LOW.",
+            delayBlank: "Delay blanks need the timing number in milliseconds.",
+            blank: "Blank",
+            typeCorrectedCode: "Type the corrected code",
+            codeBlank: "Code blank",
+            numericAnswer: "Enter the correct pin number or delay value used by this session.",
+            outputAnswer: "Enter OUTPUT because this pin sends a signal to a device.",
+            inputAnswer: "Enter INPUT because this pin reads a sensor or switch signal.",
+            pullupAnswer: "Enter INPUT_PULLUP when the switch input uses Arduino's internal pull-up mode.",
+            highAnswer: "Enter HIGH to turn the output ON.",
+            lowAnswer: "Enter LOW to turn the output OFF.",
+            genericAnswer: "Enter the missing Arduino keyword, value, or constant that completes the program.",
+            codeScore: "Code score: {points} / {max} ({correct} of {count} blanks correct)",
+            excellent: "Excellent. Code: {code} / {max}, MCQs: {mcq} / {questions}.",
+            goodWork: "Good work. Code: {code} / {max}, MCQs: {mcq} / {questions}.",
+            reviewChallenge: "Review the code challenge and MCQs. Code: {code} / {max}, MCQs: {mcq} / {questions}."
+        },
+        hi: {
+            engage: "जुड़ें",
+            explore: "अन्वेषण",
+            explain: "समझें",
+            elaborate: "विस्तार",
+            evaluate: "मूल्यांकन",
+            switchLanguage: "इस चरण को अंग्रेज़ी में बदलें",
+            languageButton: "English",
+            next: "अगला",
+            finishSession: "सत्र पूरा करें",
+            triggerQuestion: "सोचने का प्रश्न:",
+            objectives: "सीखने के उद्देश्य",
+            code: "कोड",
+            copyCode: "कोड कॉपी करें",
+            copied: "कॉपी हो गया",
+            copyFailed: "कॉपी नहीं हुआ",
+            hardwareExplanation: "हार्डवेयर की व्याख्या",
+            codeChallenge: "कोड चुनौती",
+            codeChallengePoints: "कोड चुनौती के 5 अंक हैं।",
+            fillEveryBlank: "टेस्ट जमा करने से पहले सभी रिक्त स्थान भरें।",
+            reviewCorrectedCode: "सही किए गए कोड की जाँच करके उसे जमा करें।",
+            sessionTest: "सत्र परीक्षा",
+            mcqPoints: "बहुविकल्पीय प्रश्नों के {count} अंक हैं। कुल अंक: {total}।",
+            submitTest: "टेस्ट जमा करें",
+            reset: "दोबारा शुरू करें",
+            testSubmitted: "टेस्ट जमा हो गया",
+            score: "अंक",
+            reviewLesson: "पाठ दोबारा पढ़ें और फिर प्रयास करें।",
+            close: "बंद करें",
+            howCompleteCode: "कोड कैसे पूरा करें",
+            readTarget: "सबसे पहले अपेक्षित कार्यप्रणाली को ध्यान से पढ़ें।",
+            editCode: "setup और loop को सत्र के प्रोजेक्ट के अनुसार बनाने के लिए कोड संपादित करें।",
+            submitAfterCheck: "सही किया गया कोड और बहुविकल्पीय प्रश्न जाँचने के बाद टेस्ट जमा करें।",
+            howFillBlanks: "कोड के रिक्त स्थान कैसे भरें",
+            fillOnlyMissing: "हर रिक्त स्थान में केवल छूटा हुआ मान या कीवर्ड लिखें। अतिरिक्त ब्रैकेट, सेमीकोलन या पूरी पंक्ति न लिखें।",
+            pinBlank: "पिन वाले रिक्त स्थान में इस सत्र में उपयोग किया गया Arduino पिन नंबर लिखें।",
+            modeBlank: "मोड या स्थिति वाले रिक्त स्थान में OUTPUT, INPUT, HIGH या LOW जैसे Arduino शब्द लिखें।",
+            delayBlank: "delay वाले रिक्त स्थान में मिलीसेकंड का समय लिखें।",
+            blank: "रिक्त स्थान",
+            typeCorrectedCode: "सही किया गया कोड लिखें",
+            codeBlank: "कोड रिक्त स्थान",
+            numericAnswer: "इस सत्र में उपयोग किया गया सही पिन नंबर या delay मान लिखें।",
+            outputAnswer: "OUTPUT लिखें क्योंकि यह पिन किसी उपकरण को सिग्नल भेजता है।",
+            inputAnswer: "INPUT लिखें क्योंकि यह पिन सेंसर या स्विच का सिग्नल पढ़ता है।",
+            pullupAnswer: "जब स्विच इनपुट Arduino के अंदरूनी pull-up मोड का उपयोग करे तब INPUT_PULLUP लिखें।",
+            highAnswer: "आउटपुट को ON करने के लिए HIGH लिखें।",
+            lowAnswer: "आउटपुट को OFF करने के लिए LOW लिखें।",
+            genericAnswer: "प्रोग्राम पूरा करने वाला छूटा हुआ Arduino कीवर्ड, मान या स्थिरांक लिखें।",
+            codeScore: "कोड अंक: {points} / {max} ({count} में से {correct} रिक्त स्थान सही)",
+            excellent: "बहुत बढ़िया। कोड: {code} / {max}, बहुविकल्पीय प्रश्न: {mcq} / {questions}।",
+            goodWork: "अच्छा प्रयास। कोड: {code} / {max}, बहुविकल्पीय प्रश्न: {mcq} / {questions}।",
+            reviewChallenge: "कोड चुनौती और बहुविकल्पीय प्रश्न दोबारा देखें। कोड: {code} / {max}, बहुविकल्पीय प्रश्न: {mcq} / {questions}।"
+        }
+    };
+    const readPhaseLanguage = (phase) => {
+        try {
+            return localStorage.getItem(`lms-phase-language-${phase}`) === "hi" ? "hi" : "en";
+        } catch (error) {
+            return "en";
+        }
+    };
+    const phaseLanguages = {
+        engage: readPhaseLanguage("engage"),
+        explain: readPhaseLanguage("explain"),
+        evaluate: readPhaseLanguage("evaluate")
+    };
+    const phaseLanguage = (phase) => translatablePhases.has(phase) ? phaseLanguages[phase] : "en";
+    const translateText = (value, language) => {
+        if (language !== "hi" || typeof value !== "string") return value;
+        const translated = hindiTranslationOverrides[value.trim()]
+            || hindiTranslations[value.trim()]
+            || value;
+        return translated
+            .replaceAll("लेवल 1 क्रिएटिव ऑटोमेशन", "स्तर 1 रचनात्मक स्वचालन")
+            .replaceAll("लेवल 2 सनसनीखेज सेंसर", "स्तर 2 संवेदी सेंसर");
+    };
+    const uiText = (language, key, replacements = {}) => {
+        const source = phaseUi[language]?.[key] || phaseUi.en[key] || key;
+        return Object.entries(replacements).reduce(
+            (text, [name, value]) => text.replaceAll(`{${name}}`, String(value)),
+            source
+        );
+    };
     let selectedHomeYear = year;
     let selectedHomeGrade = grade;
     let selectedHomeSessionUrl = "pages/all5e.html?year=1&grade=4&session=1";
@@ -233,17 +379,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const phaseButtons = document.querySelectorAll("[data-phase]");
         const phaseCards = document.querySelectorAll("[data-all5e-phase]");
         const contentCard = document.querySelector("#all5eContent");
+        const phaseNav = document.querySelector(".all5e-layout > .common-dialogue-nav");
         const enterFullscreen = document.querySelector("#enter5eFullscreen");
         const exitFullscreen = document.querySelector("#exit5eFullscreen");
         const backToSessions = document.querySelector("[data-back-to-sessions]");
         const phaseOrder = ["engage", "explore", "explain", "elaborate", "evaluate"];
-        const phaseNames = {
-            engage: "Engage",
-            explore: "Explore",
-            explain: "Explain",
-            elaborate: "Elaborate",
-            evaluate: "Evaluate"
-        };
 
         const sessionTitle = `${lessonData.year || levelLabels[year] || `Level ${year}`} | ${lessonData.grade} | ${lessonData.session}`;
         document.title = `${sessionTitle} | Engage`;
@@ -266,7 +406,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             activePhase = selectedPhase;
             visitedPhases.add(selectedPhase);
-            document.title = `${sessionTitle} | ${phaseNames[selectedPhase]}`;
+            document.title = `${sessionTitle} | ${uiText(phaseLanguage(selectedPhase), selectedPhase)}`;
             phaseButtons.forEach((item) => {
                 const isActive = item.dataset.phase === selectedPhase;
                 item.classList.toggle("active", isActive);
@@ -280,15 +420,25 @@ document.addEventListener("DOMContentLoaded", () => {
             phaseCards.forEach((card) => card.classList.toggle("active", card.dataset.all5ePhase === selectedPhase));
             const activeCard = document.querySelector(`[data-all5e-phase="${selectedPhase}"]`);
             if (activeCard) activeCard.scrollTop = 0;
+            if (!immediate) {
+                const scrollTarget = window.matchMedia("(max-width: 980px)").matches ? phaseNav : contentCard;
+                const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+                window.requestAnimationFrame(() => {
+                    scrollTarget?.scrollIntoView({ block: "start", behavior });
+                });
+            }
         };
 
         phaseButtons.forEach((button) => {
             button.addEventListener("click", () => showPhase(button.dataset.phase));
         });
 
-        document.querySelectorAll("[data-next-e]").forEach((button) => {
-            button.addEventListener("click", () => showPhase(button.dataset.nextE));
-        });
+        if (contentCard) {
+            contentCard.addEventListener("click", (event) => {
+                const nextButton = event.target.closest("[data-next-e]");
+                if (nextButton) showPhase(nextButton.dataset.nextE);
+            });
+        }
 
         showPhase("engage", true);
 
@@ -465,58 +615,58 @@ document.addEventListener("DOMContentLoaded", () => {
         .replace(/\s+/g, "")
         .toUpperCase();
 
-    const renderInteractiveCodeChallenge = (challengeCode = "", answers = []) => {
+    const renderInteractiveCodeChallenge = (challengeCode = "", answers = [], language = "en") => {
         const escapedParts = challengeCode.split(/_{4,}/).map(escapeHtml);
         if (escapedParts.length === 1) {
             return `<div class="code-entry-panel" data-code-challenge="full">
-                <label for="fullCodeAnswer">Type the corrected code</label>
+                <label for="fullCodeAnswer">${uiText(language, "typeCorrectedCode")}</label>
                 <textarea id="fullCodeAnswer" class="code-textarea" data-full-code-answer rows="10" spellcheck="false">${escapeHtml(challengeCode)}</textarea>
             </div>`;
         }
 
         return `<pre class="interactive-code"><code>${escapedParts.map((part, index) => {
             const input = index < escapedParts.length - 1
-                ? `<input class="code-blank-input" name="codeBlank${index + 1}" aria-label="Code blank ${index + 1}" data-code-answer="${escapeHtml(answers[index] || "")}" autocomplete="off" spellcheck="false">`
+                ? `<input class="code-blank-input" name="codeBlank${index + 1}" aria-label="${uiText(language, "codeBlank")} ${index + 1}" data-code-answer="${escapeHtml(answers[index] || "")}" autocomplete="off" spellcheck="false">`
                 : "";
             return `${part}${input}`;
         }).join("")}</code></pre>`;
     };
 
-    const describeCodeAnswer = (answer = "") => {
+    const describeCodeAnswer = (answer = "", language = "en") => {
         const normalized = normalizeCodeAnswer(answer);
-        if (/^\d+$/.test(normalized)) return "Enter the correct pin number or delay value used by this session.";
-        if (normalized === "OUTPUT") return "Enter OUTPUT because this pin sends a signal to a device.";
-        if (normalized === "INPUT") return "Enter INPUT because this pin reads a sensor or switch signal.";
-        if (normalized === "INPUT_PULLUP") return "Enter INPUT_PULLUP when the switch input uses Arduino's internal pull-up mode.";
-        if (normalized === "HIGH") return "Enter HIGH to turn the output ON.";
-        if (normalized === "LOW") return "Enter LOW to turn the output OFF.";
-        return "Enter the missing Arduino keyword, value, or constant that completes the program.";
+        if (/^\d+$/.test(normalized)) return uiText(language, "numericAnswer");
+        if (normalized === "OUTPUT") return uiText(language, "outputAnswer");
+        if (normalized === "INPUT") return uiText(language, "inputAnswer");
+        if (normalized === "INPUT_PULLUP") return uiText(language, "pullupAnswer");
+        if (normalized === "HIGH") return uiText(language, "highAnswer");
+        if (normalized === "LOW") return uiText(language, "lowAnswer");
+        return uiText(language, "genericAnswer");
     };
 
-    const renderCodeInstructions = (answers = [], hasCodeBlanks = true) => {
+    const renderCodeInstructions = (answers = [], hasCodeBlanks = true, language = "en") => {
         if (!hasCodeBlanks) {
             return `<section class="code-instruction-panel">
-                <h3>How to Complete the Code</h3>
+                <h3>${uiText(language, "howCompleteCode")}</h3>
                 <ul>
-                    <li>Read the target behavior first.</li>
-                    <li>Edit the code so the setup and loop match the session project.</li>
-                    <li>Submit the test after checking the corrected code and MCQs.</li>
+                    <li>${uiText(language, "readTarget")}</li>
+                    <li>${uiText(language, "editCode")}</li>
+                    <li>${uiText(language, "submitAfterCheck")}</li>
                 </ul>
             </section>`;
         }
 
         return `<section class="code-instruction-panel">
-            <h3>How to Fill the Code Blanks</h3>
+            <h3>${uiText(language, "howFillBlanks")}</h3>
             <ul>
-                <li>Fill each blank with only the missing value or keyword. Do not type extra brackets, semicolons, or full lines.</li>
-                <li>Pin blanks need the Arduino pin number used in this session.</li>
-                <li>Mode/state blanks need Arduino words like OUTPUT, INPUT, HIGH, or LOW.</li>
-                <li>Delay blanks need the timing number in milliseconds.</li>
+                <li>${uiText(language, "fillOnlyMissing")}</li>
+                <li>${uiText(language, "pinBlank")}</li>
+                <li>${uiText(language, "modeBlank")}</li>
+                <li>${uiText(language, "delayBlank")}</li>
             </ul>
             <div class="blank-guide-grid">
                 ${answers.map((answer, index) => `<article>
-                    <strong>Blank ${index + 1}</strong>
-                    <span>${describeCodeAnswer(answer)}</span>
+                    <strong>${uiText(language, "blank")} ${index + 1}</strong>
+                    <span>${describeCodeAnswer(answer, language)}</span>
                 </article>`).join("")}
             </div>
         </section>`;
@@ -530,42 +680,44 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!lessonData || !card) return;
 
         const phaseNumber = { engage: 1, explore: 2, explain: 3, elaborate: 4, evaluate: 5 }[phase] || 1;
-        const phaseTitle = phase.charAt(0).toUpperCase() + phase.slice(1);
+        const language = phaseLanguage(phase);
+        const tr = (value) => translateText(value, language);
+        const phaseTitle = uiText(language, phase);
         const phaseOrder = ["engage", "explore", "explain", "elaborate", "evaluate"];
-        const phaseNames = {
-            engage: "Engage",
-            explore: "Explore",
-            explain: "Explain",
-            elaborate: "Elaborate",
-            evaluate: "Evaluate"
-        };
         const nextPhase = phaseOrder[phaseOrder.indexOf(phase) + 1];
         const phaseFooter = nextPhase
-            ? `<div class="all5e-next-row"><button type="button" class="download-btn" data-next-e="${nextPhase}"><span>Next: ${phaseNames[nextPhase]}</span>${iconMarkup("arrow-right")}</button></div>`
-            : `<div class="all5e-next-row"><a class="download-btn secondary-download" href="../index.html?panel=sessionSelect&year=${year}&grade=${grade}">${iconMarkup("circle-check")}<span>Finish Session</span></a></div>`;
+            ? `<div class="all5e-next-row"><button type="button" class="download-btn" data-next-e="${nextPhase}"><span>${uiText(language, "next")}: ${uiText(language, nextPhase)}</span>${iconMarkup("arrow-right")}</button></div>`
+            : `<div class="all5e-next-row"><a class="download-btn secondary-download" href="../index.html?panel=sessionSelect&year=${year}&grade=${grade}">${iconMarkup("circle-check")}<span>${uiText(language, "finishSession")}</span></a></div>`;
+        const languageControl = translatablePhases.has(phase)
+            ? `<button type="button" class="language-toggle" data-language-toggle="${phase}" aria-label="${uiText(language, "switchLanguage")}" title="${uiText(language, "switchLanguage")}">${iconMarkup("languages")}<span>${uiText(language, "languageButton")}</span></button>`
+            : "";
         const header = `<div class="phase-header">
-            <span class="phase-number">${phaseNumber}</span>
-            <div><p class="phase-label">${phaseTitle}</p><h1>${lessonData[phase]?.title || phaseTitle}</h1></div>
+            <div class="phase-heading">
+                <span class="phase-number">${phaseNumber}</span>
+                <div><p class="phase-label">${phaseTitle}</p><h1>${tr(lessonData[phase]?.title) || phaseTitle}</h1></div>
+            </div>
+            ${languageControl}
         </div>`;
+        card.setAttribute("lang", language);
 
         if (phase === "engage") {
             const data = lessonData.engage;
             card.className = `${card.classList.contains("active") ? "active " : ""}phase-card engage all5e-section`;
             card.innerHTML = `${header}
-                <p class="lead-text">${data.lead}</p>
+                <p class="lead-text">${tr(data.lead)}</p>
                 <div class="trigger-grid">
                     ${data.triggers.map((item, index) => `<article class="trigger-card${item[0] ? "" : " no-image"}">
-                        ${item[0] ? loadingImage(`${assetPrefix}${item[0]}`, item[1], "trigger-media-stage") : ""}
+                        ${item[0] ? loadingImage(`${assetPrefix}${item[0]}`, tr(item[1]), "trigger-media-stage") : ""}
                         <div>
-                            <h2>${index + 1}. ${item[1]}</h2>
-                            <p><strong>Trigger Question:</strong> ${item[2]}</p>
-                            <p>${item[3]}</p>
+                            <h2>${index + 1}. ${tr(item[1])}</h2>
+                            <p><strong>${uiText(language, "triggerQuestion")}</strong> ${tr(item[2])}</p>
+                            <p>${tr(item[3])}</p>
                         </div>
                     </article>`).join("")}
                 </div>
                 <section class="objectives-card">
-                    <h2>Objectives</h2>
-                    <ul class="check-list">${data.objectives.map((item) => `<li>${item}</li>`).join("")}</ul>
+                    <h2>${uiText(language, "objectives")}</h2>
+                    <ul class="check-list">${data.objectives.map((item) => `<li>${tr(item)}</li>`).join("")}</ul>
                 </section>${phaseFooter}`;
         }
 
@@ -587,25 +739,25 @@ document.addEventListener("DOMContentLoaded", () => {
             card.className = `${card.classList.contains("active") ? "active " : ""}phase-card explain all5e-section`;
             const hardware = data.hardware;
             const hardwareSection = hardware ? `<section class="hardware-section">
-                    <h2>${hardware.title}</h2>
-                    <p class="lead-text hardware-intro">${hardware.intro}</p>
+                    <h2>${tr(hardware.title)}</h2>
+                    <p class="lead-text hardware-intro">${tr(hardware.intro)}</p>
                     <div class="hardware-grid session-hardware-grid">
                         ${hardware.items.map((item) => `<article class="hardware-card session-hardware-card">
-                            ${renderHardwareImages(item[0], item[1])}
+                            ${renderHardwareImages(item[0], tr(item[1]))}
                             <div>
-                                <h3>${item[1]}</h3>
-                                <p>${item[2]}</p>
-                                <p>${item[3]}</p>
+                                <h3>${tr(item[1])}</h3>
+                                <p>${tr(item[2])}</p>
+                                <p>${tr(item[3])}</p>
                             </div>
                         </article>`).join("")}
                     </div>
                 </section>` : "";
             card.innerHTML = `${header}
                 <article class="code-focus">
-                    <h2>Code</h2>
-                    <div class="code-copy-wrap"><button type="button" class="copy-code-btn">${iconMarkup("copy")}<span data-button-label>Copy Code</span></button><pre><code>${escapeHtml(data.code)}</code></pre></div>
+                    <h2>${uiText(language, "code")}</h2>
+                    <div class="code-copy-wrap"><button type="button" class="copy-code-btn">${iconMarkup("copy")}<span data-button-label>${uiText(language, "copyCode")}</span></button><pre><code>${escapeHtml(data.code)}</code></pre></div>
                 </article>
-                <div class="explain-steps">${data.steps.map((step, index) => `<article><h3>${index + 1}. ${step[0]}</h3><p>${step[1]}</p></article>`).join("")}</div>
+                <div class="explain-steps">${data.steps.map((step, index) => `<article><h3>${index + 1}. ${tr(step[0])}</h3><p>${tr(step[1])}</p></article>`).join("")}</div>
                 ${hardwareSection}${phaseFooter}`;
         }
 
@@ -645,33 +797,33 @@ void loop() {
                 <form class="test-form" id="sessionTest">
                     <article class="code-challenge-card" data-code-max="5" data-code-solution="${escapeHtml(lessonData.explain?.code || challengeCode)}">
                         <div>
-                            <h2>Code Challenge</h2>
-                            <p>${challenge}</p>
-                            <p class="source-note">Code challenge carries 5 points. ${hasCodeBlanks ? "Fill every blank before submitting the test." : "Review and submit the corrected code."}</p>
+                            <h2>${uiText(language, "codeChallenge")}</h2>
+                            <p>${tr(challenge)}</p>
+                            <p class="source-note">${uiText(language, "codeChallengePoints")} ${hasCodeBlanks ? uiText(language, "fillEveryBlank") : uiText(language, "reviewCorrectedCode")}</p>
                         </div>
-                        ${renderCodeInstructions(codeAnswers, hasCodeBlanks)}
-                        ${renderInteractiveCodeChallenge(challengeCode, codeAnswers)}
+                        ${renderCodeInstructions(codeAnswers, hasCodeBlanks, language)}
+                        ${renderInteractiveCodeChallenge(challengeCode, codeAnswers, language)}
                         <div class="code-challenge-result" aria-live="polite"></div>
                     </article>
-                    <h2>Session Test</h2>
-                    <p class="source-note">MCQs carry ${questions.length} points. Total score: ${questions.length + 5} points.</p>
+                    <h2>${uiText(language, "sessionTest")}</h2>
+                    <p class="source-note">${uiText(language, "mcqPoints", { count: questions.length, total: questions.length + 5 })}</p>
                     <div class="test-grid">
                         ${questions.map((question, index) => `<fieldset class="test-question">
-                            <legend>${index + 1}. ${question[0]}</legend>
-                            ${question[1].map((option, optionIndex) => `<label><input type="radio" name="q${index + 1}" value="${optionIndex}" ${optionIndex === question[2] ? 'data-correct="true"' : ""}> ${option}</label>`).join("")}
+                            <legend>${index + 1}. ${tr(question[0])}</legend>
+                            ${question[1].map((option, optionIndex) => `<label><input type="radio" name="q${index + 1}" value="${optionIndex}" ${optionIndex === question[2] ? 'data-correct="true"' : ""}> ${tr(option)}</label>`).join("")}
                         </fieldset>`).join("")}
                     </div>
                     <div class="test-actions">
-                        <button type="submit" class="submit-test">Submit Test</button>
-                        <button type="reset" class="reset-test">Reset</button>
+                        <button type="submit" class="submit-test">${uiText(language, "submitTest")}</button>
+                        <button type="reset" class="reset-test">${uiText(language, "reset")}</button>
                     </div>
                 </form>
                 <div class="score-modal" id="scoreModal" hidden>
                     <div class="score-modal-card" role="dialog" aria-modal="true" aria-labelledby="scoreText">
-                        <p class="phase-label">Test Submitted</p>
-                        <strong id="scoreText">Score: 0 / ${questions.length + 5}</strong>
-                        <span id="scoreMessage">Review the lesson and try again.</span>
-                        <button type="button" id="closeScore">Close</button>
+                        <p class="phase-label">${uiText(language, "testSubmitted")}</p>
+                        <strong id="scoreText">${uiText(language, "score")}: 0 / ${questions.length + 5}</strong>
+                        <span id="scoreMessage">${uiText(language, "reviewLesson")}</span>
+                        <button type="button" id="closeScore">${uiText(language, "close")}</button>
                     </div>
                 </div>${phaseFooter}`;
         }
@@ -892,7 +1044,7 @@ void loop() {
     });
 
     const revealTargets = document.querySelectorAll(
-        ".phase-card, .trigger-card, .pdf-frame, .hardware-card, .test-question, .download-panel, .project-working-card"
+        ".phase-card:not(.all5e-section), .trigger-card, .pdf-frame, .hardware-card, .test-question, .download-panel, .project-working-card"
     );
 
     if ("IntersectionObserver" in window) {
@@ -920,58 +1072,67 @@ void loop() {
         });
     });
 
-    document.querySelectorAll(".copy-code-btn").forEach((button) => {
-        button.addEventListener("click", async () => {
-            const wrapper = button.closest(".code-copy-wrap");
-            const code = wrapper ? wrapper.querySelector("code") : null;
-            if (!code) return;
+    const initializeCopyButtons = (root = document) => {
+        root.querySelectorAll(".copy-code-btn").forEach((button) => {
+            if (button.dataset.copyBound === "true") return;
+            button.dataset.copyBound = "true";
+            button.addEventListener("click", async () => {
+                const wrapper = button.closest(".code-copy-wrap");
+                const code = wrapper ? wrapper.querySelector("code") : null;
+                if (!code) return;
 
-            const text = code.innerText;
+                const phase = button.closest("[data-all5e-phase]")?.dataset.all5ePhase || currentPage;
+                const language = phaseLanguage(phase);
+                const text = code.innerText;
 
-            try {
-                await copyText(text);
-                setButtonLabel(button, "Copied");
-                button.classList.add("copied");
-                setTimeout(() => {
-                    setButtonLabel(button, "Copy Code");
-                    button.classList.remove("copied");
-                }, 1400);
-            } catch (error) {
-                setButtonLabel(button, "Copy failed");
-                setTimeout(() => {
-                    setButtonLabel(button, "Copy Code");
-                }, 1400);
-            }
+                try {
+                    await copyText(text);
+                    setButtonLabel(button, uiText(language, "copied"));
+                    button.classList.add("copied");
+                    setTimeout(() => {
+                        setButtonLabel(button, uiText(language, "copyCode"));
+                        button.classList.remove("copied");
+                    }, 1400);
+                } catch (error) {
+                    setButtonLabel(button, uiText(language, "copyFailed"));
+                    setTimeout(() => {
+                        setButtonLabel(button, uiText(language, "copyCode"));
+                    }, 1400);
+                }
+            });
         });
-    });
 
-    document.querySelectorAll(".copy-page-code-btn").forEach((button) => {
-        button.addEventListener("click", async () => {
-            const templateId = button.dataset.codeTemplate;
-            const template = templateId ? document.getElementById(templateId) : null;
-            if (!template) return;
+        root.querySelectorAll(".copy-page-code-btn").forEach((button) => {
+            if (button.dataset.copyBound === "true") return;
+            button.dataset.copyBound = "true";
+            button.addEventListener("click", async () => {
+                const templateId = button.dataset.codeTemplate;
+                const template = templateId ? document.getElementById(templateId) : null;
+                if (!template) return;
 
-            const text = template.content ? template.content.textContent.trim() : template.innerHTML.trim();
+                const text = template.content ? template.content.textContent.trim() : template.innerHTML.trim();
 
-            try {
-                await copyText(text);
-                setButtonLabel(button, "Copied");
-                button.classList.add("copied");
-                setTimeout(() => {
-                    setButtonLabel(button, "Copy Code");
-                    button.classList.remove("copied");
-                }, 1400);
-            } catch (error) {
-                setButtonLabel(button, "Copy failed");
-                setTimeout(() => {
-                    setButtonLabel(button, "Copy Code");
-                }, 1400);
-            }
+                try {
+                    await copyText(text);
+                    setButtonLabel(button, uiText("en", "copied"));
+                    button.classList.add("copied");
+                    setTimeout(() => {
+                        setButtonLabel(button, uiText("en", "copyCode"));
+                        button.classList.remove("copied");
+                    }, 1400);
+                } catch (error) {
+                    setButtonLabel(button, uiText("en", "copyFailed"));
+                    setTimeout(() => {
+                        setButtonLabel(button, uiText("en", "copyCode"));
+                    }, 1400);
+                }
+            });
         });
-    });
+    };
 
-    const sessionTest = document.querySelector("#sessionTest");
-    if (sessionTest) {
+    const initializeSessionTest = (sessionTest) => {
+        if (!sessionTest || sessionTest.dataset.testBound === "true") return;
+        sessionTest.dataset.testBound = "true";
         const scoreModal = document.querySelector("#scoreModal");
         const closeScore = document.querySelector("#closeScore");
         const scoreText = document.querySelector("#scoreText");
@@ -981,6 +1142,7 @@ void loop() {
         const totalScore = totalQuestions + codeMax;
 
         const scoreCodeChallenge = () => {
+            const language = phaseLanguage("evaluate");
             const codeCard = sessionTest.querySelector(".code-challenge-card");
             if (!codeCard) return codeMax;
 
@@ -1002,13 +1164,27 @@ void loop() {
 
                 const points = blanks.length ? Math.round((correct / blanks.length) * codeMax * 100) / 100 : 0;
                 codeCard.classList.add(correct === blanks.length ? "answered-correct" : "answered-wrong");
-                if (result) result.textContent = `Code score: ${points} / ${codeMax} (${correct} of ${blanks.length} blanks correct)`;
+                if (result) {
+                    result.textContent = uiText(language, "codeScore", {
+                        points,
+                        max: codeMax,
+                        correct,
+                        count: blanks.length
+                    });
+                }
                 return points;
             }
 
             const textarea = codeCard.querySelector("[data-full-code-answer]");
             if (!textarea) {
-                if (result) result.textContent = `Code score: ${codeMax} / ${codeMax}`;
+                if (result) {
+                    result.textContent = uiText(language, "codeScore", {
+                        points: codeMax,
+                        max: codeMax,
+                        correct: 1,
+                        count: 1
+                    });
+                }
                 codeCard.classList.add("answered-correct");
                 return codeMax;
             }
@@ -1017,7 +1193,14 @@ void loop() {
             const actualCode = normalizeCodeAnswer(textarea.value);
             const isCorrect = expectedCode && actualCode === expectedCode;
             codeCard.classList.add(isCorrect ? "answered-correct" : "answered-wrong");
-            if (result) result.textContent = `Code score: ${isCorrect ? codeMax : 0} / ${codeMax}`;
+            if (result) {
+                result.textContent = uiText(language, "codeScore", {
+                    points: isCorrect ? codeMax : 0,
+                    max: codeMax,
+                    correct: isCorrect ? 1 : 0,
+                    count: 1
+                });
+            }
             return isCorrect ? codeMax : 0;
         };
 
@@ -1069,15 +1252,31 @@ void loop() {
 
             const codeScore = scoreCodeChallenge();
             const score = Math.round((mcqScore + codeScore) * 100) / 100;
+            const language = phaseLanguage("evaluate");
 
-            scoreText.textContent = `Score: ${score} / ${totalScore}`;
+            scoreText.textContent = `${uiText(language, "score")}: ${score} / ${totalScore}`;
 
             if (score >= totalScore * 0.86) {
-                scoreMessage.textContent = `Excellent. Code: ${codeScore} / ${codeMax}, MCQs: ${mcqScore} / ${totalQuestions}.`;
+                scoreMessage.textContent = uiText(language, "excellent", {
+                    code: codeScore,
+                    max: codeMax,
+                    mcq: mcqScore,
+                    questions: totalQuestions
+                });
             } else if (score >= totalScore * 0.6) {
-                scoreMessage.textContent = `Good work. Code: ${codeScore} / ${codeMax}, MCQs: ${mcqScore} / ${totalQuestions}.`;
+                scoreMessage.textContent = uiText(language, "goodWork", {
+                    code: codeScore,
+                    max: codeMax,
+                    mcq: mcqScore,
+                    questions: totalQuestions
+                });
             } else {
-                scoreMessage.textContent = `Review the code challenge and MCQs. Code: ${codeScore} / ${codeMax}, MCQs: ${mcqScore} / ${totalQuestions}.`;
+                scoreMessage.textContent = uiText(language, "reviewChallenge", {
+                    code: codeScore,
+                    max: codeMax,
+                    mcq: mcqScore,
+                    questions: totalQuestions
+                });
             }
 
             scoreModal.hidden = false;
@@ -1132,13 +1331,73 @@ void loop() {
                 scoreModal.hidden = true;
             }
         });
+    };
 
-        document.addEventListener("keydown", (event) => {
-            if (event.key === "Escape" && !scoreModal.hidden) {
-                scoreModal.hidden = true;
-            }
+    const captureEvaluationState = (card) => {
+        const form = card?.querySelector("#sessionTest");
+        if (!form) return null;
+        return {
+            selectedAnswers: Array.from(form.querySelectorAll(".test-question input:checked")).map((input) => ({
+                name: input.name,
+                value: input.value
+            })),
+            blankValues: Array.from(form.querySelectorAll(".code-blank-input")).map((input) => input.value),
+            fullCode: form.querySelector("[data-full-code-answer]")?.value || ""
+        };
+    };
+
+    const restoreEvaluationState = (card, state) => {
+        if (!card || !state) return;
+        state.selectedAnswers.forEach(({ name, value }) => {
+            const input = Array.from(card.querySelectorAll(`input[name="${name}"]`))
+                .find((candidate) => candidate.value === value);
+            if (input) input.checked = true;
         });
-    }
+        card.querySelectorAll(".code-blank-input").forEach((input, index) => {
+            input.value = state.blankValues[index] || "";
+        });
+        const fullCode = card.querySelector("[data-full-code-answer]");
+        if (fullCode && state.fullCode) fullCode.value = state.fullCode;
+    };
+
+    initializeCopyButtons();
+    initializeSessionTest(document.querySelector("#sessionTest"));
+
+    document.addEventListener("click", (event) => {
+        const languageButton = event.target.closest("[data-language-toggle]");
+        if (!languageButton) return;
+
+        const phase = languageButton.dataset.languageToggle;
+        if (!translatablePhases.has(phase)) return;
+        const card = document.querySelector(`[data-all5e-phase="${phase}"]`);
+        if (!card) return;
+
+        const evaluationState = phase === "evaluate" ? captureEvaluationState(card) : null;
+        phaseLanguages[phase] = phaseLanguages[phase] === "hi" ? "en" : "hi";
+        try {
+            localStorage.setItem(`lms-phase-language-${phase}`, phaseLanguages[phase]);
+        } catch (error) {
+            // The language still changes for this page when storage is unavailable.
+        }
+
+        renderPhaseCard(phase, card);
+        restoreEvaluationState(card, evaluationState);
+        initializeMediaLoading();
+        initializeCopyButtons(card);
+        initializeSessionTest(card.querySelector("#sessionTest"));
+        refreshIcons();
+        if (card.classList.contains("active")) {
+            const sessionTitle = `${lessonData.year || levelLabels[year] || `Level ${year}`} | ${lessonData.grade} | ${lessonData.session}`;
+            document.title = `${sessionTitle} | ${uiText(phaseLanguages[phase], phase)}`;
+        }
+    });
+
+    document.addEventListener("keydown", (event) => {
+        const scoreModal = document.querySelector("#scoreModal");
+        if (event.key === "Escape" && scoreModal && !scoreModal.hidden) {
+            scoreModal.hidden = true;
+        }
+    });
 });
 
 
