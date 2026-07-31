@@ -87,6 +87,49 @@ export const forClass = query({
 });
 
 /**
+ * Teacher view: their classes with the LMS levels/grades assigned by admin.
+ * Classes with no assignment are omitted. Admins preview the full catalog
+ * client-side and skip this query.
+ */
+export const myClassLms = query({
+  args: {},
+  returns: v.array(
+    v.object({
+      classId: v.id("classes"),
+      className: v.string(),
+      levels: v.array(
+        v.object({ levelId: v.string(), grades: v.array(v.string()) }),
+      ),
+    }),
+  ),
+  handler: async (ctx) => {
+    const profile = await requireProfile(ctx);
+    if (profile.role === "student") return [];
+    const classes = await ctx.db
+      .query("classes")
+      .withIndex("by_teacher", (q) => q.eq("teacherProfileId", profile._id))
+      .collect();
+    const out = [];
+    for (const cls of classes) {
+      const rows = await ctx.db
+        .query("classLevels")
+        .withIndex("by_class", (q) => q.eq("classId", cls._id))
+        .collect();
+      if (rows.length === 0) continue;
+      out.push({
+        classId: cls._id,
+        className: cls.name,
+        levels: rows.map((r) => ({
+          levelId: r.levelId,
+          grades: r.grades ?? LMS_LEVEL_BY_ID.get(r.levelId)?.grades ?? [],
+        })),
+      });
+    }
+    return out;
+  },
+});
+
+/**
  * Called by the student app when the embedded LMS reports a quiz submission.
  * One submission per session per student; repeats are rejected.
  * ponytail: the quiz is scored client-side in the vendored LMS, so values are
