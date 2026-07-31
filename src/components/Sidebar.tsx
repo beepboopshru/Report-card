@@ -49,6 +49,12 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
           label="Reports"
           onClick={onNavigate}
         />
+        <SidebarNavItem
+          to="/courses"
+          icon={BookOpen}
+          label="LMS"
+          onClick={onNavigate}
+        />
 
         {isAdmin && (
           <>
@@ -66,12 +72,6 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
               to="/admin/classes"
               icon={School}
               label="Classes"
-              onClick={onNavigate}
-            />
-            <SidebarNavItem
-              to="/admin/lms"
-              icon={BookOpen}
-              label="LMS"
               onClick={onNavigate}
             />
             <SidebarNavItem

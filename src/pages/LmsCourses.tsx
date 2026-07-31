@@ -9,7 +9,7 @@ import {
   type LmsLevel,
 } from "../../convex/lib/lmsCatalog";
 
-export default function AdminLms() {
+export default function LmsCourses() {
   const [open, setOpen] = useState<LmsLevel | null>(null);
 
   if (open) {

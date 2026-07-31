@@ -5,7 +5,7 @@ import TeacherRoute from "./routes/TeacherRoute";
 import StudentRoute from "./routes/StudentRoute";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminClasses from "./pages/AdminClasses";
-import AdminLms from "./pages/AdminLms";
+import LmsCourses from "./pages/LmsCourses";
 import AdminLogins from "./pages/AdminLogins";
 import StudentLms from "./pages/StudentLms";
 import AdminKits from "./pages/AdminKits";
@@ -29,6 +29,7 @@ export default function App() {
       <Route element={<TeacherRoute />}>
         <Route path="/" element={<TeacherDashboard />} />
         <Route path="/reports" element={<ReportsIndex />} />
+        <Route path="/courses" element={<LmsCourses />} />
         <Route path="/class/:classId" element={<ClassDetail />} />
         <Route path="/class/:classId/curriculum" element={<ClassCurriculum />} />
         <Route
@@ -53,7 +54,7 @@ export default function App() {
       <Route element={<AdminRoute />}>
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/classes" element={<AdminClasses />} />
-        <Route path="/admin/lms" element={<AdminLms />} />
+        <Route path="/admin/lms" element={<Navigate to="/courses" replace />} />
         <Route path="/admin/logins" element={<AdminLogins />} />
         <Route path="/admin/kits" element={<AdminKits />} />
         <Route path="/admin/grades" element={<AdminGrades />} />
