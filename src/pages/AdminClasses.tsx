@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useAction, useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
-import { FileText } from "lucide-react";
+import { FileText, Users } from "lucide-react";
 import PageHeader from "../components/PageHeader";
 import EmptyState from "../components/EmptyState";
 import { Card, CardBody, CardHeader } from "../components/ui/Card";
@@ -47,6 +47,21 @@ export default function AdminClasses() {
         Number(b.status === "submitted") - Number(a.status === "submitted") ||
         b._creationTime - a._creationTime,
     );
+
+  // Group by teacher; teachers with classes awaiting approval float to the top.
+  const byTeacher = new Map<string, NonNullable<typeof filtered>>();
+  for (const c of filtered ?? []) {
+    const group = byTeacher.get(c.teacherProfileId);
+    if (group) group.push(c);
+    else byTeacher.set(c.teacherProfileId, [c]);
+  }
+  const teacherGroups = [...byTeacher.values()].sort(
+    (a, b) =>
+      Number(b.some((c) => c.status === "submitted")) -
+        Number(a.some((c) => c.status === "submitted")) ||
+      a[0].teacherName.localeCompare(b[0].teacherName),
+  );
+  const filtering = !!(q || statusFilter || yearFilter);
 
   async function onApprove(
     classId: Id<"classes">,
@@ -203,12 +218,32 @@ export default function AdminClasses() {
           description="Try a different search or clear the filters."
         />
       ) : (
-        <div className="space-y-4">
-          {filtered?.map((c) => (
+        <div className="space-y-3">
+          {teacherGroups.map((group) => (
+            <details
+              key={group[0].teacherProfileId}
+              // Auto-expand while searching/filtering so matches are visible.
+              open={filtering || undefined}
+              className="rounded-lg border border-line bg-surface"
+            >
+              <summary className="flex cursor-pointer flex-wrap items-center gap-x-3 gap-y-1 px-4 py-3">
+                <span className="font-medium text-ink">
+                  {group[0].teacherName}
+                </span>
+                <span className="text-sm text-ink-muted">
+                  {group.length} class{group.length === 1 ? "" : "es"} ·{" "}
+                  {group.reduce((n, c) => n + c.studentCount, 0)} students
+                </span>
+                {group.some((c) => c.status === "submitted") && (
+                  <Badge tone="warn">Awaiting approval</Badge>
+                )}
+              </summary>
+              <div className="space-y-4 border-t border-line p-4">
+                {group.map((c) => (
             <Card key={c._id}>
               <CardHeader
                 title={c.name}
-                description={`${c.teacherName} · ${c.academicYear}`}
+                description={c.academicYear}
                 action={
                   c.status === "approved" ? (
                     <Badge tone="good">Approved</Badge>
@@ -243,6 +278,13 @@ export default function AdminClasses() {
                       {c.avgScorePct === null ? "—" : `${c.avgScorePct}%`}
                     </span>
                   </span>
+                  <Link
+                    to={`/class/${c._id}`}
+                    className="inline-flex items-center gap-1 text-accent hover:underline"
+                  >
+                    <Users className="w-3.5 h-3.5" />
+                    Students & scores
+                  </Link>
                   <Link
                     to={`/class/${c._id}/report`}
                     className="inline-flex items-center gap-1 text-accent hover:underline"
@@ -387,6 +429,9 @@ export default function AdminClasses() {
                 )}
               </CardBody>
             </Card>
+                ))}
+              </div>
+            </details>
           ))}
         </div>
       )}
