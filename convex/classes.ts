@@ -126,6 +126,7 @@ export const register = mutation({
   returns: v.id("classes"),
   handler: async (ctx, args) => {
     const profile = await requireTeacher(ctx);
+    if (profile.lmsOnly) throw new Error("This account has LMS access only");
     const name = args.name.trim();
     if (!name) throw new Error("Class name is required");
     if (args.students.length === 0) {
@@ -158,6 +159,7 @@ export const create = mutation({
   args: { name: v.string(), academicYear: v.string() },
   handler: async (ctx, args) => {
     const profile = await requireTeacher(ctx);
+    if (profile.lmsOnly) throw new Error("This account has LMS access only");
     return await ctx.db.insert("classes", { ...args, teacherProfileId: profile._id });
   },
 });

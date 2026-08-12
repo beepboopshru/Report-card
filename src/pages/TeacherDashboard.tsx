@@ -345,7 +345,7 @@ export default function TeacherDashboard() {
     <>
       <PageHeader
         title="Classes"
-        description="Your approved classes. Register a new class to get student logins."
+        description="Your classes. Register a new class to get student logins."
         actions={
           <>
             <Button
@@ -392,31 +392,42 @@ export default function TeacherDashboard() {
         </div>
       )}
 
-      {approved && approved.length === 0 ? (
+      {approved && approved.length === 0 && pending.length === 0 ? (
         <EmptyState
           icon={GraduationCap}
-          title={pending.length > 0 ? "Waiting for approval" : "No classes yet"}
-          description={
-            pending.length > 0
-              ? "Your registered class is with the admin. It appears here, with student logins, once approved."
-              : "Register your class — upload the student list, submit it for approval, and it appears here with logins once approved."
-          }
+          title="No classes yet"
+          description="Register your class — upload the student list, submit it for approval, and it appears here with logins once approved."
           action={
-            pending.length > 0 ? (
-              <Button variant="secondary" onClick={() => setShowPending(true)}>
-                <Hourglass className="w-4 h-4" />
-                View pending requests
-              </Button>
-            ) : (
-              <Button onClick={() => setShowRegister(true)}>
-                <ClipboardList className="w-4 h-4" />
-                Register a class
-              </Button>
-            )
+            <Button onClick={() => setShowRegister(true)}>
+              <ClipboardList className="w-4 h-4" />
+              Register a class
+            </Button>
           }
         />
       ) : (
         <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          {pending.map((c) => (
+            <li
+              key={c._id}
+              className="bg-surface rounded-xl border border-line/60 shadow-card p-5"
+            >
+              <div className="flex items-start justify-between gap-2">
+                <div className="min-w-0">
+                  <div className="font-medium text-ink truncate">{c.name}</div>
+                  <div className="text-xs text-ink-muted mt-0.5">
+                    {c.academicYear}
+                  </div>
+                </div>
+                <Badge tone="warn" size="sm">
+                  <Hourglass className="w-3 h-3" />
+                  Awaiting approval
+                </Badge>
+              </div>
+              <p className="text-xs text-ink-muted mt-5">
+                Appears with student logins once the admin approves it.
+              </p>
+            </li>
+          ))}
           {approved?.map((c) =>
             editingId === c._id ? (
               <li key={c._id}>

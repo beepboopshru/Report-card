@@ -1,11 +1,20 @@
-import { mutation, query } from "./_generated/server";
-import { v } from "convex/values";
+import {
+  mutation,
+  query,
+  type MutationCtx,
+  type QueryCtx,
+} from "./_generated/server";
+import { v, type Infer } from "convex/values";
+import type { Id } from "./_generated/dataModel";
 import { requireAdmin, requireOwnsClass, requireProfile } from "./lib/access";
-import { LMS_LEVEL_BY_ID } from "./lib/lmsCatalog";
+import { LMS_LEVEL_BY_ID, LMS_SESSIONS, PHASE_GROUPS } from "./lib/lmsCatalog";
 
 /**
  * Admin assigns which LMS levels a class can see, and which LMS classes
- * (grades) within each level (replaces the existing set).
+ * (grades) within each level (replaces the existing set). Classes can only
+ * be given LMS from what the account was given in Manage LMS: anything
+ * outside the account's teacherLevels rows is dropped, so stale class rows
+ * self-heal on the next save instead of dead-ending the UI.
  */
 export const setClassLevels = mutation({
   args: {
@@ -19,8 +28,17 @@ export const setClassLevels = mutation({
     await requireAdmin(ctx);
     const cls = await ctx.db.get(classId);
     if (!cls) throw new Error("Class not found");
+    const allowed = await ctx.db
+      .query("teacherLevels")
+      .withIndex("by_teacher", (q) =>
+        q.eq("teacherProfileId", cls.teacherProfileId),
+      )
+      .collect();
+    const allowedByLevel = new Map(
+      allowed.map((r) => [r.levelId, new Set(r.grades)]),
+    );
     const seen = new Set<string>();
-    const rows = levels.map(({ levelId, grades }) => {
+    const rows = levels.flatMap(({ levelId, grades }) => {
       const level = LMS_LEVEL_BY_ID.get(levelId);
       if (!level) throw new Error(`Unknown LMS level: ${levelId}`);
       if (seen.has(levelId)) throw new Error(`Duplicate LMS level: ${levelId}`);
@@ -30,7 +48,9 @@ export const setClassLevels = mutation({
       if (valid.length === 0) {
         throw new Error(`Pick at least one class for ${levelId}`);
       }
-      return { classId, levelId, grades: valid };
+      const allowedGrades = allowedByLevel.get(levelId);
+      const kept = valid.filter((g) => allowedGrades?.has(g));
+      return kept.length ? [{ classId, levelId, grades: kept }] : [];
     });
     const existing = await ctx.db
       .query("classLevels")
@@ -86,6 +106,45 @@ export const forClass = query({
   },
 });
 
+const sessionsValidator = v.optional(
+  v.array(
+    v.object({
+      grade: v.string(),
+      session: v.string(),
+      groups: v.array(v.string()),
+    }),
+  ),
+);
+type Sessions = Infer<typeof sessionsValidator>;
+
+/**
+ * Per-session 5E picks from the account's school-wide assignment, by levelId.
+ * Classwise LMS inherits these so a class course respects the E's provided
+ * on the school/teacher account.
+ */
+async function teacherSessionsByLevel(
+  ctx: QueryCtx,
+  teacherProfileId: Id<"profiles">,
+): Promise<Map<string, Sessions>> {
+  const rows = await ctx.db
+    .query("teacherLevels")
+    .withIndex("by_teacher", (q) => q.eq("teacherProfileId", teacherProfileId))
+    .collect();
+  return new Map(rows.map((r) => [r.levelId, r.sessions]));
+}
+
+/** The account's session picks for a level, limited to the class's grades. */
+function inheritedSessions(
+  sessionsByLevel: Map<string, Sessions>,
+  levelId: string,
+  grades: string[],
+): Sessions {
+  const sessions = sessionsByLevel
+    .get(levelId)
+    ?.filter((s) => grades.includes(s.grade));
+  return sessions?.length ? sessions : undefined;
+}
+
 /**
  * Teacher view: their classes with the LMS levels/grades assigned by admin.
  * Classes with no assignment are omitted. Admins preview the full catalog
@@ -98,7 +157,11 @@ export const myClassLms = query({
       classId: v.id("classes"),
       className: v.string(),
       levels: v.array(
-        v.object({ levelId: v.string(), grades: v.array(v.string()) }),
+        v.object({
+          levelId: v.string(),
+          grades: v.array(v.string()),
+          sessions: sessionsValidator,
+        }),
       ),
     }),
   ),
@@ -109,6 +172,7 @@ export const myClassLms = query({
       .query("classes")
       .withIndex("by_teacher", (q) => q.eq("teacherProfileId", profile._id))
       .collect();
+    const sessionsByLevel = await teacherSessionsByLevel(ctx, profile._id);
     const out = [];
     for (const cls of classes) {
       const rows = await ctx.db
@@ -119,13 +183,195 @@ export const myClassLms = query({
       out.push({
         classId: cls._id,
         className: cls.name,
-        levels: rows.map((r) => ({
-          levelId: r.levelId,
-          grades: r.grades ?? LMS_LEVEL_BY_ID.get(r.levelId)?.grades ?? [],
-        })),
+        levels: rows.map((r) => {
+          const grades =
+            r.grades ?? LMS_LEVEL_BY_ID.get(r.levelId)?.grades ?? [];
+          return {
+            levelId: r.levelId,
+            grades,
+            sessions: inheritedSessions(sessionsByLevel, r.levelId, grades),
+          };
+        }),
       });
     }
     return out;
+  },
+});
+
+/**
+ * School-wide LMS assignment (per teacher/school account), with optional
+ * per-session 5E selection. Groups club the E's: "core" = Engage · Explore ·
+ * Explain, "extend" = Elaborate · Evaluate.
+ */
+export const teacherLevelValidator = v.object({
+  levelId: v.string(),
+  grades: v.array(v.string()),
+  sessions: v.optional(
+    v.array(
+      v.object({
+        grade: v.string(),
+        session: v.string(),
+        groups: v.array(v.string()),
+      }),
+    ),
+  ),
+});
+export type TeacherLevelAssignment = Infer<typeof teacherLevelValidator>;
+
+function normalizeTeacherLevels(
+  levels: TeacherLevelAssignment[],
+): TeacherLevelAssignment[] {
+  const seen = new Set<string>();
+  return levels.map(({ levelId, grades, sessions }) => {
+    const level = LMS_LEVEL_BY_ID.get(levelId);
+    if (!level) throw new Error(`Unknown LMS level: ${levelId}`);
+    if (seen.has(levelId)) throw new Error(`Duplicate LMS level: ${levelId}`);
+    seen.add(levelId);
+    const chosen = new Set(grades);
+    const validGrades = level.grades.filter((g) => chosen.has(g));
+    if (validGrades.length === 0) {
+      throw new Error(`Pick at least one class for ${levelId}`);
+    }
+    let validSessions: TeacherLevelAssignment["sessions"];
+    if (sessions && sessions.length > 0) {
+      const seenSessions = new Set<string>();
+      validSessions = sessions.map((s) => {
+        if (!validGrades.includes(s.grade)) {
+          throw new Error(`Session picked for unselected class ${s.grade}`);
+        }
+        if (!LMS_SESSIONS.includes(s.session)) {
+          throw new Error(`Unknown session: ${s.session}`);
+        }
+        const key = `${s.grade}-${s.session}`;
+        if (seenSessions.has(key)) {
+          throw new Error(`Duplicate session pick: ${key}`);
+        }
+        seenSessions.add(key);
+        const groups = PHASE_GROUPS.map((g) => g.id).filter((id) =>
+          s.groups.includes(id),
+        );
+        if (groups.length === 0) {
+          throw new Error("Pick at least one 5E group per selected session");
+        }
+        return { grade: s.grade, session: s.session, groups };
+      });
+    }
+    return { levelId, grades: validGrades, sessions: validSessions };
+  });
+}
+
+/** Replaces a teacher's school-wide LMS rows. Also used by admin.createTeacher. */
+export async function replaceTeacherLevelRows(
+  ctx: MutationCtx,
+  teacherProfileId: Id<"profiles">,
+  levels: TeacherLevelAssignment[],
+): Promise<void> {
+  const rows = normalizeTeacherLevels(levels);
+  const existing = await ctx.db
+    .query("teacherLevels")
+    .withIndex("by_teacher", (q) => q.eq("teacherProfileId", teacherProfileId))
+    .collect();
+  for (const row of existing) await ctx.db.delete(row._id);
+  for (const row of rows) {
+    await ctx.db.insert("teacherLevels", { teacherProfileId, ...row });
+  }
+}
+
+/** Admin assigns the school-wide LMS courses (replaces the existing set). */
+export const setTeacherLevels = mutation({
+  args: {
+    teacherProfileId: v.id("profiles"),
+    levels: v.array(teacherLevelValidator),
+  },
+  returns: v.null(),
+  handler: async (ctx, { teacherProfileId, levels }) => {
+    await requireAdmin(ctx);
+    const target = await ctx.db.get(teacherProfileId);
+    if (!target || target.role !== "teacher") {
+      throw new Error("Not a school/teacher account");
+    }
+    await replaceTeacherLevelRows(ctx, teacherProfileId, levels);
+    return null;
+  },
+});
+
+const teacherLevelsReturns = v.array(
+  v.object({
+    levelId: v.string(),
+    grades: v.array(v.string()),
+    sessions: v.optional(
+      v.array(
+        v.object({
+          grade: v.string(),
+          session: v.string(),
+          groups: v.array(v.string()),
+        }),
+      ),
+    ),
+  }),
+);
+
+/**
+ * Admin: every account's Manage LMS rows in one pass, joined client-side by
+ * profile — constrains the classwise LMS checkboxes to what each account
+ * was given.
+ */
+export const allTeacherLevels = query({
+  args: {},
+  returns: v.array(
+    v.object({
+      teacherProfileId: v.id("profiles"),
+      levelId: v.string(),
+      grades: v.array(v.string()),
+    }),
+  ),
+  handler: async (ctx) => {
+    await requireAdmin(ctx);
+    const rows = await ctx.db.query("teacherLevels").collect();
+    return rows.map((r) => ({
+      teacherProfileId: r.teacherProfileId,
+      levelId: r.levelId,
+      grades: r.grades,
+    }));
+  },
+});
+
+/** Admin view of a school/teacher account's school-wide LMS assignment. */
+export const forTeacherProfile = query({
+  args: { teacherProfileId: v.id("profiles") },
+  returns: teacherLevelsReturns,
+  handler: async (ctx, { teacherProfileId }) => {
+    await requireAdmin(ctx);
+    const rows = await ctx.db
+      .query("teacherLevels")
+      .withIndex("by_teacher", (q) =>
+        q.eq("teacherProfileId", teacherProfileId),
+      )
+      .collect();
+    return rows.map((r) => ({
+      levelId: r.levelId,
+      grades: r.grades,
+      sessions: r.sessions,
+    }));
+  },
+});
+
+/** Teacher view: LMS courses assigned to the school account itself. */
+export const mySchoolLms = query({
+  args: {},
+  returns: teacherLevelsReturns,
+  handler: async (ctx) => {
+    const profile = await requireProfile(ctx);
+    if (profile.role === "student") return [];
+    const rows = await ctx.db
+      .query("teacherLevels")
+      .withIndex("by_teacher", (q) => q.eq("teacherProfileId", profile._id))
+      .collect();
+    return rows.map((r) => ({
+      levelId: r.levelId,
+      grades: r.grades,
+      sessions: r.sessions,
+    }));
   },
 });
 
@@ -282,7 +528,11 @@ export const myLms = query({
       studentName: v.string(),
       className: v.string(),
       levels: v.array(
-        v.object({ levelId: v.string(), grades: v.array(v.string()) }),
+        v.object({
+          levelId: v.string(),
+          grades: v.array(v.string()),
+          sessions: sessionsValidator,
+        }),
       ),
     }),
   ),
@@ -297,13 +547,22 @@ export const myLms = query({
       .query("classLevels")
       .withIndex("by_class", (q) => q.eq("classId", student.classId))
       .collect();
+    const sessionsByLevel = await teacherSessionsByLevel(
+      ctx,
+      cls.teacherProfileId,
+    );
     return {
       studentName: student.name,
       className: cls.name,
-      levels: rows.map((r) => ({
-        levelId: r.levelId,
-        grades: r.grades ?? LMS_LEVEL_BY_ID.get(r.levelId)?.grades ?? [],
-      })),
+      levels: rows.map((r) => {
+        const grades =
+          r.grades ?? LMS_LEVEL_BY_ID.get(r.levelId)?.grades ?? [];
+        return {
+          levelId: r.levelId,
+          grades,
+          sessions: inheritedSessions(sessionsByLevel, r.levelId, grades),
+        };
+      }),
     };
   },
 });

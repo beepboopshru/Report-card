@@ -15,6 +15,12 @@ export default defineSchema({
       v.literal("student"),
     ),
     disabled: v.optional(v.boolean()),
+    // Single-user account: no classes/approval workflow, LMS access only.
+    lmsOnly: v.optional(v.boolean()),
+    // ponytail: plaintext by design, same as students.initialPassword —
+    // admins view/share logins from /admin/logins. Only exposed via
+    // admin-gated functions; editing the password overwrites it.
+    initialPassword: v.optional(v.string()),
     // Set only for role "student" — links the login to the class-roster row.
     studentId: v.optional(v.id("students")),
   })
@@ -26,6 +32,14 @@ export default defineSchema({
   schoolDetails: defineTable({
     teacherProfileId: v.id("profiles"),
     address: v.string(),
+    // First-login details; optional so legacy address-only rows validate.
+    schoolName: v.optional(v.string()),
+    principalName: v.optional(v.string()),
+    coordinatorName: v.optional(v.string()),
+    contactPhone: v.optional(v.string()),
+    contactEmail: v.optional(v.string()),
+    studentsRegistered: v.optional(v.number()),
+    timings: v.optional(v.string()),
     sections: v.optional(
       v.array(
         v.object({
@@ -97,6 +111,28 @@ export default defineSchema({
     // Only exposed via teacher/admin-gated functions; reset overwrites it.
     initialPassword: v.optional(v.string()),
   }).index("by_class", ["classId"]),
+
+  // School-wide LMS course assignment, set by admin when creating the
+  // school/teacher account (editable from the logins page). Class-specific
+  // assignment lives in classLevels.
+  teacherLevels: defineTable({
+    teacherProfileId: v.id("profiles"),
+    levelId: v.string(),
+    grades: v.array(v.string()),
+    // Per-session 5E selection: groups are "core" (Engage·Explore·Explain)
+    // and "extend" (Elaborate·Evaluate). A grade with no entries here gets
+    // the full course; a listed session shows only its chosen groups.
+    // Bounded: ≤ 4 grades × 11 sessions per level.
+    sessions: v.optional(
+      v.array(
+        v.object({
+          grade: v.string(),
+          session: v.string(),
+          groups: v.array(v.string()),
+        }),
+      ),
+    ),
+  }).index("by_teacher", ["teacherProfileId"]),
 
   classLevels: defineTable({
     classId: v.id("classes"),

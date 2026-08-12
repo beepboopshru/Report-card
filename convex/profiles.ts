@@ -1,6 +1,5 @@
 import { mutation, query } from "./_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
-import { requireProfile } from "./lib/access";
 import { normalizeUsername } from "./lib/username";
 
 export const ensure = mutation({
@@ -40,10 +39,3 @@ export const me = query({
   },
 });
 
-export const listTeachers = query({
-  args: {},
-  handler: async (ctx) => {
-    await requireProfile(ctx);
-    return await ctx.db.query("profiles").collect();
-  },
-});

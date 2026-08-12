@@ -7,9 +7,7 @@ import {
   Boxes,
   Sprout,
   LogOut,
-  School,
   BookOpen,
-  KeyRound,
 } from "lucide-react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useCurrentProfile } from "../lib/useCurrentProfile";
@@ -19,6 +17,7 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const { profile } = useCurrentProfile();
   const { signOut } = useAuthActions();
   const isAdmin = profile?.role === "admin";
+  const lmsOnly = profile?.lmsOnly === true;
   const initials = (profile?.displayName || profile?.username || "?")
     .slice(0, 2)
     .toUpperCase();
@@ -40,15 +39,25 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
 
       <nav className="flex-1 overflow-y-auto px-3 space-y-0.5">
         <div className="px-3 pt-2 pb-1 text-[10px] uppercase tracking-wide text-ink-subtle font-semibold">
-          Teach
+          {lmsOnly ? "Learn" : "Teach"}
         </div>
-        <SidebarNavItem to="/" icon={Home} label="Classes" end onClick={onNavigate} />
-        <SidebarNavItem
-          to="/reports"
-          icon={FileText}
-          label="Reports"
-          onClick={onNavigate}
-        />
+        {!lmsOnly && (
+          <>
+            <SidebarNavItem
+              to="/"
+              icon={Home}
+              label="Classes"
+              end
+              onClick={onNavigate}
+            />
+            <SidebarNavItem
+              to="/reports"
+              icon={FileText}
+              label="Reports"
+              onClick={onNavigate}
+            />
+          </>
+        )}
         <SidebarNavItem
           to="/courses"
           icon={BookOpen}
@@ -69,21 +78,9 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
               onClick={onNavigate}
             />
             <SidebarNavItem
-              to="/admin/classes"
-              icon={School}
-              label="Classes"
-              onClick={onNavigate}
-            />
-            <SidebarNavItem
               to="/admin/kits"
               icon={Boxes}
               label="Kits"
-              onClick={onNavigate}
-            />
-            <SidebarNavItem
-              to="/admin/logins"
-              icon={KeyRound}
-              label="Logins"
               onClick={onNavigate}
             />
             <SidebarNavItem

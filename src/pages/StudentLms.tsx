@@ -9,6 +9,7 @@ import {
   LMS_LEVELS,
   lmsLevelPath,
   type LmsLevel,
+  type SessionPick,
 } from "../../convex/lib/lmsCatalog";
 
 export default function StudentLms() {
@@ -19,6 +20,7 @@ export default function StudentLms() {
   const [openLevel, setOpenLevel] = useState<{
     level: LmsLevel;
     grades: string[];
+    sessions?: SessionPick[];
   } | null>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
@@ -63,7 +65,7 @@ export default function StudentLms() {
   const levels = LMS_LEVELS.flatMap((level) => {
     const assigned = lms?.levels.find((a) => a.levelId === level.id);
     return assigned && assigned.grades.length
-      ? [{ level, grades: assigned.grades }]
+      ? [{ level, grades: assigned.grades, sessions: assigned.sessions }]
       : [];
   });
 
@@ -106,7 +108,7 @@ export default function StudentLms() {
       {openLevel ? (
         <iframe
           ref={iframeRef}
-          src={lmsLevelPath(openLevel.level, openLevel.grades)}
+          src={lmsLevelPath(openLevel.level, openLevel.grades, openLevel.sessions)}
           title={openLevel.level.name}
           onLoad={pushScores}
           className="flex-1 w-full border-0"
@@ -131,7 +133,7 @@ export default function StudentLms() {
             </Card>
           ) : (
             <div className="space-y-4">
-              {levels.map(({ level, grades }) => (
+              {levels.map(({ level, grades, sessions }) => (
                 <Card key={level.id}>
                   <CardBody>
                     <div className="flex items-center justify-between gap-4">
@@ -141,7 +143,9 @@ export default function StudentLms() {
                           {grades.map((g) => `Class ${g}`).join(" · ")}
                         </div>
                       </div>
-                      <Button onClick={() => setOpenLevel({ level, grades })}>
+                      <Button
+                        onClick={() => setOpenLevel({ level, grades, sessions })}
+                      >
                         <BookOpen className="w-4 h-4" />
                         Open course
                       </Button>

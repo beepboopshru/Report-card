@@ -28,9 +28,15 @@ export default function SignIn() {
     e.preventDefault();
     setBusy(true);
     setError(null);
+    const normalized = normalizeUsername(username);
     try {
-      const normalized = normalizeUsername(username);
       assertValidUsername(normalized);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Invalid username.");
+      setBusy(false);
+      return;
+    }
+    try {
       await signIn("password", {
         username: normalized,
         password,
@@ -38,7 +44,14 @@ export default function SignIn() {
       });
       navigate("/");
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Sign in failed");
+      // Convex Auth surfaces bad credentials as an opaque server error
+      // (InvalidAccountId / InvalidSecret) — never show that raw text.
+      const msg = err instanceof Error ? err.message : "";
+      setError(
+        /InvalidAccountId|InvalidSecret|Server Error|Uncaught/i.test(msg)
+          ? "Incorrect username or password."
+          : "Sign in failed. Please check your connection and try again.",
+      );
     } finally {
       setBusy(false);
     }

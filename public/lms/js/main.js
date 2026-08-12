@@ -28,6 +28,62 @@ document.addEventListener("DOMContentLoaded", () => {
         try { stored = sessionStorage.getItem(gradesStoreKey(yearValue)); } catch (e) { /* storage unavailable */ }
         return (stored || "").split(",").filter(Boolean);
     };
+    // patched: the report-card app can further restrict sessions and 5E phase
+    // groups via a ?sessions= param — JSON [{grade, session, groups}] where
+    // groups are "core" (engage/explore/explain) and "extend"
+    // (elaborate/evaluate). A grade with no entries is unrestricted; an empty
+    // param clears any earlier restriction. Persisted like the grades filter.
+    const sessionsStoreKey = (yearValue) => `su-lms-allowed-sessions-${yearValue}`;
+    if (params.get("sessions") !== null) {
+        try { sessionStorage.setItem(sessionsStoreKey(year), params.get("sessions")); } catch (e) { /* storage unavailable */ }
+    }
+    // patched: the report-card app locks the LMS to the opened level via a
+    // ?years= param. Stored globally (every entry URL sends it) so backing
+    // out to the level picker can't reach levels not given to the class.
+    const yearsStoreKey = "su-lms-allowed-years";
+    if (params.get("years") !== null) {
+        try { sessionStorage.setItem(yearsStoreKey, params.get("years")); } catch (e) { /* storage unavailable */ }
+    }
+    const allowedYears = () => {
+        let stored = null;
+        try { stored = sessionStorage.getItem(yearsStoreKey); } catch (e) { /* storage unavailable */ }
+        return (stored || "").split(",").filter(Boolean);
+    };
+    const phaseGroupPhases = {
+        core: ["engage", "explore", "explain"],
+        extend: ["elaborate", "evaluate"]
+    };
+    const allowedSessionsFor = (yearValue, gradeValue) => {
+        let raw = null;
+        try { raw = sessionStorage.getItem(sessionsStoreKey(yearValue)); } catch (e) { /* storage unavailable */ }
+        if (!raw) return null; // unrestricted
+        let list = null;
+        try { list = JSON.parse(raw); } catch (e) { return null; }
+        if (!Array.isArray(list)) return null;
+        const map = new Map();
+        list.forEach((row) => {
+            if (row && String(row.grade) === String(gradeValue)) {
+                map.set(String(row.session), row.groups || []);
+            }
+        });
+        return map.size ? map : null;
+    };
+    const allowedPhasesFor = (yearValue, gradeValue, sessionValue) => {
+        const map = allowedSessionsFor(yearValue, gradeValue);
+        if (!map) return null; // unrestricted
+        const groups = map.get(String(sessionValue));
+        if (!groups) return []; // session not assigned
+        let phases = [];
+        Object.keys(phaseGroupPhases).forEach((groupId) => {
+            if (groups.includes(groupId)) phases = phases.concat(phaseGroupPhases[groupId]);
+        });
+        return phases;
+    };
+    // Phase allowed for the lesson currently open (all5e page params).
+    const isPhaseAllowed = (phase) => {
+        const allowed = allowedPhasesFor(year, grade, session);
+        return !allowed || allowed.includes(phase);
+    };
     const yearClasses = {
         "1": [
             ["4", "Class 4", "Beginner"],
@@ -242,8 +298,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const refreshSessionCards = () => {
         const label = document.querySelector("#selectedClassLabel");
         if (label) label.textContent = `${levelLabels[selectedHomeYear] || levelLabels["1"]} | Class ${selectedHomeGrade}`;
+        const allowedSessions = allowedSessionsFor(selectedHomeYear, selectedHomeGrade);
         document.querySelectorAll(".session-card.available").forEach((card) => {
             const sessionValue = card.dataset.session || "1";
+            card.style.display = allowedSessions && !allowedSessions.has(sessionValue) ? "none" : "";
             const cardLesson = getHomeLesson(selectedHomeYear, selectedHomeGrade, sessionValue);
             card.setAttribute("href", "#");
             card.dataset.targetUrl = sessionValue === "0"
@@ -276,7 +334,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.querySelectorAll("[data-year]").forEach((button) => {
+        const lockedYears = allowedYears();
+        const yearAllowed = !lockedYears.length || lockedYears.includes(button.dataset.year || "");
+        if (!yearAllowed) button.style.display = "none";
         button.addEventListener("click", () => {
+            if (!yearAllowed) return;
             selectedHomeYear = button.dataset.year || "1";
             refreshClassCards();
             showHomePanel("classSelect");
@@ -368,6 +430,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const renderAll5ePage = () => {
         if (currentPage !== "all-5e") return;
+        // patched: hard guards — lesson pages stay reachable via browser
+        // history even when their cards are hidden, so bounce anything not
+        // given to the class back to the pickers.
+        const lockedYears = allowedYears();
+        if (lockedYears.length && !lockedYears.includes(year)) {
+            window.location.replace("../index.html");
+            return;
+        }
+        const lockedGrades = allowedGradesFor(year);
+        if (lockedGrades.length && !lockedGrades.includes(grade)) {
+            window.location.replace(`../index.html?panel=classSelect&year=${year}`);
+            return;
+        }
+        const guardAllowed = allowedPhasesFor(year, grade, mode === "introduction" ? "0" : session);
+        if (guardAllowed && !guardAllowed.length) {
+            window.location.replace(`../index.html?panel=sessionSelect&year=${year}&grade=${grade}`);
+            return;
+        }
         if (mode === "introduction") return;
 
         if (!lessonData) return;
@@ -395,6 +475,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (sessionText) sessionText.textContent = `${lessonData.session} | ${lessonData.grade}`;
         if (title) title.textContent = lessonData.topic;
         if (backToSessions) backToSessions.href = `../index.html?panel=sessionSelect&year=${year}&grade=${grade}`;
+        phaseButtons.forEach((button) => {
+            if (!isPhaseAllowed(button.dataset.phase)) button.style.display = "none";
+        });
         phaseCards.forEach((card) => renderPhaseCard(card.dataset.all5ePhase, card));
 
         let activePhase = "engage";
@@ -402,6 +485,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const showPhase = (selectedPhase, immediate = false) => {
             if (!phaseOrder.includes(selectedPhase)) return;
+            if (!isPhaseAllowed(selectedPhase)) {
+                // Redirect to the nearest allowed phase (forward, then back).
+                const startIndex = phaseOrder.indexOf(selectedPhase);
+                selectedPhase = phaseOrder.slice(startIndex + 1).find(isPhaseAllowed)
+                    || phaseOrder.slice(0, startIndex).reverse().find(isPhaseAllowed);
+                if (!selectedPhase) return;
+            }
             if (selectedPhase === activePhase && !immediate) return;
 
             activePhase = selectedPhase;
@@ -684,7 +774,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const tr = (value) => translateText(value, language);
         const phaseTitle = uiText(language, phase);
         const phaseOrder = ["engage", "explore", "explain", "elaborate", "evaluate"];
-        const nextPhase = phaseOrder[phaseOrder.indexOf(phase) + 1];
+        const nextPhase = phaseOrder.slice(phaseOrder.indexOf(phase) + 1).find(isPhaseAllowed);
         const phaseFooter = nextPhase
             ? `<div class="all5e-next-row"><button type="button" class="download-btn" data-next-e="${nextPhase}"><span>${uiText(language, "next")}: ${uiText(language, nextPhase)}</span>${iconMarkup("arrow-right")}</button></div>`
             : `<div class="all5e-next-row"><a class="download-btn secondary-download" href="../index.html?panel=sessionSelect&year=${year}&grade=${grade}">${iconMarkup("circle-check")}<span>${uiText(language, "finishSession")}</span></a></div>`;
