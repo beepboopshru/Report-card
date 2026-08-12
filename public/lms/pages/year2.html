@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ScienceUtsav Year 2 robotics program for Classes 6, 7, 8, and 9.">
+    <title>Year 2 Robotics Program | ScienceUtsav LMS</title>
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/logos/favicon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body data-page="year2-program">
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="../index.html?panel=yearSelect"><span class="brand-mark">SU</span><span><strong>ScienceUtsav LMS</strong><small>Year 2 Robotics Program</small></span></a>
+            <a class="back-btn header-back-btn" href="../index.html?panel=yearSelect">Back to Programs</a>
+        </div>
+    </header>
+
+    <main class="home-flow year2-program-flow">
+        <section class="year2-program-panel active" data-year2-panel="classes">
+            <div class="container">
+                <div class="selection-header year2-program-heading"><div class="year2-program-mark">Y2</div><div><p class="phase-label">Independent Program</p><h1>Year 2 Robotics</h1><p>Sensors, outputs, circuits, and control systems</p></div></div>
+                <h2 class="year2-select-title">Select Class</h2>
+                <div class="selection-grid year2-class-grid" data-year2-classes></div>
+            </div>
+        </section>
+
+        <section class="year2-program-panel" data-year2-panel="sessions">
+            <div class="container">
+                <div class="selection-header">
+                    <button class="back-btn" type="button" data-year2-back>Back</button>
+                    <div><p class="phase-label" data-year2-class-label>Year 2 | Class 6</p><h1>Select Session</h1></div>
+                </div>
+                <div class="session-grid year2-session-grid" data-year2-sessions></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer"><div class="container footer-inner"><span>&copy; 2026 ScienceUtsav &middot; Year 2 Robotics LMS</span><a href="https://scienceutsav.com" target="_blank" rel="noopener">scienceutsav.com</a></div></footer>
+    <script src="../js/level2-dependencies-data.js"></script>
+    <script src="../js/year2-program-data.js"></script>
+    <script src="../js/year2-program.js"></script>
+</body>
+</html>

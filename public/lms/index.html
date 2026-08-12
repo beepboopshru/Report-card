@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="I'm a Robo Scientist LMS dashboard for Level 1 Creative Automation and Level 2 Sensational Sensors robotics lessons.">
+    <meta name="description" content="ScienceUtsav LMS for Level 1 Creative Automation, Level 2 Sensational Sensors, and BLIX Rack and Pinion robotics.">
     <title>I'm a Robo Scientist LMS</title>
     <link rel="icon" href="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/logos/favicon.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +18,7 @@
                 <span class="brand-mark">SU</span>
                 <span>
                     <strong>ScienceUtsav LMS</strong>
-                    <small>Level 1 Creative Automation and Level 2 Sensational Sensors</small>
+                    <small>Robotics Learning Programs</small>
                 </span>
             </a>
         </div>
@@ -43,7 +43,7 @@
                     </div>
                     <div>
                         <p class="phase-label">Program</p>
-                        <h1>Select Level</h1>
+                        <h1>Select Program</h1>
                     </div>
                 </div>
 
@@ -58,6 +58,16 @@
                         <strong>Level 2 Sensational Sensors</strong>
                         <p>Classes 6, 7, 8, 9</p>
                     </button>
+                    <a class="selection-card blix-program-card" href="pages/blix.html">
+                        <span>BLIX</span>
+                        <strong>ScienceUtsav BLIX Program</strong>
+                        <p>Rack and Pinion | Shared course | 10 sessions</p>
+                    </a>
+                    <a class="selection-card year2-program-card" href="pages/year2.html">
+                        <span>Y2</span>
+                        <strong>Year 2 Robotics Program</strong>
+                        <p>Classes 6, 7, 8, 9 | 10 sessions | 4Es</p>
+                    </a>
                 </div>
             </div>
         </section>
@@ -116,6 +126,12 @@
                         <span>Introduction Session</span>
                         <strong>Introduction to STEM, Robotics, and Arduino IDE</strong>
                         <p>Common session ready</p>
+                    </a>
+                    <a class="session-card available" href="#" data-session="basics" hidden>
+                        <img src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/images/pdf/year-2/session-1-cover.jpg" alt="Level 2 Basics Session cover" loading="lazy" decoding="async">
+                        <span>Basics Session</span>
+                        <strong>LED, Switches, and Potentiometer Fundamentals</strong>
+                        <p>3 Explore topics ready</p>
                     </a>
                     <a class="session-card available" href="#" data-session="1">
                         <img src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/images/pdf/year-1/session-1-cover.jpg" alt="Session 1 cover" loading="lazy" decoding="async">
@@ -202,6 +218,7 @@
     <script src="js/explore-curiosity-pages.js"></script>
     <script src="js/engage-content.js"></script>
     <script src="js/hardware-content.js"></script>
+    <script src="js/level2-basics-content.js"></script>
     <script src="js/common-introduction-content.js"></script>
     <script src="js/main.js"></script>
 

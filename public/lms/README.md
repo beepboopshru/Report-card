@@ -9,8 +9,10 @@ Local patches (keep when re-vendoring):
 
 1. `js/main.js` + `js/common-introduction-content.js`: `assetPrefix` points at
    the jsDelivr CDN instead of relative paths.
-2. `index.html` + `pages/all5e.html`: hardcoded `src="assets/..."` rewritten
-   to the CDN. In `js/main.js`, the dynamic cover assignments in
+2. `index.html` + `pages/*.html`: hardcoded `src="assets/..."` rewritten to
+   the CDN. Same for `../assets/` and `` `../${...}` `` asset paths in
+   `js/blix-content.js`, `js/level2-basics-content.js`,
+   `js/level2-dependencies-content.js`, `js/year2-program.js`. In `js/main.js`, the dynamic cover assignments in
    `refreshSessionCards` and the session modal are prefixed with `assetPrefix`
    (upstream assigns the relative `cover` path directly, which 404s here).
 3. `js/main.js`: the quiz submit handler posts a `su-lms-quiz-result` message

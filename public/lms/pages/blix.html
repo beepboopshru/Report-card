@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BLIX Rack and Pinion shared robotics course with ten guided build sessions.">
+    <title>BLIX Rack and Pinion | ScienceUtsav LMS</title>
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/logos/favicon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body data-page="blix">
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="../index.html?panel=yearSelect" aria-label="Return to program selection">
+                <span class="brand-mark">SU</span>
+                <span><strong>ScienceUtsav LMS</strong><small>BLIX Rack and Pinion</small></span>
+            </a>
+            <a class="back-btn header-back-btn" href="../index.html?panel=yearSelect">Back to Programs</a>
+        </div>
+    </header>
+
+    <main class="container blix-page">
+        <section class="blix-hero">
+            <div>
+                <p class="phase-label">Shared Course | All Classes</p>
+                <h1>BLIX Rack and Pinion</h1>
+                <p>Ten guided sessions using the complete construction manual.</p>
+            </div>
+            <div class="blix-progress" aria-live="polite">
+                <strong data-blix-progress>Session 1 of 10</strong>
+                <span><i data-blix-progress-bar></i></span>
+            </div>
+        </section>
+
+        <div class="blix-layout">
+            <aside class="blix-session-nav" aria-label="BLIX sessions" data-blix-nav></aside>
+            <section class="blix-workspace" data-blix-workspace>
+                <div class="blix-workspace-header">
+                    <div>
+                        <p class="phase-label" data-blix-session-label>Session 1</p>
+                        <h2 data-blix-session-title>Getting Started with BLIX</h2>
+                    </div>
+                    <button class="download-btn blix-fullscreen-btn" type="button" data-blix-fullscreen>Full Screen</button>
+                </div>
+                <p class="blix-session-summary" data-blix-summary></p>
+                <div class="blix-page-stage">
+                    <div class="blix-program-cover" data-blix-program-cover>
+                        <span class="blix-cover-brand">ScienceUtsav</span>
+                        <div class="blix-cover-mark">BLIX</div>
+                        <h3>Rack and Pinion Program</h3>
+                        <p>Build. Discover. Understand.</p>
+                        <small>Shared Robotics Course | All Classes</small>
+                    </div>
+                    <img data-blix-page-image src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/assets/images/pdf/blix/rack-and-pinion/page-02.jpg" alt="BLIX manual page 2" hidden>
+                </div>
+                <div class="blix-page-controls">
+                    <button class="back-btn" type="button" data-blix-prev-page>Previous Page</button>
+                    <strong data-blix-page-count>Page 1 of 3</strong>
+                    <button class="btn-primary" type="button" data-blix-next-page>Next Page</button>
+                </div>
+                <div class="blix-session-controls">
+                    <button class="back-btn" type="button" data-blix-prev-session>Previous Session</button>
+                    <button class="download-btn" type="button" data-blix-next-session>Next Session</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <span>&copy; 2026 ScienceUtsav &middot; BLIX Robotics LMS</span>
+            <a href="https://scienceutsav.com" target="_blank" rel="noopener">scienceutsav.com</a>
+        </div>
+    </footer>
+    <script src="../js/blix-content.js"></script>
+</body>
+</html>

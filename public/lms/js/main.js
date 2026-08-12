@@ -263,6 +263,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 isCommonSession: true
             } : null;
         }
+        if (sessionValue === "basics") {
+            const basics = window.LEVEL2_BASICS_CONTENT;
+            return yearValue === "2" && basics ? {
+                session: basics.session,
+                topic: basics.topic,
+                cover: basics.cover,
+                isBasicsSession: true
+            } : null;
+        }
         if (!window.LMS_CONTENT) return null;
         return window.LMS_CONTENT[`${yearValue}-${gradeValue}-${sessionValue}`] || window.LMS_CONTENT[`${gradeValue}-${sessionValue}`] || null;
     };
@@ -301,12 +310,17 @@ document.addEventListener("DOMContentLoaded", () => {
         const allowedSessions = allowedSessionsFor(selectedHomeYear, selectedHomeGrade);
         document.querySelectorAll(".session-card.available").forEach((card) => {
             const sessionValue = card.dataset.session || "1";
+            const isBasicsCard = sessionValue === "basics";
+            card.hidden = isBasicsCard && selectedHomeYear !== "2";
+            if (card.hidden) return;
             card.style.display = allowedSessions && !allowedSessions.has(sessionValue) ? "none" : "";
             const cardLesson = getHomeLesson(selectedHomeYear, selectedHomeGrade, sessionValue);
             card.setAttribute("href", "#");
             card.dataset.targetUrl = sessionValue === "0"
                 ? `pages/all5e.html?mode=introduction&year=${selectedHomeYear}&grade=${selectedHomeGrade}`
-                : `pages/all5e.html?year=${selectedHomeYear}&grade=${selectedHomeGrade}&session=${sessionValue}`;
+                : (isBasicsCard
+                    ? `pages/all5e.html?mode=basics&year=${selectedHomeYear}&grade=${selectedHomeGrade}`
+                    : `pages/all5e.html?year=${selectedHomeYear}&grade=${selectedHomeGrade}&session=${sessionValue}`);
             if (cardLesson) {
                 const image = card.querySelector("img");
                 const sessionLabel = card.querySelector("span");
@@ -323,7 +337,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     const elaboratePending = cardLesson.elaborate?.projects?.some((project) => !project.pages?.length);
                     status.textContent = cardLesson.isCommonSession
                         ? "Common session ready"
-                        : (elaboratePending ? "Elaborate PDF pending" : (explorePending ? "Explore PDF pending" : "5E lesson ready"));
+                        : (cardLesson.isBasicsSession
+                            ? "3 Explore topics ready"
+                            : (elaboratePending ? "Elaborate PDF pending" : (explorePending ? "Explore PDF pending" : "5E lesson ready")));
                 }
             }
         });
@@ -443,12 +459,13 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.replace(`../index.html?panel=classSelect&year=${year}`);
             return;
         }
-        const guardAllowed = allowedPhasesFor(year, grade, mode === "introduction" ? "0" : session);
+        if (mode === "dependencies" || mode === "year2") return;
+        const guardAllowed = allowedPhasesFor(year, grade, mode === "introduction" ? "0" : (mode === "basics" ? "basics" : session));
         if (guardAllowed && !guardAllowed.length) {
             window.location.replace(`../index.html?panel=sessionSelect&year=${year}&grade=${grade}`);
             return;
         }
-        if (mode === "introduction") return;
+        if (mode === "introduction" || mode === "basics") return;
 
         if (!lessonData) return;
 
