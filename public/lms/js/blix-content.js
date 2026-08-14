@@ -1,5 +1,5 @@
 (() => {
-    const sessions = [
+    const allSessions = [
         { title: "Getting Started with BLIX", summary: "Learn safe construction, part handling, dismantling, and the rack-and-pinion principle before beginning the models.", pages: ["cover", 2, 3] },
         { title: "Fork Lift: Chassis and Frame", summary: "Build the wheeled base and begin the upright support structure for the fork-lift model.", pages: [4, 5, 6, 7, 8, 9] },
         { title: "Fork Lift: Lifting Mechanism", summary: "Complete the rack-and-pinion tower, fork carriage, and final fork-lift assembly.", pages: [10, 11, 12, 13, 14] },
@@ -12,11 +12,20 @@
         { title: "Steering Car: Final Build and Review", summary: "Complete the body, verify free movement, review the mechanism, and check every BLIX component.", pages: [64, 65, 66, 67, 68, 69, 70] }
     ];
 
+    // Report Card patch: a `?sessions=1,3,5` param (the admin's Manage LMS
+    // selection) restricts which sessions are shown. Session numbers keep
+    // their original 1..10 values.
+    const numbered = allSessions.map((session, i) => ({ ...session, number: i + 1 }));
+    const allowed = (new URLSearchParams(location.search).get("sessions") || "")
+        .split(",").map(Number).filter(Boolean);
+    const sessions = allowed.length ? numbered.filter((s) => allowed.includes(s.number)) : numbered;
+    if (!sessions.length) return;
+
     const nav = document.querySelector("[data-blix-nav]");
     const workspace = document.querySelector("[data-blix-workspace]");
     if (!nav || !workspace) return;
 
-    let sessionIndex = Math.max(0, Math.min(sessions.length - 1, Number(new URLSearchParams(location.search).get("session") || 1) - 1));
+    let sessionIndex = Math.max(0, sessions.findIndex((s) => s.number === Number(new URLSearchParams(location.search).get("session") || 1)));
     let pageIndex = 0;
 
     const sessionLabel = document.querySelector("[data-blix-session-label]");
@@ -35,12 +44,12 @@
 
     nav.innerHTML = sessions.map((session, index) => `
         <button type="button" data-blix-session="${index}">
-            <span>${index + 1}</span>
-            <span><strong>Session ${index + 1}</strong><small>${session.title}</small></span>
+            <span>${session.number}</span>
+            <span><strong>Session ${session.number}</strong><small>${session.title}</small></span>
         </button>
     `).join("");
 
-    const updateUrl = () => history.replaceState(null, "", `${location.pathname}?session=${sessionIndex + 1}`);
+    const updateUrl = () => history.replaceState(null, "", `${location.pathname}?session=${sessions[sessionIndex].number}${allowed.length ? `&sessions=${allowed.join(",")}` : ""}`);
 
     const render = ({ focusWorkspace = false } = {}) => {
         const session = sessions[sessionIndex];
@@ -52,7 +61,7 @@
             button.setAttribute("aria-current", index === sessionIndex ? "step" : "false");
             if (index === sessionIndex) activeButton = button;
         });
-        sessionLabel.textContent = `Session ${sessionIndex + 1}`;
+        sessionLabel.textContent = `Session ${session.number}`;
         sessionTitle.textContent = session.title;
         summary.textContent = session.summary;
         programCover.hidden = !isProgramCover;
@@ -68,8 +77,8 @@
         nextPage.disabled = pageIndex === session.pages.length - 1;
         prevSession.disabled = sessionIndex === 0;
         nextSession.disabled = sessionIndex === sessions.length - 1;
-        nextSession.textContent = sessionIndex === sessions.length - 1 ? "Course Complete" : `Next: Session ${sessionIndex + 2}`;
-        document.title = `Session ${sessionIndex + 1}: ${session.title} | BLIX LMS`;
+        nextSession.textContent = sessionIndex === sessions.length - 1 ? "Course Complete" : `Next: Session ${sessions[sessionIndex + 1].number}`;
+        document.title = `Session ${session.number}: ${session.title} | BLIX LMS`;
         updateUrl();
         if (activeButton && !focusWorkspace) {
             nav.scrollTop = Math.max(0, activeButton.offsetTop - nav.offsetTop - 12);

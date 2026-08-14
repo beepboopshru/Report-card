@@ -677,7 +677,8 @@ export default function AdminDashboard() {
                                         />
                                         {level.name}
                                       </label>
-                                      {assigned && (
+                                      {/* BLIX's single pseudo-grade "all" needs no per-class row */}
+                                      {assigned && level.grades.length > 1 && (
                                         <div className="ml-6 mt-1 flex flex-wrap gap-x-4 gap-y-1">
                                           {level.grades
                                             .filter((grade) =>
