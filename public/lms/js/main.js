@@ -40,6 +40,25 @@ document.addEventListener("DOMContentLoaded", () => {
     // patched: the report-card app locks the LMS to the opened level via a
     // ?years= param. Stored globally (every entry URL sends it) so backing
     // out to the level picker can't reach levels not given to the class.
+    // patched: the report-card app can rename classes for a school via a
+    // ?gradeNames= param — JSON {"6": "Class 5"} — shown on the class cards
+    // and session headers. Cosmetic only: grade values in URLs and quiz
+    // results keep the real grade. Persisted like the grades filter.
+    const gradeNamesStoreKey = (yearValue) => `su-lms-grade-names-${yearValue}`;
+    if (params.get("gradeNames") !== null) {
+        try { sessionStorage.setItem(gradeNamesStoreKey(year), params.get("gradeNames")); } catch (e) { /* storage unavailable */ }
+    }
+    const gradeNameFor = (yearValue, gradeValue) => {
+        let raw = null;
+        try { raw = sessionStorage.getItem(gradeNamesStoreKey(yearValue)); } catch (e) { /* storage unavailable */ }
+        if (raw) {
+            try {
+                const map = JSON.parse(raw);
+                if (map && typeof map[gradeValue] === "string" && map[gradeValue]) return map[gradeValue];
+            } catch (e) { /* malformed param */ }
+        }
+        return `Class ${gradeValue}`;
+    };
     const yearsStoreKey = "su-lms-allowed-years";
     if (params.get("years") !== null) {
         try { sessionStorage.setItem(yearsStoreKey, params.get("years")); } catch (e) { /* storage unavailable */ }
@@ -295,8 +314,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const number = classButton.querySelector("span");
             const title = classButton.querySelector("strong");
             const tier = classButton.querySelector("p");
-            if (number) number.textContent = item[0];
-            if (title) title.textContent = item[1];
+            // patched: per-school class rename — card badge shows the renamed
+            // class's number when the override contains one ("Class 5" → "5").
+            const renamed = gradeNameFor(selectedHomeYear, item[0]);
+            if (number) number.textContent = (renamed.match(/\d+/) || [item[0]])[0];
+            if (title) title.textContent = renamed;
             if (tier) tier.textContent = item[2];
         });
         document.querySelectorAll("[data-selected-year-label]").forEach((label) => {
@@ -306,7 +328,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const refreshSessionCards = () => {
         const label = document.querySelector("#selectedClassLabel");
-        if (label) label.textContent = `${levelLabels[selectedHomeYear] || levelLabels["1"]} | Class ${selectedHomeGrade}`;
+        if (label) label.textContent = `${levelLabels[selectedHomeYear] || levelLabels["1"]} | ${gradeNameFor(selectedHomeYear, selectedHomeGrade)}`; // patched: per-school class rename
         const allowedSessions = allowedSessionsFor(selectedHomeYear, selectedHomeGrade);
         document.querySelectorAll(".session-card.available").forEach((card) => {
             const sessionValue = card.dataset.session || "1";

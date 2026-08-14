@@ -3,8 +3,8 @@
 // upstream GitHub repo via jsDelivr.
 export interface LmsLevel {
   id: string;
-  /** `year` URL param the vendored LMS uses for this level. */
-  year: "1" | "2";
+  /** `year` URL param the vendored LMS uses for this level ("blix" is off-URL). */
+  year: "1" | "2" | "blix";
   name: string;
   classes: string;
   /** `grade` URL params of the classes inside this level, in display order. */
@@ -33,7 +33,39 @@ export const LMS_LEVELS: LmsLevel[] = [
     grades: ["6", "7", "8", "9"],
     kitNumber: 102,
   },
+  {
+    // Shared course: no per-class split, no 5E phases, no quiz. The single
+    // pseudo-grade "all" keeps the level/grade/session assignment machinery
+    // (teacherLevels rows, classLevels, session inheritance) working unchanged.
+    id: "blix",
+    year: "blix",
+    name: "BLIX · Rack and Pinion",
+    classes: "Shared course · 10 sessions",
+    grades: ["all"],
+    kitNumber: 0, // no robotics rubric kit for BLIX
+  },
 ];
+
+export const BLIX_LEVEL_ID = "blix";
+
+/** BLIX session numbers ("1".."10"); no intro session, no 5E phases. */
+export const BLIX_SESSIONS = Array.from({ length: 10 }, (_, i) =>
+  String(i + 1),
+);
+
+/**
+ * "Class 4 · Class 5" for the levels, "Shared course" for BLIX.
+ * `gradeNames` are per-school display overrides ("6" → "Class 5") for when a
+ * higher-level course runs under the school's own class name.
+ */
+export function gradesLabel(
+  level: LmsLevel,
+  grades: string[],
+  gradeNames?: Record<string, string>,
+): string {
+  if (level.id === BLIX_LEVEL_ID) return "Shared course · all classes";
+  return grades.map((g) => gradeNames?.[g] ?? `Class ${g}`).join(" · ");
+}
 
 export const LMS_LEVEL_BY_ID = new Map(LMS_LEVELS.map((l) => [l.id, l]));
 
@@ -67,7 +99,14 @@ export function lmsLevelPath(
   level: LmsLevel,
   grades: string[] = level.grades,
   sessions?: SessionPick[],
+  gradeNames?: Record<string, string>,
 ): string {
+  if (level.id === BLIX_LEVEL_ID) {
+    // BLIX is its own page; `sessions` (comma list of session numbers)
+    // restricts which sessions its nav shows. Empty/absent = full course.
+    const picked = sessions?.map((s) => s.session) ?? [];
+    return `/lms/pages/blix.html${picked.length ? `?sessions=${picked.join(",")}` : ""}`;
+  }
   // `years` locks the LMS to this level: backing out to its level picker
   // can't reach other levels. Each course card opens one level.
   const gradesParam = `&grades=${grades.join(",")}&years=${level.year}`;
@@ -76,10 +115,17 @@ export function lmsLevelPath(
   const sessionsParam = sessions?.length
     ? `&sessions=${encodeURIComponent(JSON.stringify(sessions))}`
     : "&sessions=";
+  // Per-school class-name overrides for the LMS's class cards and headers.
+  // Empty clears any earlier override, mirroring the sessions param.
+  const namesParam = `&gradeNames=${
+    gradeNames && Object.keys(gradeNames).length
+      ? encodeURIComponent(JSON.stringify(gradeNames))
+      : ""
+  }`;
   if (grades.length === 1) {
-    return `/lms/index.html?panel=sessionSelect&year=${level.year}&grade=${grades[0]}${gradesParam}${sessionsParam}`;
+    return `/lms/index.html?panel=sessionSelect&year=${level.year}&grade=${grades[0]}${gradesParam}${sessionsParam}${namesParam}`;
   }
-  return `/lms/index.html?panel=classSelect&year=${level.year}${gradesParam}${sessionsParam}`;
+  return `/lms/index.html?panel=classSelect&year=${level.year}${gradesParam}${sessionsParam}${namesParam}`;
 }
 
 /** "1-4-3" → "Level 1 · Class 4 · Session 3" (session 0 is the intro session). */

@@ -7,6 +7,7 @@ import { Card, CardBody } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
 import { useCurrentProfile } from "../lib/useCurrentProfile";
 import {
+  gradesLabel,
   LMS_LEVELS,
   LMS_LEVEL_BY_ID,
   lmsLevelPath,
@@ -29,6 +30,7 @@ export default function LmsCourses() {
     level: LmsLevel;
     grades: string[];
     sessions?: SessionPick[];
+    gradeNames?: Record<string, string>;
   } | null>(null);
 
   if (open) {
@@ -43,10 +45,15 @@ export default function LmsCourses() {
         </button>
         <PageHeader
           title={open.level.name}
-          description={open.grades.map((g) => `Class ${g}`).join(" · ")}
+          description={gradesLabel(open.level, open.grades, open.gradeNames)}
         />
         <iframe
-          src={lmsLevelPath(open.level, open.grades, open.sessions)}
+          src={lmsLevelPath(
+            open.level,
+            open.grades,
+            open.sessions,
+            open.gradeNames,
+          )}
           title={open.level.name}
           className="w-full h-[75vh] rounded-lg border border-line bg-surface"
         />
@@ -59,6 +66,7 @@ export default function LmsCourses() {
     grades: string[],
     key: string,
     sessions?: SessionPick[],
+    gradeNames?: Record<string, string>,
   ) => (
     <Card key={key}>
       <CardBody>
@@ -66,11 +74,11 @@ export default function LmsCourses() {
           <div>
             <div className="font-medium text-ink">{level.name}</div>
             <div className="text-xs text-ink-muted mt-0.5">
-              {grades.map((g) => `Class ${g}`).join(" · ")}
+              {gradesLabel(level, grades, gradeNames)}
               {sessions?.length ? " · selected sessions" : ""}
             </div>
           </div>
-          <Button onClick={() => setOpen({ level, grades, sessions })}>
+          <Button onClick={() => setOpen({ level, grades, sessions, gradeNames })}>
             <BookOpen className="w-4 h-4" />
             Open course
           </Button>
@@ -118,12 +126,14 @@ export default function LmsCourses() {
   }
 
   const classList = lmsOnly ? [] : (myClasses ?? []);
-  const schoolCards = schoolLms.flatMap(({ levelId, grades, sessions }) => {
-    const level = LMS_LEVEL_BY_ID.get(levelId);
-    return level
-      ? [levelCard(level, grades, `school-${levelId}`, sessions)]
-      : [];
-  });
+  const schoolCards = schoolLms.flatMap(
+    ({ levelId, grades, sessions, gradeNames }) => {
+      const level = LMS_LEVEL_BY_ID.get(levelId);
+      return level
+        ? [levelCard(level, grades, `school-${levelId}`, sessions, gradeNames)]
+        : [];
+    },
+  );
 
   return (
     <>
@@ -155,19 +165,22 @@ export default function LmsCourses() {
                 {cls.className}
               </div>
               <div className="space-y-4">
-                {cls.levels.flatMap(({ levelId, grades, sessions }) => {
-                  const level = LMS_LEVEL_BY_ID.get(levelId);
-                  return level
-                    ? [
-                        levelCard(
-                          level,
-                          grades,
-                          `${cls.classId}-${levelId}`,
-                          sessions,
-                        ),
-                      ]
-                    : [];
-                })}
+                {cls.levels.flatMap(
+                  ({ levelId, grades, sessions, gradeNames }) => {
+                    const level = LMS_LEVEL_BY_ID.get(levelId);
+                    return level
+                      ? [
+                          levelCard(
+                            level,
+                            grades,
+                            `${cls.classId}-${levelId}`,
+                            sessions,
+                            gradeNames,
+                          ),
+                        ]
+                      : [];
+                  },
+                )}
               </div>
             </div>
           ))}

@@ -1,4 +1,6 @@
 import {
+  BLIX_LEVEL_ID,
+  BLIX_SESSIONS,
   LMS_LEVELS,
   LMS_SESSIONS,
   PHASE_GROUPS,
@@ -10,6 +12,8 @@ export type LevelAssignment = {
   levelId: string;
   grades: string[];
   sessions?: SessionPick[];
+  /** Display override per grade ("6" → "Class 5"); content stays the same. */
+  gradeNames?: Record<string, string>;
 };
 
 interface Props {
@@ -20,6 +24,14 @@ interface Props {
 }
 
 const sessionLabel = (s: string) => (s === "0" ? "Intro" : s);
+
+// ponytail: BLIX has one pseudo-grade "all", no 5E phases; a stored pick with
+// groups ["core"] just means "this session is on".
+const isBlix = (level: LmsLevel) => level.id === BLIX_LEVEL_ID;
+const sessionsOf = (level: LmsLevel) =>
+  isBlix(level) ? BLIX_SESSIONS : LMS_SESSIONS;
+const groupsOf = (level: LmsLevel) =>
+  isBlix(level) ? ["core"] : PHASE_GROUPS.map((g) => g.id as string);
 
 /**
  * Level → class → session → 5E picker for school-wide course assignment.
@@ -64,6 +76,11 @@ export default function CourseAssignmentPicker({
       ? entry.grades.filter((g) => g !== grade)
       : level.grades.filter((g) => entry.grades.includes(g) || g === grade);
     const sessions = entry.sessions?.filter((s) => grades.includes(s.grade));
+    const gradeNames = entry.gradeNames
+      ? Object.fromEntries(
+          Object.entries(entry.gradeNames).filter(([g]) => grades.includes(g)),
+        )
+      : undefined;
     onChange(
       grades.length
         ? value.map((l) =>
@@ -72,10 +89,29 @@ export default function CourseAssignmentPicker({
                   ...l,
                   grades,
                   sessions: sessions?.length ? sessions : undefined,
+                  gradeNames:
+                    gradeNames && Object.keys(gradeNames).length
+                      ? gradeNames
+                      : undefined,
                 }
               : l,
           )
         : value.filter((l) => l.levelId !== level.id),
+    );
+  };
+
+  const setGradeName = (level: LmsLevel, grade: string, name: string) => {
+    onChange(
+      value.map((l) => {
+        if (l.levelId !== level.id) return l;
+        const gradeNames = { ...l.gradeNames };
+        if (name) gradeNames[grade] = name;
+        else delete gradeNames[grade];
+        return {
+          ...l,
+          gradeNames: Object.keys(gradeNames).length ? gradeNames : undefined,
+        };
+      }),
     );
   };
 
@@ -88,10 +124,12 @@ export default function CourseAssignmentPicker({
     const entry = value.find((l) => l.levelId === level.id);
     if (!entry) return;
     // Materialize this class's on/off grid, flip one cell, compact back.
+    const allSessions = sessionsOf(level);
+    const allGroups = groupsOf(level);
     const on = new Set<string>();
-    for (const s of LMS_SESSIONS)
-      for (const g of PHASE_GROUPS)
-        if (isOn(entry, grade, s, g.id)) on.add(`${s}|${g.id}`);
+    for (const s of allSessions)
+      for (const g of allGroups)
+        if (isOn(entry, grade, s, g)) on.add(`${s}|${g}`);
     const key = `${session}|${group}`;
     if (on.has(key)) {
       // Keep at least one selection — uncheck the class to remove it entirely.
@@ -100,13 +138,11 @@ export default function CourseAssignmentPicker({
     } else {
       on.add(key);
     }
-    const full = on.size === LMS_SESSIONS.length * PHASE_GROUPS.length;
+    const full = on.size === allSessions.length * allGroups.length;
     const gradeSessions: SessionPick[] = full
       ? []
-      : LMS_SESSIONS.flatMap((s) => {
-          const groups = PHASE_GROUPS.map((g) => g.id as string).filter((g) =>
-            on.has(`${s}|${g}`),
-          );
+      : allSessions.flatMap((s) => {
+          const groups = allGroups.filter((g) => on.has(`${s}|${g}`));
           return groups.length ? [{ grade, session: s, groups }] : [];
         });
     const sessions = [
@@ -136,7 +172,33 @@ export default function CourseAssignmentPicker({
               />
               {level.name}
             </label>
-            {entry && (
+            {entry && isBlix(level) && (
+              <div className="ml-6 mt-1.5 flex flex-wrap items-center gap-1">
+                <span className="w-40 shrink-0 text-[11px] text-ink-subtle">
+                  Sessions
+                </span>
+                {BLIX_SESSIONS.map((session) => {
+                  const on = isOn(entry, "all", session, "core");
+                  return (
+                    <button
+                      key={session}
+                      type="button"
+                      aria-pressed={on}
+                      title={`Session ${session}`}
+                      onClick={() => toggleCell(level, "all", session, "core")}
+                      className={`min-w-7 px-1 h-6 rounded border text-[11px] font-medium transition-colors ${
+                        on
+                          ? "border-accent bg-accent/10 text-accent-deep"
+                          : "border-line bg-surface text-ink-subtle hover:text-ink"
+                      }`}
+                    >
+                      {session}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+            {entry && !isBlix(level) && (
               <div className="ml-6 mt-1.5 space-y-2.5">
                 {level.grades.map((grade) => {
                   const selected = entry.grades.includes(grade);
@@ -150,6 +212,22 @@ export default function CourseAssignmentPicker({
                         />
                         Class {grade}
                       </label>
+                      {selected && (
+                        <span className="ml-3 inline-flex items-center gap-1 text-[11px] text-ink-subtle">
+                          shown as
+                          <input
+                            type="text"
+                            maxLength={60}
+                            value={entry.gradeNames?.[grade] ?? ""}
+                            placeholder={`Class ${grade}`}
+                            title="Display name the school and students see; the course content stays the same."
+                            onChange={(e) =>
+                              setGradeName(level, grade, e.target.value)
+                            }
+                            className="w-24 h-6 px-1.5 rounded border border-line bg-surface text-[11px] text-ink placeholder:text-ink-subtle/60"
+                          />
+                        </span>
+                      )}
                       {selected && (
                         <div className="ml-5 mt-1 space-y-1">
                           {PHASE_GROUPS.map((group) => (

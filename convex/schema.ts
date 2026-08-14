@@ -132,6 +132,10 @@ export default defineSchema({
         }),
       ),
     ),
+    // Display-name override per grade ("6" → "Class 5") for when a school runs
+    // a higher-level course under its own class name. Cosmetic only: grade
+    // keys, session keys, and quiz scores keep the real grade.
+    gradeNames: v.optional(v.record(v.string(), v.string())),
   }).index("by_teacher", ["teacherProfileId"]),
 
   classLevels: defineTable({

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   formatSessionKey,
+  gradesLabel,
   LMS_LEVELS,
   lmsLevelPath,
 } from "../../convex/lib/lmsCatalog";
@@ -8,23 +9,51 @@ import {
 describe("lmsLevelPath", () => {
   it("deep-links each level into the vendored LMS with all its classes", () => {
     expect(lmsLevelPath(LMS_LEVELS[0])).toBe(
-      "/lms/index.html?panel=classSelect&year=1&grades=4,5,6,7&years=1&sessions=",
+      "/lms/index.html?panel=classSelect&year=1&grades=4,5,6,7&years=1&sessions=&gradeNames=",
     );
     expect(lmsLevelPath(LMS_LEVELS[1])).toBe(
-      "/lms/index.html?panel=classSelect&year=2&grades=6,7,8,9&years=2&sessions=",
+      "/lms/index.html?panel=classSelect&year=2&grades=6,7,8,9&years=2&sessions=&gradeNames=",
     );
   });
 
   it("restricts the class list to the assigned grades", () => {
     expect(lmsLevelPath(LMS_LEVELS[0], ["5", "6"])).toBe(
-      "/lms/index.html?panel=classSelect&year=1&grades=5,6&years=1&sessions=",
+      "/lms/index.html?panel=classSelect&year=1&grades=5,6&years=1&sessions=&gradeNames=",
     );
   });
 
   it("skips class select when a single class is assigned", () => {
     expect(lmsLevelPath(LMS_LEVELS[1], ["8"])).toBe(
-      "/lms/index.html?panel=sessionSelect&year=2&grade=8&grades=8&years=2&sessions=",
+      "/lms/index.html?panel=sessionSelect&year=2&grade=8&grades=8&years=2&sessions=&gradeNames=",
     );
+  });
+
+  it("passes per-school class renames to the LMS", () => {
+    expect(
+      lmsLevelPath(LMS_LEVELS[1], ["6"], undefined, { "6": "Class 5" }),
+    ).toBe(
+      `/lms/index.html?panel=sessionSelect&year=2&grade=6&grades=6&years=2&sessions=&gradeNames=${encodeURIComponent('{"6":"Class 5"}')}`,
+    );
+  });
+
+  it("links BLIX to its own page, with picked sessions as a comma list", () => {
+    const blix = LMS_LEVELS.find((l) => l.id === "blix")!;
+    expect(lmsLevelPath(blix)).toBe("/lms/pages/blix.html");
+    expect(
+      lmsLevelPath(blix, ["all"], [
+        { grade: "all", session: "2", groups: ["core"] },
+        { grade: "all", session: "5", groups: ["core"] },
+      ]),
+    ).toBe("/lms/pages/blix.html?sessions=2,5");
+  });
+});
+
+describe("gradesLabel", () => {
+  it("uses per-school renames, falling back to the real class name", () => {
+    expect(gradesLabel(LMS_LEVELS[1], ["6", "7"], { "6": "Class 5" })).toBe(
+      "Class 5 · Class 7",
+    );
+    expect(gradesLabel(LMS_LEVELS[1], ["6", "7"])).toBe("Class 6 · Class 7");
   });
 });
 

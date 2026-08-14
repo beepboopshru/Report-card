@@ -117,32 +117,53 @@ const sessionsValidator = v.optional(
 );
 type Sessions = Infer<typeof sessionsValidator>;
 
+/** Per-grade display-name overrides ("6" → "Class 5"); cosmetic only. */
+const gradeNamesValidator = v.optional(v.record(v.string(), v.string()));
+type GradeNames = Infer<typeof gradeNamesValidator>;
+
 /**
  * Per-session 5E picks from the account's school-wide assignment, by levelId.
  * Classwise LMS inherits these so a class course respects the E's provided
  * on the school/teacher account.
  */
-async function teacherSessionsByLevel(
+async function teacherRowsByLevel(
   ctx: QueryCtx,
   teacherProfileId: Id<"profiles">,
-): Promise<Map<string, Sessions>> {
+): Promise<Map<string, { sessions: Sessions; gradeNames: GradeNames }>> {
   const rows = await ctx.db
     .query("teacherLevels")
     .withIndex("by_teacher", (q) => q.eq("teacherProfileId", teacherProfileId))
     .collect();
-  return new Map(rows.map((r) => [r.levelId, r.sessions]));
+  return new Map(
+    rows.map((r) => [
+      r.levelId,
+      { sessions: r.sessions, gradeNames: r.gradeNames },
+    ]),
+  );
 }
 
 /** The account's session picks for a level, limited to the class's grades. */
 function inheritedSessions(
-  sessionsByLevel: Map<string, Sessions>,
+  rowsByLevel: Map<string, { sessions: Sessions; gradeNames: GradeNames }>,
   levelId: string,
   grades: string[],
 ): Sessions {
-  const sessions = sessionsByLevel
+  const sessions = rowsByLevel
     .get(levelId)
-    ?.filter((s) => grades.includes(s.grade));
+    ?.sessions?.filter((s) => grades.includes(s.grade));
   return sessions?.length ? sessions : undefined;
+}
+
+/** The account's grade renames for a level, limited to the class's grades. */
+function inheritedGradeNames(
+  rowsByLevel: Map<string, { sessions: Sessions; gradeNames: GradeNames }>,
+  levelId: string,
+  grades: string[],
+): GradeNames {
+  const names = rowsByLevel.get(levelId)?.gradeNames;
+  if (!names) return undefined;
+  const kept = Object.entries(names).filter(([g]) => grades.includes(g));
+  return kept.length ? Object.fromEntries(kept) : undefined;
 }
 
 /**
@@ -161,6 +182,7 @@ export const myClassLms = query({
           levelId: v.string(),
           grades: v.array(v.string()),
           sessions: sessionsValidator,
+          gradeNames: gradeNamesValidator,
         }),
       ),
     }),
@@ -172,7 +194,7 @@ export const myClassLms = query({
       .query("classes")
       .withIndex("by_teacher", (q) => q.eq("teacherProfileId", profile._id))
       .collect();
-    const sessionsByLevel = await teacherSessionsByLevel(ctx, profile._id);
+    const rowsByLevel = await teacherRowsByLevel(ctx, profile._id);
     const out = [];
     for (const cls of classes) {
       const rows = await ctx.db
@@ -189,7 +211,8 @@ export const myClassLms = query({
           return {
             levelId: r.levelId,
             grades,
-            sessions: inheritedSessions(sessionsByLevel, r.levelId, grades),
+            sessions: inheritedSessions(rowsByLevel, r.levelId, grades),
+            gradeNames: inheritedGradeNames(rowsByLevel, r.levelId, grades),
           };
         }),
       });
@@ -215,6 +238,7 @@ export const teacherLevelValidator = v.object({
       }),
     ),
   ),
+  gradeNames: gradeNamesValidator,
 });
 export type TeacherLevelAssignment = Infer<typeof teacherLevelValidator>;
 
@@ -222,7 +246,7 @@ function normalizeTeacherLevels(
   levels: TeacherLevelAssignment[],
 ): TeacherLevelAssignment[] {
   const seen = new Set<string>();
-  return levels.map(({ levelId, grades, sessions }) => {
+  return levels.map(({ levelId, grades, sessions, gradeNames }) => {
     const level = LMS_LEVEL_BY_ID.get(levelId);
     if (!level) throw new Error(`Unknown LMS level: ${levelId}`);
     if (seen.has(levelId)) throw new Error(`Duplicate LMS level: ${levelId}`);
@@ -256,7 +280,22 @@ function normalizeTeacherLevels(
         return { grade: s.grade, session: s.session, groups };
       });
     }
-    return { levelId, grades: validGrades, sessions: validSessions };
+    let validNames: GradeNames;
+    if (gradeNames) {
+      const kept = Object.entries(gradeNames)
+        .map(([g, name]) => [g, name.trim()] as const)
+        .filter(([g, name]) => validGrades.includes(g) && name.length > 0);
+      if (kept.some(([, name]) => name.length > 60)) {
+        throw new Error("Display name too long (60 characters max)");
+      }
+      if (kept.length) validNames = Object.fromEntries(kept);
+    }
+    return {
+      levelId,
+      grades: validGrades,
+      sessions: validSessions,
+      gradeNames: validNames,
+    };
   });
 }
 
@@ -308,6 +347,7 @@ const teacherLevelsReturns = v.array(
         }),
       ),
     ),
+    gradeNames: gradeNamesValidator,
   }),
 );
 
@@ -352,6 +392,7 @@ export const forTeacherProfile = query({
       levelId: r.levelId,
       grades: r.grades,
       sessions: r.sessions,
+      gradeNames: r.gradeNames,
     }));
   },
 });
@@ -371,6 +412,7 @@ export const mySchoolLms = query({
       levelId: r.levelId,
       grades: r.grades,
       sessions: r.sessions,
+      gradeNames: r.gradeNames,
     }));
   },
 });
@@ -532,6 +574,7 @@ export const myLms = query({
           levelId: v.string(),
           grades: v.array(v.string()),
           sessions: sessionsValidator,
+          gradeNames: gradeNamesValidator,
         }),
       ),
     }),
@@ -547,10 +590,7 @@ export const myLms = query({
       .query("classLevels")
       .withIndex("by_class", (q) => q.eq("classId", student.classId))
       .collect();
-    const sessionsByLevel = await teacherSessionsByLevel(
-      ctx,
-      cls.teacherProfileId,
-    );
+    const rowsByLevel = await teacherRowsByLevel(ctx, cls.teacherProfileId);
     return {
       studentName: student.name,
       className: cls.name,
@@ -560,7 +600,8 @@ export const myLms = query({
         return {
           levelId: r.levelId,
           grades,
-          sessions: inheritedSessions(sessionsByLevel, r.levelId, grades),
+          sessions: inheritedSessions(rowsByLevel, r.levelId, grades),
+          gradeNames: inheritedGradeNames(rowsByLevel, r.levelId, grades),
         };
       }),
     };

@@ -21,6 +21,13 @@ Local patches (keep when re-vendoring):
    (or when the parent reports a stored score via `su-lms-quiz-scores`).
 4. `js/main.js`: a `?grades=4,5` param (persisted per level in sessionStorage)
    filters which class cards are shown, so students only see their own grade.
+5. `js/blix-content.js`: a `?sessions=1,3,5` param filters which BLIX sessions
+   are shown (the admin's Manage LMS selection); session numbers keep their
+   original 1..10 values.
+6. `js/main.js`: a `?gradeNames=` param (JSON `{"6": "Class 5"}`, persisted per
+   level in sessionStorage) renames class cards and the session-select header
+   for schools that run a higher-level course under their own class name.
+   Cosmetic only — URLs, content keys, and quiz results keep the real grade.
 
 To update content: re-run the sparse clone of the upstream repo, copy
 `index.html css/ js/ pages/` over this directory, and re-apply the patches above.

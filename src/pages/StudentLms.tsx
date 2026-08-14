@@ -6,6 +6,7 @@ import { api } from "../../convex/_generated/api";
 import { Card, CardBody } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
 import {
+  gradesLabel,
   LMS_LEVELS,
   lmsLevelPath,
   type LmsLevel,
@@ -21,6 +22,7 @@ export default function StudentLms() {
     level: LmsLevel;
     grades: string[];
     sessions?: SessionPick[];
+    gradeNames?: Record<string, string>;
   } | null>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
@@ -65,7 +67,14 @@ export default function StudentLms() {
   const levels = LMS_LEVELS.flatMap((level) => {
     const assigned = lms?.levels.find((a) => a.levelId === level.id);
     return assigned && assigned.grades.length
-      ? [{ level, grades: assigned.grades, sessions: assigned.sessions }]
+      ? [
+          {
+            level,
+            grades: assigned.grades,
+            sessions: assigned.sessions,
+            gradeNames: assigned.gradeNames,
+          },
+        ]
       : [];
   });
 
@@ -108,7 +117,12 @@ export default function StudentLms() {
       {openLevel ? (
         <iframe
           ref={iframeRef}
-          src={lmsLevelPath(openLevel.level, openLevel.grades, openLevel.sessions)}
+          src={lmsLevelPath(
+            openLevel.level,
+            openLevel.grades,
+            openLevel.sessions,
+            openLevel.gradeNames,
+          )}
           title={openLevel.level.name}
           onLoad={pushScores}
           className="flex-1 w-full border-0"
@@ -133,18 +147,20 @@ export default function StudentLms() {
             </Card>
           ) : (
             <div className="space-y-4">
-              {levels.map(({ level, grades, sessions }) => (
+              {levels.map(({ level, grades, sessions, gradeNames }) => (
                 <Card key={level.id}>
                   <CardBody>
                     <div className="flex items-center justify-between gap-4">
                       <div>
                         <div className="font-medium text-ink">{level.name}</div>
                         <div className="text-xs text-ink-muted mt-0.5">
-                          {grades.map((g) => `Class ${g}`).join(" · ")}
+                          {gradesLabel(level, grades, gradeNames)}
                         </div>
                       </div>
                       <Button
-                        onClick={() => setOpenLevel({ level, grades, sessions })}
+                        onClick={() =>
+                          setOpenLevel({ level, grades, sessions, gradeNames })
+                        }
                       >
                         <BookOpen className="w-4 h-4" />
                         Open course
