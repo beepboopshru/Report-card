@@ -7,7 +7,12 @@ import {
 import { v, type Infer } from "convex/values";
 import type { Id } from "./_generated/dataModel";
 import { requireAdmin, requireOwnsClass, requireProfile } from "./lib/access";
-import { LMS_LEVEL_BY_ID, LMS_SESSIONS, PHASE_GROUPS } from "./lib/lmsCatalog";
+import {
+  levelSessions,
+  LMS_LEVEL_BY_ID,
+  PHASE_GROUPS,
+  YEAR2_LEVEL_ID,
+} from "./lib/lmsCatalog";
 
 /**
  * Admin assigns which LMS levels a class can see, and which LMS classes
@@ -263,7 +268,7 @@ function normalizeTeacherLevels(
         if (!validGrades.includes(s.grade)) {
           throw new Error(`Session picked for unselected class ${s.grade}`);
         }
-        if (!LMS_SESSIONS.includes(s.session)) {
+        if (!levelSessions(level).includes(s.session)) {
           throw new Error(`Unknown session: ${s.session}`);
         }
         const key = `${s.grade}-${s.session}`;
@@ -458,7 +463,12 @@ export const recordQuizResult = mutation({
     }
     if (args.score > args.total) throw new Error("Invalid quiz result");
     const keyPart = /^[0-9]{1,2}$/;
-    if (![args.year, args.grade, args.session].every((p) => keyPart.test(p))) {
+    // Year 2 program quizzes report the pseudo-year "year2" so their keys
+    // can't collide with Level 1 (both have Classes 6 and 7).
+    if (!keyPart.test(args.year) && args.year !== YEAR2_LEVEL_ID) {
+      throw new Error("Invalid session key");
+    }
+    if (![args.grade, args.session].every((p) => keyPart.test(p))) {
       throw new Error("Invalid session key");
     }
 

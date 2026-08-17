@@ -378,7 +378,9 @@ void setup() {
     };
 
     const showPhase = (phase, immediate = false) => {
-      if (!phaseOrder.includes(phase)) return;
+      // patched: also ignore phases whose cards were removed by the
+      // report-card app's 5E group picks (see the sessionStorage block below).
+      if (!phaseOrder.includes(phase) || !phaseCards[phase] || !phaseCards[phase].isConnected) return;
       activePhase = phase;
       phaseNav.querySelectorAll("[data-phase]").forEach((button) => {
         const isActive = button.dataset.phase === phase;
@@ -418,6 +420,28 @@ void setup() {
     });
     document.addEventListener("fullscreenchange", () => contentCard.classList.toggle("fullscreen-mode", document.fullscreenElement === contentCard));
 
+    // patched: report-card app 5E group picks (persisted by pages/year2.html
+    // under the "year2" pseudo-year) hide phases not assigned to this session.
+    // "core" = engage/explore/explain, "extend" = evaluate (no elaborate here).
+    (() => {
+      let picks = null;
+      try { picks = JSON.parse(sessionStorage.getItem("su-lms-allowed-sessions-year2") || "null"); } catch (e) { return; }
+      if (!Array.isArray(picks)) return;
+      const gradePicks = picks.filter((row) => row && String(row.grade) === grade);
+      if (!gradePicks.length) return; // grade unrestricted
+      const row = gradePicks.find((r) => String(r.session) === String(session.number));
+      const groups = (row && row.groups) || [];
+      const allowed = [];
+      if (groups.includes("core")) allowed.push("engage", "explore", "explain");
+      if (groups.includes("extend")) allowed.push("evaluate");
+      if (!allowed.length) return; // unassigned sessions are bounced by main.js
+      phaseOrder.forEach((phase) => {
+        if (allowed.includes(phase)) return;
+        phaseNav?.querySelector(`[data-phase="${phase}"]`)?.remove();
+        phaseCards[phase]?.remove();
+      });
+      if (!allowed.includes(activePhase)) activePhase = allowed[0];
+    })();
     showTopic(activeTopic);
     showPhase(activePhase, true);
     if (window.lucide && typeof window.lucide.createIcons === "function") window.lucide.createIcons();

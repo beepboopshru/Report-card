@@ -36,6 +36,22 @@ describe("lmsLevelPath", () => {
     );
   });
 
+  it("links Year 2 to its own page with the assignment filters", () => {
+    const year2 = LMS_LEVELS.find((l) => l.id === "year2")!;
+    expect(lmsLevelPath(year2)).toBe(
+      "/lms/pages/year2.html?grades=6,7,8,9&sessions=&gradeNames=",
+    );
+    expect(
+      lmsLevelPath(year2, ["7"], [{ grade: "7", session: "3", groups: ["core"] }], {
+        "7": "Class 6",
+      }),
+    ).toBe(
+      `/lms/pages/year2.html?grades=7&sessions=${encodeURIComponent(
+        '[{"grade":"7","session":"3","groups":["core"]}]',
+      )}&gradeNames=${encodeURIComponent('{"7":"Class 6"}')}&grade=7`,
+    );
+  });
+
   it("links BLIX to its own page, with picked sessions as a comma list", () => {
     const blix = LMS_LEVELS.find((l) => l.id === "blix")!;
     expect(lmsLevelPath(blix)).toBe("/lms/pages/blix.html");
@@ -61,6 +77,7 @@ describe("formatSessionKey", () => {
   it("formats year-grade-session keys", () => {
     expect(formatSessionKey("1-4-3")).toBe("Level 1 · Class 4 · Session 3");
     expect(formatSessionKey("2-9-0")).toBe("Level 2 · Class 9 · Intro session");
+    expect(formatSessionKey("year2-6-3")).toBe("Year 2 · Class 6 · Session 3");
   });
 
   it("passes through malformed keys", () => {

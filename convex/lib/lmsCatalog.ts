@@ -3,8 +3,8 @@
 // upstream GitHub repo via jsDelivr.
 export interface LmsLevel {
   id: string;
-  /** `year` URL param the vendored LMS uses for this level ("blix" is off-URL). */
-  year: "1" | "2" | "blix";
+  /** `year` URL param the vendored LMS uses for this level ("blix" and "year2" are off-URL). */
+  year: "1" | "2" | "blix" | "year2";
   name: string;
   classes: string;
   /** `grade` URL params of the classes inside this level, in display order. */
@@ -44,14 +44,35 @@ export const LMS_LEVELS: LmsLevel[] = [
     grades: ["all"],
     kitNumber: 0, // no robotics rubric kit for BLIX
   },
+  {
+    // Independent program on its own page (pages/year2.html). Four phases per
+    // session (no Elaborate): the "extend" group toggles just Evaluate here.
+    id: "year2",
+    year: "year2",
+    name: "Year 2 · Robotics Program",
+    classes: "Classes 6–9",
+    grades: ["6", "7", "8", "9"],
+    kitNumber: 0, // no robotics rubric kit for Year 2 yet
+  },
 ];
 
 export const BLIX_LEVEL_ID = "blix";
+export const YEAR2_LEVEL_ID = "year2";
 
 /** BLIX session numbers ("1".."10"); no intro session, no 5E phases. */
 export const BLIX_SESSIONS = Array.from({ length: 10 }, (_, i) =>
   String(i + 1),
 );
+
+/** Year 2 sessions are also "1".."10" with no intro session. */
+export const YEAR2_SESSIONS = BLIX_SESSIONS;
+
+/** The session numbers a level's course actually has. */
+export function levelSessions(level: LmsLevel): string[] {
+  if (level.id === BLIX_LEVEL_ID) return BLIX_SESSIONS;
+  if (level.id === YEAR2_LEVEL_ID) return YEAR2_SESSIONS;
+  return LMS_SESSIONS;
+}
 
 /**
  * "Class 4 · Class 5" for the levels, "Shared course" for BLIX.
@@ -107,6 +128,20 @@ export function lmsLevelPath(
     const picked = sessions?.map((s) => s.session) ?? [];
     return `/lms/pages/blix.html${picked.length ? `?sessions=${picked.join(",")}` : ""}`;
   }
+  if (level.id === YEAR2_LEVEL_ID) {
+    // Year 2 is its own page too, but with per-class grades like the levels.
+    // Its script persists these filters under the "year2" pseudo-year, same
+    // format as main.js. A single grade deep-links straight to its sessions.
+    const sessionsParam = sessions?.length
+      ? encodeURIComponent(JSON.stringify(sessions))
+      : "";
+    const namesParam =
+      gradeNames && Object.keys(gradeNames).length
+        ? encodeURIComponent(JSON.stringify(gradeNames))
+        : "";
+    const gradeParam = grades.length === 1 ? `&grade=${grades[0]}` : "";
+    return `/lms/pages/year2.html?grades=${grades.join(",")}&sessions=${sessionsParam}&gradeNames=${namesParam}${gradeParam}`;
+  }
   // `years` locks the LMS to this level: backing out to its level picker
   // can't reach other levels. Each course card opens one level.
   const gradesParam = `&grades=${grades.join(",")}&years=${level.year}`;
@@ -133,5 +168,6 @@ export function formatSessionKey(sessionKey: string): string {
   const [year, grade, session] = sessionKey.split("-");
   if (!year || !grade || !session) return sessionKey;
   const label = session === "0" ? "Intro session" : `Session ${session}`;
-  return `Level ${year} · Class ${grade} · ${label}`;
+  const program = year === YEAR2_LEVEL_ID ? "Year 2" : `Level ${year}`;
+  return `${program} · Class ${grade} · ${label}`;
 }

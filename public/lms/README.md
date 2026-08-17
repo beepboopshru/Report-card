@@ -28,6 +28,15 @@ Local patches (keep when re-vendoring):
    level in sessionStorage) renames class cards and the session-select header
    for schools that run a higher-level course under their own class name.
    Cosmetic only — URLs, content keys, and quiz results keep the real grade.
+7. Year 2 program assignment: `js/year2-program.js` reads the same
+   `?grades=` / `?sessions=` / `?gradeNames=` params (persisted under the
+   "year2" pseudo-year) to filter its class and session cards, and locks the
+   level picker (`su-lms-allowed-years`) to "year2". `js/main.js` guards
+   `all5e.html?mode=year2` against unassigned grades/sessions, hides the
+   BLIX/Year 2 program cards when a years lock excludes them, and posts Year 2
+   quiz results with the pseudo-year "year2" (Level 1 shares Classes 6/7, so
+   the keys must not collide). `js/level2-dependencies-content.js` hides Year 2
+   phases whose 5E group ("core"/"extend") isn't assigned.
 
 To update content: re-run the sparse clone of the upstream repo, copy
 `index.html css/ js/ pages/` over this directory, and re-apply the patches above.

@@ -10,6 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const grade = params.get("grade") || "4";
     const session = params.get("session") || "1";
     const mode = params.get("mode") || "";
+    // patched: Year 2 program lessons carry no ?year= param; their quiz keys
+    // use the "year2" pseudo-year so they can't collide with Level 1 (both
+    // programs have Classes 6 and 7).
+    const quizYear = mode === "year2" ? "year2" : year;
     const homePanel = params.get("panel") || "";
     const contentKey = `${year}-${grade}-${session}`;
     const legacyContentKey = `${grade}-${session}`;
@@ -383,6 +387,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // patched: the BLIX and Year 2 program cards follow the same years lock
+    // as the level cards, so a class locked to one course can't wander into
+    // the others from the program picker.
+    document.querySelectorAll(".blix-program-card, .year2-program-card").forEach((card) => {
+        const programId = card.classList.contains("year2-program-card") ? "year2" : "blix";
+        const lockedYears = allowedYears();
+        if (lockedYears.length && !lockedYears.includes(programId)) card.style.display = "none";
+    });
+
     document.querySelectorAll("[data-grade]").forEach((button) => {
         button.addEventListener("click", () => {
             selectedHomeGrade = button.dataset.grade;
@@ -471,6 +484,21 @@ document.addEventListener("DOMContentLoaded", () => {
         // patched: hard guards — lesson pages stay reachable via browser
         // history even when their cards are hidden, so bounce anything not
         // given to the class back to the pickers.
+        if (mode === "year2") {
+            // Year 2 program filters live under the "year2" pseudo-year (set
+            // by pages/year2.html); the ?year= param here defaults to "1".
+            const y2Grades = allowedGradesFor("year2");
+            if (y2Grades.length && !y2Grades.includes(grade)) {
+                window.location.replace("year2.html");
+                return;
+            }
+            const y2Sessions = allowedSessionsFor("year2", grade);
+            if (y2Sessions && !y2Sessions.has(String(session))) {
+                window.location.replace(`year2.html?grade=${grade}`);
+                return;
+            }
+            return;
+        }
         const lockedYears = allowedYears();
         if (lockedYears.length && !lockedYears.includes(year)) {
             window.location.replace("../index.html");
@@ -1350,7 +1378,7 @@ void loop() {
             }
         };
 
-        const sessionKey = `${year}-${grade}-${session}`;
+        const sessionKey = `${quizYear}-${grade}-${session}`;
         window.addEventListener("message", (event) => {
             if (event.origin !== window.location.origin || testLocked) return;
             const d = event.data;
@@ -1416,7 +1444,7 @@ void loop() {
             if (window.parent !== window) {
                 window.parent.postMessage({
                     type: "su-lms-quiz-result",
-                    year,
+                    year: quizYear,
                     grade,
                     session,
                     score,

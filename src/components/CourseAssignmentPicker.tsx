@@ -1,9 +1,10 @@
 import {
   BLIX_LEVEL_ID,
   BLIX_SESSIONS,
+  levelSessions,
   LMS_LEVELS,
-  LMS_SESSIONS,
   PHASE_GROUPS,
+  YEAR2_LEVEL_ID,
   type LmsLevel,
   type SessionPick,
 } from "../../convex/lib/lmsCatalog";
@@ -28,10 +29,14 @@ const sessionLabel = (s: string) => (s === "0" ? "Intro" : s);
 // ponytail: BLIX has one pseudo-grade "all", no 5E phases; a stored pick with
 // groups ["core"] just means "this session is on".
 const isBlix = (level: LmsLevel) => level.id === BLIX_LEVEL_ID;
-const sessionsOf = (level: LmsLevel) =>
-  isBlix(level) ? BLIX_SESSIONS : LMS_SESSIONS;
+const sessionsOf = levelSessions;
 const groupsOf = (level: LmsLevel) =>
   isBlix(level) ? ["core"] : PHASE_GROUPS.map((g) => g.id as string);
+// Year 2 sessions have no Elaborate phase, so its "extend" group is just Evaluate.
+const groupLabel = (level: LmsLevel, group: (typeof PHASE_GROUPS)[number]) =>
+  level.id === YEAR2_LEVEL_ID && group.id === "extend"
+    ? "Evaluate"
+    : group.label;
 
 /**
  * Level → class → session → 5E picker for school-wide course assignment.
@@ -236,16 +241,16 @@ export default function CourseAssignmentPicker({
                               className="flex flex-wrap items-center gap-1"
                             >
                               <span className="w-40 shrink-0 text-[11px] text-ink-subtle">
-                                {group.label}
+                                {groupLabel(level, group)}
                               </span>
-                              {LMS_SESSIONS.map((session) => {
+                              {sessionsOf(level).map((session) => {
                                 const on = isOn(entry, grade, session, group.id);
                                 return (
                                   <button
                                     key={session}
                                     type="button"
                                     aria-pressed={on}
-                                    title={`${session === "0" ? "Intro session" : `Session ${session}`} — ${group.label}`}
+                                    title={`${session === "0" ? "Intro session" : `Session ${session}`} — ${groupLabel(level, group)}`}
                                     onClick={() =>
                                       toggleCell(level, grade, session, group.id)
                                     }
