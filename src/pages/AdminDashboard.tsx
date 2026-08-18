@@ -57,6 +57,8 @@ export default function AdminDashboard() {
   const convertToFullAccount = useMutation(api.admin.convertToFullAccount);
   const renameLogin = useMutation(api.admin.renameTeacherLogin);
   const approveClass = useAction(api.enrollment.approveClass);
+  const deleteClass = useAction(api.enrollment.deleteClass);
+  const setRemovalRequested = useMutation(api.classes.setRemovalRequested);
   const resetClassPassword = useAction(api.enrollment.resetClassPassword);
   const recreateClassLogins = useAction(api.enrollment.recreateClassLogins);
   const recreateAllLogins = useAction(api.enrollment.recreateAllLogins);
@@ -246,6 +248,40 @@ export default function AdminDashboard() {
       );
     } catch (err) {
       alert(err instanceof Error ? err.message : "Approval failed");
+    } finally {
+      setBusyId(null);
+    }
+  }
+
+  async function onApproveDeletion(
+    classId: Id<"classes">,
+    className: string,
+    studentCount: number,
+  ) {
+    if (
+      !confirm(
+        `Permanently delete "${className}"?\n\nThis removes the class, its ${studentCount} student${studentCount === 1 ? "" : "s"}, their logins, and all report card and quiz data.\n\nThis cannot be undone.`,
+      )
+    )
+      return;
+    setBusyId(classId);
+    try {
+      await deleteClass({ classId });
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Deletion failed");
+    } finally {
+      setBusyId(null);
+    }
+  }
+
+  async function onDenyDeletion(classId: Id<"classes">, className: string) {
+    if (!confirm(`Deny the deletion request for "${className}"? The class is kept.`))
+      return;
+    setBusyId(classId);
+    try {
+      await setRemovalRequested({ classId, requested: false });
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Denying the request failed");
     } finally {
       setBusyId(null);
     }
@@ -470,6 +506,9 @@ export default function AdminDashboard() {
                   {accountClasses.some((c) => c.status === "submitted") && (
                     <Badge tone="warn">Awaiting approval</Badge>
                   )}
+                  {accountClasses.some((c) => c.deleteRequested) && (
+                    <Badge tone="bad">Deletion requested</Badge>
+                  )}
                 </summary>
                 <div className="space-y-4 border-t border-line p-4">
                   <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
@@ -582,13 +621,18 @@ export default function AdminDashboard() {
                           title={c.name}
                           description={c.academicYear}
                           action={
-                            c.status === "approved" ? (
-                              <Badge tone="good">Approved</Badge>
-                            ) : c.status === "submitted" ? (
-                              <Badge tone="warn">Awaiting approval</Badge>
-                            ) : (
-                              <Badge>Draft</Badge>
-                            )
+                            <div className="flex items-center gap-1.5">
+                              {c.deleteRequested && (
+                                <Badge tone="bad">Deletion requested</Badge>
+                              )}
+                              {c.status === "approved" ? (
+                                <Badge tone="good">Approved</Badge>
+                              ) : c.status === "submitted" ? (
+                                <Badge tone="warn">Awaiting approval</Badge>
+                              ) : (
+                                <Badge>Draft</Badge>
+                              )}
+                            </div>
                           }
                         />
                         <CardBody>
@@ -748,6 +792,35 @@ export default function AdminDashboard() {
                                     disabled={busyId === c._id}
                                   >
                                     Recreate all logins
+                                  </Button>
+                                </>
+                              )}
+                              {c.deleteRequested && (
+                                <>
+                                  <Button
+                                    size="sm"
+                                    variant="secondary"
+                                    onClick={() =>
+                                      onDenyDeletion(c._id, c.name)
+                                    }
+                                    disabled={busyId === c._id}
+                                  >
+                                    Deny deletion
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="danger"
+                                    onClick={() =>
+                                      onApproveDeletion(
+                                        c._id,
+                                        c.name,
+                                        c.studentCount,
+                                      )
+                                    }
+                                    disabled={busyId === c._id}
+                                    loading={busyId === c._id}
+                                  >
+                                    Approve deletion
                                   </Button>
                                 </>
                               )}

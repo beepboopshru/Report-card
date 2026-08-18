@@ -157,6 +157,55 @@ export const recreateAllLogins = action({
   },
 });
 
+/**
+ * Admin approval of a teacher's deletion request: wipes every student login
+ * (accounts, sessions), then deletes the class and all data hanging off it.
+ */
+export const deleteClass = action({
+  args: { classId: v.id("classes") },
+  returns: v.null(),
+  handler: async (ctx, { classId }) => {
+    const userIds: Id<"users">[] = await ctx.runMutation(
+      internal.enrollment.wipeClassAccounts,
+      { classId },
+    );
+    for (const userId of userIds) {
+      await invalidateSessions(ctx, { userId });
+    }
+    await ctx.runMutation(internal.enrollment.destroyClassData, { classId });
+    return null;
+  },
+});
+
+export const destroyClassData = internalMutation({
+  args: { classId: v.id("classes") },
+  returns: v.null(),
+  handler: async (ctx, { classId }) => {
+    await requireAdmin(ctx);
+    const students = await ctx.db
+      .query("students")
+      .withIndex("by_class", (q) => q.eq("classId", classId))
+      .collect();
+    for (const s of students) {
+      const scores = await ctx.db
+        .query("scores")
+        .withIndex("by_student", (q) => q.eq("studentId", s._id))
+        .collect();
+      for (const sc of scores) await ctx.db.delete(sc._id);
+      await ctx.db.delete(s._id);
+    }
+    for (const table of ["classKits", "classLevels", "lmsScores"] as const) {
+      const rows = await ctx.db
+        .query(table)
+        .withIndex("by_class", (q) => q.eq("classId", classId))
+        .collect();
+      for (const r of rows) await ctx.db.delete(r._id);
+    }
+    if (await ctx.db.get(classId)) await ctx.db.delete(classId);
+    return null;
+  },
+});
+
 export const getClassesWithLogins = internalQuery({
   args: {},
   returns: v.array(

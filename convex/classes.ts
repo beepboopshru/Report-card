@@ -172,27 +172,19 @@ export const update = mutation({
   },
 });
 
-export const remove = mutation({
-  args: { classId: v.id("classes") },
-  handler: async (ctx, { classId }) => {
-    const { cls } = await requireOwnsClass(ctx, classId);
-    const students = await ctx.db
-      .query("students")
-      .withIndex("by_class", (q) => q.eq("classId", classId))
-      .collect();
-    for (const s of students) {
-      const scores = await ctx.db
-        .query("scores")
-        .withIndex("by_student", (q) => q.eq("studentId", s._id))
-        .collect();
-      for (const sc of scores) await ctx.db.delete(sc._id);
-      await ctx.db.delete(s._id);
-    }
-    const links = await ctx.db
-      .query("classKits")
-      .withIndex("by_class", (q) => q.eq("classId", classId))
-      .collect();
-    for (const l of links) await ctx.db.delete(l._id);
-    await ctx.db.delete(cls._id);
+/**
+ * Teachers can't delete classes directly — they flag one for deletion and an
+ * admin approves (enrollment.deleteClass) or denies it. Also used by the
+ * teacher to cancel their own request, and by the admin to deny it.
+ */
+export const setRemovalRequested = mutation({
+  args: { classId: v.id("classes"), requested: v.boolean() },
+  returns: v.null(),
+  handler: async (ctx, { classId, requested }) => {
+    await requireOwnsClass(ctx, classId);
+    await ctx.db.patch(classId, {
+      deleteRequested: requested ? true : undefined,
+    });
+    return null;
   },
 });

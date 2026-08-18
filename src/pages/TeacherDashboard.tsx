@@ -304,7 +304,7 @@ function PendingRequestsDialog({
 export default function TeacherDashboard() {
   const classes = useQuery(api.classes.listMine);
   const update = useMutation(api.classes.update);
-  const remove = useMutation(api.classes.remove);
+  const setRemovalRequested = useMutation(api.classes.setRemovalRequested);
   const [showRegister, setShowRegister] = useState(false);
   const [showPending, setShowPending] = useState(false);
   const [editingId, setEditingId] = useState<Id<"classes"> | null>(null);
@@ -482,6 +482,12 @@ export default function TeacherDashboard() {
                       <div className="text-xs text-ink-muted mt-0.5">
                         {c.academicYear}
                       </div>
+                      {c.deleteRequested && (
+                        <Badge tone="warn" size="sm" className="mt-1.5">
+                          <Hourglass className="w-3 h-3" />
+                          Deletion requested
+                        </Badge>
+                      )}
                     </div>
                     <ArrowRight className="w-4 h-4 text-ink-subtle group-hover:text-accent transition-colors" />
                   </div>
@@ -510,16 +516,26 @@ export default function TeacherDashboard() {
                     type="button"
                     onClick={(e) => {
                       e.preventDefault();
-                      if (
-                        confirm(
-                          `Delete ${c.name}? This also removes its students and scores.`,
-                        )
-                      )
-                        remove({ classId: c._id });
+                      const message = c.deleteRequested
+                        ? `Cancel the deletion request for ${c.name}?`
+                        : `Request deletion of ${c.name}? An admin must approve it — the class, its students, and scores are removed only after approval.`;
+                      if (confirm(message))
+                        setRemovalRequested({
+                          classId: c._id,
+                          requested: !c.deleteRequested,
+                        });
                     }}
                     className="text-ink-subtle hover:text-danger p-1.5 rounded bg-surface/80 transition-colors"
-                    aria-label={`Delete ${c.name}`}
-                    title="Delete class"
+                    aria-label={
+                      c.deleteRequested
+                        ? `Cancel deletion request for ${c.name}`
+                        : `Request deletion of ${c.name}`
+                    }
+                    title={
+                      c.deleteRequested
+                        ? "Cancel deletion request"
+                        : "Request deletion (admin approval needed)"
+                    }
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>

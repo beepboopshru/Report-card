@@ -98,6 +98,8 @@ export default defineSchema({
     academicYear: v.string(),
     // undefined = draft (teacher still editing the roster)
     status: v.optional(v.union(v.literal("submitted"), v.literal("approved"))),
+    // Teacher asked for deletion; an admin must approve (or deny) it.
+    deleteRequested: v.optional(v.boolean()),
   }).index("by_teacher", ["teacherProfileId"]),
 
   students: defineTable({
