@@ -4,6 +4,7 @@ import {
   levelSessions,
   LMS_LEVELS,
   PHASE_GROUPS,
+  SCIENCE6_LEVEL_ID,
   YEAR2_LEVEL_ID,
   type LmsLevel,
   type SessionPick,
@@ -29,6 +30,7 @@ const sessionLabel = (s: string) => (s === "0" ? "Intro" : s);
 // ponytail: BLIX has one pseudo-grade "all", no 5E phases; a stored pick with
 // groups ["core"] just means "this session is on".
 const isBlix = (level: LmsLevel) => level.id === BLIX_LEVEL_ID;
+const isStandalone = (level: LmsLevel) => level.id === SCIENCE6_LEVEL_ID;
 const sessionsOf = levelSessions;
 const groupsOf = (level: LmsLevel) =>
   isBlix(level) ? ["core"] : PHASE_GROUPS.map((g) => g.id as string);
@@ -203,7 +205,7 @@ export default function CourseAssignmentPicker({
                 })}
               </div>
             )}
-            {entry && !isBlix(level) && (
+            {entry && !isBlix(level) && !isStandalone(level) && (
               <div className="ml-6 mt-1.5 space-y-2.5">
                 {level.grades.map((grade) => {
                   const selected = entry.grades.includes(grade);

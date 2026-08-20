@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grade 6 — Chapter 1 — The Wonderful World of Science</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #eff6ff;
+    color: #1e293b;
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+  header {
+    background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 35%, #facc15 100%);
+    color: white;
+    padding: 36px 24px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  header h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; position: relative; z-index: 2; }
+  header p { opacity: 0.95; font-size: 14px; position: relative; z-index: 2; }
+  .floater {
+    position: absolute; font-size: 26px;
+    animation: float 16s linear infinite;
+    z-index: 1;
+  }
+  @keyframes float {
+    0%   { transform: translateX(-50px) translateY(0px) rotate(0deg); }
+    50%  { transform: translateX(50vw) translateY(-12px) rotate(180deg); }
+    100% { transform: translateX(calc(100vw + 50px)) translateY(0px) rotate(360deg); }
+  }
+  nav.tabs {
+    display: flex; justify-content: center; gap: 4px;
+    background: white; padding: 8px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); flex-wrap: wrap;
+  }
+  nav.tabs button {
+    background: transparent; border: none;
+    padding: 10px 16px; font-size: 13px; font-weight: 600;
+    color: #64748b; cursor: pointer; border-radius: 8px;
+    transition: all 0.2s;
+  }
+  nav.tabs button:hover { background: #dbeafe; color: #2563eb; }
+  nav.tabs button.active { background: #2563eb; color: white; }
+  main { max-width: 1100px; margin: 0 auto; padding: 24px; background: #f0f9ff; min-height: 80vh; }
+  .tab-panel { display: none; animation: fadeIn 0.3s ease; }
+  .tab-panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  h2.section-title {
+    font-size: 22px; color: #2563eb; margin-bottom: 16px;
+    padding-bottom: 8px; border-bottom: 2px solid #2563eb;
+  }
+  h3.card-title { font-size: 18px; color: #1e293b; margin-bottom: 10px; }
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .card, .chap-card {
+    background: white; border-radius: 12px; padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    margin-bottom: 16px; transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover, .chap-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+  .card p, .card li { font-size: 14px; color: #475569; margin-bottom: 6px; }
+  .card ul { margin-left: 18px; }
+  .badge {
+    display: inline-block; background: #dbeafe; color: #1d4ed8;
+    font-size: 11px; font-weight: 600; padding: 3px 8px;
+    border-radius: 999px; margin-bottom: 8px;
+  }
+  .badge-yellow { background: #fef9c3; color: #a16207; }
+  .badge-green { background: #dcfce7; color: #16a34a; }
+  .key-fact {
+    background: #dbeafe; border-left: 3px solid #2563eb;
+    padding: 8px 12px; margin: 8px 0; font-size: 13px; border-radius: 4px;
+  }
+  .hero {
+    background: linear-gradient(135deg, #dbeafe 0%, #fef9c3 100%);
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 18px;
+    text-align: center;
+  }
+  .hero h2 { color: #1d4ed8; font-size: 22px; margin-bottom: 10px; }
+  .hero p { color: #475569; font-size: 15px; max-width: 700px; margin: 0 auto 8px; }
+  .hero .emoji-row { font-size: 32px; margin-top: 14px; letter-spacing: 14px; }
+  .chap-card {
+    border-left: 5px solid #2563eb;
+    background: linear-gradient(to right, #dbeafe 0%, #ffffff 80px);
+    padding: 16px 20px;
+  }
+  .chap-card.color2 { border-left-color: #ea580c; background: linear-gradient(to right, #fff7ed 0%, #ffffff 80px); }
+  .chap-card.color3 { border-left-color: #16a34a; background: linear-gradient(to right, #f0fdf4 0%, #ffffff 80px); }
+  .chap-card.color4 { border-left-color: #a855f7; background: linear-gradient(to right, #faf5ff 0%, #ffffff 80px); }
+  .chap-card.color5 { border-left-color: #dc2626; background: linear-gradient(to right, #fef2f2 0%, #ffffff 80px); }
+  .chap-card.color6 { border-left-color: #f59e0b; background: linear-gradient(to right, #fffbeb 0%, #ffffff 80px); }
+  .chap-card.color7 { border-left-color: #0891b2; background: linear-gradient(to right, #ecfeff 0%, #ffffff 80px); }
+  .chap-num {
+    display: inline-block;
+    background: #1d4ed8;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+  .chap-card.color2 .chap-num { background: #c2410c; }
+  .chap-card.color3 .chap-num { background: #15803d; }
+  .chap-card.color4 .chap-num { background: #7e22ce; }
+  .chap-card.color5 .chap-num { background: #b91c1c; }
+  .chap-card.color6 .chap-num { background: #b45309; }
+  .chap-card.color7 .chap-num { background: #0e7490; }
+  /* Scientific method steps */
+  .method-steps {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 12px; margin: 16px 0;
+  }
+  .step-box {
+    background: white; border-radius: 12px;
+    padding: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-top: 4px solid #2563eb;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .step-box.active { background: #dbeafe; transform: scale(1.04); }
+  .step-box .step-num {
+    display: inline-block;
+    background: #2563eb; color: white;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    font-weight: 800; font-size: 14px;
+    line-height: 28px;
+    margin-bottom: 8px;
+  }
+  .step-box .step-emoji { font-size: 28px; display: block; margin: 6px 0; }
+  .step-box h4 { font-size: 14px; color: #1d4ed8; margin-bottom: 6px; }
+  .step-box p { font-size: 12px; color: #475569; }
+  /* Q&A */
+  .qa-card {
+    background: white; border-radius: 14px;
+    padding: 20px; margin-bottom: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .qa-prompt {
+    background: linear-gradient(135deg, #fef9c3 0%, #fef3c7 100%);
+    border-left: 4px solid #f59e0b;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    color: #78350f;
+    font-size: 15px;
+  }
+  .qa-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    margin-bottom: 8px;
+    transition: border 0.15s;
+    resize: vertical;
+  }
+  .qa-input:focus { outline: none; border-color: #2563eb; }
+  .qa-controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 6px; }
+  button.btn {
+    background: #2563eb; color: white; border: none;
+    padding: 8px 16px; font-size: 13px; font-weight: 600;
+    border-radius: 6px; cursor: pointer; transition: background 0.2s;
+  }
+  button.btn:hover { background: #1d4ed8; }
+  button.btn.secondary { background: #64748b; }
+  button.btn.secondary:hover { background: #475569; }
+  button.btn.yellow { background: #facc15; color: #1c1917; }
+  button.btn.yellow:hover { background: #eab308; }
+  .saved-list {
+    background: #dbeafe;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 10px;
+    font-size: 13px;
+    display: none;
+  }
+  .saved-list.show { display: block; }
+  .saved-list b { color: #1d4ed8; }
+  .saved-list ul { margin-left: 18px; margin-top: 6px; }
+  .comic-panel {
+    background: #fffbeb; border: 3px solid #1e293b;
+    border-radius: 8px; overflow: hidden; position: relative;
+    box-shadow: 4px 4px 0 rgba(30,41,59,0.4);
+    margin-bottom: 14px;
+  }
+  .comic-panel canvas { background: #fefce8; border-radius: 0; margin: 0; width: 100%; display: block; }
+  .comic-caption {
+    background: #1e293b; color: #fef9c3;
+    padding: 10px 12px; font-size: 13px;
+    font-weight: 500; line-height: 1.4; font-family: Georgia, serif;
+  }
+  .quote-card {
+    background: linear-gradient(135deg, #dbeafe 0%, #fef9c3 100%);
+    border-radius: 14px;
+    padding: 22px 26px;
+    text-align: center;
+    margin: 14px 0;
+    border-left: 5px solid #2563eb;
+  }
+  .quote-card .quote-text {
+    font-size: 18px; font-style: italic; color: #1e3a8a;
+    font-family: Georgia, serif;
+    margin-bottom: 10px;
+  }
+  .quote-card .quote-author { font-weight: 600; color: #475569; font-size: 13px; }
+  .quiz-question {
+    background: white; border-radius: 12px;
+    padding: 20px; margin-bottom: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .quiz-question .q-text { font-weight: 600; margin-bottom: 12px; color: #1e293b; }
+  .quiz-option {
+    display: block; padding: 10px 14px; margin-bottom: 6px;
+    border: 2px solid #e2e8f0; border-radius: 8px;
+    cursor: pointer; font-size: 14px; transition: all 0.15s;
+  }
+  .quiz-option:hover { border-color: #2563eb; background: #dbeafe; }
+  .quiz-option.correct { border-color: #16a34a; background: #f0fdf4; }
+  .quiz-option.wrong { border-color: #dc2626; background: #fef2f2; }
+  .quiz-feedback {
+    margin-top: 10px; padding: 10px; border-radius: 6px;
+    font-size: 13px; display: none;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: #f0fdf4; color: #166534; }
+  .quiz-feedback.wrong { background: #fef2f2; color: #991b1b; }
+  #quiz-score {
+    background: linear-gradient(135deg, #2563eb 0%, #facc15 100%);
+    color: white; padding: 20px; border-radius: 12px;
+    text-align: center; margin-top: 16px;
+    font-size: 16px; font-weight: 600;
+  }
+  .pen-demo canvas { background: #fef9c3; }
+  footer { text-align: center; padding: 20px; color: #94a3b8; font-size: 12px; background: #0f172a; }
+  .puzzle-piece {
+    display: inline-block;
+    background: white;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin: 4px;
+    border: 2px solid #2563eb;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1d4ed8;
+  }
+</style>
+<link rel="stylesheet" href="smile-chapter-assessment.css">
+</head>
+<body>
+
+<header>
+  <span class="floater" style="top: 12px; animation-delay: 0s;">🔭</span>
+  <span class="floater" style="top: 58px; animation-delay: 5s;">🌟</span>
+  <span class="floater" style="top: 30px; animation-delay: 10s;">🧪</span>
+  <h1>The Wonderful World of Science</h1>
+</header>
+
+<nav class="tabs">
+  <button type="button" onclick="event.stopImmediatePropagation(); window.location.href='index.html'; return false;" style="background:#fef3c7; color:#b45309; padding:10px 16px; font-size:13px; font-weight:600; border-radius:8px; border:none; cursor:pointer; font-family:inherit;">🏠 Home</button>
+  <button data-tab="welcome" class="active">Welcome</button>
+  <button data-tab="kwl" style="background:#fef3c7; color:#b45309;">📝 KWL Chart</button>
+  <button data-tab="map">Adventure Map</button>
+  <button data-tab="method">Scientific Method 🔬</button>
+  <button data-tab="penmystery">The Pen Mystery</button>
+  <button data-tab="be">Be a Scientist!</button>
+  <button data-tab="story">Story &amp; Cartoons</button>
+  <button data-tab="quiz">Quiz</button>
+</nav>
+
+<main>
+
+<!-- =================== WELCOME =================== -->
+<section id="welcome" class="tab-panel active">
+  <h2 class="section-title">Welcome to Grade 6 Science!</h2>
+
+  <div class="hero">
+    <h2>The Adventure Begins! 🚀</h2>
+    <p>From now on, you have a new subject — <b>Science</b>! Welcome to the wonderful world of curiosity.</p>
+    <p style="margin-top: 10px;">Science is a way of <b>thinking</b>, <b>observing</b>, and <b>doing</b> things — to understand the world we live in and uncover the secrets of the universe.</p>
+    <div class="emoji-row">🌍 🔬 🌟 🌱 💧 ❄️ 🧲 🌌</div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <span class="badge">Big Idea</span>
+      <h3 class="card-title">What IS Science?</h3>
+      <p>Science is not a stack of facts. It is an <b>adventure</b>:</p>
+      <ul>
+        <li>We <b>ask questions</b></li>
+        <li>We <b>explore</b> the world</li>
+        <li>We try to <b>understand</b> how things work</li>
+      </ul>
+      <p>The most important thing? <b>Curiosity!</b> That's why your textbook is called <i>Curiosity</i>.</p>
+    </div>
+
+    <div class="card">
+      <span class="badge-yellow badge">Everywhere!</span>
+      <h3 class="card-title">Science is Everywhere</h3>
+      <p>Science is happening:</p>
+      <ul>
+        <li>In the night sky 🌌 — why do stars shine?</li>
+        <li>In your garden 🌸 — how does a flower know when to bloom?</li>
+        <li>In the kitchen 🍳 — why does dal spill out of the cooker?</li>
+        <li>In the rain ☔ — why does it rain at all?</li>
+      </ul>
+      <div class="key-fact">Even tiny grains of sand have stories — and so do massive mountains!</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-green badge">Puzzle</span>
+      <h3 class="card-title">A Giant, Endless Puzzle</h3>
+      <p>Science is like a <b>jigsaw puzzle</b> 🧩 — but one that never ends.</p>
+      <p>Every new discovery adds another piece. Sometimes we find a piece was in the wrong spot — and we have to move it!</p>
+      <div style="text-align: center; margin-top: 8px;">
+        <span class="puzzle-piece">🌍 Earth</span>
+        <span class="puzzle-piece">🌱 Plants</span>
+        <span class="puzzle-piece">💧 Water</span>
+        <span class="puzzle-piece">🌟 Stars</span>
+        <span class="puzzle-piece">🍎 Food</span>
+        <span class="puzzle-piece">⚡ Energy</span>
+        <span class="puzzle-piece">?</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="badge">Together</span>
+      <h3 class="card-title">Science is a Team Sport</h3>
+      <p>Scientists across the world work together — often in big teams.</p>
+      <p>So if you can't find an answer yourself, ask your friends, your teacher, your family. <b>Discovering together is more fun!</b></p>
+      <p>And remember — you won't find every answer in Grade 6. You're starting a journey that lasts for the next five years (and beyond!).</p>
+    </div>
+  </div>
+
+  <div class="quote-card">
+    <div class="quote-text">"To be a <b>wise</b> person, you must be a <b>'whys'</b> person."</div>
+    <div class="quote-author">— a reminder from your Grade 6 Curiosity textbook</div>
+  </div>
+</section>
+
+<!-- =================== CHAPTER MAP =================== -->
+<section id="map" class="tab-panel">
+  <h2 class="section-title">🗺️ The Adventure Map — What's Coming in Grade 6</h2>
+  <p style="margin-bottom: 16px; color: #475569; font-size: 14px;">
+    Your textbook has 12 chapters. Each one is a new mini-adventure. Take a quick peek at what's ahead!
+  </p>
+
+  <div class="grid">
+    <div class="chap-card">
+      <div class="chap-num">🌍 Earth</div>
+      <h3 class="card-title">Our Home — Planet Earth</h3>
+      <p>Earth is the only planet we know of that has life. What's so special about it?</p>
+    </div>
+
+    <div class="chap-card color3">
+      <div class="chap-num">🌱 Life</div>
+      <h3 class="card-title">Plants &amp; Animals</h3>
+      <p>A seed becomes a plant. A caterpillar becomes a butterfly. How? Why?</p>
+    </div>
+
+    <div class="chap-card color2">
+      <div class="chap-num">🍎 Food</div>
+      <h3 class="card-title">Food in India</h3>
+      <p>India has many cuisines and dishes. What are they made of? How do we find out?</p>
+    </div>
+
+    <div class="chap-card color7">
+      <div class="chap-num">💧 Water</div>
+      <h3 class="card-title">The Wonderful Water</h3>
+      <p>Why does it rain? Why does water freeze into ice and boil into steam?</p>
+    </div>
+
+    <div class="chap-card color5">
+      <div class="chap-num">🌡️ Heat</div>
+      <h3 class="card-title">Hot and Cold</h3>
+      <p>How do we measure how hot something is — water, a room, even our own body when we have fever?</p>
+    </div>
+
+    <div class="chap-card color4">
+      <div class="chap-num">🧲 Materials</div>
+      <h3 class="card-title">Things Around Us</h3>
+      <p>Paper, metal, plastic, rubber, magnets... what are all these things made of? How do we sort them?</p>
+    </div>
+
+    <div class="chap-card color6">
+      <div class="chap-num">🍃 Leaves</div>
+      <h3 class="card-title">A Closer Look at Plants</h3>
+      <p>Have you ever really looked at a leaf? What's inside? Why are they shaped the way they are?</p>
+    </div>
+
+    <div class="chap-card">
+      <div class="chap-num">🏃 Motion</div>
+      <h3 class="card-title">How Things Move</h3>
+      <p>Cars, balls, your own body — what makes things move? How fast do they move?</p>
+    </div>
+
+    <div class="chap-card color3">
+      <div class="chap-num">🥜 Mixtures</div>
+      <h3 class="card-title">Separating Stuff</h3>
+      <p>How do you separate skin from a peanut? Stones from rice? Salt from water?</p>
+    </div>
+
+    <div class="chap-card color5">
+      <div class="chap-num">☀️ Sun &amp; Moon</div>
+      <h3 class="card-title">Beyond Our Planet</h3>
+      <p>The Sun, the Moon, millions of stars... what's going on out there?</p>
+    </div>
+
+    <div class="chap-card color7">
+      <div class="chap-num">⚡ More</div>
+      <h3 class="card-title">And Lots More!</h3>
+      <p>Every page is a new question. Every chapter is a new mystery. Get ready!</p>
+    </div>
+
+    <div class="chap-card color2">
+      <div class="chap-num">🤔 You</div>
+      <h3 class="card-title">YOU — the Explorer</h3>
+      <p>You're the main character. Each chapter helps you become a better questioner, observer, and explorer.</p>
+    </div>
+  </div>
+
+  <div class="quote-card">
+    <div class="quote-text">"There is no limit to what we can discover, since every new piece of knowledge leads to more questions and more things to find out."</div>
+  </div>
+</section>
+
+<!-- =================== SCIENTIFIC METHOD =================== -->
+<section id="method" class="tab-panel">
+  <h2 class="section-title">🔬 The Scientific Method — 5 Easy Steps</h2>
+  <p style="margin-bottom: 14px; color: #475569; font-size: 14px;">
+    Whether it's a scientist in a lab, your mother in the kitchen, a bicycle repair person, or an electrician — they all follow the same steps to figure things out. Click any step below for details!
+  </p>
+
+  <div class="method-steps" id="methodSteps">
+    <div class="step-box" data-s="0">
+      <div class="step-num">1</div>
+      <div class="step-emoji">👀</div>
+      <h4>OBSERVE</h4>
+      <p>Look around. Notice something interesting or puzzling.</p>
+    </div>
+    <div class="step-box" data-s="1">
+      <div class="step-num">2</div>
+      <div class="step-emoji">❓</div>
+      <h4>WONDER</h4>
+      <p>Ask a question. "Why is this happening?"</p>
+    </div>
+    <div class="step-box" data-s="2">
+      <div class="step-num">3</div>
+      <div class="step-emoji">💡</div>
+      <h4>GUESS</h4>
+      <p>Think of a possible answer. This is called a "hypothesis".</p>
+    </div>
+    <div class="step-box" data-s="3">
+      <div class="step-num">4</div>
+      <div class="step-emoji">🧪</div>
+      <h4>TEST</h4>
+      <p>Do an experiment or look more carefully. Is your guess right?</p>
+    </div>
+    <div class="step-box" data-s="4">
+      <div class="step-num">5</div>
+      <div class="step-emoji">📊</div>
+      <h4>ANALYSE</h4>
+      <p>Look at the results. Did your guess work? If not — guess again!</p>
+    </div>
+  </div>
+
+  <div class="card" id="stepDetail" style="background: #dbeafe; border-left: 5px solid #2563eb;">
+    <h3 class="card-title">Click a step above to learn more</h3>
+    <p>The 5 steps fit together. Sometimes you go forward. Sometimes you loop back. That's totally fine — that's how science actually works!</p>
+  </div>
+
+  <div class="quote-card">
+    <div class="quote-text">"Science is not just about memorising facts. It is about following a step-by-step process to find answers."</div>
+  </div>
+</section>
+
+<!-- =================== PEN MYSTERY =================== -->
+<section id="penmystery" class="tab-panel">
+  <h2 class="section-title">🖊️ The Mystery of the Stopped Pen</h2>
+  <p style="margin-bottom: 14px; color: #475569; font-size: 14px;">
+    Here's an everyday example from your textbook. Your pen suddenly stops writing! What do you do? Follow along as we use the scientific method to solve it.
+  </p>
+
+  <div class="card pen-demo">
+    <canvas id="penCanvas" width="600" height="320"></canvas>
+    <div class="qa-controls">
+      <button class="btn" onclick="penDemo.next()">Next step</button>
+      <button class="btn secondary" onclick="penDemo.reset()">Reset</button>
+    </div>
+    <div class="key-fact" id="penStep">Click <b>Next step</b> to walk through how you'd solve "Why did my pen stop writing?"</div>
+  </div>
+
+  <div class="quote-card">
+    <div class="quote-text">"This is exactly how science works! The way you tried to find out why your pen stopped is an example of the scientific method."</div>
+  </div>
+</section>
+
+<!-- =================== BE A SCIENTIST =================== -->
+<section id="be" class="tab-panel">
+  <h2 class="section-title">✏️ Be a Scientist — Activities 1.1, 1.2, 1.3</h2>
+  <p style="margin-bottom: 14px; color: #475569; font-size: 14px;">
+    These three activities are right out of your textbook. Type your own answers. There are no wrong answers!
+  </p>
+
+  <div class="qa-card" data-idx="0">
+    <span class="badge">Activity 1.1</span>
+    <div class="qa-prompt">
+      <b>Let us think and write:</b> Write about a similar problem that you tried to solve. What steps did you take?
+    </div>
+    <textarea class="qa-input" rows="3" placeholder="Example: My bicycle tyre was flat. I checked for holes by dipping the tube in water... (type your story)"></textarea>
+    <div class="qa-controls">
+      <button class="btn" onclick="actBeSci.save(0)">Save my story</button>
+      <button class="btn secondary" onclick="actBeSci.clear(0)">Clear</button>
+    </div>
+    <div class="saved-list" id="saved0"></div>
+  </div>
+
+  <div class="qa-card" data-idx="1">
+    <span class="badge">Activity 1.2</span>
+    <div class="qa-prompt">
+      <b>Let us think and write:</b> Describe a daily life situation where you think someone was following the scientific method.
+    </div>
+    <textarea class="qa-input" rows="3" placeholder="Example: My mother was wondering why the curd didn't set properly. She thought maybe the milk was too cold..."></textarea>
+    <div class="qa-controls">
+      <button class="btn" onclick="actBeSci.save(1)">Save</button>
+      <button class="btn secondary" onclick="actBeSci.clear(1)">Clear</button>
+    </div>
+    <div class="saved-list" id="saved1"></div>
+  </div>
+
+  <div class="qa-card" data-idx="2">
+    <span class="badge">Activity 1.3</span>
+    <div class="qa-prompt">
+      <b>Let us think and write:</b><br>
+      • If you had to ask "Why?" about something — what would you ask about?<br>
+      • Try to write down how you would attempt to find an answer to your question.
+    </div>
+    <textarea class="qa-input" rows="4" placeholder="Example: I wonder why some flowers open during the day and close at night. I would observe the same flower at different times of the day..."></textarea>
+    <div class="qa-controls">
+      <button class="btn" onclick="actBeSci.save(2)">Save</button>
+      <button class="btn secondary" onclick="actBeSci.clear(2)">Clear</button>
+    </div>
+    <div class="saved-list" id="saved2"></div>
+  </div>
+
+  <div class="qa-card" style="background: #dbeafe; border: 2px dashed #2563eb;">
+    <h3 style="color: #1d4ed8; margin-bottom: 8px;">🏆 Bonus: My Daily Why!</h3>
+    <p style="font-size: 14px; color: #475569; margin-bottom: 10px;">Throughout the year, write your everyday science "whys" here. Add as many as you like!</p>
+    <input type="text" class="qa-input" id="dailyWhy" placeholder="Today's why: e.g., Why does ice float on water?" />
+    <div class="qa-controls">
+      <button class="btn yellow" onclick="actBeSci.addDaily()">Add to my list</button>
+      <button class="btn secondary" onclick="actBeSci.clearDaily()">Clear list</button>
+    </div>
+    <div class="saved-list" id="dailyList"></div>
+  </div>
+</section>
+
+<!-- =================== STORY =================== -->
+<section id="story" class="tab-panel">
+  <h2 class="section-title">📖 Story &amp; Cartoons</h2>
+
+  <h3 style="color: #2563eb; margin-bottom: 8px;">A First Day Like No Other</h3>
+  <p style="margin-bottom: 14px; color: #475569; font-size: 14px;">
+    Meet Diya and Veer. They're starting Grade 6 — and Science as a new subject. Let's see what happens when their curiosity catches fire.
+  </p>
+
+  <div class="comic-panel">
+    <canvas id="comic1" width="800" height="220"></canvas>
+    <div class="comic-caption">1. First day at school. Diya and Veer get a brand-new textbook with the word "Curiosity" on it. "Why curiosity?" wonders Veer.</div>
+  </div>
+
+  <div class="comic-panel">
+    <canvas id="comic2" width="800" height="220"></canvas>
+    <div class="comic-caption">2. On the way home, Diya's pen suddenly stops writing. "What?! Why??" That single question begins their adventure.</div>
+  </div>
+
+  <div class="comic-panel">
+    <canvas id="comic3" width="800" height="220"></canvas>
+    <div class="comic-caption">3. STEP 1 — They OBSERVE. The pen looks fine from outside. STEP 2 — They WONDER. "Could the ink be over?" STEP 3 — they GUESS.</div>
+  </div>
+
+  <div class="comic-panel">
+    <canvas id="comic4" width="800" height="220"></canvas>
+    <div class="comic-caption">4. STEP 4 — TEST! They open the pen, check the ink refill. It's full! New guess: maybe the ink dried up. They test again with a tissue.</div>
+  </div>
+
+  <div class="comic-panel">
+    <canvas id="comic5" width="800" height="220"></canvas>
+    <div class="comic-caption">5. STEP 5 — ANALYSE. They wiped the nib, ink flows again! Mystery solved. "Wait... did we just do SCIENCE?" "We did!"</div>
+  </div>
+
+  <div class="comic-panel">
+    <canvas id="comic6" width="800" height="220"></canvas>
+    <div class="comic-caption">6. Diya: "So science isn't just in the lab?" Veer: "It's EVERYWHERE — in the kitchen, the bike repair shop, even when we're fixing our pens!"</div>
+  </div>
+
+  <div class="quote-card">
+    <div class="quote-text">"When we try to ask questions and find out answers — we are all, in a way, scientists!"</div>
+    <div class="quote-author">— Grade 6 Curiosity</div>
+  </div>
+</section>
+
+<!-- =================== QUIZ =================== -->
+<section id="quiz" class="tab-panel">
+  <h2 class="section-title">Quick Quiz</h2>
+  <p style="margin-bottom: 14px; color: #475569; font-size: 14px;">
+    Friendly questions — no scary "right or wrong"!
+  </p>
+  <div id="quiz-container"></div>
+  <div id="quiz-score" style="display:none"></div>
+</section>
+
+<section id="kwl" class="tab-panel">
+  <style>@media (max-width: 800px) { #kwl-grid-cols { grid-template-columns: 1fr !important; } }</style>
+  <h2 style="font-size:22px; color:#b45309; margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid #b45309;">📝 KWL Chart</h2>
+  <div style="background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); border-left:4px solid #b45309; padding:14px 18px; border-radius:10px; margin-bottom:18px; font-size:14px; color:#78350f;">Fill in what you <b>K</b>now, <b>W</b>ant to know, and <b>L</b>earned. Auto-saves. Use Print to save as PDF.</div>
+  <div id="kwl-grid-cols" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin:14px 0;">
+    <div style="background:white; border-radius:12px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.06); border-top:5px solid #0284c7;"><h4 style="font-size:15px; color:#0e7490; margin-bottom:4px;">🔵 K — What I Know</h4><div style="font-size:12px; color:#64748b; margin-bottom:10px; font-style:italic;">Already know about science.</div><textarea id="kwl-k" style="width:100%; min-height:200px; padding:10px 12px; border-radius:8px; border:1px solid #cbd5e1; font-family:inherit; font-size:13px; resize:vertical;" placeholder="• Science is about exploring..."></textarea></div>
+    <div style="background:white; border-radius:12px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.06); border-top:5px solid #b45309;"><h4 style="font-size:15px; color:#b45309; margin-bottom:4px;">🟠 W — What I Want to Know</h4><div style="font-size:12px; color:#64748b; margin-bottom:10px; font-style:italic;">Your questions.</div><textarea id="kwl-w" style="width:100%; min-height:200px; padding:10px 12px; border-radius:8px; border:1px solid #cbd5e1; font-family:inherit; font-size:13px; resize:vertical;" placeholder="• How do scientists discover new things?"></textarea></div>
+    <div style="background:white; border-radius:12px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.06); border-top:5px solid #15803d;"><h4 style="font-size:15px; color:#15803d; margin-bottom:4px;">🟢 L — What I Learned</h4><div style="font-size:12px; color:#64748b; margin-bottom:10px; font-style:italic;">After studying.</div><textarea id="kwl-l" style="width:100%; min-height:200px; padding:10px 12px; border-radius:8px; border:1px solid #cbd5e1; font-family:inherit; font-size:13px; resize:vertical;" placeholder="• I learnt the scientific method..."></textarea></div>
+  </div>
+  <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:14px 0; padding:12px; background:#f8fafc; border-radius:10px;">
+    <p style="font-size:12px; color:#64748b; margin:0; flex:1;">Auto-saves to your browser.</p>
+    <button onclick="kwlSave()" style="background:#15803d; color:white; border:none; padding:8px 16px; font-size:13px; font-weight:600; border-radius:6px; cursor:pointer;">💾 Save</button>
+    <button onclick="kwlClear()" style="background:#64748b; color:white; border:none; padding:8px 16px; font-size:13px; font-weight:600; border-radius:6px; cursor:pointer;">Clear</button>
+    <button onclick="printKWL()" style="background:#b45309; color:white; border:none; padding:8px 16px; font-size:13px; font-weight:600; border-radius:6px; cursor:pointer;">🖨️ Print / Save as PDF</button>
+  </div>
+  <script>
+    (function(){
+      const KWL_KEY = 'kwl_ch1_grade6';
+      function kwlLoad(){ try { const s=JSON.parse(localStorage.getItem(KWL_KEY)||'{}'); if(s.k)document.getElementById('kwl-k').value=s.k; if(s.w)document.getElementById('kwl-w').value=s.w; if(s.l)document.getElementById('kwl-l').value=s.l; } catch(e){} }
+      window.kwlSave = function(){ localStorage.setItem(KWL_KEY, JSON.stringify({k:document.getElementById('kwl-k').value, w:document.getElementById('kwl-w').value, l:document.getElementById('kwl-l').value})); };
+      window.kwlClear = function(){ if(!confirm('Clear KWL chart?')) return; ['kwl-k','kwl-w','kwl-l'].forEach(id=>document.getElementById(id).value=''); localStorage.removeItem(KWL_KEY); };
+      window.printKWL = function(){ const k=document.getElementById('kwl-k').value, w=document.getElementById('kwl-w').value, l=document.getElementById('kwl-l').value; const esc=s=>(s||'').replace(/</g,'&lt;'); const win=window.open('','_blank'); win.document.write('<html><head><title>KWL Chart - Chapter 1</title><style>body{font-family:sans-serif;padding:20px;color:#1e293b;}h1{color:#b45309;border-bottom:2px solid #b45309;padding-bottom:8px;}.col{margin:14px 0;padding:14px;border:1px solid #ccc;border-radius:8px;page-break-inside:avoid;}.col h2{margin:0 0 6px;font-size:16px;}.col p{white-space:pre-wrap;font-size:13px;margin:0;min-height:60px;}@media print{@page{size:A4;margin:1.2cm;}}</style></head><body><h1>KWL Chart — Chapter 1 · Wonderful World of Science</h1><div class="col" style="border-top:4px solid #0284c7;"><h2 style="color:#0e7490;">K — What I Know</h2><p>'+esc(k)+'</p></div><div class="col" style="border-top:4px solid #b45309;"><h2 style="color:#b45309;">W — What I Want to Know</h2><p>'+esc(w)+'</p></div><div class="col" style="border-top:4px solid #15803d;"><h2 style="color:#15803d;">L — What I Learned</h2><p>'+esc(l)+'</p></div><scr'+'ipt>window.onload=function(){setTimeout(function(){window.print();},300);};</scr'+'ipt></body></html>'); win.document.close(); };
+      ['kwl-k','kwl-w','kwl-l'].forEach(id=>{const el=document.getElementById(id); if(el) el.addEventListener('input',()=>{clearTimeout(window._kt); window._kt=setTimeout(window.kwlSave,600);});});
+      kwlLoad();
+    })();
+  </script>
+</section>
+
+</main>
+
+
+<script>
+/* ============================================================
+   TABS
+   ============================================================ */
+document.querySelectorAll('nav.tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ============================================================
+   SCIENTIFIC METHOD STEPS
+   ============================================================ */
+const stepDetails = [
+  {
+    title: 'STEP 1 — OBSERVE 👀',
+    body: '<b>Look carefully at the world around you.</b> Don\'t just glance — really notice. Use ALL your senses: sight, sound, touch, smell, taste (safely!). The world drops clues all the time, but most people miss them.<br><br><b>Try:</b> right now, look around the room and find 3 things you\'ve never noticed before.'
+  },
+  {
+    title: 'STEP 2 — WONDER ❓',
+    body: '<b>Turn your observation into a question.</b> Don\'t just accept "that\'s how it is." Ask <i>why</i> or <i>how</i>.<br><br><b>Examples:</b> Why do leaves turn yellow in autumn? How does an ant know where to find food? Why does ice float? Why does my dog wag its tail?'
+  },
+  {
+    title: 'STEP 3 — GUESS 💡',
+    body: '<b>Imagine an answer.</b> Scientists call this a "hypothesis" — it\'s just a fancy word for "an educated guess".<br><br>It\'s totally OK if you\'re wrong! In fact, finding out you\'re wrong is one of the most useful things in science. Wrong guesses lead to better questions!'
+  },
+  {
+    title: 'STEP 4 — TEST 🧪',
+    body: '<b>Try to find out if your guess is right.</b> Do an experiment. Make careful observations. Change ONE thing at a time.<br><br><b>Example:</b> If you guess that plants need water to grow, give one plant water and another NO water (same sunlight, same soil). Wait. Compare. That\'s a test!'
+  },
+  {
+    title: 'STEP 5 — ANALYSE 📊',
+    body: '<b>Look at your results.</b> Did your guess work?<br><br>• If YES — great! You\'ve found a possible answer. Tell your friends! Run more tests to be even more sure.<br>• If NO — also great! Now you have new information. Make a new guess. Go back to step 3. Try again. <b>This loop is the heart of science!</b>'
+  }
+];
+document.querySelectorAll('#methodSteps .step-box').forEach((box, i) => {
+  box.addEventListener('click', () => {
+    document.querySelectorAll('#methodSteps .step-box').forEach(b => b.classList.remove('active'));
+    box.classList.add('active');
+    const d = stepDetails[i];
+    document.getElementById('stepDetail').innerHTML = `<h3 class="card-title">${d.title}</h3><p>${d.body}</p>`;
+  });
+});
+
+/* ============================================================
+   PEN MYSTERY DEMO
+   ============================================================ */
+const penDemo = (() => {
+  const c = document.getElementById('penCanvas');
+  const ctx = c.getContext('2d');
+  const steps = [
+    'STEP 1 — OBSERVE 👀: Your pen has stopped writing.',
+    'STEP 2 — WONDER ❓: "Why did my pen stop writing?"',
+    'STEP 3 — GUESS 💡: "Maybe the ink is over!"',
+    'STEP 4 — TEST 🧪: Open the pen. Check the refill. Oh — the ink is still there!',
+    'STEP 5 — ANALYSE 📊: First guess was wrong. New guess: "Maybe the ink has dried at the tip."',
+    'STEP 3 (again) — GUESS 💡: Test the new idea — wipe the nib with a tissue and try again.',
+    'STEP 4 (again) — TEST 🧪: The pen writes! Mystery solved.',
+    'STEP 5 (again) — ANALYSE 📊: ✅ The dried ink was the problem. You just used the SCIENTIFIC METHOD!'
+  ];
+  let step = -1;
+  function reset() {
+    step = -1;
+    document.getElementById('penStep').innerHTML = 'Click <b>Next step</b> to walk through how you\'d solve "Why did my pen stop writing?"';
+    draw();
+  }
+  function next() {
+    step = Math.min(steps.length - 1, step + 1);
+    document.getElementById('penStep').innerHTML = steps[step];
+    draw();
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 320);
+    ctx.fillStyle = '#fef9c3';
+    ctx.fillRect(0, 0, 600, 320);
+    // title
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('The Mystery of the Pen That Stopped Writing', 150, 22);
+
+    // notebook
+    ctx.fillStyle = 'white';
+    ctx.fillRect(60, 60, 480, 240);
+    ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 2;
+    ctx.strokeRect(60, 60, 480, 240);
+    // ruled lines
+    ctx.strokeStyle = '#bfdbfe'; ctx.lineWidth = 1;
+    for (let y = 90; y < 290; y += 25) {
+      ctx.beginPath(); ctx.moveTo(60, y); ctx.lineTo(540, y); ctx.stroke();
+    }
+    // red margin
+    ctx.strokeStyle = '#dc2626';
+    ctx.beginPath(); ctx.moveTo(100, 60); ctx.lineTo(100, 300); ctx.stroke();
+
+    // pen body
+    let penX = 350, penY = 130, penAngle = -0.3;
+    if (step >= 6) penX = 330;
+    ctx.save();
+    ctx.translate(penX, penY);
+    ctx.rotate(penAngle);
+    // pen body
+    ctx.fillStyle = '#1d4ed8';
+    ctx.fillRect(-50, -8, 100, 16);
+    // pen tip
+    ctx.fillStyle = '#1e293b';
+    ctx.beginPath();
+    ctx.moveTo(50, -3);
+    ctx.lineTo(70, 0);
+    ctx.lineTo(50, 3);
+    ctx.closePath();
+    ctx.fill();
+    // refill visible (step 3+)
+    if (step >= 3 && step < 6) {
+      ctx.fillStyle = '#7dd3fc';
+      ctx.fillRect(-40, -3, 80, 6);
+      ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1;
+      ctx.strokeRect(-40, -3, 80, 6);
+    }
+    ctx.restore();
+
+    // writing on notebook
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'italic bold 16px Georgia';
+    if (step >= 6) {
+      ctx.fillStyle = '#1e3a8a';
+      ctx.fillText('Hello! I can write!', 120, 110);
+      ctx.fillText('Science works! 🎉', 120, 135);
+    } else if (step >= 0) {
+      // faded/incomplete writing showing the problem
+      ctx.fillStyle = 'rgba(30, 58, 138, 0.4)';
+      ctx.fillText('My', 120, 110);
+      ctx.fillText('pen has st....', 120, 135);
+    }
+
+    // step-specific bubbles
+    if (step === 1) {
+      bubble(120, 200, '❓ Why?\nWhy?\nWhy did\nit stop?', 130);
+    } else if (step === 2) {
+      bubble(120, 200, '💡 Maybe the\nink is over?', 140);
+    } else if (step === 3) {
+      bubble(120, 200, '🧪 Wait — the\nrefill is FULL!\nGuess was wrong.', 170);
+    } else if (step === 4 || step === 5) {
+      bubble(120, 200, '💡 Maybe the ink\nhas dried at the\ntip? Test it.', 180);
+    } else if (step === 6) {
+      bubble(360, 230, '✓ It writes!\nMystery solved.', 150);
+    } else if (step === 7) {
+      bubble(120, 220, '🎉 That was the\nSCIENTIFIC\nMETHOD!', 180);
+    }
+
+    function bubble(x, y, text, w) {
+      const lines = text.split('\n');
+      const h = lines.length * 16 + 10;
+      ctx.fillStyle = 'white';
+      ctx.strokeStyle = '#1e293b';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(x, y, w, h, 8);
+      else ctx.rect(x, y, w, h);
+      ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#1e293b';
+      ctx.font = 'bold 12px sans-serif';
+      lines.forEach((line, i) => ctx.fillText(line, x + 8, y + 18 + i * 14));
+    }
+  }
+  draw();
+  return { next, reset };
+})();
+
+/* ============================================================
+   BE A SCIENTIST (save activities)
+   ============================================================ */
+const actBeSci = {
+  saved: [[], [], []],
+  daily: [],
+  save(idx) {
+    const card = document.querySelector(`.qa-card[data-idx="${idx}"]`);
+    const input = card.querySelector('.qa-input');
+    const v = input.value.trim();
+    if (!v) return;
+    this.saved[idx].push(v);
+    input.value = '';
+    this.render(idx);
+  },
+  clear(idx) {
+    this.saved[idx] = [];
+    document.querySelector(`.qa-card[data-idx="${idx}"] .qa-input`).value = '';
+    this.render(idx);
+  },
+  render(idx) {
+    const box = document.getElementById('saved' + idx);
+    if (this.saved[idx].length === 0) {
+      box.classList.remove('show');
+      return;
+    }
+    box.classList.add('show');
+    box.innerHTML = '<b>Saved:</b><ul>' + this.saved[idx].map(s => `<li>${escape(s)}</li>`).join('') + '</ul>';
+  },
+  addDaily() {
+    const inp = document.getElementById('dailyWhy');
+    const v = inp.value.trim();
+    if (!v) return;
+    this.daily.push(v);
+    inp.value = '';
+    this.renderDaily();
+  },
+  clearDaily() {
+    this.daily = [];
+    this.renderDaily();
+  },
+  renderDaily() {
+    const box = document.getElementById('dailyList');
+    if (this.daily.length === 0) {
+      box.classList.remove('show');
+      return;
+    }
+    box.classList.add('show');
+    box.innerHTML = `<b>My Daily Whys (${this.daily.length}):</b><ul>` + this.daily.map(d => `<li>${escape(d)}</li>`).join('') + '</ul>';
+  }
+};
+function escape(s) { return s.replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' })[c]); }
+
+/* ============================================================
+   COMICS
+   ============================================================ */
+function drawKid(ctx, x, y, color, label) {
+  ctx.fillStyle = '#fde68a';
+  ctx.beginPath(); ctx.arc(x, y - 18, 12, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1.5; ctx.stroke();
+  ctx.fillStyle = '#1e293b';
+  ctx.beginPath(); ctx.arc(x - 4, y - 20, 1.5, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(x + 4, y - 20, 1.5, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(x, y - 14, 4, 0, Math.PI); ctx.stroke();
+  ctx.fillStyle = color;
+  ctx.fillRect(x - 12, y - 6, 24, 32);
+  ctx.fillStyle = '#1e293b';
+  ctx.fillRect(x - 8, y + 26, 6, 14);
+  ctx.fillRect(x + 2, y + 26, 6, 14);
+  if (label) {
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 11px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(label, x, y + 56);
+    ctx.textAlign = 'left';
+  }
+}
+function bubble(ctx, x, y, text, w) {
+  const lines = text.split('\n');
+  const h = lines.length * 14 + 12;
+  ctx.fillStyle = 'white';
+  ctx.strokeStyle = '#1e293b';
+  ctx.lineWidth = 1.8;
+  ctx.beginPath();
+  if (ctx.roundRect) ctx.roundRect(x, y, w, h, 8);
+  else ctx.rect(x, y, w, h);
+  ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 12px sans-serif';
+  lines.forEach((line, i) => ctx.fillText(line, x + 8, y + 17 + i * 14));
+}
+
+/* Comic 1 */
+(function () {
+  const ctx = document.getElementById('comic1').getContext('2d');
+  ctx.fillStyle = '#fefce8'; ctx.fillRect(0, 0, 800, 220);
+  // book
+  ctx.fillStyle = '#2563eb';
+  ctx.fillRect(330, 80, 200, 130);
+  ctx.fillStyle = '#facc15';
+  ctx.fillRect(340, 90, 180, 110);
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 24px Georgia';
+  ctx.fillText('Curiosity', 360, 145);
+  ctx.font = '13px serif';
+  ctx.fillText('Class 6 Science', 370, 170);
+  drawKid(ctx, 180, 150, '#dc2626', 'Diya');
+  drawKid(ctx, 600, 150, '#0284c7', 'Veer');
+  bubble(ctx, 50, 30, 'A new\nsubject!', 100);
+  bubble(ctx, 660, 30, 'Why\n"Curiosity"?', 110);
+})();
+/* Comic 2 */
+(function () {
+  const ctx = document.getElementById('comic2').getContext('2d');
+  ctx.fillStyle = '#fefce8'; ctx.fillRect(0, 0, 800, 220);
+  drawKid(ctx, 250, 140, '#dc2626', 'Diya');
+  // notebook on desk
+  ctx.fillStyle = 'white';
+  ctx.fillRect(330, 90, 200, 130);
+  ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 2;
+  ctx.strokeRect(330, 90, 200, 130);
+  // pen on notebook
+  ctx.save();
+  ctx.translate(420, 140);
+  ctx.rotate(-0.2);
+  ctx.fillStyle = '#1d4ed8';
+  ctx.fillRect(-50, -6, 100, 12);
+  ctx.fillStyle = '#1e293b';
+  ctx.beginPath();
+  ctx.moveTo(50, -3);
+  ctx.lineTo(65, 0);
+  ctx.lineTo(50, 3);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+  // missing text
+  ctx.fillStyle = 'rgba(0,0,0,0.3)';
+  ctx.font = 'italic 13px serif';
+  ctx.fillText('My pen has stoooo...', 350, 110);
+  bubble(ctx, 50, 30, 'WHAT?!\nWhy did it\nstop??', 130);
+})();
+/* Comic 3 */
+(function () {
+  const ctx = document.getElementById('comic3').getContext('2d');
+  ctx.fillStyle = '#fef3c7'; ctx.fillRect(0, 0, 800, 220);
+  drawKid(ctx, 150, 140, '#dc2626', 'Diya');
+  drawKid(ctx, 250, 140, '#0284c7', 'Veer');
+  // pen (large)
+  ctx.save();
+  ctx.translate(500, 110);
+  ctx.fillStyle = '#1d4ed8';
+  ctx.fillRect(-70, -10, 140, 20);
+  ctx.fillStyle = '#1e293b';
+  ctx.beginPath();
+  ctx.moveTo(70, -4);
+  ctx.lineTo(90, 0);
+  ctx.lineTo(70, 4);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+  ctx.fillStyle = '#16a34a';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.fillText('1. OBSERVE', 460, 50);
+  ctx.fillText('2. WONDER', 460, 165);
+  ctx.fillText('3. GUESS', 460, 185);
+  bubble(ctx, 350, 30, '💡 Maybe the\nink is over!', 140);
+})();
+/* Comic 4 */
+(function () {
+  const ctx = document.getElementById('comic4').getContext('2d');
+  ctx.fillStyle = '#fff7ed'; ctx.fillRect(0, 0, 800, 220);
+  // exploded pen
+  ctx.save();
+  ctx.translate(300, 110);
+  // pen body
+  ctx.fillStyle = '#1d4ed8';
+  ctx.fillRect(-80, -10, 80, 20);
+  // refill — visible blue ink
+  ctx.fillStyle = '#7dd3fc';
+  ctx.fillRect(10, -4, 100, 8);
+  ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1;
+  ctx.strokeRect(10, -4, 100, 8);
+  ctx.restore();
+  drawKid(ctx, 500, 140, '#0284c7', 'Veer');
+  ctx.fillStyle = '#16a34a';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.fillText('4. TEST', 550, 50);
+  ctx.fillText('5. ANALYSE', 550, 70);
+  bubble(ctx, 600, 110, 'Hmm... refill is\nFULL. Guess\nwas wrong!', 170);
+  bubble(ctx, 50, 30, 'New guess:\ninks dried at\nthe tip?', 160);
+})();
+/* Comic 5 */
+(function () {
+  const ctx = document.getElementById('comic5').getContext('2d');
+  ctx.fillStyle = '#dcfce7'; ctx.fillRect(0, 0, 800, 220);
+  drawKid(ctx, 200, 140, '#dc2626', 'Diya');
+  drawKid(ctx, 320, 140, '#0284c7', 'Veer');
+  // notebook with successful writing
+  ctx.fillStyle = 'white';
+  ctx.fillRect(450, 80, 280, 140);
+  ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 2;
+  ctx.strokeRect(450, 80, 280, 140);
+  ctx.fillStyle = '#1e3a8a';
+  ctx.font = 'italic bold 14px Georgia';
+  ctx.fillText('Hello! I can write!', 470, 115);
+  ctx.fillText('Science works! 🎉', 470, 145);
+  ctx.fillStyle = '#16a34a';
+  ctx.font = 'bold 20px sans-serif';
+  ctx.fillText('✓', 580, 185);
+  bubble(ctx, 50, 30, 'Did we just\nDO SCIENCE?', 130);
+})();
+/* Comic 6 */
+(function () {
+  const ctx = document.getElementById('comic6').getContext('2d');
+  ctx.fillStyle = '#fefce8'; ctx.fillRect(0, 0, 800, 220);
+  drawKid(ctx, 150, 140, '#dc2626', 'Diya');
+  drawKid(ctx, 250, 140, '#0284c7', 'Veer');
+  // icons around them
+  ctx.font = '28px serif';
+  ctx.fillText('🍳', 400, 80);
+  ctx.fillText('🔧', 450, 110);
+  ctx.fillText('💡', 500, 80);
+  ctx.fillText('🚲', 550, 110);
+  ctx.fillText('🧪', 600, 80);
+  ctx.fillText('🌱', 650, 110);
+  ctx.fillText('🌟', 700, 80);
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 14px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Science is EVERYWHERE!', 550, 180);
+  ctx.textAlign = 'left';
+  bubble(ctx, 30, 30, 'Kitchen, bikes,\nlights, plants...\nIT\'S ALL SCIENCE!', 200);
+})();
+
+/* ============================================================
+   QUIZ
+   ============================================================ */
+const quizData = [
+  {
+    q: 'According to Chapter 1, what is the MOST important thing to learn science?',
+    options: ['A big lab', 'Curiosity', 'A computer', 'A telescope'],
+    correct: 1,
+    why: 'The chapter says science is all about being curious! That\'s exactly why your textbook is called "Curiosity".'
+  },
+  {
+    q: 'What does the chapter say science is?',
+    options: [
+      'A list of facts to memorise',
+      'A way of thinking, observing, and doing things',
+      'Something only scientists in labs do',
+      'A subject you study only in school'
+    ],
+    correct: 1,
+    why: 'Science is described as a way of thinking, observing, and doing — to understand our world.'
+  },
+  {
+    q: 'You notice your pen stopped writing. Which is the FIRST step in the scientific method?',
+    options: ['Buy a new pen', 'Observe the problem', 'Guess the answer', 'Tell the teacher'],
+    correct: 1,
+    why: 'Always start with OBSERVING. Look carefully — what exactly is happening?'
+  },
+  {
+    q: 'You guess that the ink in your pen is over. You check — it isn\'t over. What should you do?',
+    options: [
+      'Give up',
+      'Make a new guess and test it',
+      'Memorise the answer',
+      'Throw the pen away'
+    ],
+    correct: 1,
+    why: 'When a guess is wrong, that\'s GOOD! You\'ve learned something. Make a new guess and test it. This is the science loop.'
+  },
+  {
+    q: 'According to the chapter, who follows the scientific method?',
+    options: [
+      'Only scientists in labs',
+      'Only doctors',
+      'Anyone who asks questions and finds answers — cook, bicycle repair person, electrician, you!',
+      'Only adults'
+    ],
+    correct: 2,
+    why: 'Anyone who follows the steps — observe, wonder, guess, test, analyse — is being a scientist!'
+  },
+  {
+    q: 'The textbook compares science to a giant ___.',
+    options: ['Mountain', 'Jigsaw puzzle', 'Cake', 'Library'],
+    correct: 1,
+    why: 'Science is like a giant, endless jigsaw puzzle — every discovery adds a piece, and sometimes we move pieces around.'
+  },
+  {
+    q: 'The chapter says: "To be a wise person, you must be a ___ person."',
+    options: ['Smart', 'Quiet', '\'Whys\'', 'Reading'],
+    correct: 2,
+    why: 'A great pun! "Wise" sounds like "whys" — and a person who always asks WHY becomes wise.'
+  },
+  {
+    q: 'Is science only about facts in textbooks?',
+    options: [
+      'Yes, that\'s the whole point',
+      'No — it\'s also in everyday life: kitchen, repairs, sports, weather, EVERYWHERE',
+      'Yes, but only on exams',
+      'No, only in school'
+    ],
+    correct: 1,
+    why: 'Science is in everything around us — including cooking dal, fixing a bicycle, or wondering why it rains.'
+  }
+];
+
+const quizContainer = document.getElementById('quiz-container');
+let answeredCount = 0, score = 0;
+quizData.forEach((q, idx) => {
+  const wrap = document.createElement('div');
+  wrap.className = 'quiz-question';
+  const qText = document.createElement('div');
+  qText.className = 'q-text';
+  qText.textContent = `Q${idx + 1}. ${q.q}`;
+  wrap.appendChild(qText);
+  q.options.forEach((opt, i) => {
+    const o = document.createElement('div');
+    o.className = 'quiz-option';
+    o.textContent = opt;
+    o.addEventListener('click', () => {
+      if (wrap.dataset.answered) return;
+      wrap.dataset.answered = 'true';
+      answeredCount++;
+      const fb = document.createElement('div');
+      fb.className = 'quiz-feedback show';
+      if (i === q.correct) {
+        o.classList.add('correct');
+        fb.classList.add('correct');
+        fb.innerHTML = `<b>✅ Yes!</b> ${q.why}`;
+        score++;
+      } else {
+        o.classList.add('wrong');
+        wrap.querySelectorAll('.quiz-option')[q.correct].classList.add('correct');
+        fb.classList.add('wrong');
+        fb.innerHTML = `<b>🤔 Almost!</b> ${q.why}`;
+      }
+      wrap.appendChild(fb);
+      if (answeredCount === quizData.length) {
+        const s = document.getElementById('quiz-score');
+        s.style.display = 'block';
+        s.innerHTML = `You scored: <b>${score} / ${quizData.length}</b><br>${score === quizData.length ? '🏆 Amazing — ready for Grade 6 Science!' : score >= quizData.length * 0.7 ? '👏 Great curious mind!' : '🚀 Re-read the chapter — your adventure is just starting!'}`;
+      }
+    });
+    wrap.appendChild(o);
+  });
+  quizContainer.appendChild(wrap);
+});
+</script>
+
+<script src="smile-chapter-assessment.js"></script>
+</body>
+</html>

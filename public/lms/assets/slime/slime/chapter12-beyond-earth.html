@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grade 6 — Chapter 12 — Beyond Earth</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0c0a1f; color: #f1f5f9; line-height: 1.55; }
+header { background: linear-gradient(135deg, #1e1b4b 0%, #4338ca 45%, #7c3aed 100%); color: white; padding: 36px 24px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.4); position: relative; overflow: hidden; }
+header h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; } header p { opacity: 0.95; font-size: 14px; }
+.starfield { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 0; }
+.starfield span { position: absolute; background: white; border-radius: 50%; opacity: 0.7; }
+header h1, header p { position: relative; z-index: 2; }
+nav.tabs { display: flex; justify-content: center; gap: 4px; background: #1e1b4b; padding: 8px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.4); flex-wrap: wrap; }
+nav.tabs button { background: transparent; border: none; padding: 10px 16px; font-size: 13px; font-weight: 600; color: #cbd5e1; cursor: pointer; border-radius: 8px; }
+nav.tabs button:hover { background: #312e81; color: #fde047; }
+nav.tabs button.active { background: #fde047; color: #1e1b4b; }
+nav.tabs button[data-tab="kwl"] { background: #fef3c7; color: #b45309; }
+nav.tabs button[data-tab="kwl"].active { background: #b45309; color: white; }
+nav.tabs button[data-tab="performance"] { background: #f3e8ff; color: #7e22ce; }
+nav.tabs button[data-tab="performance"].active { background: #7e22ce; color: white; }
+main { max-width: 1100px; margin: 0 auto; padding: 24px; background: #1e1b4b; min-height: 80vh; }
+.tab-panel { display: none; color: #f1f5f9; }
+.tab-panel.active { display: block; }
+h2.section-title { font-size: 22px; color: #fde047; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #fde047; }
+h3.card-title { font-size: 18px; color: #1e293b; margin-bottom: 10px; }
+.grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+.card, .sim-card, .exp-card, .story-card, .lab-card { background: white; color: #1e293b; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); margin-bottom: 16px; }
+.card p, .card li { font-size: 14px; color: #475569; margin-bottom: 6px; }
+.card ul { margin-left: 18px; }
+.badge { display: inline-block; background: #ede9fe; color: #5b21b6; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 999px; margin-bottom: 8px; }
+canvas { display: block; background: #0c0a1f; border-radius: 8px; margin: 12px 0; max-width: 100%; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; align-items: center; }
+button.btn { background: #7c3aed; color: white; border: none; padding: 8px 16px; font-size: 13px; font-weight: 600; border-radius: 6px; cursor: pointer; }
+button.btn:hover { background: #6d28d9; }
+button.btn.secondary { background: #64748b; }
+.result-box { background: #ede9fe; border-left: 4px solid #7c3aed; padding: 12px 16px; border-radius: 6px; margin-top: 12px; font-size: 14px; color: #1e293b; }
+.step-display { background: #ede9fe; border: 1px solid #c4b5fd; padding: 12px; border-radius: 6px; margin-top: 10px; font-size: 13px; min-height: 50px; color: #1e293b; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; color: #1e293b; }
+th, td { padding: 7px 8px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+th { background: #ede9fe; font-weight: 600; color: #475569; }
+.key-fact { background: #ede9fe; border-left: 3px solid #7c3aed; padding: 8px 12px; margin: 8px 0; font-size: 13px; border-radius: 4px; color: #1e293b; }
+.toggle-group { display: inline-flex; background: #312e81; padding: 3px; border-radius: 6px; flex-wrap: wrap; }
+.toggle-group button { background: transparent; border: none; padding: 6px 12px; font-size: 12px; font-weight: 600; color: #cbd5e1; cursor: pointer; border-radius: 4px; }
+.toggle-group button.active { background: #fde047; color: #1e1b4b; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.lab-card { border-left: 5px solid #7c3aed; background: linear-gradient(to right, #ede9fe 0%, #ffffff 80px); }
+.lab-section { margin-top: 12px; padding: 10px 14px; background: #ede9fe; border-radius: 6px; font-size: 13px; color: #1e293b; }
+.lab-section h4 { color: #7c3aed; font-size: 13px; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.lab-section ol, .lab-section ul { margin-left: 18px; }
+.difficulty { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 8px; background: #dcfce7; color: #16a34a; }
+.comic-strip { display: grid; gap: 12px; margin-top: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.comic-panel { background: #fffbeb; border: 3px solid #1e293b; border-radius: 8px; overflow: hidden; position: relative; box-shadow: 4px 4px 0 rgba(30,41,59,0.4); }
+.comic-panel canvas { background: #0c0a1f; border-radius: 0; margin: 0; width: 100%; display: block; }
+.comic-caption { background: #1e293b; color: #fef9c3; padding: 10px 12px; font-size: 13px; font-weight: 500; line-height: 1.4; font-family: Georgia, serif; }
+.comic-number { position: absolute; top: 6px; left: 8px; background: #7c3aed; color: white; font-weight: 800; font-size: 14px; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #1e293b; z-index: 5; }
+.story-intro { background: linear-gradient(135deg, #312e81 0%, #1e1b4b 100%); border-left: 4px solid #fde047; padding: 14px 18px; border-radius: 8px; margin-bottom: 14px; font-size: 14px; color: #fef9c3; font-style: italic; }
+.quiz-question { background: white; color: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.quiz-question .q-text { font-weight: 600; margin-bottom: 12px; color: #1e293b; }
+.quiz-option { display: block; padding: 10px 14px; margin-bottom: 6px; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; font-size: 14px; }
+.quiz-option:hover { border-color: #7c3aed; background: #ede9fe; }
+.quiz-option.correct { border-color: #16a34a; background: #f0fdf4; }
+.quiz-option.wrong { border-color: #dc2626; background: #fef2f2; }
+.quiz-feedback { margin-top: 10px; padding: 10px; border-radius: 6px; font-size: 13px; display: none; }
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct { background: #f0fdf4; color: #166534; }
+.quiz-feedback.wrong { background: #fef2f2; color: #991b1b; }
+#quiz-score { background: linear-gradient(135deg, #7c3aed 0%, #fde047 100%); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-top: 16px; font-size: 16px; font-weight: 600; }
+.quote-card { background: linear-gradient(135deg, #312e81 0%, #1e1b4b 100%); border-radius: 14px; padding: 22px 26px; text-align: center; margin: 14px 0; border-left: 5px solid #fde047; color: #fef9c3; }
+.quote-card .quote-text { font-size: 16px; font-style: italic; color: #fef9c3; font-family: Georgia, serif; margin-bottom: 10px; }
+.quote-card .quote-author { font-weight: 600; color: #c4b5fd; font-size: 13px; }
+.five-intro { background: linear-gradient(135deg, #312e81 0%, #1e1b4b 100%); border-left: 4px solid #fde047; padding: 14px 18px; border-radius: 10px; margin-bottom: 18px; font-size: 14px; color: #fef9c3; }
+.phase-card { background: white; color: #1e293b; border-radius: 14px; padding: 22px 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border-left: 6px solid #7c3aed; }
+.phase-card.phase-engage { border-left-color: #dc2626; background: linear-gradient(to right, #fef2f2 0%, #ffffff 80px); }
+.phase-card.phase-explore { border-left-color: #f59e0b; background: linear-gradient(to right, #fef3c7 0%, #ffffff 80px); }
+.phase-card.phase-explain { border-left-color: #0284c7; background: linear-gradient(to right, #eff6ff 0%, #ffffff 80px); }
+.phase-card.phase-elaborate { border-left-color: #15803d; background: linear-gradient(to right, #f0fdf4 0%, #ffffff 80px); }
+.phase-card.phase-evaluate { border-left-color: #7e22ce; background: linear-gradient(to right, #faf5ff 0%, #ffffff 80px); }
+.phase-header { display: flex; gap: 14px; align-items: center; margin-bottom: 12px; }
+.phase-num { background: #1e293b; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; flex-shrink: 0; }
+.phase-card.phase-engage .phase-num { background: #dc2626; } .phase-card.phase-explore .phase-num { background: #f59e0b; } .phase-card.phase-explain .phase-num { background: #0284c7; } .phase-card.phase-elaborate .phase-num { background: #15803d; } .phase-card.phase-evaluate .phase-num { background: #7e22ce; }
+.phase-header h3 { font-size: 18px; color: #1e293b; margin: 0; }
+.phase-tagline { font-size: 12px; color: #64748b; margin: 2px 0 0; font-style: italic; }
+.dialog-story { background: #fffbeb; border-radius: 10px; padding: 16px 18px; margin: 10px 0; font-size: 14px; line-height: 1.7; border: 1px solid #fde68a; color: #1e293b; }
+.dialog-story p { margin-bottom: 10px; }
+.speaker { font-weight: 700; } .speaker.swara { color: #db2777; } .speaker.ahana { color: #15803d; } .speaker.amma { color: #7e22ce; }
+.narration { color: #475569; font-style: italic; font-size: 13px; }
+.vocab-term { background: #fde047; color: #713f12; padding: 1px 6px; border-radius: 4px; font-weight: 700; }
+.vocab-summary { background: #ede9fe; border-radius: 10px; padding: 14px 18px; margin-top: 12px; border-left: 4px solid #7c3aed; color: #1e293b; }
+.vocab-summary h4 { color: #5b21b6; font-size: 14px; margin-bottom: 8px; }
+.vocab-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.vocab-chip { background: white; border: 2px solid #7c3aed; border-radius: 999px; padding: 4px 10px; font-size: 12px; color: #5b21b6; font-weight: 600; }
+.exp-mini { background: white; border-radius: 10px; padding: 14px; margin: 8px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border-top: 3px solid #f59e0b; color: #1e293b; }
+.exp-mini h5 { color: #b45309; font-size: 14px; margin-bottom: 6px; }
+.exp-mini p { font-size: 13px; color: #475569; margin-bottom: 4px; }
+.kit-link { display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: white; padding: 12px 20px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 14px; margin: 10px 0; }
+.eval-quiz { background: white; color: #1e293b; border-radius: 10px; padding: 16px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.eval-quiz .eq-q { font-weight: 600; color: #1e293b; margin-bottom: 10px; }
+.eval-quiz .eq-opt { display: block; padding: 8px 12px; margin-bottom: 5px; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; font-size: 13px; }
+.eval-quiz .eq-opt:hover { border-color: #7e22ce; background: #faf5ff; }
+.eval-quiz .eq-opt.correct { border-color: #15803d; background: #f0fdf4; }
+.eval-quiz .eq-opt.wrong { border-color: #dc2626; background: #fef2f2; }
+#pieResult { display: none; background: linear-gradient(135deg, #7e22ce 0%, #fde047 100%); color: white; border-radius: 14px; padding: 22px; margin-top: 14px; text-align: center; }
+#pieResult.show { display: block; }
+.kwl-intro { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid #b45309; padding: 14px 18px; border-radius: 10px; margin-bottom: 18px; font-size: 14px; color: #78350f; }
+.kwl-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 14px 0; }
+@media (max-width: 800px) { .kwl-grid { grid-template-columns: 1fr; } }
+.kwl-col { background: white; color: #1e293b; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); display: flex; flex-direction: column; }
+.kwl-col.k { border-top: 5px solid #0284c7; } .kwl-col.w { border-top: 5px solid #b45309; } .kwl-col.l { border-top: 5px solid #15803d; }
+.kwl-col h4 { font-size: 15px; margin-bottom: 4px; }
+.kwl-col.k h4 { color: #0e7490; } .kwl-col.w h4 { color: #b45309; } .kwl-col.l h4 { color: #15803d; }
+.kwl-col .kwl-sub { font-size: 12px; color: #64748b; margin-bottom: 10px; font-style: italic; }
+.kwl-textarea { width: 100%; min-height: 200px; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 13px; resize: vertical; flex: 1; }
+.kwl-controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 14px 0; padding: 12px; background: #312e81; border-radius: 10px; }
+.kwl-controls p { font-size: 12px; color: #cbd5e1; margin: 0; flex: 1; }
+.student-info { display: grid; grid-template-columns: 1fr 80px 130px; gap: 10px; margin-bottom: 14px; background: #faf5ff; padding: 12px; border-radius: 10px; color: #1e293b; }
+.student-info label { display: block; font-size: 11px; color: #7e22ce; font-weight: 700; margin-bottom: 2px; text-transform: uppercase; }
+.student-info input { width: 100%; padding: 6px 10px; border: 1px solid #c4b5fd; border-radius: 6px; font-size: 14px; font-family: inherit; }
+.rubric-table { width: 100%; border-collapse: collapse; background: white; color: #1e293b; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-size: 12px; margin-bottom: 12px; }
+.rubric-table th, .rubric-table td { padding: 8px 10px; border: 1px solid #e2e8f0; text-align: left; vertical-align: top; }
+.rubric-table th { background: #7e22ce; color: white; text-align: center; font-weight: 700; }
+.rubric-table th:first-child { text-align: left; }
+.rubric-table .rb-skill { background: #faf5ff; font-weight: 600; color: #581c87; width: 22%; }
+.rubric-table .rb-cell { cursor: pointer; transition: all 0.15s; color: #475569; }
+.rubric-table .rb-cell:hover { background: #f3e8ff; }
+.rubric-table .rb-cell.selected { background: #c4b5fd; color: #1e293b; font-weight: 600; box-shadow: inset 0 0 0 2px #7e22ce; }
+.rubric-summary { background: #faf5ff; color: #1e293b; border-radius: 10px; padding: 14px 18px; margin: 12px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.rubric-summary .rs-score { font-size: 28px; font-weight: 800; color: #7e22ce; }
+.reflection { width: 100%; min-height: 80px; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 13px; resize: vertical; margin: 10px 0; }
+.print-btn-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 14px 0; padding: 12px; background: #312e81; border-radius: 10px; }
+.print-btn-row p { font-size: 12px; color: #cbd5e1; margin: 0; flex: 1; }
+.sig-row { display: none; }
+.perf-header { background: linear-gradient(135deg, #7e22ce 0%, #1e1b4b 100%); color: white; border-radius: 14px; padding: 24px; margin-bottom: 18px; text-align: center; }
+.perf-header h3 { color: white; font-size: 22px; margin-bottom: 6px; }
+footer { text-align: center; padding: 20px; color: #94a3b8; font-size: 12px; background: #0c0a1f; }
+@media print {
+  body { background: white; color: black; }
+  header, nav.tabs, footer { display: none !important; }
+  main { background: white; max-width: 100%; padding: 0; }
+  .tab-panel { display: none !important; color: black; }
+  .tab-panel.print-active { display: block !important; }
+  .print-btn-row { display: none !important; }
+  .kwl-col { box-shadow: none; border: 1px solid #999; page-break-inside: avoid; }
+  .rubric-table { font-size: 10px; page-break-inside: avoid; }
+  .rubric-table th { background: #666 !important; color: white !important; -webkit-print-color-adjust: exact; }
+  @page { size: A4; margin: 1.2cm; }
+  .sig-row { margin-top: 30px; display: flex !important; gap: 40px; }
+  .sig-line { flex: 1; border-top: 1px solid #999; padding-top: 4px; font-size: 11px; color: #666; text-align: center; }
+}
+</style>
+<link rel="stylesheet" href="smile-chapter-assessment.css">
+</head>
+<body>
+<header><div class="starfield" id="starfield"></div><h1>🌌 Beyond Earth</h1></header>
+<nav class="tabs">
+  <button type="button" onclick="event.stopImmediatePropagation(); window.location.href='index.html'; return false;" style="background:#fef3c7; color:#b45309; padding:10px 16px; font-size:13px; font-weight:600; border-radius:8px; border:none; cursor:pointer; font-family:inherit;">🏠 Home</button>
+  <button data-tab="concepts" class="active">Concepts</button>
+  <button data-tab="kwl">📝 KWL Chart</button>
+  <button data-tab="fivee">5E Method 📚</button>
+  <button data-tab="story">Story &amp; Cartoons</button>
+  <button data-tab="simulations">Space Lab 🪐</button>
+  <button data-tab="lab">Lab Experiments</button>
+  <button data-tab="quiz">Quiz</button>
+  <button data-tab="performance">📋 Performance</button>
+</nav>
+<main>
+
+<section id="concepts" class="tab-panel active">
+  <h2 class="section-title">Key Concepts</h2>
+  <div class="quote-card"><div class="quote-text">"From Nubra, Ladakh — where the sky has almost no light pollution — Yangdol and Dorjay see thousands of stars. The night sky inspires awe and wonder."</div></div>
+  <div class="grid">
+    <div class="card"><span class="badge">Big Idea</span><h3 class="card-title">A Universe Bigger Than We Imagined</h3><p>Look up at night — you see the Moon, planets, stars. Each is incredibly far away.</p><p>Earth is just one small planet around one ordinary star (the Sun). The Sun is one of <b>BILLIONS</b> of stars in our galaxy. And the universe has <b>BILLIONS</b> of galaxies!</p><div class="key-fact">In Ladakh, with no light pollution, you can see ~3000 stars with naked eye. But the universe has 10²² stars!</div></div>
+    <div class="card"><span class="badge">12.1</span><h3 class="card-title">The Sun — Our Closest Star</h3><p>Yes! Our Sun is a star — just very close to us.</p><ul><li>Distance from Earth: ~150 million km</li><li>Light from Sun takes <b>8 minutes</b> to reach us</li><li>Sun gives us heat, light, energy</li><li>It\'s a giant ball of HOT gases</li></ul><div class="key-fact">Other stars look smaller because they\'re much, MUCH farther away.</div></div>
+    <div class="card"><span class="badge">12.2</span><h3 class="card-title">The Moon — Our Companion</h3><p>The Moon goes around Earth — about once every <b>29 days</b>.</p><p>The Moon doesn\'t have its OWN light. It REFLECTS sunlight.</p><ul><li>Distance: ~384,000 km from Earth</li><li>About ¼ the size of Earth</li><li>No air, no water, no life</li><li>Has craters (made by meteor impacts)</li></ul></div>
+    <div class="card"><span class="badge">Phases</span><h3 class="card-title">Phases of the Moon</h3><p>The Moon looks different on different nights — it\'s the same Moon, but we see different parts lit up by the Sun.</p><ul><li>🌑 <b>New Moon</b> — dark side facing us</li><li>🌒 Crescent (growing)</li><li>🌓 Half Moon</li><li>🌔 Gibbous (almost full)</li><li>🌕 <b>Full Moon</b></li><li>🌖🌗🌘 Same in reverse</li></ul><div class="key-fact">Indian months follow Moon phases — Purnima (full) and Amavasya (new).</div></div>
+    <div class="card"><span class="badge">12.3</span><h3 class="card-title">Stars — Distant Suns</h3><p>Every star you see at night is a sun like ours — just much further away.</p><p>Why don\'t we see stars during the day? The Sun\'s light overwhelms them.</p><ul><li>Closest star (other than Sun): Proxima Centauri — 4.2 light-years away!</li><li>Light from it takes 4.2 YEARS to reach Earth</li><li>Stars TWINKLE because of Earth\'s atmosphere bending their light</li></ul></div>
+    <div class="card"><span class="badge">12.4</span><h3 class="card-title">Constellations — Star Patterns</h3><p>People long ago "connected the dots" of bright stars into shapes — called <b>constellations</b>.</p><ul><li><b>Ursa Major</b> (Saptarishi / Big Dipper) — 7 bright stars</li><li><b>Orion</b> (Mriga / the Hunter) — easy to spot in winter</li><li>Polaris (Dhruva tara) — the North Star — doesn\'t seem to move</li></ul><div class="key-fact">Sailors used constellations for navigation for thousands of years!</div></div>
+    <div class="card"><span class="badge">12.5</span><h3 class="card-title">Planets of the Solar System</h3><p>8 planets orbit the Sun:</p><table><tr><th>#</th><th>Planet</th><th>Hindi</th></tr><tr><td>1</td><td>Mercury</td><td>Budh</td></tr><tr><td>2</td><td>Venus</td><td>Shukra</td></tr><tr><td>3</td><td>Earth</td><td>Prithvi</td></tr><tr><td>4</td><td>Mars</td><td>Mangal</td></tr><tr><td>5</td><td>Jupiter</td><td>Brihaspati</td></tr><tr><td>6</td><td>Saturn</td><td>Shani</td></tr><tr><td>7</td><td>Uranus</td><td>Indra</td></tr><tr><td>8</td><td>Neptune</td><td>Varun</td></tr></table><p><i>Pluto used to be #9 but was reclassified as a "dwarf planet" in 2006.</i></p></div>
+    <div class="card"><span class="badge">Sky riders</span><h3 class="card-title">More Things Up There</h3><ul><li>🪨 <b>Asteroids</b> — small rocky bodies, mostly between Mars &amp; Jupiter</li><li>☄️ <b>Comets</b> — icy bodies with long tails</li><li>🌠 <b>Meteors / Shooting stars</b> — small rocks burning in atmosphere</li><li>🛰️ <b>Satellites</b> — natural (Moon) or artificial (made by humans)</li></ul></div>
+    <div class="card"><span class="badge">India</span><h3 class="card-title">🇮🇳 India in Space</h3><p>ISRO (Indian Space Research Organisation) has done amazing things:</p><ul><li><b>Aryabhata</b> — India\'s first satellite (1975)</li><li><b>Chandrayaan-1</b> (2008) — found water on Moon!</li><li><b>Mangalyaan</b> (2014) — to Mars on first try, cheapest Mars mission ever</li><li><b>Chandrayaan-3</b> (2023) — landed near Moon\'s south pole, first country to do so</li><li><b>Aditya-L1</b> (2023) — observing the Sun</li></ul></div>
+    <div class="card"><span class="badge">India2</span><h3 class="card-title">Ancient Indian Astronomy</h3><p>Indians studied the sky thousands of years ago:</p><ul><li><b>Aryabhata</b> (476 CE) — calculated Earth\'s rotation, eclipses</li><li><b>Varahamihira</b> — astrology + astronomy</li><li><b>Bhaskaracharya</b> — speed of Earth, gravity</li><li>27 <b>nakshatras</b> (star groups) in Hindu calendar</li></ul></div>
+    <div class="card"><span class="badge">Astronauts</span><h3 class="card-title">Indians in Space</h3><ul><li><b>Rakesh Sharma</b> — first Indian in space (1984)</li><li><b>Kalpana Chawla</b> — Indian-born NASA astronaut</li><li><b>Sunita Williams</b> — Indian-American NASA astronaut, holds record for longest spacewalk by woman</li><li><b>Shubhanshu Shukla</b> — Indian Air Force pilot, ISS mission 2025</li></ul></div>
+    <div class="card"><span class="badge">Solar Eclipse</span><h3 class="card-title">Eclipses</h3><p><b>Solar eclipse</b>: Moon comes between Sun and Earth, blocks sunlight briefly.</p><p><b>Lunar eclipse</b>: Earth comes between Sun and Moon — Earth\'s shadow falls on Moon.</p><div class="key-fact">⚠️ NEVER look directly at the Sun, especially during a solar eclipse — it can blind you! Use special filters or a pinhole projector.</div></div>
+  </div>
+</section>
+
+<section id="kwl" class="tab-panel">
+  <h2 class="section-title">📝 KWL Chart</h2>
+  <div class="kwl-intro">Fill all 3 columns — auto-saves. Print for PDF.</div>
+  <div class="kwl-grid">
+    <div class="kwl-col k"><h4>🔵 K — Know</h4><div class="kwl-sub">About space, stars, planets.</div><textarea class="kwl-textarea" id="kwl-k" placeholder="• I know Earth is a planet..."></textarea></div>
+    <div class="kwl-col w"><h4>🟠 W — Want to Know</h4><div class="kwl-sub">Questions.</div><textarea class="kwl-textarea" id="kwl-w" placeholder="• Why do stars twinkle? Is there life on Mars?..."></textarea></div>
+    <div class="kwl-col l"><h4>🟢 L — Learned</h4><div class="kwl-sub">After chapter.</div><textarea class="kwl-textarea" id="kwl-l" placeholder="• I learnt about 8 planets, constellations, ISRO..."></textarea></div>
+  </div>
+  <div class="kwl-controls"><p>Auto-saves.</p><button class="btn" onclick="kwlSave()">💾 Save</button><button class="btn secondary" onclick="kwlClear()">Clear</button><button class="btn" style="background:#b45309;" onclick="printKWL()">🖨️ Print / Save as PDF</button></div>
+</section>
+
+<section id="fivee" class="tab-panel">
+  <h2 class="section-title">📚 The 5E Learning Path</h2>
+  <div class="five-intro">Walk through Chapter 12 — Beyond Earth.</div>
+  <div class="phase-card phase-engage">
+    <div class="phase-header"><span class="phase-num">1</span><div><h3>🎯 ENGAGE</h3><p class="phase-tagline">Look up.</p></div></div>
+    <div class="dialog-story">
+      <p style="text-align:center; font-weight:700; color:#5b21b6; font-size:15px; margin-bottom:14px;">📖 Swara, Ahana &amp; Amma — A Starry Night</p>
+      <p class="narration">Power cut. The girls grab a blanket and head to the terrace with Ahana\'s amma. No streetlights. The sky is bright with stars.</p>
+      <p><span class="speaker swara">Swara:</span> Wow, so many stars! How many are there?</p>
+      <p><span class="speaker amma">Amma:</span> About 3,000 visible by naked eye. But there are <b>BILLIONS</b> in our galaxy. And billions of galaxies in the universe!</p>
+      <p><span class="speaker ahana">Ahana:</span> What are stars really?</p>
+      <p><span class="speaker amma">Amma:</span> They\'re like our Sun — giant balls of hot gas, making their own light. The Sun is the <span class="vocab-term">closest star</span>. Others are SO far, their light takes years to reach us!</p>
+      <p class="narration">Amma points to a bright moon, then to a group of stars shaped like a pot.</p>
+      <p><span class="speaker amma">Amma:</span> See that? Saptarishi — the Big Dipper. A <span class="vocab-term">constellation</span>. Indians have used star patterns for navigation and calendars for thousands of years.</p>
+      <p><span class="speaker swara">Swara:</span> What\'s the Moon then?</p>
+      <p><span class="speaker amma">Amma:</span> The Moon is Earth\'s <span class="vocab-term">satellite</span>. It goes around us. It doesn\'t make its own light — it REFLECTS the Sun\'s. Every 29 days it cycles through <span class="vocab-term">phases</span> — full, half, crescent, new.</p>
+      <p><span class="speaker ahana">Ahana:</span> And those bright dots that don\'t twinkle?</p>
+      <p><span class="speaker amma">Amma:</span> Planets! Mercury, Venus, Mars, Jupiter, Saturn — sometimes visible. We have 8 <span class="vocab-term">planets</span> orbiting the Sun. Earth is #3.</p>
+      <p><span class="speaker swara">Swara:</span> What\'s ISRO?</p>
+      <p><span class="speaker amma">Amma:</span> India\'s Space Research Organisation. We sent Chandrayaan-3 to the Moon\'s south pole in 2023 — first country to land there! Mangalyaan went to Mars. We\'re a space-faring nation!</p>
+      <p><span class="speaker ahana">Ahana:</span> Were any Indians in space?</p>
+      <p><span class="speaker amma">Amma:</span> Yes! Rakesh Sharma in 1984. Then Kalpana Chawla, Sunita Williams (both Indian-origin NASA astronauts). And recently, Shubhanshu Shukla is preparing for ISS.</p>
+      <p class="narration">A streak of light flashes across the sky.</p>
+      <p><span class="speaker swara">Swara:</span> Shooting star!</p>
+      <p><span class="speaker amma">Amma:</span> Actually a <span class="vocab-term">meteor</span> — a small space rock burning up in Earth\'s atmosphere. Not actually a star.</p>
+    </div>
+    <div class="vocab-summary"><h4>📚 New words:</h4><div class="vocab-chips"><span class="vocab-chip">universe</span><span class="vocab-chip">galaxy</span><span class="vocab-chip">star</span><span class="vocab-chip">planet</span><span class="vocab-chip">satellite</span><span class="vocab-chip">phases (moon)</span><span class="vocab-chip">constellation</span><span class="vocab-chip">meteor</span><span class="vocab-chip">solar system</span><span class="vocab-chip">ISRO</span></div></div>
+  </div>
+  <div class="phase-card phase-explore">
+    <div class="phase-header"><span class="phase-num">2</span><div><h3>🔬 EXPLORE</h3><p class="phase-tagline">Look at the sky.</p></div></div>
+    <div class="exp-mini"><h5>🔭 Experiment 1: Moon Phase Diary</h5><p>For 30 nights, draw the Moon\'s shape each evening. See the phases cycle!</p></div>
+    <div class="exp-mini"><h5>⭐ Experiment 2: Spot the Saptarishi</h5><p>Around 10 PM, look north. Find the "spoon" shape of 7 stars. The two end stars point to Polaris (the Pole Star).</p></div>
+    <div class="exp-mini"><h5>🌍 Experiment 3: Solar System Walk</h5><p>Use string &amp; cardboard balls. Make a scaled solar system in your school playground. See how far Neptune is!</p></div>
+  </div>
+  <div class="phase-card phase-explain">
+    <div class="phase-header"><span class="phase-num">3</span><div><h3>📖 EXPLAIN</h3><p class="phase-tagline">Put it together.</p></div></div>
+    <canvas id="conceptMapCanvas" width="600" height="420"></canvas>
+    <div class="result-box" style="margin-top:10px;"><b>Key insight:</b> Earth → Solar System → Galaxy → Universe. Each level bigger by mind-blowing amounts!</div>
+  </div>
+  <div class="phase-card phase-elaborate">
+    <div class="phase-header"><span class="phase-num">4</span><div><h3>🌍 ELABORATE</h3><p class="phase-tagline">Take it further.</p></div></div>
+    <a href="./kit-procedure-chapter12.pdf" target="_blank" class="kit-link"><span class="kit-icon">📄</span><span>Open Kit Procedure — Chapter 12</span></a>
+    <div style="margin-top:16px;"><b style="color:#15803d;">Try next:</b><ul style="margin-left:18px; margin-top:6px; font-size:13px; color:#475569;"><li>Visit a planetarium (Nehru Planetarium — most cities).</li><li>Make a model of the solar system with clay/balls.</li><li>Track ISRO\'s next mission online.</li><li>Read about Kalpana Chawla\'s life — she was inspiring.</li><li>Find Polaris in your night sky — it\'s the only "fixed" star.</li></ul></div>
+  </div>
+  <div class="phase-card phase-evaluate">
+    <div class="phase-header"><span class="phase-num">5</span><div><h3>✓ EVALUATE</h3><p class="phase-tagline">Quick check.</p></div></div>
+    <div id="evalQuizContainer"></div>
+    <div id="pieResult"><h3>Your Score</h3><canvas id="piechartCanvas" width="300" height="300"></canvas><div id="piechartLabel" style="font-size:18px; font-weight:700; margin-top:10px;"></div><div id="piechartLegend" style="margin-top:10px; display:flex; gap:18px; justify-content:center; flex-wrap:wrap;"></div></div>
+  </div>
+</section>
+
+<section id="story" class="tab-panel">
+  <h2 class="section-title">Story &amp; Cartoons</h2>
+  <div class="story-card">
+    <h3 class="card-title">Yangdol &amp; Dorjay — Stargazing in Ladakh</h3>
+    <div class="story-intro">High in the Nubra valley of Ladakh, where the air is thin and the lights are few, twin siblings Yangdol and Dorjay sit on a stone bench. The sky above them is bursting with stars — and questions.</div>
+    <div class="comic-strip" id="strip1"></div>
+  </div>
+</section>
+
+<section id="simulations" class="tab-panel">
+  <h2 class="section-title">🪐 Space Lab</h2>
+  <div class="sim-card"><h3 class="card-title">1. Moon Phases (Animated)</h3><p>Drag to set day of cycle. Watch the phase change.</p><div class="controls"><label>Day in cycle: <span id="moonDayVal">0</span> / 29</label><input type="range" id="moonSlider" min="0" max="29" step="1" value="0" oninput="moonSim.update()"></div><canvas id="moonCanvas" width="600" height="280"></canvas><div class="result-box" id="moonResult">Slide to see phase.</div></div>
+  <div class="sim-card"><h3 class="card-title">2. Solar System Tour</h3><p>Pick a planet — see facts.</p><div class="controls"><div class="toggle-group" id="planetToggle"><button data-p="mercury" class="active">☿ Mercury</button><button data-p="venus">♀ Venus</button><button data-p="earth">🌍 Earth</button><button data-p="mars">♂ Mars</button><button data-p="jupiter">♃ Jupiter</button><button data-p="saturn">♄ Saturn</button><button data-p="uranus">♅ Uranus</button><button data-p="neptune">♆ Neptune</button></div></div>
+    <canvas id="planetCanvas" width="600" height="280"></canvas>
+    <div class="result-box" id="planetResult">Pick a planet.</div>
+  </div>
+  <div class="sim-card"><h3 class="card-title">3. Constellation Spotter</h3><p>Pick a constellation. See the star pattern.</p><div class="controls"><div class="toggle-group" id="conToggle"><button data-c="saptarishi" class="active">Saptarishi / Big Dipper</button><button data-c="orion">Orion / Mriga</button><button data-c="cassiopeia">Cassiopeia</button></div></div>
+    <canvas id="conCanvas" width="600" height="280"></canvas>
+    <div class="result-box" id="conResult">Pick a constellation.</div>
+  </div>
+</section>
+
+<section id="lab" class="tab-panel">
+  <h2 class="section-title">🧪 Lab Experiments</h2>
+  <div class="lab-card"><h3 class="card-title">Activity 12.1 — Moon Phase Diary <span class="difficulty">Easy</span></h3><div class="lab-section"><h4>Procedure</h4><ol><li>For one month, look at the Moon every evening.</li><li>Sketch its shape.</li><li>Note the date.</li><li>End of month: you\'ll have all the phases!</li></ol></div></div>
+  <div class="lab-card"><h3 class="card-title">Activity 12.2 — Find a Constellation <span class="difficulty">Easy</span></h3><div class="lab-section"><h4>Procedure</h4><ol><li>On a clear night (away from city lights), look NORTH.</li><li>Find the "saucepan" shape of Saptarishi.</li><li>Trace from the two end stars — they point to Polaris (Dhruva tara).</li><li>Look SOUTH in winter for Orion / Mriga.</li></ol></div></div>
+  <div class="lab-card"><h3 class="card-title">Activity 12.3 — Build a Solar System Model <span class="difficulty">Easy</span></h3><div class="lab-section materials"><h4>Materials</h4><ul><li>Cardboard / chart paper</li><li>Coloured balls (different sizes for planets)</li><li>String &amp; thumbtacks</li><li>Hanging frame</li></ul></div><div class="lab-section"><h4>Procedure</h4><ol><li>Place a yellow ball (Sun) at centre.</li><li>String 8 balls in order around it.</li><li>Different sizes &amp; colours.</li><li>Hang from ceiling — your own galaxy!</li></ol></div></div>
+  <div class="lab-card"><h3 class="card-title">Activity 12.4 — Track an ISRO Mission <span class="difficulty">Easy</span></h3><div class="lab-section"><h4>Procedure</h4><ol><li>Visit isro.gov.in.</li><li>Find a current mission.</li><li>Make a poster: when, where, what it studies.</li><li>Present to class.</li></ol></div></div>
+</section>
+
+<section id="quiz" class="tab-panel">
+  <h2 class="section-title">Quick Quiz</h2>
+  <div id="quiz-container"></div>
+  <div id="quiz-score" style="display:none"></div>
+</section>
+
+<section id="performance" class="tab-panel">
+  <h2 class="section-title">📋 Performance</h2>
+  <div class="perf-header"><h3>Student Performance Report</h3><p>Chapter 12 · Beyond Earth</p></div>
+  <div class="student-info"><div><label>Name</label><input type="text" id="studentName" /></div><div><label>Class</label><input type="text" id="studentClass" placeholder="6" /></div><div><label>Date</label><input type="date" id="studentDate" /></div></div>
+  <table class="rubric-table" id="rubricTable"><thead><tr><th>Skill</th><th>1</th><th>2</th><th>3</th><th>4</th></tr></thead><tbody>
+    <tr><td class="rb-skill">8 planets of solar system</td><td class="rb-cell" data-level="1">Knows few</td><td class="rb-cell" data-level="2">Most</td><td class="rb-cell" data-level="3">All 8 in order</td><td class="rb-cell" data-level="4">+ Indian names</td></tr>
+    <tr><td class="rb-skill">Moon phases</td><td class="rb-cell" data-level="1">Knows new &amp; full</td><td class="rb-cell" data-level="2">3 phases</td><td class="rb-cell" data-level="3">All phases</td><td class="rb-cell" data-level="4">+ understands cycle</td></tr>
+    <tr><td class="rb-skill">Constellations</td><td class="rb-cell" data-level="1">New</td><td class="rb-cell" data-level="2">Knows Saptarishi</td><td class="rb-cell" data-level="3">2-3 patterns</td><td class="rb-cell" data-level="4">Locates Polaris</td></tr>
+    <tr><td class="rb-skill">ISRO &amp; Indian space missions</td><td class="rb-cell" data-level="1">New</td><td class="rb-cell" data-level="2">Knows Chandrayaan</td><td class="rb-cell" data-level="3">Several missions</td><td class="rb-cell" data-level="4">Talks about Aditya, Mars, Moon</td></tr>
+    <tr><td class="rb-skill">Vocabulary (satellite, galaxy, etc.)</td><td class="rb-cell" data-level="1">New</td><td class="rb-cell" data-level="2">Some terms</td><td class="rb-cell" data-level="3">Correct usage</td><td class="rb-cell" data-level="4">Detailed scientific language</td></tr>
+  </tbody></table>
+  <div class="rubric-summary"><div><div style="font-size:11px; color:#7e22ce;">Total</div><div><span class="rs-score" id="rubricTotal">0</span> / 20</div></div><div><div style="font-size:11px; color:#7e22ce;">Band</div><span class="rs-band" id="rubricBand" style="background:#e2e8f0; color:#475569; padding:6px 14px; border-radius:999px; font-weight:700; font-size:13px;">— Not yet —</span></div><div><div style="font-size:11px; color:#7e22ce;">Avg</div><div id="rubricAvg" style="font-weight:700; font-size:18px; color:#581c87;">—</div></div></div>
+  <div><label style="font-size:12px; color:#fde047; font-weight:700; text-transform:uppercase;">Reflection</label><textarea class="reflection" id="reflectionText"></textarea></div>
+  <div><label style="font-size:12px; color:#fde047; font-weight:700; text-transform:uppercase;">Teacher Comments</label><textarea class="reflection" id="teacherComments"></textarea></div>
+  <div class="sig-row"><div class="sig-line">Student</div><div class="sig-line">Teacher / Parent</div></div>
+  <div class="print-btn-row"><p>Save as PDF.</p><button class="btn" onclick="printPerf()" style="background:#7e22ce;">🖨️ Save as PDF</button></div>
+</section>
+
+</main>
+<script>
+// stars in header
+(function(){
+  const sf = document.getElementById('starfield');
+  if (sf) for (let i = 0; i < 60; i++) { const s = document.createElement('span'); s.style.width = (1 + Math.random()*2) + 'px'; s.style.height = s.style.width; s.style.left = Math.random()*100 + '%'; s.style.top = Math.random()*100 + '%'; s.style.opacity = 0.3 + Math.random()*0.7; sf.appendChild(s); }
+})();
+document.querySelectorAll('nav.tabs button').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active')); document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active')); btn.classList.add('active'); document.getElementById(btn.dataset.tab).classList.add('active'); }); });
+
+const KWL_KEY = 'kwl_ch12_grade6';
+function kwlLoad() { try { const s = JSON.parse(localStorage.getItem(KWL_KEY) || '{}'); if(s.k) document.getElementById('kwl-k').value=s.k; if(s.w) document.getElementById('kwl-w').value=s.w; if(s.l) document.getElementById('kwl-l').value=s.l; } catch(e){} }
+function kwlSave() { localStorage.setItem(KWL_KEY, JSON.stringify({ k: document.getElementById('kwl-k').value, w: document.getElementById('kwl-w').value, l: document.getElementById('kwl-l').value })); }
+function kwlClear() { if (!confirm('Clear?')) return; ['kwl-k','kwl-w','kwl-l'].forEach(id => document.getElementById(id).value = ''); localStorage.removeItem(KWL_KEY); }
+['kwl-k','kwl-w','kwl-l'].forEach(id => { const el = document.getElementById(id); if (el) el.addEventListener('input', () => { clearTimeout(window._kt); window._kt = setTimeout(kwlSave, 600); }); });
+kwlLoad();
+function printKWL() { document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('print-active')); document.getElementById('kwl').classList.add('print-active'); window.print(); setTimeout(() => document.getElementById('kwl').classList.remove('print-active'), 1000); }
+function printPerf() { document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('print-active')); document.getElementById('performance').classList.add('print-active'); window.print(); setTimeout(() => document.getElementById('performance').classList.remove('print-active'), 1000); }
+
+const moonSim = (() => {
+  const c = document.getElementById('moonCanvas'); const ctx = c.getContext('2d');
+  function update() {
+    const day = +document.getElementById('moonSlider').value;
+    document.getElementById('moonDayVal').textContent = day;
+    const phases = ['New', 'Crescent', 'First Quarter', 'Gibbous', 'Full', 'Gibbous', 'Last Quarter', 'Crescent', 'New'];
+    const phaseIdx = Math.floor(day / 3.7);
+    document.getElementById('moonResult').innerHTML = `Day ${day}: <b>${phases[Math.min(8, phaseIdx)]} Moon</b>. The Moon doesn\'t make its own light — it reflects the Sun\'s.`;
+    draw(day);
+  }
+  function draw(day) {
+    ctx.clearRect(0,0,600,280); ctx.fillStyle='#0c0a1f'; ctx.fillRect(0,0,600,280);
+    // stars
+    ctx.fillStyle='rgba(255,255,255,0.7)';
+    for (let i=0; i<30; i++) { ctx.beginPath(); ctx.arc(Math.random()*600, Math.random()*280, 1, 0, Math.PI*2); ctx.fill(); }
+    // sun on far left
+    ctx.fillStyle='#fde047'; ctx.beginPath(); ctx.arc(50, 140, 25, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle='white'; ctx.font='bold 10px sans-serif'; ctx.textAlign='center'; ctx.fillText('Sun →', 50, 175);
+    // earth
+    ctx.fillStyle='#0284c7'; ctx.beginPath(); ctx.arc(220, 140, 22, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle='white'; ctx.fillText('Earth', 220, 175);
+    // moon orbit circle
+    ctx.strokeStyle='rgba(255,255,255,0.15)'; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(220, 140, 80, 0, Math.PI*2); ctx.stroke();
+    // moon position
+    const angle = -Math.PI/2 + (day/29.5)*Math.PI*2;
+    const mx = 220 + Math.cos(angle)*80, my = 140 + Math.sin(angle)*80;
+    // moon: full circle
+    ctx.fillStyle='#a8a29e'; ctx.beginPath(); ctx.arc(mx, my, 14, 0, Math.PI*2); ctx.fill();
+    // shaded portion (away from sun)
+    // sun is at left → side away from sun is lit
+    ctx.save(); ctx.translate(mx, my);
+    const sunDir = Math.atan2(140-my, 50-mx);
+    ctx.fillStyle='#1c1917';
+    ctx.beginPath();
+    for (let a=0; a<Math.PI*2; a+=0.1) {
+      const px=14*Math.cos(a), py=14*Math.sin(a);
+      const dotProd = px*Math.cos(sunDir) + py*Math.sin(sunDir);
+      if (dotProd < 0) {
+        if (a === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      }
+    }
+    ctx.closePath(); ctx.fill();
+    ctx.restore();
+    ctx.fillStyle='white'; ctx.fillText('Moon', mx, my+25);
+    ctx.textAlign='left';
+  }
+  update(); return { update };
+})();
+
+const planetSim = (() => {
+  const c = document.getElementById('planetCanvas'); const ctx = c.getContext('2d');
+  const data = {
+    mercury: { name: 'Mercury (Budh)', hindi: 'Budh', color: '#94a3b8', size: 0.4, dist: '57 million km', day: '59 Earth days', year: '88 Earth days', fun: 'Closest to Sun. No atmosphere.' },
+    venus: { name: 'Venus (Shukra)', hindi: 'Shukra', color: '#fde047', size: 0.9, dist: '108 million km', day: '243 Earth days', year: '225 Earth days', fun: 'Hottest planet — thick CO₂ atmosphere traps heat (greenhouse).' },
+    earth: { name: 'Earth (Prithvi)', hindi: 'Prithvi', color: '#0284c7', size: 1.0, dist: '150 million km', day: '24 hours', year: '365 days', fun: 'Only planet known to have LIFE!' },
+    mars: { name: 'Mars (Mangal)', hindi: 'Mangal', color: '#dc2626', size: 0.5, dist: '228 million km', day: '24.6 hours', year: '687 Earth days', fun: 'The "Red Planet". India\'s Mangalyaan reached here in 2014!' },
+    jupiter: { name: 'Jupiter (Brihaspati)', hindi: 'Brihaspati', color: '#fb923c', size: 2.5, dist: '779 million km', day: '10 hours', year: '12 Earth years', fun: 'Biggest planet! Has a giant red storm (Great Red Spot).' },
+    saturn: { name: 'Saturn (Shani)', hindi: 'Shani', color: '#facc15', size: 2.2, dist: '1.4 billion km', day: '11 hours', year: '29 Earth years', fun: 'Famous for its beautiful RINGS made of ice + rocks.' },
+    uranus: { name: 'Uranus (Indra)', hindi: 'Indra', color: '#06b6d4', size: 1.5, dist: '2.9 billion km', day: '17 hours', year: '84 Earth years', fun: 'Rotates on its SIDE — like a rolling ball!' },
+    neptune: { name: 'Neptune (Varun)', hindi: 'Varun', color: '#1d4ed8', size: 1.4, dist: '4.5 billion km', day: '16 hours', year: '165 Earth years', fun: 'Windiest planet — winds up to 2100 km/h!' }
+  };
+  let cur = 'mercury';
+  document.querySelectorAll('#planetToggle button').forEach(b => { b.addEventListener('click', () => { document.querySelectorAll('#planetToggle button').forEach(x => x.classList.remove('active')); b.classList.add('active'); cur = b.dataset.p; update(); }); });
+  function update() {
+    const d = data[cur];
+    document.getElementById('planetResult').innerHTML = `<b>${d.name}</b> — Distance: ${d.dist} | Day: ${d.day} | Year: ${d.year}<br><i>${d.fun}</i>`;
+    draw();
+  }
+  function draw() {
+    ctx.clearRect(0,0,600,280); ctx.fillStyle='#0c0a1f'; ctx.fillRect(0,0,600,280);
+    ctx.fillStyle='rgba(255,255,255,0.6)';
+    for (let i=0; i<40; i++) { ctx.beginPath(); ctx.arc(Math.random()*600, Math.random()*280, 1, 0, Math.PI*2); ctx.fill(); }
+    const d = data[cur];
+    ctx.fillStyle = d.color;
+    ctx.beginPath(); ctx.arc(300, 140, 40 * d.size, 0, Math.PI*2); ctx.fill();
+    // Saturn rings
+    if (cur === 'saturn') {
+      ctx.strokeStyle = '#fde68a'; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.ellipse(300, 140, 70 * d.size, 15 * d.size, 0, 0, Math.PI*2); ctx.stroke();
+    }
+    ctx.fillStyle='white'; ctx.font='bold 16px sans-serif'; ctx.textAlign='center'; ctx.fillText(d.name, 300, 240);
+    ctx.textAlign='left';
+  }
+  update(); return {};
+})();
+
+const conSim = (() => {
+  const c = document.getElementById('conCanvas'); const ctx = c.getContext('2d');
+  const data = {
+    saptarishi: { name: 'Saptarishi (Big Dipper / Ursa Major)', stars: [[200,150],[230,120],[270,110],[310,120],[350,140],[380,170],[400,200]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6]], fun: '7 bright stars forming a "spoon" or "saptarishi" (seven sages). The two end stars point to Polaris.' },
+    orion: { name: 'Orion / Mriga (the Hunter)', stars: [[280,80],[320,80],[300,140],[260,180],[340,180],[280,220],[320,220]], lines: [[0,1],[2,3],[2,4],[3,5],[4,6],[5,6]], fun: 'Easy winter constellation. Three stars in a row form Orion\'s "belt". Visible in northern winter sky.' },
+    cassiopeia: { name: 'Cassiopeia (W-shape)', stars: [[200,180],[250,120],[300,180],[350,120],[400,180]], lines: [[0,1],[1,2],[2,3],[3,4]], fun: 'A "W" shape in the sky. Helps find Polaris too.' }
+  };
+  let cur = 'saptarishi';
+  document.querySelectorAll('#conToggle button').forEach(b => { b.addEventListener('click', () => { document.querySelectorAll('#conToggle button').forEach(x => x.classList.remove('active')); b.classList.add('active'); cur = b.dataset.c; update(); }); });
+  function update() {
+    const d = data[cur];
+    document.getElementById('conResult').innerHTML = `<b>${d.name}</b>: ${d.fun}`;
+    draw();
+  }
+  function draw() {
+    ctx.clearRect(0,0,600,280); ctx.fillStyle='#0c0a1f'; ctx.fillRect(0,0,600,280);
+    // background stars
+    ctx.fillStyle='rgba(255,255,255,0.4)';
+    for (let i=0; i<80; i++) { ctx.beginPath(); ctx.arc(Math.random()*600, Math.random()*280, Math.random()*1.5, 0, Math.PI*2); ctx.fill(); }
+    const d = data[cur];
+    // lines
+    ctx.strokeStyle='#fde047'; ctx.lineWidth=2;
+    d.lines.forEach(([a,b]) => { ctx.beginPath(); ctx.moveTo(d.stars[a][0], d.stars[a][1]); ctx.lineTo(d.stars[b][0], d.stars[b][1]); ctx.stroke(); });
+    // stars
+    ctx.fillStyle='white';
+    d.stars.forEach(([x,y]) => { ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI*2); ctx.fill(); ctx.shadowColor='white'; ctx.shadowBlur=10; ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI*2); ctx.fill(); ctx.shadowBlur=0; });
+    ctx.fillStyle='white'; ctx.font='bold 13px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(d.name, 300, 25); ctx.textAlign='left';
+  }
+  update(); return {};
+})();
+
+(function(){
+  const c = document.getElementById('conceptMapCanvas'); if (!c) return;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#0c0a1f'; ctx.fillRect(0,0,600,420);
+  // stars
+  ctx.fillStyle = 'rgba(255,255,255,0.5)';
+  for (let i=0; i<80; i++) { ctx.beginPath(); ctx.arc(Math.random()*600, Math.random()*420, Math.random()*1.5, 0, Math.PI*2); ctx.fill(); }
+  ctx.fillStyle = 'white'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('Concept Map — Beyond Earth', 300, 24);
+  const cx = 300, cy = 220;
+  ctx.fillStyle = '#7c3aed'; ctx.beginPath(); ctx.arc(cx,cy,55,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle = '#fde047'; ctx.lineWidth = 3; ctx.stroke();
+  ctx.fillStyle = 'white'; ctx.font = 'bold 13px sans-serif'; ctx.fillText('UNIVERSE', cx, cy+5);
+  const nodes = [
+    { angle: -Math.PI/2, label: '☀️ Sun', sub: 'star (closest)', color: '#fef9c3', stroke: '#a16207' },
+    { angle: -Math.PI/4, label: '🌍 Earth', sub: 'our planet', color: '#dbeafe', stroke: '#1d4ed8' },
+    { angle: Math.PI/4, label: '🌙 Moon', sub: 'Earth\'s satellite', color: '#e2e8f0', stroke: '#475569' },
+    { angle: Math.PI/2, label: '🪐 Planets', sub: '8 in solar system', color: '#fce7f3', stroke: '#db2777' },
+    { angle: 3*Math.PI/4, label: '⭐ Stars', sub: 'billions in galaxy', color: '#dcfce7', stroke: '#15803d' },
+    { angle: -3*Math.PI/4, label: '🚀 ISRO', sub: 'India in space', color: '#fed7aa', stroke: '#c2410c' }
+  ];
+  nodes.forEach(n => {
+    const x = cx + Math.cos(n.angle)*150, y = cy + Math.sin(n.angle)*150;
+    ctx.strokeStyle = 'rgba(255,255,255,0.4)'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(cx+Math.cos(n.angle)*55, cy+Math.sin(n.angle)*55); ctx.lineTo(x,y); ctx.stroke();
+    ctx.fillStyle = n.color;
+    ctx.beginPath(); if(ctx.roundRect) ctx.roundRect(x-65,y-25,130,50,12); else ctx.rect(x-65,y-25,130,50); ctx.fill();
+    ctx.strokeStyle = n.stroke; ctx.lineWidth = 2.5; ctx.stroke();
+    ctx.fillStyle = n.stroke; ctx.font = 'bold 12px sans-serif'; ctx.fillText(n.label, x, y-4);
+    ctx.fillStyle = '#1c1917'; ctx.font = '10px sans-serif'; ctx.fillText(n.sub, x, y+12);
+  });
+  ctx.textAlign = 'left';
+})();
+
+(function(){
+  const data = [
+    { q: 'Which is the closest star to Earth?', options: ['Polaris','Sun','Proxima Centauri','Sirius'], correct: 1 },
+    { q: 'Moon\'s light comes from:', options: ['Itself','Sun (reflected)','Earth','Stars'], correct: 1 },
+    { q: 'How many planets in our solar system?', options: ['7','8','9','10'], correct: 1 },
+    { q: 'India\'s first satellite was:', options: ['Aryabhata','Chandrayaan','Mangalyaan','PSLV'], correct: 0 },
+    { q: 'Earth is the ___ planet from the Sun:', options: ['Second','Third','Fourth','Fifth'], correct: 1 }
+  ];
+  const container = document.getElementById('evalQuizContainer'); if (!container) return;
+  let a = 0, s = 0;
+  data.forEach((q,idx) => {
+    const w = document.createElement('div'); w.className='eval-quiz';
+    const qt = document.createElement('div'); qt.className='eq-q'; qt.innerHTML=`Q${idx+1}. ${q.q}`; w.appendChild(qt);
+    q.options.forEach((opt,i) => {
+      const o = document.createElement('div'); o.className='eq-opt'; o.innerHTML=opt;
+      o.addEventListener('click', () => {
+        if (w.dataset.done) return; w.dataset.done='true'; a++;
+        if (i === q.correct) { o.classList.add('correct'); s++; } else { o.classList.add('wrong'); w.querySelectorAll('.eq-opt')[q.correct].classList.add('correct'); }
+        if (a === data.length) drawPie(s, data.length-s);
+      });
+      w.appendChild(o);
+    });
+    container.appendChild(w);
+  });
+  function drawPie(correct, wrong) {
+    document.getElementById('pieResult').classList.add('show');
+    const c = document.getElementById('piechartCanvas'); const ctx = c.getContext('2d');
+    ctx.clearRect(0,0,300,300);
+    const total = correct + wrong; if (total === 0) return;
+    const cx = 150, cy = 150, r = 110; let sa = -Math.PI/2;
+    [{v: correct, c: '#22c55e'},{v: wrong, c: '#dc2626'}].forEach(seg => {
+      if (seg.v === 0) return;
+      const sl = (seg.v/total)*Math.PI*2;
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,sa,sa+sl); ctx.closePath();
+      ctx.fillStyle = seg.c; ctx.fill();
+      ctx.strokeStyle = 'white'; ctx.lineWidth = 3; ctx.stroke();
+      const m = sa+sl/2;
+      ctx.fillStyle = 'white'; ctx.font = 'bold 22px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText(seg.v, cx+Math.cos(m)*r*0.6, cy+Math.sin(m)*r*0.6+8);
+      sa += sl;
+    });
+    ctx.beginPath(); ctx.arc(cx,cy,50,0,Math.PI*2); ctx.fillStyle = 'rgba(255,255,255,0.2)'; ctx.fill();
+    ctx.fillStyle = 'white'; ctx.font = 'bold 20px sans-serif'; ctx.fillText((correct/total*100).toFixed(0)+'%', cx, cy+7);
+    ctx.textAlign = 'left';
+    document.getElementById('piechartLabel').textContent = `${correct}/${total} correct`;
+    document.getElementById('piechartLegend').innerHTML = `<span style="display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:14px; height:14px; background:#22c55e; border-radius:3px;"></span>Correct (${correct})</span><span style="display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:14px; height:14px; background:#dc2626; border-radius:3px;"></span>Wrong (${wrong})</span>`;
+  }
+})();
+
+(function(){
+  const table = document.getElementById('rubricTable'); if (!table) return;
+  table.addEventListener('click', (e) => { const cell = e.target.closest('.rb-cell'); if (!cell) return; cell.parentElement.querySelectorAll('.rb-cell').forEach(c => c.classList.remove('selected')); cell.classList.add('selected'); recalc(); });
+  function recalc() {
+    let t = 0, a = 0;
+    table.querySelectorAll('tbody tr').forEach(r => { const s = r.querySelector('.rb-cell.selected'); if (s) { t += parseInt(s.dataset.level); a++; } });
+    document.getElementById('rubricTotal').textContent = t;
+    document.getElementById('rubricAvg').textContent = a > 0 ? (t/a).toFixed(1)+' / 4' : '—';
+    const band = document.getElementById('rubricBand'); const tot = table.querySelectorAll('tbody tr').length;
+    if (a === 0) { band.textContent = '— Not yet —'; band.style.background = '#e2e8f0'; band.style.color = '#475569'; }
+    else if (a < tot) { band.textContent = `In progress (${a}/${tot})`; band.style.background = '#fef3c7'; band.style.color = '#a16207'; }
+    else { const av = t/tot; let l, bg, fg;
+      if (av >= 3.5) { l='🏆 Advanced'; bg='#dcfce7'; fg='#15803d'; }
+      else if (av >= 2.5) { l='👍 Proficient'; bg='#dbeafe'; fg='#1e40af'; }
+      else if (av >= 1.5) { l='📚 Developing'; bg='#fef3c7'; fg='#a16207'; }
+      else { l='🌱 Beginning'; bg='#fee2e2'; fg='#b91c1c'; }
+      band.textContent = l; band.style.background = bg; band.style.color = fg;
+    }
+  }
+  const di = document.getElementById('studentDate'); if (di) di.valueAsDate = new Date();
+})();
+
+function drawKid(ctx,x,y,color,label){ ctx.fillStyle='#fde68a'; ctx.beginPath(); ctx.arc(x,y-18,11,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='#1e293b'; ctx.lineWidth=1.5; ctx.stroke(); ctx.fillStyle='#1e293b'; ctx.beginPath(); ctx.arc(x-3,y-20,1.2,0,Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.arc(x+3,y-20,1.2,0,Math.PI*2); ctx.fill(); ctx.fillStyle=color; ctx.fillRect(x-11,y-7,22,28); ctx.fillStyle='#1e293b'; ctx.fillRect(x-8,y+21,5,12); ctx.fillRect(x+3,y+21,5,12); if(label){ ctx.fillStyle='white'; ctx.font='bold 10px sans-serif'; ctx.textAlign='center'; ctx.fillText(label,x,y+48); ctx.textAlign='left'; } }
+function makeComic(stripId,num,caption,drawFn){ const strip=document.getElementById(stripId); const p=document.createElement('div'); p.className='comic-panel'; const n=document.createElement('div'); n.className='comic-number'; n.textContent=num; p.appendChild(n); const cnv=document.createElement('canvas'); cnv.width=280; cnv.height=200; p.appendChild(cnv); const c=document.createElement('div'); c.className='comic-caption'; c.textContent=caption; p.appendChild(c); strip.appendChild(p); drawFn(cnv.getContext('2d')); }
+
+makeComic('strip1', 1, 'High in Ladakh — Yangdol &amp; Dorjay look up. The sky is full of thousands of stars!', (ctx) => { ctx.fillStyle='#0c0a1f'; ctx.fillRect(0,0,280,200); ctx.fillStyle='rgba(255,255,255,0.8)'; for(let i=0;i<60;i++){ ctx.beginPath(); ctx.arc(Math.random()*280, Math.random()*120, Math.random()*1.5+0.3, 0, Math.PI*2); ctx.fill(); } ctx.fillStyle='#1c1917'; for(let i=0; i<3; i++){ ctx.beginPath(); ctx.moveTo(20+i*80, 150); ctx.lineTo(60+i*80, 100); ctx.lineTo(100+i*80, 150); ctx.fill(); } drawKid(ctx, 100, 195, '#dc2626', 'Yangdol'); drawKid(ctx, 180, 195, '#2563eb', 'Dorjay'); });
+makeComic('strip1', 2, 'Yangdol: "What ARE all those stars?" Dorjay: "Suns! Just very far away!"', (ctx) => { ctx.fillStyle='#0c0a1f'; ctx.fillRect(0,0,280,200); for(let i=0;i<50;i++){ ctx.fillStyle='rgba(255,255,255,0.8)'; ctx.beginPath(); ctx.arc(Math.random()*280, Math.random()*180, 1.5, 0, Math.PI*2); ctx.fill(); } ctx.fillStyle='#fde047'; ctx.beginPath(); ctx.arc(140, 90, 25, 0, Math.PI*2); ctx.fill(); ctx.fillStyle='white'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center'; ctx.fillText('Each star = a SUN', 140, 170); ctx.textAlign='left'; });
+makeComic('strip1', 3, '"The Moon doesn\'t make its own light — it just reflects the Sun." Dorjay points at the moon.', (ctx) => { ctx.fillStyle='#1e1b4b'; ctx.fillRect(0,0,280,200); for(let i=0;i<30;i++){ ctx.fillStyle='rgba(255,255,255,0.6)'; ctx.beginPath(); ctx.arc(Math.random()*280, Math.random()*200, 1, 0, Math.PI*2); ctx.fill(); } ctx.fillStyle='#cbd5e1'; ctx.beginPath(); ctx.arc(160, 100, 40, 0, Math.PI*2); ctx.fill(); ctx.fillStyle='#475569'; ctx.beginPath(); ctx.arc(155, 95, 5, 0, Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.arc(170, 105, 4, 0, Math.PI*2); ctx.fill(); ctx.fillStyle='white'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center'; ctx.fillText('The Moon — Earth\'s satellite', 140, 175); ctx.textAlign='left'; });
+makeComic('strip1', 4, '"ISRO sent Chandrayaan to the Moon, Mangalyaan to Mars... India is exploring SPACE!"', (ctx) => { ctx.fillStyle='#0c0a1f'; ctx.fillRect(0,0,280,200); ctx.fillStyle='#0284c7'; ctx.beginPath(); ctx.arc(70, 100, 20, 0, Math.PI*2); ctx.fill(); ctx.fillStyle='#dc2626'; ctx.beginPath(); ctx.arc(200, 100, 15, 0, Math.PI*2); ctx.fill(); ctx.fillStyle='#cbd5e1'; ctx.fillRect(130, 80, 30, 30); ctx.beginPath(); ctx.moveTo(145, 65); ctx.lineTo(135, 80); ctx.lineTo(155, 80); ctx.closePath(); ctx.fill(); ctx.fillStyle='white'; ctx.font='bold 10px sans-serif'; ctx.textAlign='center'; ctx.fillText('Earth', 70, 140); ctx.fillText('Mars', 200, 140); ctx.fillText('🇮🇳 ISRO mission!', 140, 175); ctx.textAlign='left'; });
+
+const quizData = [
+  { q: 'How many planets in our solar system?', options: ['6','7','8','9'], correct: 2, why: 'Eight: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune. Pluto is now a "dwarf planet".' },
+  { q: 'The Moon\'s light comes from:', options: ['It glows on its own','It reflects sunlight','Stars','Earth'], correct: 1, why: 'The Moon doesn\'t produce light. Sunlight bounces off it to us.' },
+  { q: 'A constellation is:', options: ['A planet','A pattern of stars in the sky','A galaxy','A moon'], correct: 1, why: 'Constellations are imaginary patterns formed by stars — like Saptarishi, Orion.' },
+  { q: 'India\'s mission to Mars was called:', options: ['Chandrayaan','Mangalyaan','Aryabhata','Aditya'], correct: 1, why: 'Mangalyaan (Mars Orbiter Mission) reached Mars in 2014 — India\'s first-attempt success!' },
+  { q: 'India\'s first satellite was:', options: ['Aryabhata','Bhaskara','PSLV','Chandrayaan'], correct: 0, why: 'Aryabhata was launched in 1975 — India\'s first satellite, named after the ancient astronomer.' },
+  { q: 'The closest star to Earth is:', options: ['Polaris','The Sun','Sirius','Andromeda'], correct: 1, why: 'The Sun is a star — and the closest one to us! 8 light-minutes away.' },
+  { q: 'The Moon takes about how long to orbit Earth?', options: ['7 days','29 days','1 year','24 hours'], correct: 1, why: 'About 29.5 days — that\'s why each month is roughly that long, and the Indian months follow Moon phases.' },
+  { q: 'Stars twinkle because:', options: ['They go on and off','Earth\'s atmosphere bends their light','We blink','Clouds'], correct: 1, why: 'Air moving in our atmosphere refracts starlight, making them appear to twinkle.' },
+  { q: 'Which planet is famous for its rings?', options: ['Mars','Jupiter','Saturn','Earth'], correct: 2, why: 'Saturn has the most visible ring system — made of ice + rock. Other planets have small rings too, but Saturn\'s are spectacular.' },
+  { q: 'India\'s 2023 Moon mission that landed near south pole was:', options: ['Chandrayaan-1','Chandrayaan-2','Chandrayaan-3','Mangalyaan-2'], correct: 2, why: 'Chandrayaan-3 successfully landed in August 2023 — India became the FIRST nation to land near the Moon\'s south pole!' }
+];
+const quizContainer = document.getElementById('quiz-container');
+let answeredCount = 0, score = 0;
+quizData.forEach((q, idx) => {
+  const wrap = document.createElement('div'); wrap.className = 'quiz-question';
+  const qText = document.createElement('div'); qText.className = 'q-text'; qText.textContent = `Q${idx+1}. ${q.q}`; wrap.appendChild(qText);
+  q.options.forEach((opt, i) => {
+    const o = document.createElement('div'); o.className = 'quiz-option'; o.textContent = opt;
+    o.addEventListener('click', () => {
+      if (wrap.dataset.answered) return; wrap.dataset.answered = 'true'; answeredCount++;
+      const fb = document.createElement('div'); fb.className = 'quiz-feedback show';
+      if (i === q.correct) { o.classList.add('correct'); fb.classList.add('correct'); fb.innerHTML = `<b>✅ Yes!</b> ${q.why}`; score++; }
+      else { o.classList.add('wrong'); wrap.querySelectorAll('.quiz-option')[q.correct].classList.add('correct'); fb.classList.add('wrong'); fb.innerHTML = `<b>🤔 Not quite.</b> ${q.why}`; }
+      wrap.appendChild(fb);
+      if (answeredCount === quizData.length) { const s = document.getElementById('quiz-score'); s.style.display = 'block'; s.innerHTML = `Score: <b>${score}/${quizData.length}</b><br>${score === quizData.length ? '🏆 Cosmic Master!' : '👏 Keep exploring!'}`; }
+    });
+    wrap.appendChild(o);
+  });
+  quizContainer.appendChild(wrap);
+});
+</script>
+<script src="smile-chapter-assessment.js"></script>
+</body>
+</html>

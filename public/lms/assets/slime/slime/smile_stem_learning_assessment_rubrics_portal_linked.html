@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>STEM for All — Learning, Assessment & Skills Portal</title>
+<style>
+:root {
+  --blue:#1d4ed8; --blue2:#2563eb; --navy:#123b5d; --yellow:#facc15;
+  --bg:#f4f7fb; --card:#ffffff; --text:#172033; --muted:#667085;
+  --line:#dce4ec; --green:#16804a; --red:#b42318; --amber:#b54708;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+header{background:linear-gradient(125deg,var(--navy),var(--blue2) 58%,#d7aa00);color:#fff;padding:26px 18px}
+.wrap{max-width:1120px;margin:auto}
+header h1{margin:0;font-size:clamp(26px,4vw,42px)}
+header p{margin:7px 0 0;opacity:.92}
+.header-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.badge{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid #ffffff55;background:#ffffff18}
+nav.appnav{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 4px 14px #102a4308}
+.navinner{max-width:1120px;margin:auto;display:flex;gap:4px;overflow:auto;padding:8px 12px}
+.navbtn{white-space:nowrap;border:0;background:transparent;padding:10px 14px;border-radius:9px;font-weight:750;color:#44546a;cursor:pointer}
+.navbtn.active{background:#eaf3ff;color:var(--blue)}
+main{padding:22px 14px 52px}
+.view{display:none} .view.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:18px;box-shadow:0 8px 24px #102a430c}
+.hero{background:linear-gradient(135deg,#dbeafe 0%,#fef9c3 100%);text-align:center;padding:28px}
+.hero h2{margin:0 0 9px;color:var(--blue)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.field{display:block;font-weight:700;font-size:13px}
+.field input,.field select,.field textarea{width:100%;margin-top:6px;padding:11px 12px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;font:inherit}
+.field textarea{min-height:90px;resize:vertical}
+button{font:inherit}
+.btn{border:0;border-radius:9px;padding:11px 15px;font-weight:750;cursor:pointer}
+.primary{background:var(--blue2);color:#fff} .secondary{background:#eaf3ff;color:var(--navy)} .ghost{background:#fff;border:1px solid var(--line);color:var(--text)} .danger{background:#feeceb;color:var(--red)}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
+.note{font-size:13px;color:var(--muted);line-height:1.55}
+.hidden{display:none!important}
+.section-title{font-size:23px;color:var(--blue2);border-bottom:2px solid var(--blue2);padding-bottom:8px;margin:24px 0 18px}
+.progress{height:10px;background:#e8edf3;border-radius:999px;overflow:hidden}
+.progress>div{height:100%;background:var(--blue2);transition:.25s}
+.learning-top{display:flex;justify-content:space-between;gap:16px;align-items:center}
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:15px}
+.chapter{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue2);border-radius:13px;padding:18px;display:flex;flex-direction:column}
+.chapter.done{border-left-color:var(--green);background:#fbfffd}
+.chapter .num{align-self:flex-start;font-size:11px;font-weight:800;background:#dbeafe;color:var(--blue);padding:4px 9px;border-radius:999px}
+.chapter h3{font-size:17px;margin:10px 0 8px}
+.chapter p{font-size:13.5px;color:#475569;flex-grow:1}
+.chapter .doneText{font-size:12px;font-weight:800;color:var(--green)}
+.grade-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.grade-card{border:2px solid var(--line);border-radius:12px;padding:16px;text-align:center;cursor:pointer;background:#fbfdff}
+.grade-card.active{border-color:var(--blue2);background:#edf6ff}
+.grade-card strong{display:block;color:var(--blue2);font-size:31px}
+.test-head{display:flex;justify-content:space-between;align-items:flex-start;gap:15px}
+.pills{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.pill{font-size:12px;background:#edf5fc;color:#275b7e;border-radius:999px;padding:5px 8px}
+.question{font-size:21px;margin:17px 0;line-height:1.45}
+.option{display:block;border:1px solid var(--line);border-radius:11px;padding:12px;margin:9px 0;cursor:pointer}
+.option:hover{border-color:#9abbd5;background:#f8fbfe} .option input{margin-right:8px}
+.qnav{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin:15px 0}
+.qnav button{padding:7px 0;border:1px solid var(--line);border-radius:7px;background:#fff;font-size:12px}
+.qnav button.answered{background:#eaf7f0;color:#16633d;border-color:#acd9bf} .qnav button.current{outline:2px solid var(--blue2)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:17px 0}
+.kpi{background:#fbfcfe;border:1px solid var(--line);border-radius:11px;padding:14px}
+.kpi b{display:block;font-size:25px;margin-top:4px}
+.review-item{border-top:1px solid var(--line);padding:13px 0}
+.correct{color:var(--green)} .wrong{color:var(--red)}
+.template-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.template-tab{border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;cursor:pointer;font-weight:700}
+.template-tab.active{background:#edf6ff;border-color:var(--blue2);color:var(--blue)}
+.rubric-card{border:1px solid var(--line);border-radius:13px;margin:13px 0;padding:16px}
+.rubric-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.rating-row{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:12px 0}
+.rating-btn{border:1px solid var(--line);background:#fff;border-radius:9px;padding:10px 5px;cursor:pointer;font-weight:800}
+.rating-btn.selected{background:#eaf3ff;border-color:var(--blue2);color:var(--blue)}
+.descriptor{min-height:52px;background:#f8fafc;border-radius:9px;padding:10px 12px;font-size:13px;color:#475569}
+.rubric-score{font-size:42px;font-weight:850;color:var(--blue);margin:4px 0}
+.level-chip{display:inline-block;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:800;background:#eef2f6}
+.tablewrap{overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:#f8fafc}
+.empty{padding:28px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}
+.paper-q{margin:13px 0;break-inside:avoid} .paper-q ol{columns:2}
+@media(max-width:760px){.grid2,.grid3,.grade-cards,.kpis{grid-template-columns:1fr}.qnav{grid-template-columns:repeat(5,1fr)}.learning-top,.test-head,.rubric-head{align-items:flex-start;flex-direction:column}.rating-row{grid-template-columns:repeat(3,1fr)}.paper-q ol{columns:1}}
+@media print{header,nav.appnav,.no-print{display:none!important}body{background:#fff}.card{box-shadow:none;border:0}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>STEM for All — Learning, Assessment & Skills Portal</h1>
+    <p>Learn → Assess → Observe Skills → Build a holistic student profile</p>
+    <div class="header-badges">
+      <span class="badge">Grade-wise assessment</span>
+      <span class="badge">Grade 6 Curiosity learning hub</span>
+      <span class="badge">4-point skill rubrics</span>
+      <span class="badge">Local CSV records</span>
+    </div>
+  </div>
+</header>
+
+<nav class="appnav">
+  <div class="navinner">
+    <button class="navbtn active" data-view="learning" onclick="showView('learning',this)">📚 Learning Hub</button>
+    <button class="navbtn" data-view="assessment" onclick="showView('assessment',this)">📝 Online Assessment</button>
+    <button class="navbtn" data-view="rubrics" onclick="showView('rubrics',this)">🧭 Skill Rubrics</button>
+    <button class="navbtn" data-view="records" onclick="showView('records',this)">📊 Records</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- LEARNING HUB -->
+<section id="learning" class="view active">
+  <div class="card hero">
+    <h2>Grade 6 Science — Curiosity Learning Hub</h2>
+    <p>The 12 chapter overviews from your uploaded Grade 6 Science learning page are built into this portal. Students can open the full interactive chapter from each card, mark chapters completed, and then move directly into the assessment.</p>
+  </div>
+
+  <div class="card">
+    <div class="learning-top">
+      <div>
+        <h3 style="margin:0 0 5px">Learning Progress</h3>
+        <div class="note" id="learnProgressText">0 of 12 chapters completed</div>
+      </div>
+      <button class="btn primary" onclick="goAssessmentGrade6()">Take Grade 6 Assessment</button>
+    </div>
+    <div class="progress" style="margin-top:14px"><div id="learnProgressBar" style="width:0%"></div></div>
+  </div>
+
+  <h2 class="section-title">📘 Grade 6 Science Chapters</h2>
+  <div class="chapters" id="chapterGrid"></div>
+
+  <div class="card">
+    <b>Current learning content coverage</b>
+    <p class="note">The uploaded source contains Grade 6 Science chapter overviews only. Grade 7/8 learning pages and Mathematics learning content are not present in the uploaded file, so this portal does not invent those chapters. Their online assessments remain available.</p>
+  </div>
+</section>
+
+<!-- ASSESSMENT -->
+<section id="assessment" class="view">
+  <div class="card" id="assessmentSetup">
+    <h2 style="margin-top:0">Online Assessment Setup</h2>
+    <div class="grid2">
+      <label class="field">Student ID / Unique Code<input id="studentId" placeholder="e.g. TAD-G6-023"></label>
+      <label class="field">Student Name (optional)<input id="studentName"></label>
+      <label class="field">School
+        <select id="school">
+          <option value="">Select school</option>
+          <option>GHPS Tadibidi</option><option>GHPS Ullesugur</option><option>GHPS Aikur</option>
+          <option>GHPS Kadamgera</option><option>GHPS Vrishabhavati Nagar</option>
+        </select>
+      </label>
+      <label class="field">Assessment Type<select id="atype"><option>Baseline</option><option>Endline</option></select></label>
+      <label class="field">Gender<select id="gender"><option value="">Select</option><option>Girl</option><option>Boy</option><option>Other / Prefer not to say</option></select></label>
+      <label class="field">Language<select><option>English</option><option disabled>Kannada — add after validated translation</option></select></label>
+    </div>
+
+    <h3>Select Grade</h3>
+    <div class="grade-cards">
+      <div class="grade-card active" data-grade="6" onclick="selectGrade('6',this)"><strong>6</strong>Grade 6<br><span class="note">Ramanujan / Year 1 sample</span></div>
+      <div class="grade-card" data-grade="7" onclick="selectGrade('7',this)"><strong>7</strong>Grade 7<br><span class="note">Sarabhai / Year 2 sample</span></div>
+      <div class="grade-card" data-grade="8" onclick="selectGrade('8',this)"><strong>8</strong>Grade 8<br><span class="note">Sarabhai / Year 2 sample</span></div>
+    </div>
+    <p class="note"><b>Sample format:</b> 20 MCQs — 10 Mathematics + 10 Science, 1 mark each, suggested 40 minutes. Grade 6 Science items have been adjusted to fit the chapter structure in the uploaded Curiosity learning page.</p>
+    <div class="actions">
+      <button class="btn primary" onclick="startAssessment()">Start Assessment</button>
+      <button class="btn secondary" onclick="showPaper()">Preview Full Paper</button>
+    </div>
+  </div>
+
+  <div class="card hidden" id="assessmentRunner">
+    <div class="test-head">
+      <div><div id="qcount" class="note"></div><b id="testMeta"></b></div>
+      <div id="timer" style="font-weight:850;color:var(--blue2)">40:00</div>
+    </div>
+    <div class="progress" style="margin:14px 0"><div id="testProgress"></div></div>
+    <div class="pills"><span class="pill" id="subjectPill"></span><span class="pill" id="topicPill"></span><span class="pill" id="compPill"></span><a class="pill hidden" id="studyChapterLink" href="#" style="text-decoration:none;font-weight:800">📘 Study this chapter →</a></div>
+    <div class="question" id="questionText"></div>
+    <div id="options"></div>
+    <div class="actions">
+      <button class="btn secondary" onclick="prevQuestion()">Previous</button>
+      <button class="btn primary" id="nextBtn" onclick="nextQuestion()">Next</button>
+      <button class="btn ghost" onclick="flagQuestion()">Flag / Unflag</button>
+    </div>
+    <div id="questionNav" class="qnav"></div>
+    <div class="note">Green = answered • blue outline = current question • ★ = flagged.</div>
+  </div>
+
+  <div class="card hidden" id="assessmentResult">
+    <h2 style="margin-top:0">Knowledge Assessment Result</h2>
+    <div class="note" id="assessmentResultMeta"></div>
+    <div class="kpis">
+      <div class="kpi">Overall<b id="overallScore"></b></div>
+      <div class="kpi">Percentage<b id="overallPct"></b></div>
+      <div class="kpi">Mathematics<b id="mathScore"></b></div>
+      <div class="kpi">Science<b id="scienceScore"></b></div>
+    </div>
+    <div class="actions no-print">
+      <button class="btn primary" onclick="downloadCurrentAssessmentCSV()">Download Result CSV</button>
+      <button class="btn secondary" onclick="showAnswerReview()">Review Answers</button>
+      <button class="btn ghost" onclick="resetAssessment()">New Assessment</button>
+      <button class="btn secondary" onclick="prefillRubricFromAssessment()">Evaluate Skills for This Student</button>
+    </div>
+    <div id="answerReview" class="hidden"></div>
+  </div>
+
+  <div class="card hidden" id="paperPreview">
+    <div class="test-head">
+      <div><h2 style="margin:0">Full Sample Paper Preview</h2><div class="note" id="paperMeta"></div></div>
+      <button class="btn ghost no-print" onclick="document.getElementById('paperPreview').classList.add('hidden')">Close</button>
+    </div>
+    <div id="paperBody"></div>
+    <div class="actions no-print"><button class="btn secondary" onclick="window.print()">Print / Save PDF</button></div>
+  </div>
+</section>
+
+<!-- RUBRICS -->
+<section id="rubrics" class="view">
+  <div class="card">
+    <h2 style="margin-top:0">Skill Evaluation — 4-Point Rubric</h2>
+    <p class="note">Use this alongside the written test to evaluate practical, inquiry, maker and future-ready skills. This is a draft evaluation framework for programme use, not an official NCERT or Smile Foundation scoring standard.</p>
+    <div class="grid2">
+      <label class="field">Student ID / Unique Code<input id="rubricStudentId" placeholder="e.g. TAD-G6-023"></label>
+      <label class="field">Student Name<input id="rubricStudentName" placeholder="Optional"></label>
+      <label class="field">School
+        <select id="rubricSchool">
+          <option value="">Select school</option>
+          <option>GHPS Tadibidi</option><option>GHPS Ullesugur</option><option>GHPS Aikur</option>
+          <option>GHPS Kadamgera</option><option>GHPS Vrishabhavati Nagar</option>
+        </select>
+      </label>
+      <label class="field">Grade<select id="rubricGrade"><option>6</option><option>7</option><option>8</option></select></label>
+      <label class="field">Evaluator<input id="evaluator" placeholder="Teacher / Facilitator / Assessor"></label>
+      <label class="field">Activity / Context<input id="activity" placeholder="e.g. Magnet investigation / Robotics challenge"></label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Choose Evaluation Type</h3>
+    <div class="template-tabs" id="templateTabs"></div>
+    <div class="note" id="templateDesc"></div>
+  </div>
+
+  <div id="rubricDimensions"></div>
+
+  <div class="card">
+    <div class="grid2">
+      <div>
+        <div class="note">Current rubric average</div>
+        <div class="rubric-score" id="rubricAverage">—</div>
+        <span class="level-chip" id="rubricLevel">Not yet rated</span>
+      </div>
+      <label class="field">Evaluator Notes<textarea id="rubricNotes" placeholder="Evidence, examples, strengths, support needed, next steps..."></textarea></label>
+    </div>
+    <p class="note"><b>Draft level guide:</b> 1.00–1.74 Emerging • 1.75–2.49 Developing • 2.50–3.24 Proficient • 3.25–4.00 Advanced. N/A dimensions are excluded from the average.</p>
+    <div class="actions">
+      <button class="btn primary" onclick="saveRubric()">Save Skill Evaluation</button>
+      <button class="btn secondary" onclick="downloadCurrentRubricCSV()">Download Rubric CSV</button>
+      <button class="btn ghost" onclick="resetRubric()">Clear Ratings</button>
+    </div>
+  </div>
+</section>
+
+<!-- RECORDS -->
+<section id="records" class="view">
+  <div class="card">
+    <div class="test-head">
+      <div>
+        <h2 style="margin:0">Local Student Records</h2>
+        <p class="note">Records are stored only in this browser using localStorage. They are not uploaded to a server.</p>
+      </div>
+      <div class="actions no-print" style="margin-top:0">
+        <button class="btn secondary" onclick="exportAllRecords()">Export All CSV</button>
+        <button class="btn danger" onclick="clearAllRecords()">Clear Local Records</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Knowledge Assessments</h3>
+    <div id="assessmentRecords"></div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Skill Rubric Evaluations</h3>
+    <div id="rubricRecords"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+const CHAPTERS = [{"number": "CHAPTER 1", "title": "The Wonderful World of Science", "description": "Step into science as a way of looking at the world. This chapter introduces what science is, how scientists ask questions and find answers, and the major branches like physics, chemistry, and biology. You'll see how curiosity, observation, and experiments lead to discoveries that shape everyday life. It sets the stage for everything you'll learn in the chapters ahead.", "source_href": "chapter1-wonderful-world.html"}, {"number": "CHAPTER 2", "title": "Diversity in the Living World", "description": "Explore the incredible variety of plants, animals, and habitats that fill our planet. You'll learn how living things differ from non-living things, and how scientists group organisms based on shared features. The chapter takes you across forests, deserts, oceans, and grasslands to see how life adapts to its surroundings. By the end, you'll appreciate biodiversity and why protecting it matters.", "source_href": "chapter2-diversity-living-world.html"}, {"number": "CHAPTER 3", "title": "Mindful Eating: A Path to a Healthy Body", "description": "Food is more than fuel — it's the foundation of growth, health, and happiness. This chapter looks at the components of food (carbohydrates, proteins, fats, vitamins, minerals, and water) and why a balanced diet matters. You'll discover where these nutrients come from and what happens when our diets miss them. It also encourages mindful eating habits that respect food, body, and culture.", "source_href": "chapter3-mindful-eating.html"}, {"number": "CHAPTER 4", "title": "Exploring Magnets", "description": "Magnets are invisible forces hidden inside fridge stickers, speakers, and even Earth itself. This chapter explores magnetic and non-magnetic materials, the poles of a magnet, and how like and unlike poles behave. You'll perform fun activities to discover how a compass works and how Earth acts as one giant magnet. It opens the door to understanding forces you can feel but cannot see.", "source_href": "chapter4-exploring-magnets.html"}, {"number": "CHAPTER 5", "title": "Measurement of Length and Motion", "description": "How do we describe how big, how far, or how fast? This chapter takes you through standard units of length, the proper use of rulers and measuring tapes, and the idea of motion. You'll learn the difference between rest and motion and explore different types of motion like linear, circular, and oscillatory. Measurement turns out to be the language we use to make sense of the moving world.", "source_href": "chapter5-measurement-motion.html"}, {"number": "CHAPTER 6", "title": "Materials Around Us", "description": "Everything around you — from your pencil to your shoes — is made of some material. This chapter helps you observe, group, and compare materials based on properties like hardness, transparency, solubility, and the ability to float or sink. You'll see how the same object can be made from different materials, and how we choose materials for the right job. It's a hands-on tour of the stuff our world is built from.", "source_href": "chapter6-materials-around-us.html"}, {"number": "CHAPTER 7", "title": "Temperature and its Measurement", "description": "Hot and cold are everywhere — but how do we measure them accurately? This chapter introduces temperature, the thermometer, and the Celsius scale. You'll learn how clinical and laboratory thermometers work and why precise temperature matters in medicine, cooking, and weather. By the end, you'll see how a simple number can tell a powerful story about heat.", "source_href": "chapter7-temperature.html"}, {"number": "CHAPTER 8", "title": "A Journey through States of Water", "description": "Water is a shape-shifter that exists as solid, liquid, and gas — sometimes all on the same day! This chapter follows water through melting, freezing, evaporation, and condensation, and explores the amazing water cycle that connects oceans, clouds, and rivers. You'll see how a single substance can power weather, life, and ecosystems. The journey reveals why every drop of water is precious.", "source_href": "chapter8-states-of-water.html"}, {"number": "CHAPTER 9", "title": "Methods of Separation in Everyday Life", "description": "From sifting flour to filtering water, we separate mixtures every day without realising it. This chapter introduces handpicking, winnowing, threshing, sieving, sedimentation, decantation, filtration, and evaporation. You'll discover why we separate substances and which method fits which mixture. It connects kitchen science, farming, and industry in surprisingly clever ways.", "source_href": "chapter9-separation-methods.html"}, {"number": "CHAPTER 10", "title": "Living Creatures: Exploring their Characteristics", "description": "What makes something alive? This chapter zooms in on the shared features of living creatures — growth, movement, breathing, response, reproduction, and the need for food and water. You'll observe plants and animals to compare how they show these signs of life in their own unique ways. It's a thoughtful look at the rules of life that link a tiger, a tulip, and you.", "source_href": "chapter10-living-creatures.html"}, {"number": "CHAPTER 11", "title": "Nature's Treasures", "description": "Air, water, soil, minerals, forests, and fossil fuels are the gifts of nature that keep our world running. This chapter explains renewable and non-renewable resources and why we must use them wisely. You'll explore pollution, conservation, and the small daily choices that protect the planet. It's a call to become a thoughtful caretaker of Earth's treasures.", "source_href": "chapter11-natures-treasures.html"}, {"number": "CHAPTER 12", "title": "Beyond Earth", "description": "Look up — there's a whole universe waiting! This chapter takes you on a journey through the Moon's phases, the planets of the Solar System, stars, constellations, and galaxies. You'll learn how ancient sky-watchers and modern space missions have unravelled cosmic mysteries. It ends Grade 6 science by reminding you that curiosity, the very first lesson, has no boundaries.", "source_href": "chapter12-beyond-earth.html"}];
+const BANK = {"6": {"title": "Grade 6", "questions": [{"subject": "Mathematics", "topic": "Whole Numbers", "competency": "Applies operations in context", "q": "A school has 3,750 notebooks. It buys 1,250 more and distributes 800. How many notebooks remain?", "options": ["3,200", "4,200", "4,800", "5,000"], "answer": 1}, {"subject": "Mathematics", "topic": "Factors and Multiples", "competency": "Uses common multiples", "q": "Two bells ring every 6 minutes and 8 minutes. If they ring together at 10:00 a.m., when will they next ring together?", "options": ["10:12 a.m.", "10:18 a.m.", "10:24 a.m.", "10:48 a.m."], "answer": 2}, {"subject": "Mathematics", "topic": "Fractions", "competency": "Combines fractions", "q": "What is 1/4 + 3/8?", "options": ["1/2", "5/8", "4/12", "7/8"], "answer": 1}, {"subject": "Mathematics", "topic": "Decimals", "competency": "Uses decimals in money contexts", "q": "A notebook costs ₹42.50 and a pen costs ₹18.25. What is the total cost?", "options": ["₹60.25", "₹60.75", "₹61.25", "₹61.75"], "answer": 1}, {"subject": "Mathematics", "topic": "Ratio", "competency": "Interprets a ratio", "q": "The ratio of girls to boys is 3:2. If there are 18 girls, how many boys are there?", "options": ["9", "10", "12", "15"], "answer": 2}, {"subject": "Mathematics", "topic": "Algebra", "competency": "Represents unknown quantities", "q": "If x represents the number of marbles Ravi has, which expression shows 7 more than x?", "options": ["7x", "x−7", "x+7", "7−x"], "answer": 2}, {"subject": "Mathematics", "topic": "Geometry", "competency": "Recognises angle types", "q": "An angle of 90° is called a:", "options": ["Acute angle", "Right angle", "Obtuse angle", "Straight angle"], "answer": 1}, {"subject": "Mathematics", "topic": "Mensuration", "competency": "Calculates perimeter", "q": "A rectangular garden is 12 m long and 8 m wide. What is its perimeter?", "options": ["20 m", "40 m", "96 m", "192 m"], "answer": 1}, {"subject": "Mathematics", "topic": "Integers", "competency": "Uses signed numbers", "q": "The temperature is 3°C and falls by 7°C. What is the new temperature?", "options": ["10°C", "4°C", "−4°C", "−10°C"], "answer": 2}, {"subject": "Mathematics", "topic": "Patterns", "competency": "Extends number patterns", "q": "What comes next: 2, 5, 8, 11, __ ?", "options": ["12", "13", "14", "15"], "answer": 2}, {"subject": "Science", "topic": "The Wonderful World of Science", "competency": "Recognises scientific inquiry as questioning, observing and testing ideas", "q": "Which action best represents scientific inquiry?", "options": ["Accepting every claim without checking", "Asking a question, observing carefully and testing an idea", "Memorising a definition only", "Choosing an answer without evidence"], "answer": 1}, {"subject": "Science", "topic": "Diversity in the Living World", "competency": "Classifies living things using observable features", "q": "Why do scientists group living organisms?", "options": ["To make all organisms identical", "To organise diversity using shared features", "To remove organisms from habitats", "To prove that only animals are living"], "answer": 1}, {"subject": "Science", "topic": "Mindful Eating", "competency": "Relates nutrients to body functions", "q": "Which nutrient is especially important for growth and repair of body tissues?", "options": ["Protein", "Roughage only", "Water only", "Salt only"], "answer": 0}, {"subject": "Science", "topic": "Exploring Magnets", "competency": "Applies behaviour of magnetic poles", "q": "What happens when the north poles of two bar magnets are brought close together?", "options": ["They attract", "They repel", "They lose all magnetism", "Nothing happens"], "answer": 1}, {"subject": "Science", "topic": "Measurement of Length and Motion", "competency": "Selects appropriate standard units", "q": "Which unit is most suitable for measuring the length of a classroom?", "options": ["Millimetre", "Centimetre", "Metre", "Kilometre"], "answer": 2}, {"subject": "Science", "topic": "Materials Around Us", "competency": "Chooses materials based on observable properties", "q": "Which property makes clear glass useful for a window?", "options": ["It is magnetic", "It is transparent", "It dissolves in water", "It is very soft"], "answer": 1}, {"subject": "Science", "topic": "Temperature and its Measurement", "competency": "Uses appropriate instruments for measurement", "q": "Which instrument is used to measure temperature?", "options": ["Measuring tape", "Thermometer", "Balance", "Stopwatch"], "answer": 1}, {"subject": "Science", "topic": "A Journey through States of Water", "competency": "Explains changes of state", "q": "Wet clothes dry faster on a windy day mainly because wind:", "options": ["Freezes the water", "Speeds up evaporation", "Changes water into soil", "Stops heat transfer"], "answer": 1}, {"subject": "Science", "topic": "Methods of Separation in Everyday Life", "competency": "Selects a suitable separation method", "q": "Which method is best for separating tea leaves from prepared tea?", "options": ["Evaporation", "Filtration", "Winnowing", "Threshing"], "answer": 1}, {"subject": "Science", "topic": "Living Creatures", "competency": "Identifies characteristics of living organisms", "q": "Which is a characteristic shown by living organisms?", "options": ["They all fly", "They grow and respond to their surroundings", "They all live on land", "They all make their own food"], "answer": 1}]}, "7": {"title": "Grade 7", "questions": [{"subject": "Mathematics", "topic": "Integers", "competency": "Operates with integers", "q": "What is (−8) + 13?", "options": ["−21", "−5", "5", "21"], "answer": 2}, {"subject": "Mathematics", "topic": "Fractions and Decimals", "competency": "Divides decimal quantities", "q": "A 2.5 m ribbon is cut into 5 equal pieces. Length of each piece is:", "options": ["0.2 m", "0.5 m", "1 m", "1.25 m"], "answer": 1}, {"subject": "Mathematics", "topic": "Simple Equations", "competency": "Solves one-step equations", "q": "If 3x = 27, what is x?", "options": ["6", "8", "9", "24"], "answer": 2}, {"subject": "Mathematics", "topic": "Lines and Angles", "competency": "Uses angle relationships", "q": "Two angles form a straight line. One is 68°. The other is:", "options": ["22°", "68°", "112°", "292°"], "answer": 2}, {"subject": "Mathematics", "topic": "Triangles", "competency": "Uses angle-sum property", "q": "Two angles of a triangle are 45° and 65°. The third angle is:", "options": ["60°", "70°", "80°", "110°"], "answer": 1}, {"subject": "Mathematics", "topic": "Comparing Quantities", "competency": "Calculates percentage", "q": "36 out of 45 questions are correct. What percentage is this?", "options": ["70%", "75%", "80%", "90%"], "answer": 2}, {"subject": "Mathematics", "topic": "Rational Numbers", "competency": "Compares rational numbers", "q": "Which is the greatest?", "options": ["−3/4", "−1/2", "0", "−1/4"], "answer": 2}, {"subject": "Mathematics", "topic": "Perimeter and Area", "competency": "Calculates area", "q": "Area of a rectangle 9 m × 6 m is:", "options": ["15 m²", "30 m²", "54 m²", "108 m²"], "answer": 2}, {"subject": "Mathematics", "topic": "Algebraic Expressions", "competency": "Combines like terms", "q": "Simplify 5a + 3a − 2:", "options": ["8a−2", "8a+2", "15a−2", "6a"], "answer": 0}, {"subject": "Mathematics", "topic": "Proportion", "competency": "Uses unitary method", "q": "If 4 notebooks cost ₹120, 7 notebooks at the same rate cost:", "options": ["₹180", "₹200", "₹210", "₹240"], "answer": 2}, {"subject": "Science", "topic": "Nutrition in Plants", "competency": "Explains photosynthesis", "q": "Which combination is directly required for photosynthesis?", "options": ["Carbon dioxide, water and light", "Oxygen, soil and darkness", "Nitrogen and heat", "Water and oxygen only"], "answer": 0}, {"subject": "Science", "topic": "Heat", "competency": "Explains conduction", "q": "A metal spoon becomes hot in soup mainly due to:", "options": ["Radiation", "Conduction", "Evaporation", "Condensation"], "answer": 1}, {"subject": "Science", "topic": "Acids and Bases", "competency": "Uses indicators", "q": "Blue litmus turns red in a solution. The solution is:", "options": ["Acidic", "Basic", "Neutral", "Pure water"], "answer": 0}, {"subject": "Science", "topic": "Physical and Chemical Changes", "competency": "Distinguishes change types", "q": "Which is a chemical change?", "options": ["Melting ice", "Cutting paper", "Rusting iron", "Dissolving sugar"], "answer": 2}, {"subject": "Science", "topic": "Respiration", "competency": "Links activity with oxygen demand", "q": "Breathing rate increases after running because:", "options": ["Body needs more oxygen", "Lungs shrink", "Body stops using energy", "Blood stops moving"], "answer": 0}, {"subject": "Science", "topic": "Transportation", "competency": "Relates vessel structure to function", "q": "Which blood vessels carry blood away from the heart?", "options": ["Veins", "Arteries", "Capillaries", "Nerves"], "answer": 1}, {"subject": "Science", "topic": "Reproduction in Plants", "competency": "Identifies pollination", "q": "Transfer of pollen from anther to stigma is:", "options": ["Germination", "Pollination", "Respiration", "Transpiration"], "answer": 1}, {"subject": "Science", "topic": "Motion and Time", "competency": "Calculates speed", "q": "A cyclist covers 30 km in 2 hours. Average speed is:", "options": ["10 km/h", "15 km/h", "30 km/h", "60 km/h"], "answer": 1}, {"subject": "Science", "topic": "Electric Current", "competency": "Explains heating effect", "q": "A fuse wire melts because of the:", "options": ["Cooling effect", "Heating effect", "Magnetic effect only", "Chemical effect only"], "answer": 1}, {"subject": "Science", "topic": "Forests", "competency": "Explains role of decomposers", "q": "Why are decomposers important in forests?", "options": ["They stop plant growth", "They recycle nutrients", "They remove water", "They create plastic"], "answer": 1}]}, "8": {"title": "Grade 8", "questions": [{"subject": "Mathematics", "topic": "Rational Numbers", "competency": "Operates with rational numbers", "q": "What is 3/4 − 1/2?", "options": ["1/4", "1/2", "2/4", "3/2"], "answer": 0}, {"subject": "Mathematics", "topic": "Linear Equations", "competency": "Solves linear equations", "q": "Solve: 2x + 5 = 19", "options": ["5", "6", "7", "12"], "answer": 2}, {"subject": "Mathematics", "topic": "Quadrilaterals", "competency": "Uses angle-sum property", "q": "Sum of interior angles of a quadrilateral is:", "options": ["180°", "270°", "360°", "540°"], "answer": 2}, {"subject": "Mathematics", "topic": "Data Handling", "competency": "Uses simple probability", "q": "A fair die is rolled once. Probability of an even number is:", "options": ["1/6", "1/3", "1/2", "2/3"], "answer": 2}, {"subject": "Mathematics", "topic": "Squares and Square Roots", "competency": "Recognises perfect squares", "q": "Which is a perfect square?", "options": ["45", "64", "72", "96"], "answer": 1}, {"subject": "Mathematics", "topic": "Comparing Quantities", "competency": "Applies discount", "q": "A ₹800 bag has a 15% discount. Selling price is:", "options": ["₹120", "₹680", "₹720", "₹785"], "answer": 1}, {"subject": "Mathematics", "topic": "Algebraic Identities", "competency": "Recognises identities", "q": "Which identity is correct for (a+b)²?", "options": ["a²+b²", "a²+2ab+b²", "a²−2ab+b²", "2a+2b"], "answer": 1}, {"subject": "Mathematics", "topic": "Mensuration", "competency": "Calculates volume", "q": "Volume of a cuboid 5 cm × 4 cm × 3 cm is:", "options": ["12 cm³", "20 cm³", "47 cm³", "60 cm³"], "answer": 3}, {"subject": "Mathematics", "topic": "Exponents", "competency": "Applies exponent laws", "q": "Simplify 2³ × 2⁴:", "options": ["2⁷", "4⁷", "2¹²", "4¹²"], "answer": 0}, {"subject": "Mathematics", "topic": "Direct Proportion", "competency": "Uses proportional reasoning", "q": "If 5 kg of rice costs ₹300, 8 kg costs:", "options": ["₹360", "₹420", "₹480", "₹600"], "answer": 2}, {"subject": "Science", "topic": "Crop Production", "competency": "Identifies agricultural practices", "q": "Which practice is used to loosen and turn soil before sowing?", "options": ["Harvesting", "Ploughing", "Threshing", "Storage"], "answer": 1}, {"subject": "Science", "topic": "Microorganisms", "competency": "Links microorganisms to useful processes", "q": "Which microorganism is commonly used to make curd?", "options": ["Yeast", "Lactobacillus", "Virus", "Algae"], "answer": 1}, {"subject": "Science", "topic": "Metals and Non-metals", "competency": "Uses material properties", "q": "Copper is used for electric wires mainly because it:", "options": ["Is brittle", "Conducts electricity well", "Is transparent", "Dissolves in water"], "answer": 1}, {"subject": "Science", "topic": "Combustion", "competency": "Identifies conditions for burning", "q": "Which three things are needed for burning?", "options": ["Fuel, oxygen and heat", "Water, carbon dioxide and soil", "Fuel, nitrogen and ice", "Oxygen, water and darkness"], "answer": 0}, {"subject": "Science", "topic": "Cell Structure", "competency": "Relates organelles to function", "q": "Which part controls most activities of a cell?", "options": ["Cell wall", "Nucleus", "Vacuole", "Cytoplasm"], "answer": 1}, {"subject": "Science", "topic": "Force and Pressure", "competency": "Applies pressure concept", "q": "Why does a sharp knife cut better than a blunt knife?", "options": ["Larger contact area", "Greater pressure on smaller area", "Less mass", "No friction"], "answer": 1}, {"subject": "Science", "topic": "Friction", "competency": "Evaluates friction in everyday life", "q": "Which action intentionally increases friction?", "options": ["Oiling a hinge", "Grooves on tyres", "Polishing a surface", "Using ball bearings"], "answer": 1}, {"subject": "Science", "topic": "Sound", "competency": "Explains sound production", "q": "Sound is produced when an object:", "options": ["Changes colour", "Vibrates", "Loses mass", "Becomes transparent"], "answer": 1}, {"subject": "Science", "topic": "Chemical Effects of Current", "competency": "Explains electroplating", "q": "Electroplating is used to:", "options": ["Coat a metal with another metal", "Make magnets", "Remove current", "Make water disappear"], "answer": 0}, {"subject": "Science", "topic": "Light", "competency": "Explains vision by reflected light", "q": "We see a non-luminous object because:", "options": ["It creates light", "Reflected light enters our eyes", "Eyes send light to it", "It absorbs all light"], "answer": 1}]}};
+const RUBRICS = {"scientific_inquiry": {"name": "Scientific Inquiry & Practical Science", "description": "For experiments, investigations, lab work and hands-on science activities.", "dimensions": [{"name": "Questioning & Curiosity", "descriptors": ["Needs prompting to ask a relevant question.", "Asks a simple relevant question with support.", "Independently asks relevant, investigable questions.", "Refines questions, connects variables and proposes deeper investigation."]}, {"name": "Observation & Evidence", "descriptors": ["Records few or mostly irrelevant observations.", "Records basic observations but misses important detail.", "Records accurate and relevant observations or evidence.", "Systematically records detail, patterns and unusual observations."]}, {"name": "Planning a Fair Investigation", "descriptors": ["Cannot identify a workable procedure without major support.", "Follows a simple procedure with guidance.", "Plans a logical procedure and identifies what should be kept the same.", "Designs and improves a fair, efficient investigation with clear variables."]}, {"name": "Measurement & Data Handling", "descriptors": ["Uses tools/units inaccurately and records incomplete data.", "Measures with some support; data has minor gaps or errors.", "Uses suitable tools and units and records data accurately.", "Chooses precise methods, organises data clearly and checks reliability."]}, {"name": "Reasoning & Conclusion", "descriptors": ["Conclusion is missing or unrelated to evidence.", "Gives a simple conclusion with limited evidence.", "Uses evidence to explain a reasonable conclusion.", "Evaluates evidence, limitations and alternative explanations."]}, {"name": "Safe Use of Materials & Tools", "descriptors": ["Frequently needs reminders about safe use.", "Usually follows safety instructions with some reminders.", "Uses materials and tools safely and responsibly.", "Models safe practice and anticipates potential risks."]}, {"name": "Persistence & Improvement", "descriptors": ["Stops quickly when the first attempt does not work.", "Retries after prompting or support.", "Persists, checks errors and improves the approach.", "Systematically tests alternatives and learns from failed attempts."]}, {"name": "Communication & Reflection", "descriptors": ["Has difficulty explaining the process or learning.", "Explains some steps with prompting.", "Clearly communicates method, result and learning.", "Explains reasoning clearly, reflects critically and suggests next steps."]}]}, "maker_robotics": {"name": "Maker / Robotics / Design Challenge", "description": "For DIY kits, robotics workshops, innovation clubs and design-build-test activities.", "dimensions": [{"name": "Understanding the Problem", "descriptors": ["Needs substantial support to identify the task or need.", "Identifies the basic task with guidance.", "Clearly defines the problem and key constraints.", "Reframes the problem insightfully and identifies priorities/trade-offs."]}, {"name": "Design Planning", "descriptors": ["Starts building without a clear plan.", "Creates a basic plan with support.", "Creates a workable design/sequence before building.", "Compares design options and justifies the chosen approach."]}, {"name": "Building & Tool Handling", "descriptors": ["Needs continuous help to assemble or use tools safely.", "Completes basic assembly with guidance.", "Builds accurately and uses tools/materials safely.", "Builds precisely, efficiently and supports others in safe technique."]}, {"name": "Logic / Coding / System Thinking", "descriptors": ["Cannot explain how parts or steps work together.", "Explains a few links with support.", "Explains the system logic and creates a functioning sequence/code.", "Optimises logic, predicts interactions and handles edge cases."]}, {"name": "Testing & Iteration", "descriptors": ["Does not test systematically.", "Tests after prompting and makes simple changes.", "Tests, identifies issues and improves the design.", "Runs purposeful tests, compares results and iterates strategically."]}, {"name": "Troubleshooting", "descriptors": ["Waits for the evaluator to identify and fix errors.", "Identifies obvious problems with hints.", "Locates likely causes and tries sensible fixes.", "Uses evidence to isolate faults and explains why the fix works."]}, {"name": "Creativity & Innovation", "descriptors": ["Mostly copies a given example without adaptation.", "Makes a small modification to a known idea.", "Adds useful original features or a different solution.", "Creates a distinctive solution that is both novel and purposeful."]}, {"name": "Teamwork & Documentation", "descriptors": ["Rarely contributes or records work.", "Participates with prompting and records some work.", "Shares roles, listens and documents key decisions/results.", "Coordinates effectively, supports peers and maintains clear design evidence."]}]}, "future_skills": {"name": "21st-Century / Future Skills", "description": "For project presentations, teamwork, innovation challenges and broader skill development.", "dimensions": [{"name": "Critical Thinking", "descriptors": ["Accepts information without examining it.", "Identifies a simple reason or issue with support.", "Compares information, reasons logically and makes justified choices.", "Questions assumptions, weighs evidence and evaluates alternatives."]}, {"name": "Problem Solving", "descriptors": ["Needs the solution broken down by others.", "Solves familiar problems with guidance.", "Selects and applies an effective strategy independently.", "Handles unfamiliar problems using multiple strategies and adapts quickly."]}, {"name": "Creativity", "descriptors": ["Relies entirely on provided ideas.", "Adds a small variation to an existing idea.", "Generates useful original ideas.", "Combines ideas in novel ways and develops them into strong solutions."]}, {"name": "Collaboration", "descriptors": ["Rarely participates constructively in the group.", "Participates when assigned a role.", "Shares responsibility, listens and supports the team.", "Strengthens team performance by coordinating, resolving issues and including others."]}, {"name": "Communication", "descriptors": ["Message is unclear or incomplete.", "Communicates basic information with support.", "Communicates ideas clearly using suitable words/visuals.", "Adapts communication to the audience and explains complex ideas convincingly."]}, {"name": "Self-Management", "descriptors": ["Needs frequent reminders to stay on task.", "Completes parts of the task with reminders.", "Manages time, materials and responsibilities reliably.", "Plans ahead, prioritises independently and helps maintain team momentum."]}, {"name": "Initiative & Leadership", "descriptors": ["Waits for others to direct all actions.", "Takes responsibility when specifically asked.", "Volunteers ideas/actions and takes ownership of agreed tasks.", "Mobilises others constructively and helps the group make progress."]}, {"name": "Reflection & Growth", "descriptors": ["Struggles to identify what was learned or could improve.", "Identifies one strength or improvement with prompting.", "Explains learning and identifies realistic improvements.", "Uses feedback and evidence to set specific next steps for growth."]}]}};
+
+const SCHOOL_OPTIONS = ["GHPS Tadibidi","GHPS Ullesugur","GHPS Aikur","GHPS Kadamgera","GHPS Vrishabhavati Nagar"];
+
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+
+function showView(id, btn=null) {
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll(".navbtn").forEach(b => b.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+  else {
+    const target = document.querySelector(`.navbtn[data-view="${id}"]`);
+    if (target) target.classList.add("active");
+  }
+  if (id === "records") renderRecords();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* ---------------- Learning ---------------- */
+let learned = JSON.parse(localStorage.getItem("stemLearnedChapters") || "[]");
+
+function renderChapters() {
+  const grid = document.getElementById("chapterGrid");
+  grid.innerHTML = "";
+  CHAPTERS.forEach((ch, i) => {
+    const done = learned.includes(i);
+    const card = document.createElement("article");
+    card.className = "chapter" + (done ? " done" : "");
+    card.innerHTML = `
+      <span class="num">${esc(ch.number)}</span>
+      <h3><a href="${esc(ch.source_href)}" style="color:inherit;text-decoration:none">${esc(ch.title)}</a></h3>
+      <p>${esc(ch.description)}</p>
+      <div class="actions">
+        <a class="btn primary" href="${esc(ch.source_href)}">Open Chapter →</a>
+        <button class="btn ${done ? 'ghost' : 'secondary'}" onclick="toggleChapter(${i})">${done ? 'Mark Not Complete' : 'Mark Complete'}</button>
+      </div>
+      <div class="doneText">${done ? '✓ Completed' : ''}</div>`;
+    grid.appendChild(card);
+  });
+  const total = CHAPTERS.length || 1;
+  const count = learned.length;
+  document.getElementById("learnProgressText").textContent = `${count} of ${CHAPTERS.length} chapters completed`;
+  document.getElementById("learnProgressBar").style.width = `${Math.round(count/total*100)}%`;
+}
+
+function toggleChapter(i) {
+  if (learned.includes(i)) learned = learned.filter(x => x !== i);
+  else learned.push(i);
+  localStorage.setItem("stemLearnedChapters", JSON.stringify(learned));
+  renderChapters();
+}
+
+function goAssessmentGrade6() {
+  selectedGrade = "6";
+  document.querySelectorAll(".grade-card").forEach(x => x.classList.toggle("active", x.dataset.grade === "6"));
+  showView("assessment");
+}
+
+/* ---------------- Assessment ---------------- */
+const CHAPTER_LINKS = {"The Wonderful World of Science": "chapter1-wonderful-world.html", "Diversity in the Living World": "chapter2-diversity-living-world.html", "Mindful Eating": "chapter3-mindful-eating.html", "Exploring Magnets": "chapter4-exploring-magnets.html", "Measurement of Length and Motion": "chapter5-measurement-motion.html", "Materials Around Us": "chapter6-materials-around-us.html", "Temperature and its Measurement": "chapter7-temperature.html", "A Journey through States of Water": "chapter8-states-of-water.html", "Methods of Separation in Everyday Life": "chapter9-separation-methods.html", "Living Creatures": "chapter10-living-creatures.html", "Nature's Treasures": "chapter11-natures-treasures.html", "Beyond Earth": "chapter12-beyond-earth.html"};
+let selectedGrade = "6", activeQuestions = [], answers = [], flags = [], currentQ = 0;
+let assessmentMeta = {}, timerSeconds = 2400, timerHandle = null, latestAssessment = null;
+
+function selectGrade(g, el) {
+  selectedGrade = g;
+  document.querySelectorAll(".grade-card").forEach(x => x.classList.remove("active"));
+  el.classList.add("active");
+}
+
+function startAssessment() {
+  const sid = document.getElementById("studentId").value.trim();
+  const school = document.getElementById("school").value;
+  if (!sid || !school) { alert("Please enter Student ID and select School."); return; }
+
+  assessmentMeta = {
+    studentId:sid,
+    studentName:document.getElementById("studentName").value.trim(),
+    school,
+    grade:selectedGrade,
+    assessmentType:document.getElementById("atype").value,
+    gender:document.getElementById("gender").value,
+    date:new Date().toISOString()
+  };
+
+  activeQuestions = BANK[selectedGrade].questions;
+  answers = Array(activeQuestions.length).fill(null);
+  flags = Array(activeQuestions.length).fill(false);
+  currentQ = 0;
+  timerSeconds = 2400;
+
+  document.getElementById("assessmentSetup").classList.add("hidden");
+  document.getElementById("assessmentResult").classList.add("hidden");
+  document.getElementById("paperPreview").classList.add("hidden");
+  document.getElementById("assessmentRunner").classList.remove("hidden");
+
+  renderQuestion();
+  if (timerHandle) clearInterval(timerHandle);
+  timerHandle = setInterval(tickTimer,1000);
+}
+
+function tickTimer() {
+  timerSeconds--;
+  const m = Math.floor(timerSeconds/60), s = timerSeconds%60;
+  document.getElementById("timer").textContent = `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+  if (timerSeconds <= 0) {
+    clearInterval(timerHandle);
+    alert("Time is over. The assessment will be submitted.");
+    submitAssessment();
+  }
+}
+
+function saveCurrentAnswer() {
+  const checked = document.querySelector('input[name="answer"]:checked');
+  if (checked) answers[currentQ] = Number(checked.value);
+}
+
+function renderQuestion() {
+  const q = activeQuestions[currentQ];
+  document.getElementById("qcount").textContent = `Question ${currentQ+1} of ${activeQuestions.length}`;
+  document.getElementById("testMeta").textContent = `Grade ${selectedGrade} • ${assessmentMeta.assessmentType} • ${assessmentMeta.school} • ${assessmentMeta.studentId}`;
+  document.getElementById("testProgress").style.width = `${(currentQ+1)/activeQuestions.length*100}%`;
+  document.getElementById("subjectPill").textContent = q.subject;
+  document.getElementById("topicPill").textContent = q.topic;
+  document.getElementById("compPill").textContent = q.competency;
+  const studyLink = document.getElementById("studyChapterLink");
+  const href = (selectedGrade === "6" && q.subject === "Science") ? CHAPTER_LINKS[q.topic] : null;
+  if (href) {
+    studyLink.href = href;
+    studyLink.classList.remove("hidden");
+  } else {
+    studyLink.classList.add("hidden");
+    studyLink.removeAttribute("href");
+  }
+  document.getElementById("questionText").textContent = q.q;
+  const options = document.getElementById("options");
+  options.innerHTML = "";
+  q.options.forEach((opt,i) => {
+    const lab = document.createElement("label");
+    lab.className = "option";
+    lab.innerHTML = `<input type="radio" name="answer" value="${i}" ${answers[currentQ]===i ? "checked" : ""}> ${esc(opt)}`;
+    lab.addEventListener("click", () => { answers[currentQ]=i; renderQuestionNav(); });
+    options.appendChild(lab);
+  });
+  document.getElementById("nextBtn").textContent = currentQ === activeQuestions.length-1 ? "Submit Assessment" : "Next";
+  renderQuestionNav();
+}
+
+function renderQuestionNav() {
+  const nav = document.getElementById("questionNav");
+  nav.innerHTML = "";
+  activeQuestions.forEach((_,i) => {
+    const b = document.createElement("button");
+    b.className = (answers[i]!==null ? "answered " : "") + (i===currentQ ? "current" : "");
+    b.textContent = (flags[i] ? "★ " : "") + (i+1);
+    b.onclick = () => { saveCurrentAnswer(); currentQ=i; renderQuestion(); };
+    nav.appendChild(b);
+  });
+}
+
+function nextQuestion() {
+  saveCurrentAnswer();
+  if (currentQ < activeQuestions.length-1) { currentQ++; renderQuestion(); }
+  else if (confirm("Submit this assessment now?")) submitAssessment();
+}
+
+function prevQuestion() {
+  saveCurrentAnswer();
+  if (currentQ > 0) { currentQ--; renderQuestion(); }
+}
+
+function flagQuestion() {
+  flags[currentQ] = !flags[currentQ];
+  renderQuestionNav();
+}
+
+function submitAssessment() {
+  saveCurrentAnswer();
+  if (timerHandle) clearInterval(timerHandle);
+
+  let correct=0, mathCorrect=0, scienceCorrect=0, mathTotal=0, scienceTotal=0;
+  activeQuestions.forEach((q,i) => {
+    if (q.subject === "Mathematics") mathTotal++; else scienceTotal++;
+    if (answers[i] === q.answer) {
+      correct++;
+      if (q.subject === "Mathematics") mathCorrect++; else scienceCorrect++;
+    }
+  });
+
+  latestAssessment = {
+    ...assessmentMeta,
+    correct,
+    total:activeQuestions.length,
+    percentage:Math.round(correct/activeQuestions.length*1000)/10,
+    mathCorrect, mathTotal, scienceCorrect, scienceTotal,
+    unanswered:answers.filter(x => x===null).length,
+    answers:[...answers]
+  };
+
+  const arr = JSON.parse(localStorage.getItem("stemAssessmentRecords") || "[]");
+  arr.push(latestAssessment);
+  localStorage.setItem("stemAssessmentRecords", JSON.stringify(arr));
+
+  document.getElementById("assessmentRunner").classList.add("hidden");
+  document.getElementById("assessmentResult").classList.remove("hidden");
+  document.getElementById("assessmentResultMeta").textContent = `${latestAssessment.studentId} • ${latestAssessment.school} • Grade ${latestAssessment.grade} • ${latestAssessment.assessmentType}`;
+  document.getElementById("overallScore").textContent = `${correct} / ${activeQuestions.length}`;
+  document.getElementById("overallPct").textContent = `${latestAssessment.percentage}%`;
+  document.getElementById("mathScore").textContent = `${mathCorrect} / ${mathTotal}`;
+  document.getElementById("scienceScore").textContent = `${scienceCorrect} / ${scienceTotal}`;
+}
+
+function showAnswerReview() {
+  const r = document.getElementById("answerReview");
+  r.classList.remove("hidden");
+  r.innerHTML = "<h3>Answer Review</h3>";
+  activeQuestions.forEach((q,i) => {
+    const ok = answers[i] === q.answer;
+    const given = answers[i] === null ? "Not answered" : q.options[answers[i]];
+    r.innerHTML += `<div class="review-item"><b>${i+1}. ${esc(q.q)}</b><br>
+      <span class="${ok ? 'correct' : 'wrong'}">Your answer: ${esc(given)}</span><br>
+      <span class="correct">Correct answer: ${esc(q.options[q.answer])}</span><br>
+      <span class="note">${esc(q.subject)} • ${esc(q.topic)} • ${esc(q.competency)}</span></div>`;
+  });
+}
+
+function csvCell(v) { return '"' + String(v ?? "").replace(/"/g,'""') + '"'; }
+
+function downloadCurrentAssessmentCSV() {
+  if (!latestAssessment) { alert("No completed assessment yet."); return; }
+  const h=["record_type","student_id","student_name","school","grade","assessment_type","gender","date","overall_score","overall_total","percentage","math_score","math_total","science_score","science_total","unanswered"];
+  const v=["knowledge_assessment",latestAssessment.studentId,latestAssessment.studentName,latestAssessment.school,latestAssessment.grade,latestAssessment.assessmentType,latestAssessment.gender,latestAssessment.date,latestAssessment.correct,latestAssessment.total,latestAssessment.percentage,latestAssessment.mathCorrect,latestAssessment.mathTotal,latestAssessment.scienceCorrect,latestAssessment.scienceTotal,latestAssessment.unanswered];
+  downloadText(h.join(",")+"\n"+v.map(csvCell).join(","), `${latestAssessment.studentId}_assessment.csv`, "text/csv");
+}
+
+function resetAssessment() {
+  if (timerHandle) clearInterval(timerHandle);
+  document.getElementById("assessmentResult").classList.add("hidden");
+  document.getElementById("assessmentRunner").classList.add("hidden");
+  document.getElementById("assessmentSetup").classList.remove("hidden");
+  document.getElementById("answerReview").classList.add("hidden");
+}
+
+function showPaper() {
+  const qs = BANK[selectedGrade].questions;
+  document.getElementById("paperMeta").textContent = `Grade ${selectedGrade} • 20 marks • Suggested 40 minutes`;
+  let h = `<h3>Section A — Mathematics</h3>`;
+  qs.forEach((q,i) => {
+    if (i === 10) h += `<h3>Section B — Science</h3>`;
+    h += `<div class="paper-q"><b>${i+1}. ${esc(q.q)}</b><ol type="A">${q.options.map(x=>`<li>${esc(x)}</li>`).join("")}</ol></div>`;
+  });
+  document.getElementById("paperBody").innerHTML = h;
+  document.getElementById("paperPreview").classList.remove("hidden");
+  document.getElementById("paperPreview").scrollIntoView({behavior:"smooth"});
+}
+
+function prefillRubricFromAssessment() {
+  if (!latestAssessment) return;
+  document.getElementById("rubricStudentId").value = latestAssessment.studentId;
+  document.getElementById("rubricStudentName").value = latestAssessment.studentName || "";
+  document.getElementById("rubricSchool").value = latestAssessment.school;
+  document.getElementById("rubricGrade").value = latestAssessment.grade;
+  showView("rubrics");
+}
+
+/* ---------------- Rubrics ---------------- */
+let currentTemplate = "scientific_inquiry";
+let rubricRatings = {};
+let latestRubric = null;
+
+function renderTemplateTabs() {
+  const box = document.getElementById("templateTabs");
+  box.innerHTML = "";
+  Object.entries(RUBRICS).forEach(([key,t]) => {
+    const b = document.createElement("button");
+    b.className = "template-tab" + (key===currentTemplate ? " active" : "");
+    b.textContent = t.name;
+    b.onclick = () => { currentTemplate=key; rubricRatings={}; renderTemplateTabs(); renderRubric(); };
+    box.appendChild(b);
+  });
+  document.getElementById("templateDesc").textContent = RUBRICS[currentTemplate].description;
+}
+
+function renderRubric() {
+  const wrap = document.getElementById("rubricDimensions");
+  wrap.innerHTML = "";
+  RUBRICS[currentTemplate].dimensions.forEach((dim,i) => {
+    const val = rubricRatings[i] ?? null;
+    const card = document.createElement("div");
+    card.className = "card rubric-card";
+    card.innerHTML = `
+      <div class="rubric-head">
+        <div><b>${i+1}. ${esc(dim.name)}</b><div class="note">Choose the level that best matches observed evidence.</div></div>
+        <span class="level-chip">${val===null ? 'Unrated' : val===0 ? 'N/A' : 'Level '+val}</span>
+      </div>
+      <div class="rating-row">
+        <button class="rating-btn ${val===1?'selected':''}" onclick="setRubricRating(${i},1)">1</button>
+        <button class="rating-btn ${val===2?'selected':''}" onclick="setRubricRating(${i},2)">2</button>
+        <button class="rating-btn ${val===3?'selected':''}" onclick="setRubricRating(${i},3)">3</button>
+        <button class="rating-btn ${val===4?'selected':''}" onclick="setRubricRating(${i},4)">4</button>
+        <button class="rating-btn ${val===0?'selected':''}" onclick="setRubricRating(${i},0)">N/A</button>
+      </div>
+      <div class="descriptor">${val && val>0 ? esc(dim.descriptors[val-1]) : val===0 ? 'Not observed / not applicable for this activity.' : 'Select a level to view its descriptor.'}</div>`;
+    wrap.appendChild(card);
+  });
+  updateRubricScore();
+}
+
+function setRubricRating(i,v) {
+  rubricRatings[i]=v;
+  renderRubric();
+}
+
+function rubricLevel(avg) {
+  if (avg === null) return "Not yet rated";
+  if (avg < 1.75) return "Emerging";
+  if (avg < 2.5) return "Developing";
+  if (avg < 3.25) return "Proficient";
+  return "Advanced";
+}
+
+function updateRubricScore() {
+  const vals = Object.values(rubricRatings).filter(v => v>0);
+  const avg = vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : null;
+  document.getElementById("rubricAverage").textContent = avg===null ? "—" : avg.toFixed(2) + " / 4";
+  document.getElementById("rubricLevel").textContent = rubricLevel(avg);
+}
+
+function getRubricRecord() {
+  const sid = document.getElementById("rubricStudentId").value.trim();
+  const school = document.getElementById("rubricSchool").value;
+  if (!sid || !school) { alert("Please enter Student ID and select School."); return null; }
+  const dims = RUBRICS[currentTemplate].dimensions;
+  const ratings = dims.map((d,i) => rubricRatings[i] ?? null);
+  const vals = ratings.filter(v => v>0);
+  if (!vals.length) { alert("Please rate at least one skill dimension."); return null; }
+  const avg = vals.reduce((a,b)=>a+b,0)/vals.length;
+  return {
+    recordType:"skill_rubric",
+    studentId:sid,
+    studentName:document.getElementById("rubricStudentName").value.trim(),
+    school,
+    grade:document.getElementById("rubricGrade").value,
+    evaluator:document.getElementById("evaluator").value.trim(),
+    activity:document.getElementById("activity").value.trim(),
+    templateKey:currentTemplate,
+    templateName:RUBRICS[currentTemplate].name,
+    date:new Date().toISOString(),
+    average:Math.round(avg*100)/100,
+    percentage:Math.round((avg/4)*1000)/10,
+    level:rubricLevel(avg),
+    notes:document.getElementById("rubricNotes").value.trim(),
+    dimensions:dims.map((d,i)=>({name:d.name,rating:ratings[i],descriptor:ratings[i] && ratings[i]>0 ? d.descriptors[ratings[i]-1] : ratings[i]===0 ? "N/A" : ""}))
+  };
+}
+
+function saveRubric() {
+  const rec = getRubricRecord();
+  if (!rec) return;
+  latestRubric = rec;
+  const arr = JSON.parse(localStorage.getItem("stemRubricRecords") || "[]");
+  arr.push(rec);
+  localStorage.setItem("stemRubricRecords", JSON.stringify(arr));
+  alert(`Skill evaluation saved. Average: ${rec.average}/4 (${rec.level}).`);
+}
+
+function downloadCurrentRubricCSV() {
+  const rec = latestRubric || getRubricRecord();
+  if (!rec) return;
+  const rows = [["record_type","student_id","student_name","school","grade","date","evaluator","activity","rubric_template","average_4","percentage","level","dimension","rating","descriptor","notes"]];
+  rec.dimensions.forEach(d => rows.push(["skill_rubric",rec.studentId,rec.studentName,rec.school,rec.grade,rec.date,rec.evaluator,rec.activity,rec.templateName,rec.average,rec.percentage,rec.level,d.name,d.rating===null?"":d.rating,d.descriptor,rec.notes]));
+  downloadText(rows.map(r=>r.map(csvCell).join(",")).join("\n"), `${rec.studentId}_skill_rubric.csv`, "text/csv");
+}
+
+function resetRubric() {
+  rubricRatings={};
+  document.getElementById("rubricNotes").value="";
+  latestRubric=null;
+  renderRubric();
+}
+
+/* ---------------- Records ---------------- */
+function renderRecords() {
+  const as = JSON.parse(localStorage.getItem("stemAssessmentRecords") || "[]");
+  const rs = JSON.parse(localStorage.getItem("stemRubricRecords") || "[]");
+
+  const aBox = document.getElementById("assessmentRecords");
+  if (!as.length) aBox.innerHTML = `<div class="empty">No knowledge assessment records saved yet.</div>`;
+  else {
+    aBox.innerHTML = `<div class="tablewrap"><table><thead><tr><th>Date</th><th>Student</th><th>School</th><th>Grade</th><th>Type</th><th>Overall</th><th>Math</th><th>Science</th></tr></thead><tbody>` +
+      as.slice().reverse().map(r=>`<tr><td>${new Date(r.date).toLocaleString()}</td><td><b>${esc(r.studentId)}</b><br>${esc(r.studentName||"")}</td><td>${esc(r.school)}</td><td>${esc(r.grade)}</td><td>${esc(r.assessmentType)}</td><td>${r.correct}/${r.total} (${r.percentage}%)</td><td>${r.mathCorrect}/${r.mathTotal}</td><td>${r.scienceCorrect}/${r.scienceTotal}</td></tr>`).join("") +
+      `</tbody></table></div>`;
+  }
+
+  const rBox = document.getElementById("rubricRecords");
+  if (!rs.length) rBox.innerHTML = `<div class="empty">No skill rubric evaluations saved yet.</div>`;
+  else {
+    rBox.innerHTML = `<div class="tablewrap"><table><thead><tr><th>Date</th><th>Student</th><th>School</th><th>Grade</th><th>Rubric</th><th>Activity</th><th>Average</th><th>Level</th></tr></thead><tbody>` +
+      rs.slice().reverse().map(r=>`<tr><td>${new Date(r.date).toLocaleString()}</td><td><b>${esc(r.studentId)}</b><br>${esc(r.studentName||"")}</td><td>${esc(r.school)}</td><td>${esc(r.grade)}</td><td>${esc(r.templateName)}</td><td>${esc(r.activity||"")}</td><td>${r.average}/4 (${r.percentage}%)</td><td>${esc(r.level)}</td></tr>`).join("") +
+      `</tbody></table></div>`;
+  }
+}
+
+function exportAllRecords() {
+  const as = JSON.parse(localStorage.getItem("stemAssessmentRecords") || "[]");
+  const rs = JSON.parse(localStorage.getItem("stemRubricRecords") || "[]");
+  const rows = [["record_type","student_id","student_name","school","grade","date","assessment_or_rubric","score_or_average","percentage","details"]];
+  as.forEach(r => rows.push(["knowledge_assessment",r.studentId,r.studentName,r.school,r.grade,r.date,r.assessmentType,`${r.correct}/${r.total}`,r.percentage,`Math ${r.mathCorrect}/${r.mathTotal}; Science ${r.scienceCorrect}/${r.scienceTotal}`]));
+  rs.forEach(r => rows.push(["skill_rubric",r.studentId,r.studentName,r.school,r.grade,r.date,r.templateName,`${r.average}/4`,r.percentage,`${r.level}; Activity: ${r.activity||""}`]));
+  if (rows.length===1) { alert("No records to export."); return; }
+  downloadText(rows.map(r=>r.map(csvCell).join(",")).join("\n"), "stem_all_records.csv", "text/csv");
+}
+
+function clearAllRecords() {
+  if (!confirm("Clear all locally saved assessment and rubric records from this browser?")) return;
+  localStorage.removeItem("stemAssessmentRecords");
+  localStorage.removeItem("stemRubricRecords");
+  renderRecords();
+}
+
+function downloadText(text, filename, type) {
+  const blob = new Blob([text], {type:type+";charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),500);
+}
+
+/* Init */
+renderChapters();
+renderTemplateTabs();
+renderRubric();
+</script>
+</body>
+</html>

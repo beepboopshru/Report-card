@@ -1,0 +1,3694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grade 6 — Chapter 8 — A Journey through States of Water</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #eff6ff;
+    color: #1e293b;
+    line-height: 1.55;
+  }
+  header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #0284c7 45%, #06b6d4 100%);
+    color: white;
+    padding: 36px 24px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  }
+  header h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+  header p { opacity: 0.95; font-size: 14px; }
+  nav.tabs {
+    display: flex; justify-content: center; gap: 4px;
+    background: white; padding: 8px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); flex-wrap: wrap;
+  }
+  nav.tabs button {
+    background: transparent; border: none;
+    padding: 10px 16px; font-size: 13px; font-weight: 600;
+    color: #475569; cursor: pointer; border-radius: 8px;
+    transition: all 0.2s;
+  }
+  nav.tabs button:hover { background: #dbeafe; color: #0284c7; }
+  nav.tabs button.active { background: #0284c7; color: white; }
+  main { max-width: 1100px; margin: 0 auto; padding: 24px; background: #f0f9ff; min-height: 80vh; }
+  .tab-panel { display: none; animation: fadeIn 0.3s ease; }
+  .tab-panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  h2.section-title {
+    font-size: 22px; color: #0284c7; margin-bottom: 16px;
+    padding-bottom: 8px; border-bottom: 2px solid #0284c7;
+  }
+  h3.card-title { font-size: 18px; color: #1e293b; margin-bottom: 10px; }
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+  .card, .sim-card, .exp-card, .story-card, .lab-card {
+    background: white; border-radius: 12px; padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    margin-bottom: 16px; transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  .card p, .card li { font-size: 14px; color: #475569; margin-bottom: 6px; }
+  .card ul { margin-left: 18px; }
+  .badge {
+    display: inline-block; background: #dbeafe; color: #1d4ed8;
+    font-size: 11px; font-weight: 600; padding: 3px 8px;
+    border-radius: 999px; margin-bottom: 8px;
+  }
+  .badge-cyan { background: #cffafe; color: #0e7490; }
+  .badge-yellow { background: #fef3c7; color: #a16207; }
+  .badge-purple { background: #f3e8ff; color: #7e22ce; }
+  canvas { display: block; background: #eff6ff; border-radius: 8px; margin: 12px 0; max-width: 100%; }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; align-items: center; }
+  button.btn {
+    background: #0284c7; color: white; border: none;
+    padding: 8px 16px; font-size: 13px; font-weight: 600;
+    border-radius: 6px; cursor: pointer; transition: background 0.2s;
+  }
+  button.btn:hover { background: #0369a1; }
+  button.btn.secondary { background: #64748b; }
+  button.btn.secondary:hover { background: #475569; }
+  button.btn.cyan { background: #06b6d4; }
+  button.btn.cyan:hover { background: #0891b2; }
+  label { font-size: 13px; color: #475569; font-weight: 500; }
+  input[type="range"] { width: 280px; }
+  .result-box {
+    background: #dbeafe; border-left: 4px solid #0284c7;
+    padding: 12px 16px; border-radius: 6px; margin-top: 12px; font-size: 14px;
+  }
+  .observation {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 10px 14px; border-radius: 6px; margin-top: 10px; font-size: 13px;
+  }
+  .step-display {
+    background: #eff6ff; border: 1px solid #dbeafe;
+    padding: 12px; border-radius: 6px; margin-top: 10px;
+    font-size: 13px; min-height: 50px;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+  th, td { padding: 7px 8px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+  th { background: #eff6ff; font-weight: 600; color: #475569; }
+  .key-fact {
+    background: #eff6ff; border-left: 3px solid #0284c7;
+    padding: 8px 12px; margin: 8px 0; font-size: 13px; border-radius: 4px;
+  }
+  .toggle-group { display: inline-flex; background: #e2e8f0; padding: 3px; border-radius: 6px; flex-wrap: wrap; }
+  .toggle-group button {
+    background: transparent; border: none;
+    padding: 6px 12px; font-size: 12px; font-weight: 600;
+    color: #475569; cursor: pointer; border-radius: 4px;
+  }
+  .toggle-group button.active { background: white; color: #0284c7; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  .lab-card {
+    border-left: 5px solid #0284c7;
+    background: linear-gradient(to right, #eff6ff 0%, #ffffff 80px);
+  }
+  .lab-card.addon { border-left-color: #06b6d4; background: linear-gradient(to right, #ecfeff 0%, #ffffff 80px); }
+  .lab-section {
+    margin-top: 12px; padding: 10px 14px;
+    background: #eff6ff; border-radius: 6px;
+    font-size: 13px;
+  }
+  .lab-section h4 { color: #0284c7; font-size: 13px; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .lab-section.materials h4 { color: #c2410c; }
+  .lab-section.procedure h4 { color: #16a34a; }
+  .lab-section.safety { background: #fef2f2; }
+  .lab-section.safety h4 { color: #dc2626; }
+  .lab-section ol, .lab-section ul { margin-left: 18px; }
+  .lab-section li { margin-bottom: 4px; }
+  .difficulty {
+    display: inline-block; padding: 2px 10px;
+    border-radius: 999px; font-size: 11px; font-weight: 600;
+    margin-left: 8px;
+  }
+  .difficulty.easy   { background: #dcfce7; color: #16a34a; }
+  .difficulty.medium { background: #fef3c7; color: #d97706; }
+  .difficulty.hard   { background: #fee2e2; color: #dc2626; }
+  .comic-strip {
+    display: grid; gap: 12px; margin-top: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  .comic-panel {
+    background: #fffbeb; border: 3px solid #1e293b;
+    border-radius: 8px; overflow: hidden; position: relative;
+    box-shadow: 4px 4px 0 rgba(30,41,59,0.4);
+  }
+  .comic-panel canvas { background: #fefce8; border-radius: 0; margin: 0; width: 100%; display: block; }
+  .comic-caption {
+    background: #1e293b; color: #fef9c3;
+    padding: 10px 12px; font-size: 13px;
+    font-weight: 500; line-height: 1.4; font-family: Georgia, serif;
+  }
+  .comic-number {
+    position: absolute; top: 6px; left: 8px;
+    background: #0284c7; color: white; font-weight: 800; font-size: 14px;
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid #1e293b; z-index: 5;
+  }
+  .story-intro {
+    background: linear-gradient(135deg, #dbeafe 0%, #cffafe 100%);
+    border-left: 4px solid #0284c7;
+    padding: 14px 18px; border-radius: 8px;
+    margin-bottom: 14px; font-size: 14px;
+    color: #1e3a8a; font-style: italic;
+  }
+  .quiz-question {
+    background: white; border-radius: 12px;
+    padding: 20px; margin-bottom: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .quiz-question .q-text { font-weight: 600; margin-bottom: 12px; color: #1e293b; }
+  .quiz-option {
+    display: block; padding: 10px 14px; margin-bottom: 6px;
+    border: 2px solid #e2e8f0; border-radius: 8px;
+    cursor: pointer; font-size: 14px; transition: all 0.15s;
+  }
+  .quiz-option:hover { border-color: #0284c7; background: #eff6ff; }
+  .quiz-option.correct { border-color: #16a34a; background: #f0fdf4; }
+  .quiz-option.wrong { border-color: #dc2626; background: #fef2f2; }
+  .quiz-feedback {
+    margin-top: 10px; padding: 10px; border-radius: 6px;
+    font-size: 13px; display: none;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: #f0fdf4; color: #166534; }
+  .quiz-feedback.wrong { background: #fef2f2; color: #991b1b; }
+  #quiz-score {
+    background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
+    color: white; padding: 20px; border-radius: 12px;
+    text-align: center; margin-top: 16px;
+    font-size: 16px; font-weight: 600;
+  }
+  .quote-card {
+    background: linear-gradient(135deg, #dbeafe 0%, #cffafe 100%);
+    border-radius: 14px;
+    padding: 22px 26px;
+    text-align: center;
+    margin: 14px 0;
+    border-left: 5px solid #0284c7;
+  }
+  .quote-card .quote-text {
+    font-size: 18px; font-style: italic; color: #1e3a8a;
+    font-family: Georgia, serif;
+    margin-bottom: 10px;
+  }
+  .quote-card .quote-author { font-weight: 600; color: #475569; font-size: 13px; }
+  footer { text-align: center; padding: 20px; color: #94a3b8; font-size: 12px; background: #0f172a; }
+  /* 5E Method styles */
+  .five-intro {
+    background: linear-gradient(135deg, #dbeafe 0%, #cffafe 100%);
+    border-left: 4px solid #0284c7;
+    padding: 14px 18px; border-radius: 10px;
+    margin-bottom: 18px; font-size: 14px; color: #1e3a8a;
+  }
+  .phase-card {
+    background: white; border-radius: 14px;
+    padding: 22px 24px; margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-left: 6px solid #0284c7;
+  }
+  .phase-card.phase-engage    { border-left-color: #dc2626; background: linear-gradient(to right, #fef2f2 0%, #ffffff 80px); }
+  .phase-card.phase-explore   { border-left-color: #f59e0b; background: linear-gradient(to right, #fef3c7 0%, #ffffff 80px); }
+  .phase-card.phase-explain   { border-left-color: #0284c7; background: linear-gradient(to right, #eff6ff 0%, #ffffff 80px); }
+  .phase-card.phase-elaborate { border-left-color: #16a34a; background: linear-gradient(to right, #f0fdf4 0%, #ffffff 80px); }
+  .phase-card.phase-evaluate  { border-left-color: #7e22ce; background: linear-gradient(to right, #faf5ff 0%, #ffffff 80px); }
+  .phase-header { display: flex; gap: 14px; align-items: center; margin-bottom: 12px; }
+  .phase-num {
+    background: #1e293b; color: white;
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 18px;
+    flex-shrink: 0;
+  }
+  .phase-card.phase-engage    .phase-num { background: #dc2626; }
+  .phase-card.phase-explore   .phase-num { background: #f59e0b; }
+  .phase-card.phase-explain   .phase-num { background: #0284c7; }
+  .phase-card.phase-elaborate .phase-num { background: #16a34a; }
+  .phase-card.phase-evaluate  .phase-num { background: #7e22ce; }
+  .phase-header h3 { font-size: 18px; color: #1e293b; margin: 0; }
+  .phase-tagline { font-size: 12px; color: #64748b; margin: 2px 0 0; font-style: italic; }
+  .dialog-story {
+    background: #fffbeb; border-radius: 10px;
+    padding: 16px 18px; margin: 10px 0;
+    font-size: 14px; line-height: 1.7;
+    border: 1px solid #fde68a;
+  }
+  .dialog-story p { margin-bottom: 10px; }
+  .speaker { font-weight: 700; color: #b45309; }
+  .speaker.swara { color: #db2777; }
+  .speaker.ahana { color: #16a34a; }
+  .speaker.amma  { color: #7e22ce; }
+  .narration { color: #475569; font-style: italic; font-size: 13px; }
+  .vocab-term {
+    background: #fde047; color: #713f12;
+    padding: 1px 6px; border-radius: 4px; font-weight: 700;
+    cursor: help;
+  }
+  .vocab-summary {
+    background: #ecfeff; border-radius: 10px;
+    padding: 14px 18px; margin-top: 12px;
+    border-left: 4px solid #06b6d4;
+  }
+  .vocab-summary h4 { color: #0e7490; font-size: 14px; margin-bottom: 8px; }
+  .vocab-chips {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px;
+  }
+  .vocab-chip {
+    background: white;
+    border: 2px solid #06b6d4;
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: #0e7490;
+    font-weight: 600;
+  }
+  .exp-mini {
+    background: white; border-radius: 10px;
+    padding: 14px; margin: 8px 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    border-top: 3px solid #f59e0b;
+  }
+  .exp-mini h5 { color: #b45309; font-size: 14px; margin-bottom: 6px; }
+  .exp-mini p { font-size: 13px; color: #475569; margin-bottom: 4px; }
+  .kit-link {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    color: white; padding: 12px 20px;
+    border-radius: 10px; text-decoration: none;
+    font-weight: 600; font-size: 14px;
+    box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3);
+    transition: all 0.2s;
+    margin: 10px 0;
+  }
+  .kit-link:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(22, 163, 74, 0.4); }
+  .kit-link .kit-icon { font-size: 22px; }
+  .eval-quiz {
+    background: white; border-radius: 10px;
+    padding: 16px; margin-bottom: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .eval-quiz .eq-q { font-weight: 600; color: #1e293b; margin-bottom: 10px; }
+  .eval-quiz .eq-opt {
+    display: block; padding: 8px 12px; margin-bottom: 5px;
+    border: 2px solid #e2e8f0; border-radius: 8px;
+    cursor: pointer; font-size: 13px;
+  }
+  .eval-quiz .eq-opt:hover { border-color: #7e22ce; background: #faf5ff; }
+  .eval-quiz .eq-opt.correct { border-color: #16a34a; background: #f0fdf4; }
+  .eval-quiz .eq-opt.wrong { border-color: #dc2626; background: #fef2f2; }
+  #pieResult {
+    display: none;
+    background: linear-gradient(135deg, #7e22ce 0%, #06b6d4 100%);
+    color: white; border-radius: 14px;
+    padding: 22px; margin-top: 14px;
+    text-align: center;
+  }
+  #pieResult.show { display: block; }
+  #pieResult h3 { color: white; font-size: 20px; margin-bottom: 8px; }
+  #pieResult canvas { background: transparent; margin: 12px auto; }
+  /* Rubric */
+  .rubric-block { margin-top: 18px; }
+  .rubric-block h4 {
+    color: #7e22ce; font-size: 16px;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .student-info {
+    display: grid; grid-template-columns: 1fr 80px 130px;
+    gap: 10px; margin-bottom: 14px;
+    background: #faf5ff; padding: 12px;
+    border-radius: 10px; border: 1px solid #e9d5ff;
+  }
+  .student-info label {
+    display: block; font-size: 11px; color: #7e22ce;
+    font-weight: 700; margin-bottom: 2px; text-transform: uppercase;
+  }
+  .student-info input {
+    width: 100%; padding: 6px 10px;
+    border: 1px solid #c4b5fd; border-radius: 6px;
+    font-size: 14px; font-family: inherit;
+  }
+  .student-info input:focus { outline: none; border-color: #7e22ce; }
+  .rubric-table {
+    width: 100%; border-collapse: collapse;
+    background: white; border-radius: 10px;
+    overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    font-size: 12px; margin-bottom: 12px;
+  }
+  .rubric-table th, .rubric-table td {
+    padding: 8px 10px; border: 1px solid #e2e8f0;
+    text-align: left; vertical-align: top;
+  }
+  .rubric-table th {
+    background: #7e22ce; color: white;
+    text-align: center; font-weight: 700;
+  }
+  .rubric-table th:first-child { text-align: left; }
+  .rubric-table .rb-skill {
+    background: #faf5ff; font-weight: 600; color: #581c87;
+    width: 22%;
+  }
+  .rubric-table .rb-cell {
+    cursor: pointer; transition: all 0.15s;
+    color: #475569;
+  }
+  .rubric-table .rb-cell:hover { background: #f3e8ff; }
+  .rubric-table .rb-cell.selected {
+    background: #c4b5fd; color: #1e293b;
+    font-weight: 600;
+    box-shadow: inset 0 0 0 2px #7e22ce;
+  }
+  .rubric-summary {
+    background: #faf5ff; border-radius: 10px;
+    padding: 14px 18px; margin: 12px 0;
+    display: flex; justify-content: space-between;
+    align-items: center; flex-wrap: wrap; gap: 12px;
+  }
+  .rubric-summary .rs-score {
+    font-size: 28px; font-weight: 800; color: #7e22ce;
+  }
+  .rubric-summary .rs-band {
+    padding: 6px 14px; border-radius: 999px;
+    font-weight: 700; font-size: 13px;
+  }
+  .reflection {
+    width: 100%; min-height: 80px;
+    padding: 10px 14px; border-radius: 8px;
+    border: 1px solid #cbd5e1; font-family: inherit;
+    font-size: 13px; resize: vertical;
+    margin: 10px 0;
+  }
+  .reflection:focus { outline: none; border-color: #7e22ce; }
+  .print-btn-row {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    align-items: center; margin: 14px 0;
+    padding: 12px; background: #f8fafc;
+    border-radius: 10px;
+  }
+  .print-btn-row p { font-size: 12px; color: #64748b; margin: 0; flex: 1; }
+  /* Print styles */
+  @media print {
+    body { background: white; color: black; }
+    header, nav.tabs, footer { display: none !important; }
+    main { background: white; max-width: 100%; padding: 0; }
+    .tab-panel { display: none !important; }
+    #fivee { display: block !important; }
+    /* Hide everything in 5E EXCEPT the evaluate phase */
+    #fivee > h2,
+    #fivee > .five-intro,
+    #fivee > .phase-card.phase-engage,
+    #fivee > .phase-card.phase-explore,
+    #fivee > .phase-card.phase-explain,
+    #fivee > .phase-card.phase-elaborate { display: none !important; }
+    #fivee .phase-card.phase-evaluate {
+      box-shadow: none; border: none; padding: 0;
+      background: white !important;
+    }
+    .phase-header .phase-tagline { color: #444 !important; }
+    .eval-quiz { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
+    .rubric-table { font-size: 10px; page-break-inside: avoid; }
+    .rubric-table th { background: #666 !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .rubric-table .rb-cell.selected { background: #ddd !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .print-btn-row { display: none !important; }
+    #pieResult {
+      background: white !important;
+      color: black !important;
+      border: 1px solid #ddd;
+      -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    }
+    #pieResult h3 { color: black !important; }
+    @page { size: A4; margin: 1.2cm; }
+    .student-info { border: 1px solid #999; background: white !important; }
+    .student-info input { border: none; border-bottom: 1px solid #999; border-radius: 0; }
+    .reflection { border: 1px solid #999; }
+    /* Signature lines */
+    .sig-row { margin-top: 30px; display: flex !important; gap: 40px; }
+    .sig-line { flex: 1; border-top: 1px solid #999; padding-top: 4px; font-size: 11px; color: #666; text-align: center; }
+  }
+  .sig-row { display: none; }
+</style>
+<link rel="stylesheet" href="smile-chapter-assessment.css">
+</head>
+<body>
+
+<header>
+  <h1>A Journey through States of Water</h1>
+</header>
+
+<nav class="tabs">
+  <button type="button" onclick="event.stopImmediatePropagation(); window.location.href='index.html'; return false;" style="background:#fef3c7; color:#b45309; padding:10px 16px; font-size:13px; font-weight:600; border-radius:8px; border:none; cursor:pointer; font-family:inherit;">🏠 Home</button>
+  <button data-tab="concepts" class="active">Concepts</button>
+  <button data-tab="kwl" style="background:#fef3c7; color:#b45309;">📝 KWL Chart</button>
+  <button data-tab="fivee">5E Method 📚</button>
+  <button data-tab="story">Story &amp; Cartoons</button>
+  <button data-tab="simulations">Water Lab 💧</button>
+  <button data-tab="experiments">Virtual Experiments</button>
+  <button data-tab="lab">Lab Experiments</button>
+  <button data-tab="quiz">Quiz</button>
+</nav>
+
+<main>
+
+<!-- =================== CONCEPTS =================== -->
+<section id="concepts" class="tab-panel active">
+  <h2 class="section-title">Key Concepts</h2>
+
+  <div class="quote-card">
+    <div class="quote-text">"If it does not rain well, even the mighty ocean will be drained."</div>
+    <div class="quote-author">— Thirukkural (ancient Tamil text)</div>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <span class="badge">Big Idea</span>
+      <h3 class="card-title">Same Substance, Three Faces 🧊💧☁️</h3>
+      <p>Ice feels hard. Water flows. Water vapour is invisible. Could they really be the same thing?</p>
+      <p><b>YES!</b> They are three <b>states</b> of the SAME substance — H₂O.</p>
+      <ul>
+        <li>🧊 <b>Ice</b> — solid state</li>
+        <li>💧 <b>Water</b> — liquid state</li>
+        <li>☁️ <b>Water vapour</b> — gaseous state</li>
+      </ul>
+      <div class="key-fact">Take an ice cube out of the freezer → wait → it melts to water. Same substance, just changed state.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge">8.1</span>
+      <h3 class="card-title">Evaporation 💧→☁️</h3>
+      <p>Wet clothes dry. Puddles disappear. Water on a hot pan vanishes.</p>
+      <p><b>Evaporation</b> is the process of water turning into <b>water vapour</b> — even at room temperature.</p>
+      <ul>
+        <li>Drying of mopped floor</li>
+        <li>Sweat on our body dries up</li>
+        <li>Hand sanitiser feels cool as it evaporates</li>
+      </ul>
+      <div class="key-fact">Water vapour is invisible! Steam from a kettle is visible only because of tiny droplets, not the vapour itself.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-cyan badge">8.2</span>
+      <h3 class="card-title">Condensation ☁️→💧</h3>
+      <p>Why do water drops form on the outside of a glass of cold water? The water didn't seep through!</p>
+      <p><b>Condensation</b> is water vapour from the air turning back into liquid when it touches a <b>cold surface</b>.</p>
+      <ul>
+        <li>Dew on plants in the morning 🌿</li>
+        <li>Water under a steel plate on a boiling pot</li>
+        <li>Fog on a cold window</li>
+        <li>Clouds in the sky (giant condensation!)</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <span class="badge-yellow badge">Experiment</span>
+      <h3 class="card-title">Did Water Seep Through? Or Form from Air?</h3>
+      <p>The "weighing balance test" (Activity 8.4) settles it:</p>
+      <ol style="margin-left: 18px; font-size: 14px; color: #475569;">
+        <li>Put glass of cold water on a digital balance</li>
+        <li>Wait 30 minutes, observing mass every 5 min</li>
+        <li>Mass <b>INCREASES</b> as droplets form outside!</li>
+      </ol>
+      <div class="key-fact">Mass can't appear from nowhere. The extra water came from the AIR around (water vapour) → condensation!</div>
+    </div>
+
+    <div class="card">
+      <span class="badge">8.3</span>
+      <h3 class="card-title">Properties of the Three States</h3>
+      <table>
+        <tr><th>Property</th><th>🧊 Ice (Solid)</th><th>💧 Water (Liquid)</th><th>☁️ Vapour (Gas)</th></tr>
+        <tr><td>Shape</td><td>Fixed</td><td>Takes container's</td><td>No shape</td></tr>
+        <tr><td>Flows?</td><td>No</td><td>Yes</td><td>Yes (spreads)</td></tr>
+        <tr><td>Spreads?</td><td>No</td><td>Yes (but volume fixed)</td><td>Fills all available space</td></tr>
+        <tr><td>Visible?</td><td>Yes</td><td>Yes</td><td>Invisible (!)</td></tr>
+      </table>
+      <div class="key-fact">Other substances also have states: wax, ghee, oil can be solid or liquid depending on temperature.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-cyan badge">8.4</span>
+      <h3 class="card-title">The Big Four State Changes</h3>
+      <ul>
+        <li><b>Melting</b>: Solid → Liquid (heat) — e.g. ice melts</li>
+        <li><b>Freezing</b>: Liquid → Solid (cool) — water freezes</li>
+        <li><b>Evaporation</b>: Liquid → Gas (heat) — water → vapour</li>
+        <li><b>Condensation</b>: Gas → Liquid (cool) — vapour → droplets</li>
+      </ul>
+      <div class="key-fact">Pattern: <b>heat = one direction</b>, <b>cool = the other direction</b>. State changes are reversible!</div>
+    </div>
+
+    <div class="card">
+      <span class="badge">8.5</span>
+      <h3 class="card-title">What Makes Evaporation FASTER?</h3>
+      <p>Four factors:</p>
+      <ul>
+        <li><b>Bigger surface area</b> — plate > bottle cap</li>
+        <li><b>Higher temperature</b> — sun > shade, hot day > cold day</li>
+        <li><b>More wind</b> — windy > still air</li>
+        <li><b>Lower humidity</b> — dry air > humid air</li>
+      </ul>
+      <div class="key-fact">That's why clothes dry faster on a hot, windy, sunny day — and slower on a humid rainy day.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-yellow badge">8.6</span>
+      <h3 class="card-title">Cooling Effect of Evaporation</h3>
+      <p>When water evaporates, it takes <b>heat</b> away with it. Things left behind get cooler!</p>
+      <ul>
+        <li><b>Matka / Surahi</b>: water seeps through clay, evaporates, cools the water inside</li>
+        <li><b>Sweating</b>: body cools as sweat evaporates</li>
+        <li><b>Sanitiser</b>: feels cold on hands</li>
+        <li><b>Sprinkling water on floor</b>: cools the house in summer</li>
+      </ul>
+      <div class="key-fact">Why we feel cooler under a fan: the wind speeds up sweat evaporation!</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-purple badge">India</span>
+      <h3 class="card-title">🏺 Pot-in-Pot Cooler</h3>
+      <p>An ancient Indian invention — no electricity needed!</p>
+      <p>Two earthen pots, one inside the other, with wet sand between. As water evaporates from the sand, it cools the inner pot — keeping vegetables fresh for days!</p>
+      <div class="key-fact">Also called a <b>Zeer pot</b>. Used today by farmers in regions without refrigerators.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-cyan badge">8.7</span>
+      <h3 class="card-title">Clouds &amp; Rain ☁️→☔</h3>
+      <p>How does ocean water end up falling on your school?</p>
+      <ol style="margin-left: 18px; font-size: 14px; color: #475569;">
+        <li><b>Evaporation</b>: Sun heats ocean — water becomes vapour</li>
+        <li><b>Rising</b>: Water vapour is lighter than air, so it goes up</li>
+        <li><b>Cooling</b>: High up, the air is cool</li>
+        <li><b>Condensation</b>: Vapour forms droplets around dust particles</li>
+        <li><b>Cloud</b>: Droplets float together as clouds</li>
+        <li><b>Rain</b>: Droplets join and grow heavy → fall as rain (or snow/hail)</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <span class="badge">Water Cycle</span>
+      <h3 class="card-title">The Endless Journey 🔄</h3>
+      <p>Water never disappears — it just <b>cycles</b>:</p>
+      <p style="text-align: center; font-weight: 600; color: #0284c7; padding: 10px; background: #eff6ff; border-radius: 8px; margin: 10px 0;">
+        Ocean → Evaporates → Clouds → Rain → Rivers → Ocean → repeat 🔁
+      </p>
+      <p>Same drops of water have been cycling for billions of years. The water you drink today may have once been in a dinosaur 🦕!</p>
+    </div>
+
+    <div class="card">
+      <span class="badge">AWG</span>
+      <h3 class="card-title">Atmospheric Water Generator 💦</h3>
+      <p>Modern machines actually COLLECT water from the air!</p>
+      <p>They cool down humid air → water vapour condenses → drinkable water.</p>
+      <p>Useful in dry regions where rain is scarce. Same principle as a glass of ice water in summer (just on a bigger scale).</p>
+    </div>
+
+    <div class="card">
+      <span class="badge-yellow badge">Conserve</span>
+      <h3 class="card-title">Why Save Water?</h3>
+      <p>Only a tiny fraction of Earth's water is drinkable:</p>
+      <ul>
+        <li>~97% is salty ocean water (can't drink)</li>
+        <li>~2% is frozen in glaciers</li>
+        <li>Less than 1% is the fresh water we use!</li>
+      </ul>
+      <div class="key-fact">⚠️ With population growing, water shortages are real. Don't waste water. Don't pollute rivers/lakes!</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-cyan badge">Aavi's Poem</span>
+      <h3 class="card-title">A Poem about Water</h3>
+      <div style="font-style: italic; padding: 10px; background: #eff6ff; border-radius: 8px; color: #1e3a8a; font-family: Georgia, serif;">
+        I wonder, oh! I wonder so,<br>
+        Which path does water choose to go?<br>
+        I wonder, oh! I wonder so,<br>
+        When does it snow?<br>
+        I wonder, oh! I got a wonder call,<br>
+        How does rain fall?<br>
+        ...<br>
+        I wonder, ponder and dream each day,<br>
+        As water's journey takes its way.
+      </div>
+      <p style="font-size: 12px; color: #64748b; margin-top: 8px;">— Aavi (your textbook character)</p>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 5E METHOD =================== -->
+<section id="fivee" class="tab-panel">
+  <h2 class="section-title">📚 The 5E Learning Path</h2>
+  <div class="five-intro">
+    The <b>5E Model</b> — Engage, Explore, Explain, Elaborate, Evaluate — is how scientists actually learn. Walk through Chapter 8 using all five steps below. Each phase builds on the one before.
+  </div>
+
+  <!-- E1: ENGAGE -->
+  <div class="phase-card phase-engage">
+    <div class="phase-header">
+      <span class="phase-num">1</span>
+      <div>
+        <h3>🎯 ENGAGE</h3>
+        <p class="phase-tagline">Spark curiosity. Notice something interesting in everyday life.</p>
+      </div>
+    </div>
+
+    <div class="dialog-story">
+      <p style="text-align: center; font-weight: 700; color: #b45309; font-size: 15px; margin-bottom: 14px;">
+        📖 A Hot Afternoon with Swara, Ahana &amp; Amma
+      </p>
+
+      <p class="narration">A bright Sunday afternoon in May. The fans whirr above. Swara (age 11) and her younger sister Ahana (age 9) sprawl on the cool floor.</p>
+
+      <p><span class="speaker swara">Swara:</span> Amma! I'm SO thirsty. And it's so hot today.</p>
+
+      <p class="narration">Amma walks in with a brass tray and two glasses of shikanji from the kitchen.</p>
+
+      <p><span class="speaker amma">Amma:</span> Here, beta — fresh shikanji from the matka.</p>
+
+      <p><span class="speaker ahana">Ahana:</span> <i>(takes a sip)</i> Mmm! This is SO cold! But Amma — there's no fridge in the kitchen. How is the water cold?</p>
+
+      <p><span class="speaker amma">Amma:</span> Good question! The water seeps a tiny bit through the porous clay of the matka. From outside, it slowly turns into water vapour — that's called <span class="vocab-term">evaporation</span>. And here's the clever part: evaporation takes <i>heat</i> away with it. So the matka has a <span class="vocab-term">cooling effect</span> on the water inside.</p>
+
+      <p><span class="speaker swara">Swara:</span> <i>(holding her glass)</i> Amma… look! The OUTSIDE of my glass is wet. Is it leaking?</p>
+
+      <p><span class="speaker amma">Amma:</span> Not at all. The air around us has tiny invisible particles of water floating in it — we call that <span class="vocab-term">water vapour</span>. When the water vapour touches a cold surface like your cold glass, it turns back into liquid droplets. That's called <span class="vocab-term">condensation</span>.</p>
+
+      <p><span class="speaker ahana">Ahana:</span> So the droplets came from the AIR?? Not from inside the glass?</p>
+
+      <p><span class="speaker amma">Amma:</span> Exactly! You can prove it — mark the level inside, weigh the glass, wait an hour. The level inside won't change, but the glass will be heavier. Magic? No — just science.</p>
+
+      <p class="narration">The kettle on the stove starts whistling. White steam streams from its spout.</p>
+
+      <p><span class="speaker swara">Swara:</span> What's the white cloud coming out of the kettle?</p>
+
+      <p><span class="speaker amma">Amma:</span> That's steam — actually it's tiny droplets of water in the air. The hot water inside has turned into water vapour and is rushing out. Going from <span class="vocab-term">liquid</span> to <span class="vocab-term">gas</span> is called evaporation, like I told you.</p>
+
+      <p><span class="speaker ahana">Ahana:</span> Oooh! Like our wet clothes drying in the sun!</p>
+
+      <p><span class="speaker amma">Amma:</span> Yes! Same idea.</p>
+
+      <p class="narration">Amma walks into the kitchen and opens the freezer — and gasps.</p>
+
+      <p><span class="speaker amma">Amma:</span> Oh no, I left the door slightly open. Come see, girls.</p>
+
+      <p class="narration">Inside, the ice tray is half-melted — solid cubes have collapsed into a small pool.</p>
+
+      <p><span class="speaker swara">Swara:</span> The ice became water!</p>
+
+      <p><span class="speaker amma">Amma:</span> Yes — going from <span class="vocab-term">solid</span> to <span class="vocab-term">liquid</span> is called <span class="vocab-term">melting</span>. If I close the freezer tightly now, the water will become hard ice again — that\'s called <span class="vocab-term">freezing</span>.</p>
+
+      <p><span class="speaker ahana">Ahana:</span> Wait — so ice, water, and water vapour are all the same thing?</p>
+
+      <p><span class="speaker amma">Amma:</span> Yes! They\'re all the same H₂O — just in different <span class="vocab-term">states</span>. <span class="vocab-term">Ice</span> is the solid state, water is the liquid state, water vapour is the gaseous state.</p>
+
+      <p class="narration">Ahana runs to the window. Clouds float over the colony.</p>
+
+      <p><span class="speaker ahana">Ahana:</span> What about clouds, Amma? Are they water too?</p>
+
+      <p><span class="speaker amma">Amma:</span> Yes! Up high where the air is cool, water vapour condenses around tiny dust particles — and the droplets float as clouds. When droplets get heavy, they fall as <span class="vocab-term">rain</span> (or snow or hail). The whole journey — ocean → vapour → cloud → rain → river → ocean — is called the <span class="vocab-term">water cycle</span>.</p>
+
+      <p><span class="speaker swara">Swara:</span> <i>(slowly, looking at her glass)</i> So this water in my shikanji… has probably been ocean water, cloud, rain — over and over again?</p>
+
+      <p><span class="speaker amma">Amma:</span> Yes! The same water has been cycling for billions of years. The water you\'re drinking today may have once been drunk by a dinosaur!</p>
+
+      <p class="narration">The sisters look at each other, then at their glasses. Then they take a long, slow sip.</p>
+
+      <p><span class="speaker ahana">Ahana:</span> <i>(grinning)</i> Whoaaa.</p>
+    </div>
+
+    <div class="vocab-summary">
+      <h4>📚 9 new science words you just learnt:</h4>
+      <div class="vocab-chips">
+        <span class="vocab-chip">states (solid / liquid / gas)</span>
+        <span class="vocab-chip">water vapour</span>
+        <span class="vocab-chip">evaporation</span>
+        <span class="vocab-chip">condensation</span>
+        <span class="vocab-chip">melting</span>
+        <span class="vocab-chip">freezing</span>
+        <span class="vocab-chip">cooling effect</span>
+        <span class="vocab-chip">rain / precipitation</span>
+        <span class="vocab-chip">water cycle</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- E2: EXPLORE -->
+  <div class="phase-card phase-explore">
+    <div class="phase-header">
+      <span class="phase-num">2</span>
+      <div>
+        <h3>🔬 EXPLORE</h3>
+        <p class="phase-tagline">Now go try them yourself. Hands-on with the world.</p>
+      </div>
+    </div>
+
+    <p style="margin-bottom: 12px; color: #475569;">Pick any of these three core experiments. Each one will show you something the story talked about — but with your own hands.</p>
+
+    <div class="exp-mini">
+      <h5>🧊 Experiment 1: Ice Cube on a Warm Table (5 min)</h5>
+      <p><b>What you need:</b> 1 ice cube, a small saucer.</p>
+      <p><b>Do this:</b> Place the ice in the saucer on the table. Watch every minute for 20 minutes.</p>
+      <p><b>What to observe:</b> Solid → liquid. The same substance, different state. <i>Concept: melting.</i></p>
+    </div>
+
+    <div class="exp-mini">
+      <h5>💧 Experiment 2: Water on a Plate (1 hour)</h5>
+      <p><b>What you need:</b> 1 tablespoon of water, a steel plate, a sunny window or warm room.</p>
+      <p><b>Do this:</b> Pour the water onto the plate. Place near sunlight. Check every 15 min. The plate doesn\'t leak — but the water keeps shrinking.</p>
+      <p><b>What to observe:</b> Liquid disappearing into thin air. <i>Concept: evaporation.</i></p>
+    </div>
+
+    <div class="exp-mini">
+      <h5>🥶 Experiment 3: Wet Cold Glass (5 min)</h5>
+      <p><b>What you need:</b> A glass, cold tap water, 2-3 ice cubes.</p>
+      <p><b>Do this:</b> Fill glass with cold water + ice. Wait 5 minutes. Touch the outside — wet!</p>
+      <p><b>What to observe:</b> The water came from the AIR, not the glass. <i>Concept: condensation.</i></p>
+    </div>
+
+    <p style="margin-top: 10px; font-size: 13px; color: #475569;">→ For step-by-step procedures, materials, and safety — see the <b>Lab Experiments</b> tab.</p>
+  </div>
+
+  <!-- E3: EXPLAIN -->
+  <div class="phase-card phase-explain">
+    <div class="phase-header">
+      <span class="phase-num">3</span>
+      <div>
+        <h3>📖 EXPLAIN</h3>
+        <p class="phase-tagline">Put names &amp; connections to what you observed.</p>
+      </div>
+    </div>
+
+    <p style="margin-bottom: 10px; color: #475569;">All the things from the story and your experiments tie together into one big picture. Here\'s the concept map:</p>
+
+    <canvas id="conceptMapCanvas" width="600" height="420"></canvas>
+
+    <div class="result-box" style="margin-top: 10px;">
+      <b>Key insight:</b> Water is ONE substance with THREE states. You can switch between any two states by adding or removing heat. The whole world\'s water keeps cycling between these states — that\'s the water cycle.
+    </div>
+  </div>
+
+  <!-- E4: ELABORATE -->
+  <div class="phase-card phase-elaborate">
+    <div class="phase-header">
+      <span class="phase-num">4</span>
+      <div>
+        <h3>🌍 ELABORATE</h3>
+        <p class="phase-tagline">Apply what you learned to bigger, deeper questions.</p>
+      </div>
+    </div>
+
+    <p style="margin-bottom: 12px; color: #475569;">Want to take the learning further? Use the procedure document from your kit to do extended experiments at home — like building a pot-in-pot cooler, a mini water cycle, or measuring real humidity changes.</p>
+
+    <a href="./kit-procedure-chapter8.pdf" target="_blank" class="kit-link">
+      <span class="kit-icon">📄</span>
+      <span>Open Kit Procedure Document — Chapter 8</span>
+      <span style="margin-left: 6px;">↗</span>
+    </a>
+
+    <p style="font-size: 12px; color: #64748b; margin-top: 6px;">
+      <i>Note: this link opens the procedure PDF from your science kit. If it doesn\'t open, ask your teacher for the file or replace the link with your own kit path.</i>
+    </p>
+
+    <div style="margin-top: 16px;">
+      <b style="color: #15803d;">Some things to try after the kit:</b>
+      <ul style="margin-left: 18px; margin-top: 6px; font-size: 13px; color: #475569;">
+        <li>Build your own pot-in-pot cooler at home with two clay pots and sand.</li>
+        <li>Track local humidity for 14 days. Do clothes really dry slower on humid days?</li>
+        <li>Make rain inside a jar: warm water below, ice on top — watch it work!</li>
+        <li>Find out which materials condense water best (glass, metal, plastic).</li>
+        <li>Read about Atmospheric Water Generators — could they help drought-hit areas?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- E5: EVALUATE -->
+  <div class="phase-card phase-evaluate">
+    <div class="phase-header">
+      <span class="phase-num">5</span>
+      <div>
+        <h3>✓ EVALUATE</h3>
+        <p class="phase-tagline">Check what stuck — and see your score as a pie chart!</p>
+      </div>
+    </div>
+
+    <p style="margin-bottom: 10px; color: #475569;">Five quick questions. Click your answer. After all five, see your score as a pie chart!</p>
+
+    <div id="evalQuizContainer"></div>
+
+    <div id="pieResult">
+      <h3>Your Score</h3>
+      <canvas id="piechartCanvas" width="300" height="300"></canvas>
+      <div id="piechartLabel" style="font-size: 18px; font-weight: 700; margin-top: 10px;"></div>
+      <div id="piechartLegend" style="margin-top: 10px; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap;"></div>
+    </div>
+
+    <!-- ====== OVERALL ASSESSMENT RUBRIC ====== -->
+    <div class="rubric-block">
+      <h4>📋 Overall Assessment Rubric</h4>
+      <p style="font-size: 13px; color: #475569; margin-bottom: 10px;">
+        For each skill below, click the box that best describes you. The total updates automatically. Use the print button at the bottom to save your assessment as a PDF.
+      </p>
+
+      <div class="student-info">
+        <div>
+          <label>Student Name</label>
+          <input type="text" id="studentName" placeholder="Your name" />
+        </div>
+        <div>
+          <label>Class</label>
+          <input type="text" id="studentClass" placeholder="6" />
+        </div>
+        <div>
+          <label>Date</label>
+          <input type="date" id="studentDate" />
+        </div>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="rubric-table" id="rubricTable">
+          <thead>
+            <tr>
+              <th>Skill / Criterion</th>
+              <th>1 — Beginning</th>
+              <th>2 — Developing</th>
+              <th>3 — Proficient</th>
+              <th>4 — Advanced</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-criterion="0">
+              <td class="rb-skill">Identifying the 3 states of water</td>
+              <td class="rb-cell" data-level="1">Can name only 1 or 2 states</td>
+              <td class="rb-cell" data-level="2">Can name all 3, sometimes mixed up</td>
+              <td class="rb-cell" data-level="3">Names all 3 with one example each</td>
+              <td class="rb-cell" data-level="4">Compares properties (shape, flow, volume) of all 3</td>
+            </tr>
+            <tr data-criterion="1">
+              <td class="rb-skill">Explaining state changes (melt/freeze/evaporate/condense)</td>
+              <td class="rb-cell" data-level="1">Recognises one process by name</td>
+              <td class="rb-cell" data-level="2">Knows 2-3 processes by name</td>
+              <td class="rb-cell" data-level="3">All 4 processes named with direction (heat/cool)</td>
+              <td class="rb-cell" data-level="4">Predicts which process happens in real situations</td>
+            </tr>
+            <tr data-criterion="2">
+              <td class="rb-skill">Identifying evaporation in daily life</td>
+              <td class="rb-cell" data-level="1">Doesn\'t recognise evaporation yet</td>
+              <td class="rb-cell" data-level="2">Gives 1 example (e.g., wet clothes)</td>
+              <td class="rb-cell" data-level="3">Gives 2-3 examples with explanation</td>
+              <td class="rb-cell" data-level="4">Explains factors that speed it up (heat, wind, area)</td>
+            </tr>
+            <tr data-criterion="3">
+              <td class="rb-skill">Identifying condensation in daily life</td>
+              <td class="rb-cell" data-level="1">Confuses condensation with other ideas</td>
+              <td class="rb-cell" data-level="2">Recognises cold-glass droplets as condensation</td>
+              <td class="rb-cell" data-level="3">Explains how cold surface + air vapour create droplets</td>
+              <td class="rb-cell" data-level="4">Connects to dew, clouds, fog on windows</td>
+            </tr>
+            <tr data-criterion="4">
+              <td class="rb-skill">Cooling effect (matka / sweat / sanitiser)</td>
+              <td class="rb-cell" data-level="1">Not yet aware of evaporation cooling</td>
+              <td class="rb-cell" data-level="2">Knows matka water stays cool, but unsure why</td>
+              <td class="rb-cell" data-level="3">Explains that evaporation takes heat away</td>
+              <td class="rb-cell" data-level="4">Applies to sweating, sanitiser, sprinkling water</td>
+            </tr>
+            <tr data-criterion="5">
+              <td class="rb-skill">The water cycle</td>
+              <td class="rb-cell" data-level="1">Doesn\'t recall the cycle yet</td>
+              <td class="rb-cell" data-level="2">Knows water "comes from clouds"</td>
+              <td class="rb-cell" data-level="3">Describes evaporation → cloud → rain → river</td>
+              <td class="rb-cell" data-level="4">Draws or labels a complete water cycle diagram</td>
+            </tr>
+            <tr data-criterion="6">
+              <td class="rb-skill">Scientific vocabulary &amp; experiment skills</td>
+              <td class="rb-cell" data-level="1">Uses everyday words only</td>
+              <td class="rb-cell" data-level="2">Uses 2-3 science words sometimes</td>
+              <td class="rb-cell" data-level="3">Uses correct vocabulary (vapour, condense…)</td>
+              <td class="rb-cell" data-level="4">Explains experiments using full scientific language</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="rubric-summary">
+        <div>
+          <div style="font-size: 11px; color: #7e22ce; text-transform: uppercase; font-weight: 700;">Total Score</div>
+          <div><span class="rs-score" id="rubricTotal">0</span> <span style="color: #94a3b8; font-size: 16px;">/ 28</span></div>
+        </div>
+        <div>
+          <div style="font-size: 11px; color: #7e22ce; text-transform: uppercase; font-weight: 700;">Performance Band</div>
+          <span class="rs-band" id="rubricBand" style="background: #e2e8f0; color: #475569;">— Not yet scored —</span>
+        </div>
+        <div>
+          <div style="font-size: 11px; color: #7e22ce; text-transform: uppercase; font-weight: 700;">Average Level</div>
+          <div style="font-weight: 700; font-size: 18px; color: #581c87;" id="rubricAvg">—</div>
+        </div>
+      </div>
+
+      <div>
+        <label style="font-size: 12px; color: #7e22ce; font-weight: 700; text-transform: uppercase;">Student Reflection</label>
+        <textarea class="reflection" id="reflectionText" placeholder="What did I learn well? What do I still want to explore?"></textarea>
+      </div>
+
+      <div>
+        <label style="font-size: 12px; color: #7e22ce; font-weight: 700; text-transform: uppercase;">Teacher / Parent Comments</label>
+        <textarea class="reflection" id="teacherComments" placeholder="Comments and feedback..."></textarea>
+      </div>
+
+      <!-- Signature lines (visible only when printing) -->
+      <div class="sig-row">
+        <div class="sig-line">Student signature</div>
+        <div class="sig-line">Teacher / Parent signature</div>
+      </div>
+
+      <div class="print-btn-row">
+        <p>Click below to save this rubric assessment (with your quiz score + reflections) as a PDF or print it. Use your browser\'s "Save as PDF" option in the print dialog.</p>
+        <button class="btn" onclick="window.print()" style="background: #7e22ce;">🖨️ Save as PDF / Print</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== STORY =================== -->
+<section id="story" class="tab-panel">
+  <h2 class="section-title">Story &amp; Cartoons</h2>
+
+  <div class="story-card">
+    <h3 class="card-title">Story 1: Is Ice and Water the SAME?</h3>
+    <div class="story-intro">
+      Aavi and Thirav are sipping shikanji on a summer afternoon. Thirav looks at the ice — hard, cold, holdable. He looks at the water — flows, splashes, no shape. "These can't be the same thing!" he says. But Aavi has a twist. Let's settle this.
+    </div>
+    <div class="comic-strip" id="strip1"></div>
+  </div>
+
+  <div class="story-card">
+    <h3 class="card-title">Story 2: The Disappearing Puddle</h3>
+    <div class="story-intro">
+      A rainy morning leaves puddles all over the playground. By evening, they're gone. Where did the water go? Soaked into the ground? Magic? Or something else? Aavi and Thirav investigate.
+    </div>
+    <div class="comic-strip" id="strip2"></div>
+  </div>
+
+  <div class="story-card">
+    <h3 class="card-title">Story 3: The Mystery of the Wet Glass</h3>
+    <div class="story-intro">
+      Cold water + ice in a glass. After 5 minutes, the OUTSIDE of the glass is wet. The water can't be seeping through... can it? Time for a weighing balance.
+    </div>
+    <div class="comic-strip" id="strip3"></div>
+  </div>
+
+  <div class="story-card">
+    <h3 class="card-title">Story 4: The Cool Matka</h3>
+    <div class="story-intro">
+      Aavi's mother brings home a new earthen matka. Aavi drinks the water — and gasps. "How is this so cold?? There's no fridge!" The ancient secret of evaporation cooling.
+    </div>
+    <div class="comic-strip" id="strip4"></div>
+  </div>
+
+  <div class="story-card">
+    <h3 class="card-title">Story 5: From Ocean to Cloud to Your Glass</h3>
+    <div class="story-intro">
+      Follow a single drop of water as it leaves the ocean, becomes a cloud, falls as rain, flows down a river, and eventually fills your school's drinking glass. The endless water cycle.
+    </div>
+    <div class="comic-strip" id="strip5"></div>
+  </div>
+</section>
+
+<!-- =================== WATER LAB =================== -->
+<section id="simulations" class="tab-panel">
+  <h2 class="section-title">💧 Water Lab</h2>
+
+  <div class="sim-card">
+    <h3 class="card-title">1. Change the State! (Heat / Cool slider)</h3>
+    <p>Drag the temperature slider. Watch water transform between ice, water, and water vapour.</p>
+    <div class="controls">
+      <label>Temperature: <span id="stateTempVal">25</span> °C</label>
+      <input type="range" id="stateTempSlider" min="-30" max="150" step="1" value="25" oninput="stateSim.update()">
+    </div>
+    <canvas id="stateCanvas" width="600" height="320"></canvas>
+    <div class="result-box" id="stateResult">Drag the slider — drop to ice or push to boiling!</div>
+  </div>
+
+  <div class="sim-card">
+    <h3 class="card-title">2. Evaporation Race (Surface Area + Sunlight)</h3>
+    <p>Two containers — same amount of water. One spread out on a plate, one in a bottle cap. Which evaporates first? Plus — is it in sun or shade?</p>
+    <div class="controls">
+      <div class="toggle-group" id="evapCondToggle">
+        <button data-c="sun" class="active">In sunlight</button>
+        <button data-c="shade">In shade</button>
+      </div>
+      <button class="btn" onclick="evapSim.start()">Start the race</button>
+      <button class="btn secondary" onclick="evapSim.reset()">Reset</button>
+    </div>
+    <canvas id="evapCanvas" width="600" height="280"></canvas>
+    <div class="observation" id="evapObs">Pick conditions, then start. Watch the plate empty faster than the cap!</div>
+  </div>
+
+  <div class="sim-card">
+    <h3 class="card-title">3. Condensation Live — Cold Glass + Air</h3>
+    <p>Cold glass sitting in humid air. Water vapour from the air touches the cold surface. Droplets form. Watch live!</p>
+    <div class="controls">
+      <button class="btn cyan" onclick="condSim.start()">Add ice + watch</button>
+      <button class="btn secondary" onclick="condSim.reset()">Reset</button>
+    </div>
+    <canvas id="condCanvas" width="600" height="320"></canvas>
+    <div class="observation" id="condObs">Start to watch droplets form on the cold glass over time. The mass goes UP!</div>
+  </div>
+
+  <div class="sim-card">
+    <h3 class="card-title">4. The Water Cycle (Animated)</h3>
+    <p>Watch the entire journey of water — from ocean to cloud to rain to river — in a continuous loop. The animation runs as long as you let it.</p>
+    <div class="controls">
+      <button class="btn" onclick="cycleSim.toggle()">Play / Pause</button>
+      <button class="btn secondary" onclick="cycleSim.reset()">Reset</button>
+    </div>
+    <canvas id="cycleCanvas" width="600" height="340"></canvas>
+    <div class="observation" id="cycleObs">Click <b>Play</b> to start the endless water cycle.</div>
+  </div>
+
+  <div class="sim-card">
+    <h3 class="card-title">5. Build Your Pot-in-Pot Cooler</h3>
+    <p>Step through how to make a clay-pot fridge — no electricity needed!</p>
+    <div class="controls">
+      <button class="btn" onclick="potSim.next()">Next step</button>
+      <button class="btn secondary" onclick="potSim.reset()">Reset</button>
+    </div>
+    <canvas id="potCanvas" width="600" height="280"></canvas>
+    <div class="step-display" id="potStep">Click to assemble the pot-in-pot cooler step by step.</div>
+  </div>
+</section>
+
+<!-- =================== VIRTUAL EXPERIMENTS =================== -->
+<section id="experiments" class="tab-panel">
+  <h2 class="section-title">Virtual Experiments</h2>
+
+  <div class="exp-card">
+    <h3 class="card-title">Activity 8.1 — Ice in a Cup</h3>
+    <p>An ice cube left on the table. Watch what happens over time.</p>
+    <canvas id="expIceCanvas" width="600" height="280"></canvas>
+    <div class="controls">
+      <button class="btn" onclick="expIce.start()">Start (5 min)</button>
+      <button class="btn secondary" onclick="expIce.reset()">Reset</button>
+    </div>
+    <div class="step-display" id="expIceStep">Click to fast-forward 5 minutes of melting.</div>
+  </div>
+
+  <div class="exp-card">
+    <h3 class="card-title">Activity 8.2 — Water on a Steel Plate</h3>
+    <p>A tablespoon of water on a plate. Does it seep through? Or evaporate?</p>
+    <canvas id="expPlateCanvas" width="600" height="280"></canvas>
+    <div class="controls">
+      <button class="btn" onclick="expPlate.start()">Start watching</button>
+      <button class="btn secondary" onclick="expPlate.reset()">Reset</button>
+    </div>
+    <div class="step-display" id="expPlateStep">Click to start observing.</div>
+  </div>
+
+  <div class="exp-card">
+    <h3 class="card-title">Activity 8.4 — Weighing Balance Test</h3>
+    <p>Glass of cold water + ice on a digital balance. Watch the mass go UP over 30 minutes.</p>
+    <canvas id="expWeighCanvas" width="600" height="300"></canvas>
+    <div class="controls">
+      <button class="btn cyan" onclick="expWeigh.start()">Watch 30 min</button>
+      <button class="btn secondary" onclick="expWeigh.reset()">Reset</button>
+    </div>
+    <div class="step-display" id="expWeighStep">Click to begin. Mass should rise as droplets form on the outside.</div>
+  </div>
+
+  <div class="exp-card">
+    <h3 class="card-title">Activity 8.5 — Ice / Water / Vapour Shape Test</h3>
+    <p>Pour each into containers of different shapes. Which keeps its shape? Which flows? Which fills all space?</p>
+    <canvas id="expShapeCanvas" width="600" height="320"></canvas>
+    <div class="controls">
+      <div class="toggle-group" id="shapeToggle">
+        <button data-s="ice" class="active">Ice cube</button>
+        <button data-s="water">Water</button>
+        <button data-s="vapour">Water vapour</button>
+      </div>
+    </div>
+    <div class="step-display" id="expShapeStep">Pick a state and see how it behaves in different containers.</div>
+  </div>
+
+  <div class="exp-card">
+    <h3 class="card-title">Activity 8.6 — Fill in the State Change Diagram</h3>
+    <p>The classic state change diagram. Click each empty box to learn what process belongs there.</p>
+    <canvas id="expDiagramCanvas" width="600" height="280"></canvas>
+    <div class="controls">
+      <div class="toggle-group" id="procToggle">
+        <button data-p="melt" class="active">Melt</button>
+        <button data-p="freeze">Freeze</button>
+        <button data-p="evap">Evaporate</button>
+        <button data-p="cond">Condense</button>
+      </div>
+    </div>
+    <div class="step-display" id="expDiagramStep">Click each process to highlight it on the diagram.</div>
+  </div>
+
+  <div class="exp-card">
+    <h3 class="card-title">Activity 8.10 — Clouds in a Bottle</h3>
+    <p>Squeeze a plastic bottle with a little water + smoke (from burnt paper). Watch tiny clouds form!</p>
+    <canvas id="expBottleCanvas" width="600" height="280"></canvas>
+    <div class="controls">
+      <button class="btn" onclick="expBottle.next()">Next step</button>
+      <button class="btn secondary" onclick="expBottle.reset()">Reset</button>
+    </div>
+    <div class="step-display" id="expBottleStep">Walk through how to demonstrate cloud formation.</div>
+  </div>
+</section>
+
+<!-- =================== LAB EXPERIMENTS =================== -->
+<section id="lab" class="tab-panel">
+  <h2 class="section-title">🧪 Lab Experiments — Try These at Home / In Class</h2>
+  <p style="margin-bottom: 18px; color: #475569; font-size: 14px;">
+    All textbook activities + bonus add-ons.
+    <span style="display:inline-block; margin-left:10px;"><span class="difficulty easy">Easy</span><span class="difficulty medium">Medium</span><span class="difficulty hard">Adult Help</span></span>
+  </p>
+
+  <h3 style="color: #0284c7; font-size: 18px; margin: 20px 0 12px;">📘 From the Textbook</h3>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 8.1 — Watch Ice Melt <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>An ice cube</li>
+        <li>A clean dry cup</li>
+        <li>A timer</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Place the ice cube in the cup.</li>
+        <li>Leave it on the table at room temperature.</li>
+        <li>Observe at 0, 5, 10, 15, and 20 minutes.</li>
+        <li>Note when it has fully melted into water.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Ice (solid H₂O) melts into water (liquid H₂O). Same substance — different state. The cup doesn't change weight (nothing added or removed)!</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 8.2 — Water on a Plate <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Steel plate</li>
+        <li>1 tablespoon of water</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Pour a tablespoon of water onto a clean steel plate.</li>
+        <li>Check: does water leak underneath?</li>
+        <li>Leave for a few hours.</li>
+        <li>Observe — water level decreases, eventually empty.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Water didn't seep through (steel is solid). It EVAPORATED into the air. This proves evaporation happens at room temperature.</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 8.3 — Cold Glass Mystery <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Glass tumbler</li>
+        <li>Cold water</li>
+        <li>A few ice cubes</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Pour cold water into the glass.</li>
+        <li>Add ice cubes.</li>
+        <li>Leave undisturbed for 5 minutes.</li>
+        <li>Look at the outer surface of the glass.</li>
+        <li>Touch it — what do you feel?</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Water droplets form on the OUTSIDE of the glass. They came from water vapour in the air, condensing on the cold surface.</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 8.4 — Weighing Balance Test <span class="difficulty medium">Medium</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Digital weighing balance</li>
+        <li>Glass tumbler half-filled with cold water + ice</li>
+        <li>Small steel plate to cover</li>
+        <li>Marker to mark water level inside</li>
+        <li>Timer</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Mark the water level inside the glass with a marker.</li>
+        <li>Cover the glass with the steel plate.</li>
+        <li>Place on the balance. Note the mass at 0 min.</li>
+        <li>Wait. Every 5 min, note the mass — for 30 min.</li>
+        <li>Check: water level inside should be unchanged. But mass should INCREASE.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Internal water level stays — so water didn't seep out. Mass increases — extra water came from the air via condensation. Proof!</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 8.5 — Three States Compare <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>2 containers of different shapes</li>
+        <li>An ice cube</li>
+        <li>A cup of water</li>
+        <li>An open room (for water vapour)</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Put the ice cube in container 1, then container 2. Does its shape change?</li>
+        <li>Pour water from container 1 to 2. Does its shape change?</li>
+        <li>Pour water on a clean surface. Watch it spread.</li>
+        <li>Imagine water vapour — how would it behave? (It spreads to fill all available space!)</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Solid (ice) — fixed shape. Liquid (water) — takes container shape, fixed volume. Gas (vapour) — fills all space, no shape, no fixed volume.</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 8.7 — Surface Area Affects Evaporation <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Bottle cap (small)</li>
+        <li>Plate (large, flat)</li>
+        <li>Same amount of water in each (e.g., 1 spoonful)</li>
+        <li>Timer</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Pour same amount of water in the cap and the plate.</li>
+        <li>Keep them side by side (same temperature, same place).</li>
+        <li>Observe every 30 min.</li>
+        <li>Note which evaporates first.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Plate evaporates much faster. More surface area = more contact with air = more evaporation per minute.</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 8.8 — Sunlight vs Shade <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>2 identical bottle caps</li>
+        <li>Same amount of water in each</li>
+        <li>A sunny spot</li>
+        <li>A shaded spot</li>
+        <li>Timer</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Fill each cap with same water amount.</li>
+        <li>Place one in sunlight, one in shade.</li>
+        <li>Check every 15 min.</li>
+        <li>Note when each one becomes dry.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Sunlight-cap empties much faster. Higher temperature → faster evaporation. Same applies to windy day, dry air.</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 8.9 — Build a Pot-in-Pot Cooler <span class="difficulty medium">Medium</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>2 earthen pots (one bigger, one smaller — smaller fits inside)</li>
+        <li>Sand (enough to fill the gap)</li>
+        <li>Water</li>
+        <li>Wet jute sack OR a lid</li>
+        <li>Vegetables / fruits to test</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Layer the bottom of the big pot with sand.</li>
+        <li>Place the small pot inside.</li>
+        <li>Fill the gap between with more sand.</li>
+        <li>Pour water into the sand to make it wet.</li>
+        <li>Cover the small pot with a lid or wet jute sack.</li>
+        <li>Place vegetables inside the small pot.</li>
+        <li>Add water to the sand daily — keep moist.</li>
+        <li>Check freshness after 5–7 days.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>As water evaporates from the wet sand, it draws heat away — cooling the inner pot. Vegetables stay fresh for days without electricity!</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 8.10 — Make a Cloud in a Bottle <span class="difficulty hard">Adult Help</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Empty 1-litre plastic bottle</li>
+        <li>~1 cup of water</li>
+        <li>A small piece of newspaper</li>
+        <li>Matches (adult only)</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Pour ~1 cup of water into the bottle.</li>
+        <li>Close the lid. Squeeze and release the bottle quickly for 2-3 minutes. Look inside — any cloud?</li>
+        <li>Open. Adult lights a piece of newspaper, blows it out, then drops the smoking paper inside.</li>
+        <li>Close tightly. Squeeze and release again.</li>
+        <li>Now — a hazy CLOUD appears!</li>
+      </ol>
+    </div>
+    <div class="lab-section safety">
+      <h4>Safety</h4>
+      <p>Adult handles fire. Don't keep flame near the bottle. Have water ready.</p>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Water vapour + dust particles (from smoke) + cool air (from sudden release of pressure) → tiny droplets = cloud! Same physics as a real cloud in the sky.</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 8.11 — Label the Water Cycle <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Chart paper</li>
+        <li>Markers / crayons</li>
+        <li>Reference: pictures of clouds, ocean, river, etc.</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Draw the Earth's surface, ocean, mountains, river.</li>
+        <li>Draw the sun and clouds.</li>
+        <li>Add arrows showing: Evaporation (ocean up), Condensation (vapour to cloud), Rain (cloud down), River flow (back to ocean).</li>
+        <li>Label each part clearly.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>The complete water cycle. Drawing it helps you visualize where every drop of water goes.</p>
+    </div>
+  </div>
+
+  <h3 style="color: #06b6d4; font-size: 18px; margin: 30px 0 12px;">🎁 Bonus Add-Ons</h3>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 1 — Mini Water Cycle in a Jar <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Glass jar with lid (or clingfilm)</li>
+        <li>Warm water (~3 cm in jar)</li>
+        <li>3-4 ice cubes</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Pour warm water in the jar.</li>
+        <li>Seal with lid (or clingfilm).</li>
+        <li>Place ice on top of the lid.</li>
+        <li>Wait 5–10 min. Observe.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Warm water evaporates → vapour hits cold lid → condenses → droplets rain back into water. Complete water cycle in your jar!</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 2 — Hot Hand vs Cold Hand Sanitiser Test <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Hand sanitiser</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Put a small amount on your palm.</li>
+        <li>Notice how it FEELS as it dries — cool, right?</li>
+        <li>Try wafting air over it with your other hand — feels even cooler!</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Sanitiser (mostly alcohol) evaporates quickly, taking heat away from your skin. That's why sanitisers feel cool. Same as sweating + fan.</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 3 — Make Rain by Boiling <span class="difficulty hard">Adult Help</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Saucepan</li>
+        <li>Water</li>
+        <li>Stovetop</li>
+        <li>A cold metal plate / lid</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Adult heats water in the pan.</li>
+        <li>Before water boils, hold a cold metal plate over the steam (from above, not touching).</li>
+        <li>Watch — droplets form on the plate's underside.</li>
+        <li>The droplets join → fall like raindrops back into the pan!</li>
+      </ol>
+    </div>
+    <div class="lab-section safety">
+      <h4>Safety</h4>
+      <p>Steam burns are nasty. Adult holds the plate at a safe distance. Cold plate handle wrapped in cloth.</p>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Evaporation from heated water → vapour rises → cold plate → condensation → "rain" falls back down. The water cycle in 60 seconds!</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 4 — Wet Towel Cool Fridge <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>A water bottle</li>
+        <li>A wet cotton towel</li>
+        <li>A sunny / windy outdoor spot</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Wrap the water bottle in the wet towel.</li>
+        <li>Place outside in a breezy spot.</li>
+        <li>After 1 hour, feel the bottle. Cool!</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Water in the towel evaporates, taking heat away — keeping the bottle cool. Cousin of the matka. Used in camping and deserts for centuries.</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 5 — Footprints of Evaporation <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>A wet finger</li>
+        <li>A blackboard / dry counter</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Wet your finger lightly.</li>
+        <li>Draw your name on a dry surface.</li>
+        <li>Watch.</li>
+        <li>Your "name" will disappear from one end first.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Evaporation happens silently and steadily. Even from a thin film of water. Where you wrote thicker, it lasts longer.</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 6 — Track Daily Humidity <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>A weather app on your phone</li>
+        <li>Notebook</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Each day for 2 weeks, check the humidity number on your weather app.</li>
+        <li>Also note: was it sunny, rainy, windy?</li>
+        <li>How fast do clothes dry on each day?</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Humidity = water vapour already in the air. High humidity (like rainy days) = clothes dry slowly. Dry, windy days = humidity low, clothes dry fast.</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 7 — Salt Water vs Fresh Water Evaporation <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>2 small plates</li>
+        <li>1 spoon fresh water + 1 spoon salt water (same amount)</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Put fresh water on one plate, salt water on another.</li>
+        <li>Leave both in a sunny spot.</li>
+        <li>Once both have evaporated, look closely at each plate.</li>
+        <li>One has nothing. The other has white crystals (salt) left behind!</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Only water evaporates — not the salt. This is how sea salt is harvested! The ocean evaporates, salt stays.</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 8 — Mini Greenhouse with a Plastic Bag <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>A small potted plant</li>
+        <li>A transparent plastic bag (big enough)</li>
+        <li>A sunny windowsill</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Water the plant.</li>
+        <li>Tie the plastic bag over the plant + pot.</li>
+        <li>Place in the sun for a few hours.</li>
+        <li>Look inside the bag — droplets condense on the inside!</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Plants release water vapour (transpiration). It condenses on the bag — same water cycle, in miniature. Plants are part of the cycle too!</p>
+    </div>
+  </div>
+</section>
+
+<!-- =================== QUIZ =================== -->
+<section id="quiz" class="tab-panel">
+  <h2 class="section-title">Quick Quiz</h2>
+  <div id="quiz-container"></div>
+  <div id="quiz-score" style="display:none"></div>
+</section>
+
+<section id="kwl" class="tab-panel">
+  <style>@media (max-width: 800px) { #kwl-grid-cols { grid-template-columns: 1fr !important; } }</style>
+  <h2 style="font-size:22px; color:#b45309; margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid #b45309;">📝 KWL Chart</h2>
+  <div style="background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); border-left:4px solid #b45309; padding:14px 18px; border-radius:10px; margin-bottom:18px; font-size:14px; color:#78350f;">Fill in what you <b>K</b>now, <b>W</b>ant to know, and <b>L</b>earned. Auto-saves. Use Print to save as PDF.</div>
+  <div id="kwl-grid-cols" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin:14px 0;">
+    <div style="background:white; border-radius:12px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.06); border-top:5px solid #0284c7;"><h4 style="font-size:15px; color:#0e7490; margin-bottom:4px;">🔵 K — What I Know</h4><div style="font-size:12px; color:#64748b; margin-bottom:10px; font-style:italic;">About water/ice/steam.</div><textarea id="kwl-k" style="width:100%; min-height:200px; padding:10px 12px; border-radius:8px; border:1px solid #cbd5e1; font-family:inherit; font-size:13px; resize:vertical;" placeholder="• Water freezes, water boils..."></textarea></div>
+    <div style="background:white; border-radius:12px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.06); border-top:5px solid #b45309;"><h4 style="font-size:15px; color:#b45309; margin-bottom:4px;">🟠 W — What I Want to Know</h4><div style="font-size:12px; color:#64748b; margin-bottom:10px; font-style:italic;">Your questions.</div><textarea id="kwl-w" style="width:100%; min-height:200px; padding:10px 12px; border-radius:8px; border:1px solid #cbd5e1; font-family:inherit; font-size:13px; resize:vertical;" placeholder="• How does water move in the water cycle?"></textarea></div>
+    <div style="background:white; border-radius:12px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.06); border-top:5px solid #15803d;"><h4 style="font-size:15px; color:#15803d; margin-bottom:4px;">🟢 L — What I Learned</h4><div style="font-size:12px; color:#64748b; margin-bottom:10px; font-style:italic;">After studying.</div><textarea id="kwl-l" style="width:100%; min-height:200px; padding:10px 12px; border-radius:8px; border:1px solid #cbd5e1; font-family:inherit; font-size:13px; resize:vertical;" placeholder="• Solid/liquid/gas states, evaporation, condensation..."></textarea></div>
+  </div>
+  <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:14px 0; padding:12px; background:#f8fafc; border-radius:10px;">
+    <p style="font-size:12px; color:#64748b; margin:0; flex:1;">Auto-saves to your browser.</p>
+    <button onclick="kwlSave()" style="background:#15803d; color:white; border:none; padding:8px 16px; font-size:13px; font-weight:600; border-radius:6px; cursor:pointer;">💾 Save</button>
+    <button onclick="kwlClear()" style="background:#64748b; color:white; border:none; padding:8px 16px; font-size:13px; font-weight:600; border-radius:6px; cursor:pointer;">Clear</button>
+    <button onclick="printKWL()" style="background:#b45309; color:white; border:none; padding:8px 16px; font-size:13px; font-weight:600; border-radius:6px; cursor:pointer;">🖨️ Print / Save as PDF</button>
+  </div>
+  <script>
+    (function(){
+      const KWL_KEY = 'kwl_ch8_grade6';
+      function kwlLoad(){ try { const s=JSON.parse(localStorage.getItem(KWL_KEY)||'{}'); if(s.k)document.getElementById('kwl-k').value=s.k; if(s.w)document.getElementById('kwl-w').value=s.w; if(s.l)document.getElementById('kwl-l').value=s.l; } catch(e){} }
+      window.kwlSave = function(){ localStorage.setItem(KWL_KEY, JSON.stringify({k:document.getElementById('kwl-k').value, w:document.getElementById('kwl-w').value, l:document.getElementById('kwl-l').value})); };
+      window.kwlClear = function(){ if(!confirm('Clear KWL chart?')) return; ['kwl-k','kwl-w','kwl-l'].forEach(id=>document.getElementById(id).value=''); localStorage.removeItem(KWL_KEY); };
+      window.printKWL = function(){ const k=document.getElementById('kwl-k').value, w=document.getElementById('kwl-w').value, l=document.getElementById('kwl-l').value; const esc=s=>(s||'').replace(/</g,'&lt;'); const win=window.open('','_blank'); win.document.write('<html><head><title>KWL Chart - Chapter 8</title><style>body{font-family:sans-serif;padding:20px;color:#1e293b;}h1{color:#b45309;border-bottom:2px solid #b45309;padding-bottom:8px;}.col{margin:14px 0;padding:14px;border:1px solid #ccc;border-radius:8px;page-break-inside:avoid;}.col h2{margin:0 0 6px;font-size:16px;}.col p{white-space:pre-wrap;font-size:13px;margin:0;min-height:60px;}@media print{@page{size:A4;margin:1.2cm;}}</style></head><body><h1>KWL Chart — Chapter 8 · States of Water</h1><div class="col" style="border-top:4px solid #0284c7;"><h2 style="color:#0e7490;">K — What I Know</h2><p>'+esc(k)+'</p></div><div class="col" style="border-top:4px solid #b45309;"><h2 style="color:#b45309;">W — What I Want to Know</h2><p>'+esc(w)+'</p></div><div class="col" style="border-top:4px solid #15803d;"><h2 style="color:#15803d;">L — What I Learned</h2><p>'+esc(l)+'</p></div><scr'+'ipt>window.onload=function(){setTimeout(function(){window.print();},300);};</scr'+'ipt></body></html>'); win.document.close(); };
+      ['kwl-k','kwl-w','kwl-l'].forEach(id=>{const el=document.getElementById(id); if(el) el.addEventListener('input',()=>{clearTimeout(window._kt); window._kt=setTimeout(window.kwlSave,600);});});
+      kwlLoad();
+    })();
+  </script>
+</section>
+
+</main>
+
+
+<script>
+/* ============================================================
+   TABS
+   ============================================================ */
+document.querySelectorAll('nav.tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ============================================================
+   SIM 1: State changer
+   ============================================================ */
+const stateSim = (() => {
+  const c = document.getElementById('stateCanvas');
+  const ctx = c.getContext('2d');
+  function update() {
+    const T = +document.getElementById('stateTempSlider').value;
+    document.getElementById('stateTempVal').textContent = T;
+    let state, desc;
+    if (T <= 0) { state = 'ice'; desc = '<b>🧊 ICE (Solid)</b> — particles in fixed positions, just vibrating. Fixed shape.'; }
+    else if (T < 100) { state = 'water'; desc = '<b>💧 WATER (Liquid)</b> — particles move freely. Takes the container\'s shape.'; }
+    else { state = 'vapour'; desc = '<b>☁️ WATER VAPOUR (Gas)</b> — particles fly fast in all directions. Fills all available space.'; }
+    document.getElementById('stateResult').innerHTML = `Temperature: <b>${T}°C</b><br>${desc}`;
+    draw(T, state);
+  }
+  function draw(T, state) {
+    ctx.clearRect(0, 0, 600, 320);
+    ctx.fillStyle = '#eff6ff';
+    ctx.fillRect(0, 0, 600, 320);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Same H₂O — three states', 200, 22);
+
+    // beaker container
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(195, 70);
+    ctx.lineTo(200, 70);
+    ctx.lineTo(200, 250);
+    ctx.lineTo(400, 250);
+    ctx.lineTo(400, 70);
+    ctx.lineTo(405, 70);
+    ctx.stroke();
+
+    if (state === 'ice') {
+      // ice cube
+      ctx.fillStyle = 'rgba(186, 230, 253, 0.7)';
+      ctx.fillRect(220, 170, 160, 80);
+      ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 2;
+      ctx.strokeRect(220, 170, 160, 80);
+      // cracks/lines
+      ctx.strokeStyle = 'rgba(14, 116, 144, 0.4)';
+      ctx.lineWidth = 1;
+      for (let i = 0; i < 6; i++) {
+        ctx.beginPath();
+        ctx.moveTo(220 + i * 26, 170);
+        ctx.lineTo(225 + i * 26 + Math.random() * 4, 250);
+        ctx.stroke();
+      }
+      // particles in rigid grid
+      ctx.fillStyle = '#0284c7';
+      for (let i = 0; i < 5; i++) {
+        for (let j = 0; j < 3; j++) {
+          ctx.beginPath();
+          ctx.arc(240 + i * 30, 185 + j * 25, 4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    } else if (state === 'water') {
+      // water
+      const level = T < 50 ? 220 : 200;
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.55)';
+      ctx.fillRect(201, level, 198, 250 - level);
+      // surface line
+      ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(201, level); ctx.lineTo(399, level);
+      ctx.stroke();
+      // moving particles
+      ctx.fillStyle = '#0284c7';
+      for (let i = 0; i < 15; i++) {
+        const x = 210 + Math.random() * 180;
+        const y = level + 10 + Math.random() * (250 - level - 15);
+        ctx.beginPath();
+        ctx.arc(x, y, 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      // a few escaping (vapour) if hot
+      if (T > 50) {
+        ctx.fillStyle = 'rgba(148, 163, 184, 0.6)';
+        for (let i = 0; i < 5; i++) {
+          ctx.beginPath();
+          ctx.arc(220 + i * 35, level - 20 - Math.random() * 30, 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    } else {
+      // vapour - fills entire beaker
+      ctx.fillStyle = 'rgba(241, 245, 249, 0.4)';
+      ctx.fillRect(201, 70, 198, 180);
+      // particles scattered widely
+      ctx.fillStyle = '#94a3b8';
+      for (let i = 0; i < 25; i++) {
+        ctx.beginPath();
+        ctx.arc(210 + Math.random() * 180, 80 + Math.random() * 160, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      // steam rising out top
+      ctx.fillStyle = 'rgba(248, 250, 252, 0.7)';
+      for (let i = 0; i < 8; i++) {
+        ctx.beginPath();
+        ctx.arc(220 + i * 22, 50 - Math.random() * 30, 6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // thermometer on the side
+    drawThermo(490, T);
+
+    // bubbles if boiling
+    if (state === 'vapour') {
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+      for (let i = 0; i < 6; i++) {
+        ctx.beginPath();
+        ctx.arc(220 + i * 30, 240 - Math.random() * 30, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+  }
+  function drawThermo(x, T) {
+    ctx.fillStyle = '#dc2626';
+    ctx.beginPath(); ctx.arc(x, 260, 12, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#f1f5f9';
+    ctx.fillRect(x - 5, 60, 10, 200);
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5;
+    ctx.strokeRect(x - 5, 60, 10, 200);
+    const frac = Math.max(0, Math.min(1, (T + 30) / 180));
+    const h = frac * 190;
+    ctx.fillStyle = '#dc2626';
+    ctx.fillRect(x - 3, 250 - h, 6, h + 5);
+    ctx.fillStyle = '#1c1917';
+    ctx.font = 'bold 11px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(T + '°C', x, 50);
+    ctx.textAlign = 'left';
+  }
+  update();
+  return { update };
+})();
+
+/* ============================================================
+   SIM 2: Evaporation race
+   ============================================================ */
+const evapSim = (() => {
+  const c = document.getElementById('evapCanvas');
+  const ctx = c.getContext('2d');
+  let running = false;
+  let cond = 'sun';
+  let capWater = 1; // 0..1
+  let plateWater = 1;
+  let animId = null;
+  document.querySelectorAll('#evapCondToggle button').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#evapCondToggle button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      cond = b.dataset.c;
+      reset();
+    });
+  });
+  function reset() {
+    running = false;
+    capWater = 1;
+    plateWater = 1;
+    if (animId) cancelAnimationFrame(animId);
+    animId = null;
+    document.getElementById('evapObs').innerHTML = 'Pick conditions, then start.';
+    draw();
+  }
+  function start() {
+    if (running) return;
+    running = true;
+    loop();
+  }
+  function loop() {
+    const capRate = cond === 'sun' ? 0.002 : 0.0008;
+    const plateRate = cond === 'sun' ? 0.008 : 0.003;
+    capWater = Math.max(0, capWater - capRate);
+    plateWater = Math.max(0, plateWater - plateRate);
+    let msg;
+    if (plateWater <= 0 && capWater <= 0) {
+      msg = '<b>Both dried up!</b> But the PLATE finished much faster — bigger surface area.';
+    } else if (plateWater <= 0) {
+      msg = `<b>PLATE: dry!</b> Cap still has ${Math.round(capWater * 100)}% water. Plate wins by far.`;
+    } else {
+      msg = `Cap: ${Math.round(capWater * 100)}% remaining. Plate: ${Math.round(plateWater * 100)}% remaining. ${cond === 'sun' ? '☀️ Sun speeds both up.' : '🌫️ Shade slows both down.'}`;
+    }
+    document.getElementById('evapObs').innerHTML = msg;
+    draw();
+    if ((capWater > 0 || plateWater > 0) && running) animId = requestAnimationFrame(loop);
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 280);
+    // sky background
+    ctx.fillStyle = cond === 'sun' ? '#fef9c3' : '#e2e8f0';
+    ctx.fillRect(0, 0, 600, 280);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Surface area + sunlight → evaporation speed', 130, 22);
+
+    // sun or cloud
+    if (cond === 'sun') {
+      ctx.fillStyle = '#fde047';
+      ctx.beginPath(); ctx.arc(80, 50, 25, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#fde047'; ctx.lineWidth = 2;
+      for (let a = 0; a < Math.PI * 2; a += Math.PI / 8) {
+        ctx.beginPath();
+        ctx.moveTo(80 + Math.cos(a) * 30, 50 + Math.sin(a) * 30);
+        ctx.lineTo(80 + Math.cos(a) * 40, 50 + Math.sin(a) * 40);
+        ctx.stroke();
+      }
+    } else {
+      ctx.fillStyle = '#94a3b8';
+      ctx.beginPath();
+      ctx.arc(60, 50, 18, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath();
+      ctx.arc(85, 45, 22, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath();
+      ctx.arc(115, 50, 18, 0, Math.PI * 2); ctx.fill();
+    }
+
+    // bottle cap (left)
+    ctx.fillStyle = '#475569';
+    ctx.fillRect(180, 200, 50, 25);
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5;
+    ctx.strokeRect(180, 200, 50, 25);
+    // water in cap
+    ctx.fillStyle = 'rgba(56, 189, 248, 0.7)';
+    ctx.fillRect(182, 202 + (1 - capWater) * 20, 46, 21 - (1 - capWater) * 20);
+    ctx.fillStyle = '#1c1917'; ctx.font = '10px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Bottle cap', 205, 245);
+    ctx.fillText(Math.round(capWater * 100) + '%', 205, 258);
+    ctx.textAlign = 'left';
+
+    // plate (right)
+    ctx.fillStyle = '#cbd5e1';
+    ctx.fillRect(340, 215, 180, 10);
+    ctx.strokeRect(340, 215, 180, 10);
+    // water on plate
+    ctx.fillStyle = 'rgba(56, 189, 248, 0.7)';
+    ctx.fillRect(345, 213 - plateWater * 5, 170, plateWater * 5);
+    ctx.fillStyle = '#1c1917'; ctx.font = '10px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Plate', 430, 245);
+    ctx.fillText(Math.round(plateWater * 100) + '%', 430, 258);
+    ctx.textAlign = 'left';
+
+    // vapour rising
+    if (running) {
+      ctx.fillStyle = 'rgba(148, 163, 184, 0.6)';
+      // from cap
+      if (capWater > 0) {
+        for (let i = 0; i < 2; i++) {
+          ctx.beginPath();
+          ctx.arc(195 + i * 15 + Math.random() * 5, 190 - Math.random() * 50, 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      // from plate (more particles)
+      if (plateWater > 0) {
+        for (let i = 0; i < 8; i++) {
+          ctx.beginPath();
+          ctx.arc(350 + i * 22 + Math.random() * 5, 200 - Math.random() * 50, 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+  }
+  reset();
+  return { start, reset };
+})();
+
+/* ============================================================
+   SIM 3: Condensation
+   ============================================================ */
+const condSim = (() => {
+  const c = document.getElementById('condCanvas');
+  const ctx = c.getContext('2d');
+  let running = false;
+  let t = 0;
+  let animId = null;
+  function reset() {
+    running = false;
+    t = 0;
+    if (animId) cancelAnimationFrame(animId);
+    animId = null;
+    document.getElementById('condObs').innerHTML = 'Click <b>Add ice + watch</b> to see condensation.';
+    draw();
+  }
+  function start() {
+    if (running) return;
+    running = true;
+    loop();
+  }
+  function loop() {
+    t = Math.min(30, t + 0.15);
+    const massGrowth = (t * 0.4).toFixed(1);
+    document.getElementById('condObs').innerHTML = `Time: <b>${Math.round(t)} min</b>. Droplets forming on the outside!<br>Mass increased by <b>${massGrowth} g</b> (water came from the air → condensation).`;
+    draw();
+    if (t < 30) animId = requestAnimationFrame(loop);
+    else document.getElementById('condObs').innerHTML = `<b>After 30 min:</b> mass increased by ~12 g. Many droplets — even running down the glass. The level inside <b>didn\'t change</b> → proves the extra water came from the AIR, not from seepage.`;
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 320);
+    ctx.fillStyle = '#eff6ff';
+    ctx.fillRect(0, 0, 600, 320);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Sim 3: condensation on a cold glass', 170, 22);
+
+    // weighing balance
+    ctx.fillStyle = '#1c1917';
+    ctx.fillRect(200, 280, 200, 20);
+    ctx.fillRect(250, 260, 100, 20);
+    ctx.fillStyle = '#22c55e';
+    ctx.fillRect(290, 268, 60, 12);
+    if (running) {
+      ctx.fillStyle = '#1c1917'; ctx.font = 'bold 11px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText((200 + t * 0.4).toFixed(1) + ' g', 320, 277);
+      ctx.textAlign = 'left';
+    }
+
+    // glass
+    const gX = 300;
+    ctx.fillStyle = 'rgba(186, 230, 253, 0.7)';
+    ctx.fillRect(gX - 50, 130, 100, 130);
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(gX - 55, 120);
+    ctx.lineTo(gX - 50, 120);
+    ctx.lineTo(gX - 50, 260);
+    ctx.lineTo(gX + 50, 260);
+    ctx.lineTo(gX + 50, 120);
+    ctx.lineTo(gX + 55, 120);
+    ctx.stroke();
+    // ice cubes
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+    ctx.fillRect(gX - 30, 140, 25, 25);
+    ctx.fillRect(gX + 5, 145, 25, 22);
+    ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 1.2;
+    ctx.strokeRect(gX - 30, 140, 25, 25);
+    ctx.strokeRect(gX + 5, 145, 25, 22);
+    // water level mark
+    ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    ctx.moveTo(gX - 50, 175); ctx.lineTo(gX + 50, 175);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#dc2626'; ctx.font = '9px sans-serif';
+    ctx.fillText('level mark', gX + 55, 178);
+
+    // droplets on outside
+    if (running) {
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.9)';
+      const dropCount = Math.floor(t * 4);
+      for (let i = 0; i < dropCount; i++) {
+        const x = gX - 50 + Math.random() * 100;
+        const y = 130 + Math.random() * 120;
+        // only on outside (left/right edges, not inside)
+        const onLeft = i % 2 === 0;
+        const px = onLeft ? gX - 50 - 2 : gX + 50 + 2;
+        ctx.beginPath();
+        ctx.arc(px + (Math.random() - 0.5) * 4, 140 + Math.random() * 110, 2 + Math.random() * 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      // running drops
+      if (t > 15) {
+        for (let i = 0; i < 4; i++) {
+          ctx.beginPath();
+          ctx.arc(gX - 48 + Math.random() * 2, 220 + Math.random() * 40, 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+
+    // air with humidity (water vapour particles)
+    ctx.fillStyle = 'rgba(148, 163, 184, 0.4)';
+    for (let i = 0; i < 20; i++) {
+      ctx.beginPath();
+      ctx.arc(Math.random() * 600, Math.random() * 120, 1.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.fillStyle = '#1c1917'; ctx.font = '10px sans-serif';
+    ctx.fillText('water vapour in air →', 70, 100);
+  }
+  draw();
+  return { start, reset };
+})();
+
+/* ============================================================
+   SIM 4: Water Cycle (animated)
+   ============================================================ */
+const cycleSim = (() => {
+  const c = document.getElementById('cycleCanvas');
+  const ctx = c.getContext('2d');
+  let running = false;
+  let t = 0;
+  let animId = null;
+  function reset() {
+    running = false;
+    t = 0;
+    if (animId) cancelAnimationFrame(animId);
+    animId = null;
+    document.getElementById('cycleObs').innerHTML = 'Click <b>Play</b> to start the water cycle.';
+    draw();
+  }
+  function toggle() {
+    if (running) {
+      running = false;
+      if (animId) cancelAnimationFrame(animId);
+      animId = null;
+      document.getElementById('cycleObs').innerHTML = 'Paused. Click again to continue.';
+    } else {
+      running = true;
+      document.getElementById('cycleObs').innerHTML = 'Watch: 🌞 sun heats ocean → 💧 evaporation → ☁️ cloud → 🌧️ rain → 🏞️ river → 🌊 ocean → repeat!';
+      loop();
+    }
+  }
+  function loop() {
+    t += 0.02;
+    draw();
+    animId = requestAnimationFrame(loop);
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 340);
+    // sky
+    ctx.fillStyle = '#bae6fd';
+    ctx.fillRect(0, 0, 600, 220);
+    // ocean (left half)
+    ctx.fillStyle = '#0284c7';
+    ctx.fillRect(0, 220, 300, 120);
+    // land (right)
+    ctx.fillStyle = '#16a34a';
+    ctx.fillRect(300, 220, 300, 30);
+    ctx.fillStyle = '#a16207';
+    ctx.fillRect(300, 250, 300, 90);
+    // mountains
+    ctx.fillStyle = '#78716c';
+    ctx.beginPath();
+    ctx.moveTo(380, 220); ctx.lineTo(450, 130); ctx.lineTo(520, 220);
+    ctx.closePath(); ctx.fill();
+    // snow tip
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.moveTo(435, 150); ctx.lineTo(450, 130); ctx.lineTo(465, 150);
+    ctx.closePath(); ctx.fill();
+
+    // sun
+    ctx.fillStyle = '#fde047';
+    ctx.beginPath(); ctx.arc(80, 50, 25, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#fde047'; ctx.lineWidth = 2;
+    for (let a = 0; a < Math.PI * 2; a += Math.PI / 8) {
+      ctx.beginPath();
+      ctx.moveTo(80 + Math.cos(a) * 30, 50 + Math.sin(a) * 30);
+      ctx.lineTo(80 + Math.cos(a) * 40, 50 + Math.sin(a) * 40);
+      ctx.stroke();
+    }
+
+    // cloud
+    ctx.fillStyle = '#f8fafc';
+    [380, 420, 460, 500].forEach(x => {
+      ctx.beginPath(); ctx.arc(x, 90, 25, 0, Math.PI * 2); ctx.fill();
+    });
+    ctx.beginPath(); ctx.arc(440, 75, 32, 0, Math.PI * 2); ctx.fill();
+
+    if (running || t > 0) {
+      // evaporation (rising vapour from ocean)
+      ctx.fillStyle = 'rgba(248, 250, 252, 0.85)';
+      for (let i = 0; i < 8; i++) {
+        const y = 200 - ((t * 30 + i * 25) % 200);
+        ctx.beginPath();
+        ctx.arc(150 + i * 20, y, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      // arrow up
+      ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(170, 220); ctx.lineTo(170, 130);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(170, 130); ctx.lineTo(165, 138); ctx.lineTo(175, 138);
+      ctx.closePath();
+      ctx.fillStyle = '#0284c7'; ctx.fill();
+      ctx.fillStyle = '#1e293b';
+      ctx.font = 'bold 11px sans-serif';
+      ctx.fillText('Evaporation', 110, 175);
+
+      // condensation label near cloud
+      ctx.fillStyle = '#0284c7';
+      ctx.fillText('Condensation →', 270, 60);
+
+      // rain from cloud
+      ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 2;
+      for (let i = 0; i < 10; i++) {
+        const x = 380 + i * 15;
+        const y = 120 + ((t * 50 + i * 30) % 100);
+        ctx.beginPath();
+        ctx.moveTo(x, y); ctx.lineTo(x - 3, y + 8);
+        ctx.stroke();
+      }
+      ctx.fillStyle = '#0284c7'; ctx.font = 'bold 11px sans-serif';
+      ctx.fillText('Rain', 410, 200);
+
+      // river flowing back
+      ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(450, 220);
+      ctx.lineTo(380, 250);
+      ctx.lineTo(310, 270);
+      ctx.lineTo(280, 280);
+      ctx.stroke();
+      ctx.fillStyle = '#0284c7'; ctx.font = 'bold 11px sans-serif';
+      ctx.fillText('River → Ocean', 320, 290);
+    }
+  }
+  draw();
+  return { toggle, reset };
+})();
+
+/* ============================================================
+   SIM 5: Pot-in-pot cooler
+   ============================================================ */
+const potSim = (() => {
+  const c = document.getElementById('potCanvas');
+  const ctx = c.getContext('2d');
+  const steps = [
+    'Step 1: Take the LARGER earthen pot.',
+    'Step 2: Put a layer of sand at the bottom.',
+    'Step 3: Place the SMALLER pot inside the centre.',
+    'Step 4: Fill the gap between pots with sand.',
+    'Step 5: Pour water on the sand to make it wet.',
+    'Step 6: Cover the smaller pot with a wet jute sack or lid. Done!',
+    '✓ After 4-5 hours: inside is COOLER than outside. Vegetables stay fresh for days!'
+  ];
+  let step = -1;
+  function reset() {
+    step = -1;
+    document.getElementById('potStep').innerHTML = 'Click to assemble the pot-in-pot cooler step by step.';
+    draw();
+  }
+  function next() {
+    step = Math.min(steps.length - 1, step + 1);
+    document.getElementById('potStep').innerHTML = steps[step];
+    draw();
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 280);
+    ctx.fillStyle = '#fef9c3';
+    ctx.fillRect(0, 0, 600, 280);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Activity 8.9: pot-in-pot cooler', 200, 22);
+
+    const cx = 300;
+    if (step >= 0) {
+      // larger pot
+      ctx.fillStyle = '#92400e';
+      ctx.beginPath();
+      ctx.moveTo(cx - 100, 100);
+      ctx.lineTo(cx - 120, 230);
+      ctx.lineTo(cx + 120, 230);
+      ctx.lineTo(cx + 100, 100);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+      ctx.stroke();
+      // inside hollow
+      ctx.fillStyle = '#fef9c3';
+      ctx.beginPath();
+      ctx.moveTo(cx - 92, 105);
+      ctx.lineTo(cx - 112, 220);
+      ctx.lineTo(cx + 112, 220);
+      ctx.lineTo(cx + 92, 105);
+      ctx.closePath();
+      ctx.fill();
+    }
+    if (step >= 1) {
+      // sand at bottom
+      ctx.fillStyle = '#a16207';
+      for (let i = 0; i < 40; i++) {
+        ctx.beginPath();
+        ctx.arc(cx - 105 + Math.random() * 210, 200 + Math.random() * 18, 1.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    if (step >= 2) {
+      // smaller pot inside
+      ctx.fillStyle = '#a16207';
+      ctx.beginPath();
+      ctx.moveTo(cx - 50, 130);
+      ctx.lineTo(cx - 65, 200);
+      ctx.lineTo(cx + 65, 200);
+      ctx.lineTo(cx + 50, 130);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = '#1c1917';
+      ctx.stroke();
+      // inside
+      ctx.fillStyle = '#fef9c3';
+      ctx.beginPath();
+      ctx.moveTo(cx - 44, 135);
+      ctx.lineTo(cx - 59, 195);
+      ctx.lineTo(cx + 59, 195);
+      ctx.lineTo(cx + 44, 135);
+      ctx.closePath();
+      ctx.fill();
+    }
+    if (step >= 3) {
+      // sand in gap
+      ctx.fillStyle = '#a16207';
+      for (let i = 0; i < 80; i++) {
+        const isLeft = Math.random() < 0.5;
+        const x = isLeft ? cx - 90 + Math.random() * 35 : cx + 55 + Math.random() * 35;
+        const y = 140 + Math.random() * 80;
+        ctx.beginPath();
+        ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    if (step >= 4) {
+      // wet sand — show water trails
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.6)';
+      for (let i = 0; i < 20; i++) {
+        const isLeft = Math.random() < 0.5;
+        const x = isLeft ? cx - 80 + Math.random() * 25 : cx + 60 + Math.random() * 25;
+        const y = 145 + Math.random() * 70;
+        ctx.beginPath();
+        ctx.arc(x, y, 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    if (step >= 5) {
+      // wet sack covering the small pot mouth
+      ctx.fillStyle = '#92400e';
+      ctx.fillRect(cx - 55, 125, 110, 10);
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1;
+      ctx.strokeRect(cx - 55, 125, 110, 10);
+      // texture lines (jute)
+      ctx.strokeStyle = '#a16207';
+      for (let i = 0; i < 8; i++) {
+        ctx.beginPath();
+        ctx.moveTo(cx - 50 + i * 14, 125);
+        ctx.lineTo(cx - 50 + i * 14, 135);
+        ctx.stroke();
+      }
+    }
+    if (step >= 6) {
+      // evaporation lines
+      ctx.strokeStyle = 'rgba(148, 163, 184, 0.7)';
+      ctx.lineWidth = 1.5;
+      for (let i = 0; i < 6; i++) {
+        const x = cx - 90 + i * 30;
+        ctx.beginPath();
+        ctx.moveTo(x, 130);
+        ctx.quadraticCurveTo(x + 5, 100, x, 60);
+        ctx.stroke();
+      }
+      // cold inside indicator
+      ctx.fillStyle = '#0284c7';
+      ctx.font = 'bold 13px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('❄️ COOL inside!', cx, 165);
+      ctx.textAlign = 'left';
+    }
+  }
+  draw();
+  return { next, reset };
+})();
+
+/* ============================================================
+   EXPERIMENTS
+   ============================================================ */
+const expIce = (() => {
+  const c = document.getElementById('expIceCanvas');
+  const ctx = c.getContext('2d');
+  let t = 0;
+  let running = false;
+  let animId = null;
+  function reset() {
+    t = 0; running = false;
+    if (animId) cancelAnimationFrame(animId);
+    animId = null;
+    document.getElementById('expIceStep').innerHTML = 'Click to fast-forward 5 minutes.';
+    draw();
+  }
+  function start() {
+    if (running) return; running = true; loop();
+  }
+  function loop() {
+    t = Math.min(100, t + 1);
+    document.getElementById('expIceStep').innerHTML = `Time: <b>${(t / 20).toFixed(1)} min</b>. Ice is melting into water.`;
+    draw();
+    if (t < 100) animId = requestAnimationFrame(loop);
+    else document.getElementById('expIceStep').innerHTML = '<b>Ice melted!</b> Now it\'s water. Same substance — different state.';
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 280);
+    ctx.fillStyle = '#eff6ff';
+    ctx.fillRect(0, 0, 600, 280);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Activity 8.1: ice in a cup melts to water', 170, 22);
+
+    // cup
+    const cx = 300;
+    ctx.fillStyle = 'rgba(241, 245, 249, 0.6)';
+    ctx.fillRect(cx - 60, 130, 120, 110);
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(cx - 65, 120); ctx.lineTo(cx - 60, 120);
+    ctx.lineTo(cx - 60, 240); ctx.lineTo(cx + 60, 240);
+    ctx.lineTo(cx + 60, 120); ctx.lineTo(cx + 65, 120);
+    ctx.stroke();
+
+    // melting ice
+    const iceFrac = 1 - t / 100;
+    const waterH = (1 - iceFrac) * 80;
+    // ice
+    if (iceFrac > 0.05) {
+      ctx.fillStyle = 'rgba(186, 230, 253, 0.85)';
+      const size = 60 * iceFrac;
+      ctx.fillRect(cx - size / 2, 160 + (1 - iceFrac) * 40, size, size);
+      ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 1.5;
+      ctx.strokeRect(cx - size / 2, 160 + (1 - iceFrac) * 40, size, size);
+    }
+    // water
+    if (waterH > 0) {
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.6)';
+      ctx.fillRect(cx - 59, 240 - waterH, 118, waterH);
+    }
+  }
+  draw();
+  return { start, reset };
+})();
+
+const expPlate = (() => {
+  const c = document.getElementById('expPlateCanvas');
+  const ctx = c.getContext('2d');
+  let t = 0; let running = false; let animId = null;
+  function reset() { t = 0; running = false; if (animId) cancelAnimationFrame(animId); animId = null; document.getElementById('expPlateStep').innerHTML = 'Click to start watching.'; draw(); }
+  function start() { if (running) return; running = true; loop(); }
+  function loop() {
+    t = Math.min(100, t + 0.6);
+    document.getElementById('expPlateStep').innerHTML = `Time: <b>${(t * 2).toFixed(0)} min</b>. Water on plate evaporating. Below plate stays dry.`;
+    draw();
+    if (t < 100) animId = requestAnimationFrame(loop);
+    else document.getElementById('expPlateStep').innerHTML = '<b>Water gone!</b> Plate stays dry below. So it didn\'t seep — it EVAPORATED.';
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 280);
+    ctx.fillStyle = '#eff6ff';
+    ctx.fillRect(0, 0, 600, 280);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Activity 8.2: water on a steel plate', 200, 22);
+    // plate
+    ctx.fillStyle = '#cbd5e1';
+    ctx.fillRect(200, 180, 200, 12);
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+    ctx.strokeRect(200, 180, 200, 12);
+    // water on plate
+    const waterFrac = 1 - t / 100;
+    if (waterFrac > 0.01) {
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.7)';
+      const w = 100 * waterFrac;
+      ctx.fillRect(300 - w / 2, 175, w, 8);
+    }
+    // vapour rising
+    if (running) {
+      ctx.fillStyle = 'rgba(148, 163, 184, 0.6)';
+      for (let i = 0; i < 6; i++) {
+        const x = 280 + i * 8 + Math.random() * 4;
+        const y = 160 - Math.random() * 80;
+        ctx.beginPath();
+        ctx.arc(x, y, 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    ctx.fillStyle = '#1c1917'; ctx.font = '10px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Steel plate', 300, 220);
+    ctx.fillText('Below: dry (water did NOT seep)', 300, 240);
+    ctx.textAlign = 'left';
+  }
+  draw();
+  return { start, reset };
+})();
+
+const expWeigh = (() => {
+  const c = document.getElementById('expWeighCanvas');
+  const ctx = c.getContext('2d');
+  let t = 0; let running = false; let animId = null;
+  function reset() { t = 0; running = false; if (animId) cancelAnimationFrame(animId); animId = null; document.getElementById('expWeighStep').innerHTML = 'Click to begin.'; draw(); }
+  function start() { if (running) return; running = true; loop(); }
+  function loop() {
+    t = Math.min(30, t + 0.15);
+    const mass = (200 + t * 0.5).toFixed(1);
+    document.getElementById('expWeighStep').innerHTML = `Time: <b>${Math.round(t)} min</b>. Mass: <b>${mass} g</b> (increasing!). Water level INSIDE didn\'t change.`;
+    draw();
+    if (t < 30) animId = requestAnimationFrame(loop);
+    else document.getElementById('expWeighStep').innerHTML = '<b>30 min done!</b> Mass went up by 15 g. Inside level unchanged. Extra water = condensation from AIR.';
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 300);
+    ctx.fillStyle = '#eff6ff';
+    ctx.fillRect(0, 0, 600, 300);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Activity 8.4: weigh while water condenses', 170, 22);
+
+    // balance
+    ctx.fillStyle = '#1c1917';
+    ctx.fillRect(170, 250, 260, 20);
+    ctx.fillRect(220, 240, 160, 10);
+    ctx.fillStyle = '#22c55e';
+    ctx.fillRect(260, 248, 80, 16);
+    if (running || t > 0) {
+      ctx.fillStyle = '#1c1917';
+      ctx.font = 'bold 13px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText((200 + t * 0.5).toFixed(1) + ' g', 300, 261);
+      ctx.textAlign = 'left';
+    }
+    // glass
+    const cx = 300;
+    ctx.fillStyle = 'rgba(186, 230, 253, 0.6)';
+    ctx.fillRect(cx - 50, 100, 100, 130);
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(cx - 55, 90); ctx.lineTo(cx - 50, 90);
+    ctx.lineTo(cx - 50, 230); ctx.lineTo(cx + 50, 230);
+    ctx.lineTo(cx + 50, 90); ctx.lineTo(cx + 55, 90);
+    ctx.stroke();
+    // plate cover
+    ctx.fillStyle = '#cbd5e1';
+    ctx.fillRect(cx - 55, 86, 110, 8);
+    // ice
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+    ctx.fillRect(cx - 25, 110, 20, 20);
+    ctx.fillRect(cx + 5, 115, 20, 18);
+    ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 1;
+    ctx.strokeRect(cx - 25, 110, 20, 20);
+    ctx.strokeRect(cx + 5, 115, 20, 18);
+    // droplets on outside
+    if (running || t > 0) {
+      ctx.fillStyle = '#0284c7';
+      const dropCount = Math.floor(t * 3);
+      for (let i = 0; i < dropCount; i++) {
+        const onLeft = i % 2 === 0;
+        const px = onLeft ? cx - 50 - 1 : cx + 50 + 1;
+        const py = 100 + Math.random() * 120;
+        ctx.beginPath();
+        ctx.arc(px, py, 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    // level mark
+    ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    ctx.moveTo(cx - 50, 145); ctx.lineTo(cx + 50, 145);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  draw();
+  return { start, reset };
+})();
+
+const expShape = (() => {
+  const c = document.getElementById('expShapeCanvas');
+  const ctx = c.getContext('2d');
+  let sel = 'ice';
+  document.querySelectorAll('#shapeToggle button').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#shapeToggle button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      sel = b.dataset.s;
+      update();
+    });
+  });
+  function update() {
+    const msg = {
+      ice: '<b>🧊 Ice:</b> Keeps its CUBE shape in every container. No flow, no spread.',
+      water: '<b>💧 Water:</b> Takes each container\'s shape. Flows, spreads, but volume stays the same.',
+      vapour: '<b>☁️ Water vapour:</b> Fills ALL available space in each container. No shape, no fixed volume.'
+    };
+    document.getElementById('expShapeStep').innerHTML = msg[sel];
+    draw();
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 320);
+    ctx.fillStyle = '#eff6ff';
+    ctx.fillRect(0, 0, 600, 320);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Activity 8.5: same H₂O in 3 different containers', 150, 22);
+    drawContainer(120, 'tall', sel);
+    drawContainer(300, 'wide', sel);
+    drawContainer(480, 'square', sel);
+  }
+  function drawContainer(x, shape, state) {
+    let cw, ch, cy;
+    if (shape === 'tall') { cw = 50; ch = 150; cy = 80; }
+    else if (shape === 'wide') { cw = 110; ch = 70; cy = 160; }
+    else { cw = 80; ch = 110; cy = 120; }
+    // container
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+    ctx.strokeRect(x - cw / 2, cy, cw, ch);
+    // content
+    if (state === 'ice') {
+      // ice cube — same size in any container
+      ctx.fillStyle = 'rgba(186, 230, 253, 0.85)';
+      ctx.fillRect(x - 20, cy + ch - 45, 40, 40);
+      ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 1.5;
+      ctx.strokeRect(x - 20, cy + ch - 45, 40, 40);
+    } else if (state === 'water') {
+      // water — half-fills container (same volume = same area)
+      const fillArea = 2000; // px²
+      const waterH = Math.min(ch - 5, fillArea / cw);
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.7)';
+      ctx.fillRect(x - cw / 2 + 1, cy + ch - waterH, cw - 2, waterH);
+    } else {
+      // vapour — fills entire container
+      ctx.fillStyle = 'rgba(241, 245, 249, 0.5)';
+      ctx.fillRect(x - cw / 2 + 1, cy + 1, cw - 2, ch - 2);
+      ctx.fillStyle = '#94a3b8';
+      const count = Math.floor(cw * ch / 200);
+      for (let i = 0; i < count; i++) {
+        ctx.beginPath();
+        ctx.arc(x - cw / 2 + 5 + Math.random() * (cw - 10), cy + 5 + Math.random() * (ch - 10), 1.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    // label
+    ctx.fillStyle = '#1c1917'; ctx.font = '10px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(shape, x, cy + ch + 20);
+    ctx.textAlign = 'left';
+  }
+  update();
+  return {};
+})();
+
+const expDiagram = (() => {
+  const c = document.getElementById('expDiagramCanvas');
+  const ctx = c.getContext('2d');
+  let highlight = 'melt';
+  document.querySelectorAll('#procToggle button').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#procToggle button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      highlight = b.dataset.p;
+      update();
+    });
+  });
+  function update() {
+    const explain = {
+      melt: '<b>MELT: Solid → Liquid</b> (heat). Ice → Water at 0°C.',
+      freeze: '<b>FREEZE: Liquid → Solid</b> (cool). Water → Ice at 0°C.',
+      evap: '<b>EVAPORATE: Liquid → Gas</b> (heat / any temp). Water → vapour.',
+      cond: '<b>CONDENSE: Gas → Liquid</b> (cool). Vapour → droplets on cold surface.'
+    };
+    document.getElementById('expDiagramStep').innerHTML = explain[highlight];
+    draw();
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 280);
+    ctx.fillStyle = '#eff6ff';
+    ctx.fillRect(0, 0, 600, 280);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Activity 8.6: state change diagram', 200, 22);
+
+    // 3 state boxes
+    const boxes = [
+      { x: 120, label: 'SOLID 🧊', state: 'ice', color: '#bae6fd' },
+      { x: 300, label: 'LIQUID 💧', state: 'water', color: '#7dd3fc' },
+      { x: 480, label: 'GAS ☁️', state: 'vapour', color: '#f1f5f9' }
+    ];
+    boxes.forEach(b => {
+      ctx.fillStyle = b.color;
+      ctx.fillRect(b.x - 50, 110, 100, 60);
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+      ctx.strokeRect(b.x - 50, 110, 100, 60);
+      ctx.fillStyle = '#1c1917';
+      ctx.font = 'bold 13px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(b.label, b.x, 145);
+      ctx.textAlign = 'left';
+    });
+    // arrows
+    drawArrow(170, 130, 250, 130, 'melt', '#dc2626');
+    drawArrow(250, 150, 170, 150, 'freeze', '#0284c7');
+    drawArrow(350, 130, 430, 130, 'evap', '#dc2626');
+    drawArrow(430, 150, 350, 150, 'cond', '#0284c7');
+  }
+  function drawArrow(x1, y1, x2, y2, name, color) {
+    const isHi = highlight === name;
+    ctx.strokeStyle = isHi ? color : '#94a3b8';
+    ctx.lineWidth = isHi ? 4 : 2;
+    ctx.beginPath();
+    ctx.moveTo(x1, y1); ctx.lineTo(x2, y2);
+    ctx.stroke();
+    // arrowhead
+    const angle = Math.atan2(y2 - y1, x2 - x1);
+    ctx.beginPath();
+    ctx.moveTo(x2, y2);
+    ctx.lineTo(x2 - 8 * Math.cos(angle - 0.4), y2 - 8 * Math.sin(angle - 0.4));
+    ctx.lineTo(x2 - 8 * Math.cos(angle + 0.4), y2 - 8 * Math.sin(angle + 0.4));
+    ctx.closePath();
+    ctx.fillStyle = isHi ? color : '#94a3b8';
+    ctx.fill();
+    // label
+    ctx.fillStyle = isHi ? color : '#475569';
+    ctx.font = isHi ? 'bold 12px sans-serif' : '11px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText({ melt: 'melt', freeze: 'freeze', evap: 'evaporate', cond: 'condense' }[name],
+      (x1 + x2) / 2, y1 < y2 ? y1 + 35 : y1 - 8);
+    ctx.textAlign = 'left';
+  }
+  update();
+  return {};
+})();
+
+const expBottle = (() => {
+  const c = document.getElementById('expBottleCanvas');
+  const ctx = c.getContext('2d');
+  const steps = [
+    'Step 1: Take an empty 1 L plastic bottle. Pour ~1 cup of water in.',
+    'Step 2: Close the lid. Squeeze and release quickly for 2 min. No cloud yet.',
+    'Step 3: Open. Adult lights a piece of newspaper, blows it out (smoke!), drops it in.',
+    'Step 4: Close tightly. Squeeze and release again.',
+    'Step 5: A hazy CLOUD appears inside! ☁️',
+    'Why? Water vapour + smoke particles (dust) + cool air → tiny droplets = cloud. Same as in the sky!'
+  ];
+  let step = -1;
+  function reset() { step = -1; document.getElementById('expBottleStep').innerHTML = 'Click to walk through.'; draw(); }
+  function next() { step = Math.min(steps.length - 1, step + 1); document.getElementById('expBottleStep').innerHTML = steps[step]; draw(); }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 280);
+    ctx.fillStyle = '#eff6ff';
+    ctx.fillRect(0, 0, 600, 280);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Activity 8.10: cloud in a bottle', 200, 22);
+    const cx = 300;
+    // bottle
+    ctx.fillStyle = 'rgba(186, 230, 253, 0.3)';
+    ctx.beginPath();
+    ctx.moveTo(cx - 50, 60); ctx.lineTo(cx - 50, 80);
+    ctx.lineTo(cx - 70, 100); ctx.lineTo(cx - 70, 230);
+    ctx.lineTo(cx + 70, 230); ctx.lineTo(cx + 70, 100);
+    ctx.lineTo(cx + 50, 80); ctx.lineTo(cx + 50, 60);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+    ctx.stroke();
+    // lid
+    ctx.fillStyle = '#475569';
+    ctx.fillRect(cx - 25, 50, 50, 12);
+    // water
+    if (step >= 0) {
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.6)';
+      ctx.fillRect(cx - 68, 200, 136, 28);
+    }
+    // smoke
+    if (step >= 2 && step < 4) {
+      ctx.fillStyle = 'rgba(100, 116, 139, 0.6)';
+      for (let i = 0; i < 8; i++) {
+        ctx.beginPath();
+        ctx.arc(cx - 30 + i * 8, 150 + Math.random() * 30, 5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    // cloud (step 4+)
+    if (step >= 4) {
+      ctx.fillStyle = 'rgba(248, 250, 252, 0.85)';
+      for (let i = 0; i < 25; i++) {
+        ctx.beginPath();
+        ctx.arc(cx - 60 + Math.random() * 120, 100 + Math.random() * 90, 8, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.fillStyle = '#0284c7'; ctx.font = 'bold 13px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('☁️ CLOUD!', cx, 90);
+      ctx.textAlign = 'left';
+    }
+  }
+  draw();
+  return { next, reset };
+})();
+
+/* ============================================================
+   COMICS
+   ============================================================ */
+function drawKid(ctx, x, y, color, label) {
+  ctx.fillStyle = '#fde68a';
+  ctx.beginPath(); ctx.arc(x, y - 18, 11, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1.5; ctx.stroke();
+  ctx.fillStyle = '#1e293b';
+  ctx.beginPath(); ctx.arc(x - 3, y - 20, 1.2, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(x + 3, y - 20, 1.2, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = color;
+  ctx.fillRect(x - 11, y - 7, 22, 28);
+  ctx.fillStyle = '#1e293b';
+  ctx.fillRect(x - 8, y + 21, 5, 12);
+  ctx.fillRect(x + 3, y + 21, 5, 12);
+  if (label) {
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 10px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(label, x, y + 48);
+    ctx.textAlign = 'left';
+  }
+}
+function bubble(ctx, x, y, text, w) {
+  const lines = text.split('\n');
+  const h = lines.length * 13 + 10;
+  ctx.fillStyle = 'white';
+  ctx.strokeStyle = '#1e293b';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  if (ctx.roundRect) ctx.roundRect(x, y, w, h, 6);
+  else ctx.rect(x, y, w, h);
+  ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 11px sans-serif';
+  lines.forEach((line, i) => ctx.fillText(line, x + 6, y + 14 + i * 13));
+}
+function makeComic(stripId, num, caption, drawFn) {
+  const strip = document.getElementById(stripId);
+  const p = document.createElement('div');
+  p.className = 'comic-panel';
+  const n = document.createElement('div');
+  n.className = 'comic-number'; n.textContent = num;
+  p.appendChild(n);
+  const cnv = document.createElement('canvas');
+  cnv.width = 280; cnv.height = 200;
+  p.appendChild(cnv);
+  const c = document.createElement('div');
+  c.className = 'comic-caption'; c.textContent = caption;
+  p.appendChild(c);
+  strip.appendChild(p);
+  drawFn(cnv.getContext('2d'));
+}
+
+/* Strip 1: Ice = Water? */
+makeComic('strip1', 1, 'Aavi and Thirav sip cold shikanji. Thirav stares at the ice cubes: "These can\'t be the same as water!"', (ctx) => {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 80, 140, '#dc2626', 'Aavi');
+  drawKid(ctx, 200, 140, '#0284c7', 'Thirav');
+  // glasses
+  ctx.fillStyle = 'rgba(186, 230, 253, 0.5)';
+  ctx.fillRect(60, 105, 20, 35);
+  ctx.fillRect(195, 105, 20, 35);
+  ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1;
+  ctx.strokeRect(60, 105, 20, 35);
+  ctx.strokeRect(195, 105, 20, 35);
+  // ice cubes
+  ctx.fillStyle = '#bae6fd';
+  ctx.fillRect(63, 112, 6, 6);
+  ctx.fillRect(198, 112, 6, 6);
+});
+makeComic('strip1', 2, '"Ice is HARD. I can hold it. Water flows away. They can\'t be the same!"', (ctx) => {
+  ctx.fillStyle = '#fff7ed'; ctx.fillRect(0, 0, 280, 200);
+  // ice cube on left
+  ctx.fillStyle = '#bae6fd';
+  ctx.fillRect(50, 90, 50, 50);
+  ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 2;
+  ctx.strokeRect(50, 90, 50, 50);
+  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 11px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Ice — hard', 75, 160);
+  // water on right
+  ctx.fillStyle = 'rgba(56, 189, 248, 0.6)';
+  ctx.beginPath();
+  ctx.ellipse(210, 115, 35, 12, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillText('Water — flows', 210, 160);
+  ctx.textAlign = 'left';
+});
+makeComic('strip1', 3, 'Aavi: "Put ice in a cup. Leave it. Come back later."', (ctx) => {
+  ctx.fillStyle = '#fefce8'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 80, 140, '#dc2626', 'Aavi');
+  // cup
+  ctx.fillStyle = '#f8fafc';
+  ctx.fillRect(180, 110, 60, 60);
+  ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5;
+  ctx.strokeRect(180, 110, 60, 60);
+  // ice
+  ctx.fillStyle = '#bae6fd';
+  ctx.fillRect(195, 130, 30, 30);
+  bubble(ctx, 20, 30, 'Just wait...', 100);
+});
+makeComic('strip1', 4, '20 minutes later: NO ICE! Only water in the cup. "They ARE the same substance — just different STATES."', (ctx) => {
+  ctx.fillStyle = '#dcfce7'; ctx.fillRect(0, 0, 280, 200);
+  // cup with water
+  ctx.fillStyle = '#f8fafc';
+  ctx.fillRect(110, 110, 60, 60);
+  ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5;
+  ctx.strokeRect(110, 110, 60, 60);
+  ctx.fillStyle = 'rgba(56, 189, 248, 0.7)';
+  ctx.fillRect(111, 150, 58, 19);
+  ctx.fillStyle = '#16a34a';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Same H₂O!', 140, 90);
+  ctx.textAlign = 'left';
+  bubble(ctx, 180, 100, 'Just\ndifferent\nstates!', 90);
+});
+
+/* Strip 2: disappearing puddle */
+makeComic('strip2', 1, 'Rainy morning. Puddles everywhere on the playground.', (ctx) => {
+  ctx.fillStyle = '#94a3b8'; ctx.fillRect(0, 0, 280, 200);
+  // rain
+  ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 1.5;
+  for (let i = 0; i < 30; i++) {
+    const x = Math.random() * 280;
+    ctx.beginPath();
+    ctx.moveTo(x, 0); ctx.lineTo(x - 3, 30);
+    ctx.stroke();
+  }
+  // puddles
+  ctx.fillStyle = '#0284c7';
+  ctx.beginPath();
+  ctx.ellipse(60, 170, 40, 8, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(160, 175, 50, 9, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(240, 165, 30, 6, 0, 0, Math.PI * 2);
+  ctx.fill();
+});
+makeComic('strip2', 2, 'By evening: puddles GONE! Where did the water go?', (ctx) => {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 80, 140, '#dc2626', 'Aavi');
+  drawKid(ctx, 170, 140, '#0284c7', 'Thirav');
+  // sun
+  ctx.fillStyle = '#fde047';
+  ctx.beginPath(); ctx.arc(240, 40, 18, 0, Math.PI * 2); ctx.fill();
+  bubble(ctx, 20, 30, 'Where did\nthe puddles\ngo?!', 110);
+});
+makeComic('strip2', 3, 'Test: water on a steel plate. After hours — gone! But the plate didn\'t leak. So it didn\'t seep through!', (ctx) => {
+  ctx.fillStyle = '#fff7ed'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#cbd5e1';
+  ctx.fillRect(60, 110, 160, 12);
+  ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+  ctx.strokeRect(60, 110, 160, 12);
+  // vapour rising
+  ctx.fillStyle = 'rgba(148, 163, 184, 0.7)';
+  for (let i = 0; i < 8; i++) {
+    ctx.beginPath();
+    ctx.arc(80 + i * 16, 70 - i * 4, 4, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 11px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Water → AIR (vapour)', 140, 50);
+  ctx.fillText('Plate stays dry below', 140, 150);
+  ctx.textAlign = 'left';
+});
+makeComic('strip2', 4, 'EVAPORATION! Water turned to invisible vapour and rose into the air.', (ctx) => {
+  ctx.fillStyle = '#dcfce7'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#16a34a';
+  ctx.font = 'bold 16px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('EVAPORATION', 140, 60);
+  ctx.fillStyle = '#1e293b';
+  ctx.font = '12px sans-serif';
+  ctx.fillText('Liquid → Gas', 140, 90);
+  ctx.fillText('Even at room temperature!', 140, 115);
+  ctx.font = '10px sans-serif';
+  ctx.fillStyle = '#475569';
+  ctx.fillText('Examples: drying clothes, sweat,', 140, 150);
+  ctx.fillText('sanitiser, mopped floor', 140, 165);
+  ctx.textAlign = 'left';
+});
+
+/* Strip 3: cold glass */
+makeComic('strip3', 1, 'Cold water + ice in a glass. 5 minutes later — the OUTSIDE is wet!', (ctx) => {
+  ctx.fillStyle = '#eff6ff'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = 'rgba(186, 230, 253, 0.6)';
+  ctx.fillRect(90, 70, 100, 110);
+  ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(85, 60); ctx.lineTo(90, 60);
+  ctx.lineTo(90, 180); ctx.lineTo(190, 180);
+  ctx.lineTo(190, 60); ctx.lineTo(195, 60);
+  ctx.stroke();
+  // droplets outside
+  ctx.fillStyle = '#0284c7';
+  for (let i = 0; i < 15; i++) {
+    const onLeft = i % 2 === 0;
+    const x = onLeft ? 88 : 192;
+    const y = 80 + Math.random() * 90;
+    ctx.beginPath();
+    ctx.arc(x, y, 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  bubble(ctx, 20, 20, 'Water on\nOUTSIDE??', 120);
+});
+makeComic('strip3', 2, 'Did the water seep through? Aavi marks the level. Mass before: 200 g.', (ctx) => {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, 280, 200);
+  // glass + level mark
+  ctx.fillStyle = 'rgba(186, 230, 253, 0.6)';
+  ctx.fillRect(110, 60, 60, 100);
+  ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+  ctx.strokeRect(110, 60, 60, 100);
+  ctx.strokeStyle = '#dc2626'; ctx.setLineDash([3, 3]);
+  ctx.beginPath();
+  ctx.moveTo(110, 90); ctx.lineTo(170, 90);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  // balance
+  ctx.fillStyle = '#1c1917';
+  ctx.fillRect(70, 170, 140, 12);
+  ctx.fillStyle = '#22c55e';
+  ctx.fillRect(120, 173, 40, 7);
+  ctx.fillStyle = '#1c1917'; ctx.font = 'bold 11px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('200.0 g', 140, 179);
+  ctx.textAlign = 'left';
+});
+makeComic('strip3', 3, '30 minutes later: water level INSIDE unchanged. But mass went UP to 215 g. Where did the extra water come from?!', (ctx) => {
+  ctx.fillStyle = '#fff7ed'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = 'rgba(186, 230, 253, 0.6)';
+  ctx.fillRect(110, 60, 60, 100);
+  ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+  ctx.strokeRect(110, 60, 60, 100);
+  // many droplets outside
+  ctx.fillStyle = '#0284c7';
+  for (let i = 0; i < 25; i++) {
+    const onLeft = i % 2 === 0;
+    const x = onLeft ? 108 : 172;
+    const y = 65 + Math.random() * 95;
+    ctx.beginPath();
+    ctx.arc(x, y, 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  // balance shows 215
+  ctx.fillStyle = '#1c1917';
+  ctx.fillRect(70, 170, 140, 12);
+  ctx.fillStyle = '#22c55e';
+  ctx.fillRect(120, 173, 40, 7);
+  ctx.fillStyle = '#dc2626'; ctx.font = 'bold 11px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('215.0 g 📈', 140, 179);
+  ctx.textAlign = 'left';
+});
+makeComic('strip3', 4, 'AHA — water vapour from the AIR condensed on the cold glass! CONDENSATION!', (ctx) => {
+  ctx.fillStyle = '#dcfce7'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#0284c7';
+  ctx.font = 'bold 16px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('CONDENSATION', 140, 60);
+  ctx.fillStyle = '#1e293b';
+  ctx.font = '12px sans-serif';
+  ctx.fillText('Gas → Liquid', 140, 90);
+  ctx.fillText('Vapour cools → droplets', 140, 115);
+  ctx.font = '10px sans-serif';
+  ctx.fillStyle = '#475569';
+  ctx.fillText('Examples: dew, fog,', 140, 150);
+  ctx.fillText('cold glass, clouds', 140, 165);
+  ctx.textAlign = 'left';
+});
+
+/* Strip 4: cool matka */
+makeComic('strip4', 1, 'Aavi\'s mother brings home a new matka. Aavi drinks the water and gasps: "It\'s COLD! How?!"', (ctx) => {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, 280, 200);
+  // matka
+  ctx.fillStyle = '#92400e';
+  ctx.beginPath();
+  ctx.moveTo(95, 110); ctx.lineTo(85, 180); ctx.lineTo(195, 180); ctx.lineTo(185, 110);
+  ctx.bezierCurveTo(185, 95, 95, 95, 95, 110);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+  ctx.stroke();
+  // opening
+  ctx.fillStyle = '#1c1917';
+  ctx.beginPath();
+  ctx.ellipse(140, 102, 20, 5, 0, 0, Math.PI * 2);
+  ctx.fill();
+  bubble(ctx, 30, 30, 'How is it\nso COLD?', 110);
+});
+makeComic('strip4', 2, 'The matka is made of porous clay. Water seeps through TINY holes — and EVAPORATES from the outside.', (ctx) => {
+  ctx.fillStyle = '#fff7ed'; ctx.fillRect(0, 0, 280, 200);
+  // matka closeup
+  ctx.fillStyle = '#92400e';
+  ctx.fillRect(80, 80, 120, 100);
+  ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+  ctx.strokeRect(80, 80, 120, 100);
+  // tiny pores (dots)
+  ctx.fillStyle = '#1c1917';
+  for (let i = 0; i < 20; i++) {
+    ctx.beginPath();
+    ctx.arc(80 + Math.random() * 120, 80 + Math.random() * 100, 1, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  // water drops on outside
+  ctx.fillStyle = '#0284c7';
+  for (let i = 0; i < 8; i++) {
+    ctx.beginPath();
+    ctx.arc(76, 90 + i * 12, 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(204, 90 + i * 12, 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  // vapour rising
+  ctx.fillStyle = 'rgba(148, 163, 184, 0.6)';
+  for (let i = 0; i < 6; i++) {
+    ctx.beginPath();
+    ctx.arc(70 + i * 30, 60 - Math.random() * 30, 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+});
+makeComic('strip4', 3, '"Evaporation takes HEAT away! That cools the water inside. NO ELECTRICITY needed."', (ctx) => {
+  ctx.fillStyle = '#ecfeff'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#0284c7';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Evaporation', 140, 50);
+  ctx.fillText('=', 140, 75);
+  ctx.fillText('COOLING effect 🧊', 140, 100);
+  ctx.fillStyle = '#1e293b';
+  ctx.font = '11px sans-serif';
+  ctx.fillText('Same reason:', 140, 135);
+  ctx.fillText('• sweating cools us', 140, 155);
+  ctx.fillText('• sanitiser feels cold', 140, 170);
+  ctx.fillText('• sprinkling water on floor', 140, 185);
+  ctx.textAlign = 'left';
+});
+makeComic('strip4', 4, 'Ancient Indian invention — and still works today. A "fridge" made of clay 🏺', (ctx) => {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, 280, 200);
+  // surahi
+  ctx.fillStyle = '#92400e';
+  ctx.beginPath();
+  ctx.moveTo(120, 110);
+  ctx.bezierCurveTo(80, 120, 70, 160, 110, 175);
+  ctx.lineTo(170, 175);
+  ctx.bezierCurveTo(210, 160, 200, 120, 160, 110);
+  ctx.lineTo(150, 60);
+  ctx.lineTo(130, 60);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.fillStyle = '#1c1917'; ctx.font = 'bold 13px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('SURAHI / MATKA', 140, 30);
+  ctx.font = '10px sans-serif';
+  ctx.fillText('cold water, no electricity!', 140, 195);
+  ctx.textAlign = 'left';
+});
+
+/* Strip 5: water cycle */
+makeComic('strip5', 1, 'Far below the sky, water in the ocean glistens in the morning sun.', (ctx) => {
+  ctx.fillStyle = '#bae6fd'; ctx.fillRect(0, 0, 280, 100);
+  ctx.fillStyle = '#0284c7'; ctx.fillRect(0, 100, 280, 100);
+  ctx.fillStyle = '#fde047';
+  ctx.beginPath(); ctx.arc(40, 40, 20, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#fde047'; ctx.lineWidth = 2;
+  for (let a = 0; a < Math.PI * 2; a += Math.PI / 6) {
+    ctx.beginPath();
+    ctx.moveTo(40 + Math.cos(a) * 24, 40 + Math.sin(a) * 24);
+    ctx.lineTo(40 + Math.cos(a) * 32, 40 + Math.sin(a) * 32);
+    ctx.stroke();
+  }
+});
+makeComic('strip5', 2, 'Sun\'s heat → water rises as vapour. Up, up — invisible!', (ctx) => {
+  ctx.fillStyle = '#bae6fd'; ctx.fillRect(0, 0, 280, 100);
+  ctx.fillStyle = '#0284c7'; ctx.fillRect(0, 100, 280, 100);
+  ctx.fillStyle = 'rgba(248, 250, 252, 0.85)';
+  for (let i = 0; i < 12; i++) {
+    ctx.beginPath();
+    ctx.arc(40 + i * 18, 80 - Math.random() * 60, 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 11px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('EVAPORATION ↑', 140, 30);
+  ctx.textAlign = 'left';
+});
+makeComic('strip5', 3, 'High in the sky — cool air. Vapour condenses on dust. CLOUD!', (ctx) => {
+  ctx.fillStyle = '#7dd3fc'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#f8fafc';
+  [70, 110, 150, 190].forEach(x => {
+    ctx.beginPath(); ctx.arc(x, 100, 28, 0, Math.PI * 2); ctx.fill();
+  });
+  ctx.beginPath(); ctx.arc(130, 80, 35, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 11px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('CONDENSATION → CLOUDS', 140, 170);
+  ctx.textAlign = 'left';
+});
+makeComic('strip5', 4, 'Heavy drops fall as rain. River runs back to the ocean. Repeat — forever!', (ctx) => {
+  ctx.fillStyle = '#94a3b8'; ctx.fillRect(0, 0, 280, 100);
+  ctx.fillStyle = '#0284c7'; ctx.fillRect(0, 100, 280, 100);
+  ctx.fillStyle = '#475569';
+  ctx.beginPath();
+  ctx.arc(140, 60, 30, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 2;
+  for (let i = 0; i < 8; i++) {
+    const x = 100 + i * 12;
+    ctx.beginPath();
+    ctx.moveTo(x, 100); ctx.lineTo(x - 3, 130);
+    ctx.stroke();
+  }
+  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 13px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('🌧️ RAIN 🌧️', 140, 175);
+  ctx.textAlign = 'left';
+});
+
+/* ============================================================
+   QUIZ
+   ============================================================ */
+const quizData = [
+  {
+    q: 'Ice melts into water. Both are:',
+    options: [
+      'Different substances',
+      'The same substance — different states (solid vs liquid)',
+      'Only similar in colour',
+      'Always at the same temperature'
+    ],
+    correct: 1,
+    why: 'Ice (solid) and water (liquid) are two states of the same substance — H₂O. Just heat or cool to switch.'
+  },
+  {
+    q: 'A puddle disappears on a sunny day. The water has:',
+    options: [
+      'Disappeared completely',
+      'Soaked into the ground',
+      'Evaporated into the air as water vapour',
+      'Turned into salt'
+    ],
+    correct: 2,
+    why: 'Evaporation! Water turns to invisible water vapour and rises into the air. The puddle didn\'t magically vanish.'
+  },
+  {
+    q: 'Droplets form on the OUTSIDE of a cold glass. Where do they come from?',
+    options: [
+      'Water leaked through the glass',
+      'Water vapour from the air condensed on the cold surface',
+      'The glass made the water',
+      'Magic'
+    ],
+    correct: 1,
+    why: 'Condensation. Air around us always has water vapour. Touching a cold surface, it turns into liquid droplets.'
+  },
+  {
+    q: 'Which scientific method PROVES that water on the outside of a cold glass didn\'t seep through?',
+    options: [
+      'Wait and see',
+      'Mark water level inside + weigh on a balance: mass INCREASES; inside level stays',
+      'Smell the water',
+      'Look harder'
+    ],
+    correct: 1,
+    why: 'If the inside level doesn\'t go down BUT the total mass goes up, the extra water can only have come from the AIR.'
+  },
+  {
+    q: 'Which state of matter takes the shape of its container but has fixed volume?',
+    options: ['Solid', 'Liquid', 'Gas', 'Plasma'],
+    correct: 1,
+    why: 'Liquid! Water takes any container\'s shape, but the amount (volume) stays the same. Gas takes shape AND fills volume.'
+  },
+  {
+    q: 'Water spills on a plate. Same amount of water in a bottle cap. Which evaporates faster?',
+    options: ['Plate', 'Bottle cap', 'Both same', 'Cannot say'],
+    correct: 0,
+    why: 'Plate spreads water out over a bigger surface area. More contact with air = faster evaporation.'
+  },
+  {
+    q: 'Clothes dry faster on a:',
+    options: [
+      'Hot, windy day',
+      'Cool, rainy day',
+      'Cool, humid morning',
+      'It doesn\'t matter'
+    ],
+    correct: 0,
+    why: 'Hot + windy + dry air = evaporation happens fast. Cold + humid = slow.'
+  },
+  {
+    q: 'Water in a matka (earthen pot) stays cold because:',
+    options: [
+      'Clay has ice inside',
+      'Some water seeps through the clay, evaporates from the outside, taking heat away',
+      'Matkas come from cold places',
+      'Magic clay'
+    ],
+    correct: 1,
+    why: 'Evaporation = cooling. Water leaves the pot and takes heat with it. The remaining water inside gets cooler.'
+  },
+  {
+    q: 'Why do clouds form in the sky?',
+    options: [
+      'Cotton from cotton plants',
+      'Water vapour rises, cools, condenses on dust particles → droplets float as clouds',
+      'Smoke from fires',
+      'Stars made them'
+    ],
+    correct: 1,
+    why: 'Clouds = tiny condensed water droplets formed when vapour cools high up in the sky around dust particles.'
+  },
+  {
+    q: 'In the water cycle, what comes after CONDENSATION?',
+    options: [
+      'Evaporation',
+      'Precipitation (rain / snow / hail)',
+      'Freezing',
+      'Boiling'
+    ],
+    correct: 1,
+    why: 'Evaporation → Condensation → Precipitation (rain) → flows to rivers → back to ocean → repeats.'
+  },
+  {
+    q: 'A hand sanitiser feels COOL when you rub it on your hands. Why?',
+    options: [
+      'Sanitiser is made cold',
+      'It evaporates fast, taking heat away from your skin',
+      'It contains ice',
+      'It\'s a cooling gel'
+    ],
+    correct: 1,
+    why: 'Sanitiser (mostly alcohol) evaporates quickly. Evaporation = cooling. That\'s why your hand feels cool.'
+  },
+  {
+    q: 'Atmospheric Water Generators collect water by:',
+    options: [
+      'Catching rain',
+      'Cooling humid air → vapour condenses → drinkable water',
+      'Pumping it from wells',
+      'Mining ice'
+    ],
+    correct: 1,
+    why: 'Same physics as your cold-glass droplets — but on a big scale. Useful in dry areas where rain is scarce.'
+  }
+];
+
+/* ============================================================
+   5E — RUBRIC (Evaluate phase)
+   ============================================================ */
+(function () {
+  const table = document.getElementById('rubricTable');
+  if (!table) return;
+  const totalCriteria = table.querySelectorAll('tbody tr').length;
+  const maxScore = totalCriteria * 4;
+  document.querySelectorAll('.rubric-table .rs-score').forEach(el => el.textContent = '0');
+
+  // Update the "/ 28" if criteria count changes
+  const denomEl = document.querySelector('.rubric-summary span[style*="color: #94a3b8"]');
+  if (denomEl) denomEl.textContent = '/ ' + maxScore;
+
+  table.addEventListener('click', (e) => {
+    const cell = e.target.closest('.rb-cell');
+    if (!cell) return;
+    const row = cell.parentElement;
+    // clear all cells in this row
+    row.querySelectorAll('.rb-cell').forEach(c => c.classList.remove('selected'));
+    cell.classList.add('selected');
+    recalc();
+  });
+
+  function recalc() {
+    let total = 0, answered = 0;
+    table.querySelectorAll('tbody tr').forEach(row => {
+      const sel = row.querySelector('.rb-cell.selected');
+      if (sel) {
+        total += parseInt(sel.dataset.level);
+        answered++;
+      }
+    });
+    document.getElementById('rubricTotal').textContent = total;
+    const avg = answered > 0 ? (total / answered).toFixed(1) : '—';
+    document.getElementById('rubricAvg').textContent = answered > 0 ? avg + ' / 4' : '—';
+
+    const band = document.getElementById('rubricBand');
+    if (answered === 0) {
+      band.textContent = '— Not yet scored —';
+      band.style.background = '#e2e8f0';
+      band.style.color = '#475569';
+    } else if (answered < totalCriteria) {
+      band.textContent = `In progress (${answered}/${totalCriteria} skills)`;
+      band.style.background = '#fef3c7';
+      band.style.color = '#a16207';
+    } else {
+      // Performance band based on average
+      const a = total / totalCriteria;
+      let label, bg, fg;
+      if (a >= 3.5) { label = '🏆 Advanced'; bg = '#dcfce7'; fg = '#15803d'; }
+      else if (a >= 2.5) { label = '👍 Proficient'; bg = '#dbeafe'; fg = '#1e40af'; }
+      else if (a >= 1.5) { label = '📚 Developing'; bg = '#fef3c7'; fg = '#a16207'; }
+      else { label = '🌱 Beginning'; bg = '#fee2e2'; fg = '#b91c1c'; }
+      band.textContent = label;
+      band.style.background = bg;
+      band.style.color = fg;
+    }
+  }
+
+  // Set today's date by default
+  const dateInput = document.getElementById('studentDate');
+  if (dateInput) dateInput.valueAsDate = new Date();
+})();
+
+/* ============================================================
+   5E — CONCEPT MAP (Explain phase)
+   ============================================================ */
+(function () {
+  const c = document.getElementById('conceptMapCanvas');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#eff6ff';
+  ctx.fillRect(0, 0, 600, 420);
+
+  // Title
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 14px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Concept Map — The Three States of Water', 300, 24);
+
+  // Three state nodes positioned in a triangle
+  const states = [
+    { x: 150, y: 150, label: 'ICE 🧊', sub: '(SOLID)', color: '#bae6fd', stroke: '#0284c7' },
+    { x: 450, y: 150, label: 'WATER 💧', sub: '(LIQUID)', color: '#7dd3fc', stroke: '#0369a1' },
+    { x: 300, y: 340, label: 'WATER VAPOUR ☁️', sub: '(GAS)', color: '#f1f5f9', stroke: '#64748b' }
+  ];
+
+  // Central H2O label
+  ctx.fillStyle = '#0284c7';
+  ctx.font = 'bold 26px sans-serif';
+  ctx.fillText('H₂O', 300, 240);
+  ctx.font = 'italic 11px sans-serif';
+  ctx.fillStyle = '#0e7490';
+  ctx.fillText('(same substance)', 300, 258);
+
+  // Arrows between states (drawn first, behind nodes)
+  function drawArrow(x1, y1, x2, y2, color, label, offsetX, offsetY) {
+    const dx = x2 - x1, dy = y2 - y1;
+    const len = Math.sqrt(dx * dx + dy * dy);
+    const ux = dx / len, uy = dy / len;
+    // shorten endpoints so arrow doesn't hit node circles
+    const sx = x1 + ux * 70, sy = y1 + uy * 50;
+    const ex = x2 - ux * 70, ey = y2 - uy * 50;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(sx, sy); ctx.lineTo(ex, ey);
+    ctx.stroke();
+    // arrowhead
+    const angle = Math.atan2(ey - sy, ex - sx);
+    ctx.beginPath();
+    ctx.moveTo(ex, ey);
+    ctx.lineTo(ex - 10 * Math.cos(angle - 0.4), ey - 10 * Math.sin(angle - 0.4));
+    ctx.lineTo(ex - 10 * Math.cos(angle + 0.4), ey - 10 * Math.sin(angle + 0.4));
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
+    // label
+    ctx.fillStyle = color;
+    ctx.font = 'bold 12px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(label, (sx + ex) / 2 + offsetX, (sy + ey) / 2 + offsetY);
+  }
+
+  // ice → water = melting (heat); water → ice = freezing (cool)
+  drawArrow(states[0].x, states[0].y - 10, states[1].x, states[1].y - 10, '#dc2626', 'melting (heat)', 0, -8);
+  drawArrow(states[1].x, states[1].y + 10, states[0].x, states[0].y + 10, '#0284c7', 'freezing (cool)', 0, 20);
+  // water → vapour = evaporation
+  drawArrow(states[1].x - 15, states[1].y + 20, states[2].x + 20, states[2].y - 30, '#dc2626', 'evaporation (heat)', 30, 0);
+  // vapour → water = condensation
+  drawArrow(states[2].x - 20, states[2].y - 40, states[1].x - 50, states[1].y + 30, '#0284c7', 'condensation', -25, 5);
+
+  // Now draw the state nodes
+  states.forEach(s => {
+    ctx.fillStyle = s.color;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, 55, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = s.stroke;
+    ctx.lineWidth = 3;
+    ctx.stroke();
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 14px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(s.label, s.x, s.y - 4);
+    ctx.font = 'bold 11px sans-serif';
+    ctx.fillStyle = s.stroke;
+    ctx.fillText(s.sub, s.x, s.y + 14);
+  });
+
+  // Bottom label: water cycle
+  ctx.fillStyle = '#16a34a';
+  ctx.font = 'bold 12px sans-serif';
+  ctx.fillText('🌍 All connected by the WATER CYCLE 🌍', 300, 400);
+
+  ctx.textAlign = 'left';
+})();
+
+/* ============================================================
+   5E — EVALUATE QUIZ + PIE CHART
+   ============================================================ */
+(function () {
+  const evalData = [
+    {
+      q: 'Same H₂O, three states. Which is the GAS state?',
+      options: ['Ice', 'Liquid water', 'Water vapour', 'Mud'],
+      correct: 2
+    },
+    {
+      q: 'What process turns liquid water into water vapour?',
+      options: ['Freezing', 'Evaporation', 'Condensation', 'Melting'],
+      correct: 1
+    },
+    {
+      q: 'Water droplets on a cold glass come from:',
+      options: [
+        'The glass leaks',
+        'Magic',
+        'Water vapour in the air condensing on the cold surface',
+        'The ice melting through'
+      ],
+      correct: 2
+    },
+    {
+      q: 'Why is matka water cold?',
+      options: [
+        'It has ice inside',
+        'Water seeps through clay, evaporates from outside, takes heat away',
+        'The pot has hidden electricity',
+        'It comes from the fridge'
+      ],
+      correct: 1
+    },
+    {
+      q: 'In the water cycle, what happens AFTER condensation?',
+      options: [
+        'Evaporation',
+        'Melting',
+        'Freezing',
+        'Precipitation (rain/snow/hail)'
+      ],
+      correct: 3
+    }
+  ];
+
+  const container = document.getElementById('evalQuizContainer');
+  if (!container) return;
+
+  let eAnswered = 0, eScore = 0;
+
+  evalData.forEach((q, idx) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'eval-quiz';
+    const qText = document.createElement('div');
+    qText.className = 'eq-q';
+    qText.textContent = `Q${idx + 1}. ${q.q}`;
+    wrap.appendChild(qText);
+    q.options.forEach((opt, i) => {
+      const o = document.createElement('div');
+      o.className = 'eq-opt';
+      o.textContent = opt;
+      o.addEventListener('click', () => {
+        if (wrap.dataset.done) return;
+        wrap.dataset.done = 'true';
+        eAnswered++;
+        if (i === q.correct) {
+          o.classList.add('correct');
+          eScore++;
+        } else {
+          o.classList.add('wrong');
+          wrap.querySelectorAll('.eq-opt')[q.correct].classList.add('correct');
+        }
+        if (eAnswered === evalData.length) {
+          drawPie(eScore, evalData.length - eScore);
+        }
+      });
+      wrap.appendChild(o);
+    });
+    container.appendChild(wrap);
+  });
+
+  function drawPie(correct, wrong) {
+    const pieBox = document.getElementById('pieResult');
+    pieBox.classList.add('show');
+    const c = document.getElementById('piechartCanvas');
+    const ctx = c.getContext('2d');
+    ctx.clearRect(0, 0, 300, 300);
+
+    const total = correct + wrong;
+    const cx = 150, cy = 150, r = 110;
+
+    if (total === 0) return;
+
+    let startAngle = -Math.PI / 2;
+    const segments = [
+      { value: correct, color: '#22c55e', label: 'Correct' },
+      { value: wrong,   color: '#dc2626', label: 'Wrong' }
+    ];
+
+    segments.forEach(seg => {
+      if (seg.value === 0) return;
+      const slice = (seg.value / total) * Math.PI * 2;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, r, startAngle, startAngle + slice);
+      ctx.closePath();
+      ctx.fillStyle = seg.color;
+      ctx.fill();
+      ctx.strokeStyle = 'white';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      // label inside slice
+      const midAngle = startAngle + slice / 2;
+      const lx = cx + Math.cos(midAngle) * r * 0.6;
+      const ly = cy + Math.sin(midAngle) * r * 0.6;
+      ctx.fillStyle = 'white';
+      ctx.font = 'bold 22px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(seg.value, lx, ly + 8);
+
+      startAngle += slice;
+    });
+
+    // Center hole (donut style)
+    ctx.beginPath();
+    ctx.arc(cx, cy, 50, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.fill();
+
+    // Center text — total
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 20px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText((correct / total * 100).toFixed(0) + '%', cx, cy + 7);
+
+    ctx.textAlign = 'left';
+
+    // Bottom label
+    let msg;
+    if (correct === total) msg = '🏆 Perfect! You\'ve mastered the chapter!';
+    else if (correct >= total * 0.6) msg = '👏 Great work! Few more to nail down.';
+    else msg = '💧 Re-read the story and try again!';
+    document.getElementById('piechartLabel').textContent =
+      `${correct} of ${total} correct · ${msg}`;
+
+    // Legend
+    document.getElementById('piechartLegend').innerHTML =
+      `<span style="display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:14px; height:14px; background:#22c55e; border-radius:3px;"></span>Correct (${correct})</span>` +
+      `<span style="display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:14px; height:14px; background:#dc2626; border-radius:3px;"></span>Wrong (${wrong})</span>`;
+  }
+})();
+
+const quizContainer = document.getElementById('quiz-container');
+let answeredCount = 0, score = 0;
+quizData.forEach((q, idx) => {
+  const wrap = document.createElement('div');
+  wrap.className = 'quiz-question';
+  const qText = document.createElement('div');
+  qText.className = 'q-text';
+  qText.textContent = `Q${idx + 1}. ${q.q}`;
+  wrap.appendChild(qText);
+  q.options.forEach((opt, i) => {
+    const o = document.createElement('div');
+    o.className = 'quiz-option';
+    o.textContent = opt;
+    o.addEventListener('click', () => {
+      if (wrap.dataset.answered) return;
+      wrap.dataset.answered = 'true';
+      answeredCount++;
+      const fb = document.createElement('div');
+      fb.className = 'quiz-feedback show';
+      if (i === q.correct) {
+        o.classList.add('correct');
+        fb.classList.add('correct');
+        fb.innerHTML = `<b>✅ Yes!</b> ${q.why}`;
+        score++;
+      } else {
+        o.classList.add('wrong');
+        wrap.querySelectorAll('.quiz-option')[q.correct].classList.add('correct');
+        fb.classList.add('wrong');
+        fb.innerHTML = `<b>🤔 Not quite.</b> ${q.why}`;
+      }
+      wrap.appendChild(fb);
+      if (answeredCount === quizData.length) {
+        const s = document.getElementById('quiz-score');
+        s.style.display = 'block';
+        s.innerHTML = `Score: <b>${score} / ${quizData.length}</b><br>${score === quizData.length ? '🏆 Water Cycle Master!' : score >= quizData.length * 0.7 ? '👏 Great work!' : '💧 Re-read and try again!'}`;
+      }
+    });
+    wrap.appendChild(o);
+  });
+  quizContainer.appendChild(wrap);
+});
+</script>
+
+<script src="smile-chapter-assessment.js"></script>
+</body>
+</html>

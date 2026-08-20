@@ -1,0 +1,2338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grade 6 — Chapter 7 — Temperature and its Measurement</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #fef2f2;
+    color: #1e293b;
+    line-height: 1.55;
+  }
+  header {
+    background: linear-gradient(135deg, #0c4a6e 0%, #0284c7 35%, #dc2626 100%);
+    color: white;
+    padding: 36px 24px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  }
+  header h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+  header p { opacity: 0.95; font-size: 14px; }
+  nav.tabs {
+    display: flex; justify-content: center; gap: 4px;
+    background: white; padding: 8px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); flex-wrap: wrap;
+  }
+  nav.tabs button {
+    background: transparent; border: none;
+    padding: 10px 16px; font-size: 13px; font-weight: 600;
+    color: #475569; cursor: pointer; border-radius: 8px;
+    transition: all 0.2s;
+  }
+  nav.tabs button:hover { background: #fee2e2; color: #dc2626; }
+  nav.tabs button.active { background: #dc2626; color: white; }
+  main { max-width: 1100px; margin: 0 auto; padding: 24px; background: #fff7f7; min-height: 80vh; }
+  .tab-panel { display: none; animation: fadeIn 0.3s ease; }
+  .tab-panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  h2.section-title {
+    font-size: 22px; color: #dc2626; margin-bottom: 16px;
+    padding-bottom: 8px; border-bottom: 2px solid #dc2626;
+  }
+  h3.card-title { font-size: 18px; color: #1e293b; margin-bottom: 10px; }
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+  .card, .sim-card, .exp-card, .story-card, .lab-card {
+    background: white; border-radius: 12px; padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    margin-bottom: 16px; transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  .card p, .card li { font-size: 14px; color: #475569; margin-bottom: 6px; }
+  .card ul { margin-left: 18px; }
+  .badge {
+    display: inline-block; background: #fee2e2; color: #b91c1c;
+    font-size: 11px; font-weight: 600; padding: 3px 8px;
+    border-radius: 999px; margin-bottom: 8px;
+  }
+  .badge-blue { background: #dbeafe; color: #1d4ed8; }
+  .badge-yellow { background: #fef3c7; color: #a16207; }
+  .badge-purple { background: #f3e8ff; color: #7e22ce; }
+  canvas { display: block; background: #fef2f2; border-radius: 8px; margin: 12px 0; max-width: 100%; }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; align-items: center; }
+  button.btn {
+    background: #dc2626; color: white; border: none;
+    padding: 8px 16px; font-size: 13px; font-weight: 600;
+    border-radius: 6px; cursor: pointer; transition: background 0.2s;
+  }
+  button.btn:hover { background: #b91c1c; }
+  button.btn.secondary { background: #64748b; }
+  button.btn.secondary:hover { background: #475569; }
+  button.btn.blue { background: #0284c7; }
+  button.btn.blue:hover { background: #0369a1; }
+  label { font-size: 13px; color: #475569; font-weight: 500; }
+  input[type="range"] { width: 280px; }
+  .result-box {
+    background: #fee2e2; border-left: 4px solid #dc2626;
+    padding: 12px 16px; border-radius: 6px; margin-top: 12px; font-size: 14px;
+  }
+  .observation {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 10px 14px; border-radius: 6px; margin-top: 10px; font-size: 13px;
+  }
+  .step-display {
+    background: #fef2f2; border: 1px solid #fee2e2;
+    padding: 12px; border-radius: 6px; margin-top: 10px;
+    font-size: 13px; min-height: 50px;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+  th, td { padding: 7px 8px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+  th { background: #fef2f2; font-weight: 600; color: #475569; }
+  .key-fact {
+    background: #fef2f2; border-left: 3px solid #dc2626;
+    padding: 8px 12px; margin: 8px 0; font-size: 13px; border-radius: 4px;
+  }
+  .toggle-group { display: inline-flex; background: #e2e8f0; padding: 3px; border-radius: 6px; flex-wrap: wrap; }
+  .toggle-group button {
+    background: transparent; border: none;
+    padding: 6px 12px; font-size: 12px; font-weight: 600;
+    color: #475569; cursor: pointer; border-radius: 4px;
+  }
+  .toggle-group button.active { background: white; color: #dc2626; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  .lab-card {
+    border-left: 5px solid #dc2626;
+    background: linear-gradient(to right, #fef2f2 0%, #ffffff 80px);
+  }
+  .lab-card.addon { border-left-color: #0284c7; background: linear-gradient(to right, #eff6ff 0%, #ffffff 80px); }
+  .lab-section {
+    margin-top: 12px; padding: 10px 14px;
+    background: #fef2f2; border-radius: 6px;
+    font-size: 13px;
+  }
+  .lab-section h4 { color: #dc2626; font-size: 13px; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .lab-section.materials h4 { color: #b45309; }
+  .lab-section.procedure h4 { color: #16a34a; }
+  .lab-section.safety { background: #fef2f2; border: 1px solid #fecaca; }
+  .lab-section.safety h4 { color: #dc2626; }
+  .lab-section ol, .lab-section ul { margin-left: 18px; }
+  .lab-section li { margin-bottom: 4px; }
+  .difficulty {
+    display: inline-block; padding: 2px 10px;
+    border-radius: 999px; font-size: 11px; font-weight: 600;
+    margin-left: 8px;
+  }
+  .difficulty.easy   { background: #dcfce7; color: #16a34a; }
+  .difficulty.medium { background: #fef3c7; color: #d97706; }
+  .difficulty.hard   { background: #fee2e2; color: #dc2626; }
+  .comic-strip {
+    display: grid; gap: 12px; margin-top: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  .comic-panel {
+    background: #fffbeb; border: 3px solid #1e293b;
+    border-radius: 8px; overflow: hidden; position: relative;
+    box-shadow: 4px 4px 0 rgba(30,41,59,0.4);
+  }
+  .comic-panel canvas { background: #fefce8; border-radius: 0; margin: 0; width: 100%; display: block; }
+  .comic-caption {
+    background: #1e293b; color: #fef9c3;
+    padding: 10px 12px; font-size: 13px;
+    font-weight: 500; line-height: 1.4; font-family: Georgia, serif;
+  }
+  .comic-number {
+    position: absolute; top: 6px; left: 8px;
+    background: #dc2626; color: white; font-weight: 800; font-size: 14px;
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid #1e293b; z-index: 5;
+  }
+  .story-intro {
+    background: linear-gradient(135deg, #fee2e2 0%, #dbeafe 100%);
+    border-left: 4px solid #dc2626;
+    padding: 14px 18px; border-radius: 8px;
+    margin-bottom: 14px; font-size: 14px;
+    color: #7f1d1d; font-style: italic;
+  }
+  .quiz-question {
+    background: white; border-radius: 12px;
+    padding: 20px; margin-bottom: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .quiz-question .q-text { font-weight: 600; margin-bottom: 12px; color: #1e293b; }
+  .quiz-option {
+    display: block; padding: 10px 14px; margin-bottom: 6px;
+    border: 2px solid #e2e8f0; border-radius: 8px;
+    cursor: pointer; font-size: 14px; transition: all 0.15s;
+  }
+  .quiz-option:hover { border-color: #dc2626; background: #fef2f2; }
+  .quiz-option.correct { border-color: #16a34a; background: #f0fdf4; }
+  .quiz-option.wrong { border-color: #dc2626; background: #fef2f2; }
+  .quiz-feedback {
+    margin-top: 10px; padding: 10px; border-radius: 6px;
+    font-size: 13px; display: none;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: #f0fdf4; color: #166534; }
+  .quiz-feedback.wrong { background: #fef2f2; color: #991b1b; }
+  #quiz-score {
+    background: linear-gradient(135deg, #0284c7 0%, #dc2626 100%);
+    color: white; padding: 20px; border-radius: 12px;
+    text-align: center; margin-top: 16px;
+    font-size: 16px; font-weight: 600;
+  }
+  .quote-card {
+    background: linear-gradient(135deg, #fef2f2 0%, #dbeafe 100%);
+    border-radius: 14px;
+    padding: 22px 26px;
+    text-align: center;
+    margin: 14px 0;
+    border-left: 5px solid #dc2626;
+  }
+  .quote-card .quote-text {
+    font-size: 18px; font-style: italic; color: #7f1d1d;
+    font-family: Georgia, serif;
+    margin-bottom: 10px;
+  }
+  .quote-card .quote-author { font-weight: 600; color: #475569; font-size: 13px; }
+  .person-btn {
+    background: white; border: 2px solid #e2e8f0;
+    padding: 8px 14px; border-radius: 8px;
+    font-size: 13px; cursor: pointer;
+    transition: all 0.15s; font-weight: 500;
+  }
+  .person-btn:hover { border-color: #dc2626; background: #fef2f2; }
+  .person-btn.active { border-color: #dc2626; background: #fee2e2; color: #b91c1c; }
+  .person-grid { display: grid; gap: 6px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); margin: 10px 0; }
+  footer { text-align: center; padding: 20px; color: #94a3b8; font-size: 12px; background: #0f172a; }
+</style>
+<link rel="stylesheet" href="smile-chapter-assessment.css">
+</head>
+<body>
+
+<header>
+  <h1>Temperature and its Measurement</h1>
+</header>
+
+<nav class="tabs">
+  <button type="button" onclick="event.stopImmediatePropagation(); window.location.href='index.html'; return false;" style="background:#fef3c7; color:#b45309; padding:10px 16px; font-size:13px; font-weight:600; border-radius:8px; border:none; cursor:pointer; font-family:inherit;">🏠 Home</button>
+  <button data-tab="concepts" class="active">Concepts</button>
+  <button data-tab="kwl" style="background:#fef3c7; color:#b45309;">📝 KWL Chart</button>
+  <button data-tab="story">Story &amp; Cartoons</button>
+  <button data-tab="simulations">Thermometer Lab 🌡️</button>
+  <button data-tab="experiments">Virtual Experiments</button>
+  <button data-tab="lab">Lab Experiments</button>
+  <button data-tab="quiz">Quiz</button>
+</nav>
+
+<main>
+
+<!-- =================== CONCEPTS =================== -->
+<section id="concepts" class="tab-panel active">
+  <h2 class="section-title">Key Concepts</h2>
+
+  <div class="quote-card">
+    <div class="quote-text">"Wrong measurements are worse than no measurements at all."</div>
+    <div class="quote-author">— Anna Mani, Indian scientist (the "Weather Woman of India")</div>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <span class="badge">Big Idea</span>
+      <h3 class="card-title">Hot or Cold? Touch is Tricky!</h3>
+      <p>Take three bowls — warm, room temp, ice-cold water.</p>
+      <ul>
+        <li>Dip your right hand in warm water</li>
+        <li>Dip your left hand in cold water</li>
+        <li>Wait 1–2 minutes</li>
+        <li>Then plunge BOTH into the middle (room temp) bowl</li>
+      </ul>
+      <div class="key-fact">Your right hand feels cool, your left hand feels warm — but it's the SAME water! Touch is unreliable.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge">7.2</span>
+      <h3 class="card-title">What is Temperature?</h3>
+      <p>Since our senses are unreliable, we need a <b>reliable measure of hotness</b>.</p>
+      <p><b>Temperature</b> is exactly that — a number telling us how hot or cold something is.</p>
+      <ul>
+        <li>Hotter body → higher temperature</li>
+        <li>Colder body → lower temperature</li>
+      </ul>
+      <div class="key-fact">A device that measures temperature is called a <b>thermometer</b>.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-blue badge">7.3.1</span>
+      <h3 class="card-title">Clinical Thermometer (Body Temp)</h3>
+      <p>The one your mother uses when you have fever — used to be mercury, now mostly <b>digital</b>.</p>
+      <ul>
+        <li>Range: about 35°C to 42°C (human body range)</li>
+        <li>Place under tongue or in armpit</li>
+        <li>Wait for beep — read display</li>
+        <li>Wash tip with soap before and after</li>
+      </ul>
+      <div class="key-fact">⚠️ Mercury thermometers are being replaced — mercury is highly toxic if it spills.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge">Body temp</span>
+      <h3 class="card-title">37.0 °C — Normal</h3>
+      <p>The "normal" body temperature is <b>37.0 °C</b> — but this is just the AVERAGE.</p>
+      <ul>
+        <li>Healthy people range: 35°C to 42°C</li>
+        <li><b>Small children</b>: usually a bit higher</li>
+        <li><b>Older people</b>: usually a bit lower</li>
+        <li><b>Time of day</b>: lower in the morning, higher in evening</li>
+        <li><b>After exercise</b>: temporarily higher</li>
+      </ul>
+      <div class="key-fact">Armpit readings are 0.5°C to 1°C LOWER than the actual body temperature.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-purple badge">Scales</span>
+      <h3 class="card-title">Three Temperature Scales</h3>
+      <table>
+        <tr><th>Scale</th><th>Unit</th><th>Symbol</th><th>Normal body temp</th></tr>
+        <tr><td>Celsius</td><td>degree Celsius</td><td>°C</td><td>37.0 °C</td></tr>
+        <tr><td>Fahrenheit</td><td>degree Fahrenheit</td><td>°F</td><td>98.6 °F</td></tr>
+        <tr><td>Kelvin</td><td>kelvin</td><td>K</td><td>310.15 K</td></tr>
+      </table>
+      <div class="key-fact">SI unit = <b>kelvin (K)</b>. Used in scientific research.<br><b>Convert:</b> K = °C + 273.15</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-blue badge">COVID era</span>
+      <h3 class="card-title">Non-Contact (Infrared) Thermometer</h3>
+      <p>Remember the gun-shaped thermometers used during COVID-19?</p>
+      <p>They measure temperature <b>without touching</b> the body — by sensing the infrared (heat) radiation it gives off.</p>
+      <ul>
+        <li>No physical contact = no risk of spreading germs</li>
+        <li>Quick reading in seconds</li>
+        <li>Used at airports, malls, schools</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <span class="badge-blue badge">7.3.2</span>
+      <h3 class="card-title">Laboratory Thermometer</h3>
+      <p>A long glass tube with a bulb at one end. Inside: a thin column of <b>coloured alcohol</b> or <b>mercury</b>.</p>
+      <ul>
+        <li>Range: typically –10°C to 110°C</li>
+        <li>Can read ice (0°C) AND boiling water (100°C)</li>
+        <li>Liquid rises with heat, falls with cold</li>
+      </ul>
+      <div class="key-fact">The reading is where the top of the liquid column meets the scale.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-yellow badge">Use it Right</span>
+      <h3 class="card-title">Correct Way to Use a Lab Thermometer</h3>
+      <ol style="margin-left: 18px; font-size: 14px; color: #475569;">
+        <li>Hold it <b>vertically</b> — not tilted</li>
+        <li>Immerse the <b>bulb</b> in the liquid</li>
+        <li><b>Don't let bulb touch</b> the bottom or sides</li>
+        <li>Wait till the liquid column stops moving</li>
+        <li>Read <b>while still immersed</b> — taking it out changes the reading!</li>
+        <li>Keep your <b>eye level</b> with the liquid surface</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <span class="badge">Range &amp; Least Count</span>
+      <h3 class="card-title">Range &amp; Smallest Division</h3>
+      <p>Two important facts about any thermometer:</p>
+      <ul>
+        <li><b>Range</b>: lowest to highest temperature it can measure</li>
+        <li><b>Least count</b>: smallest temperature it can read (one tiny division)</li>
+      </ul>
+      <p>Example: a thermometer with marks every 1°C, and 10 small lines between 0°C and 10°C → least count = 10°C ÷ 10 = <b>1°C</b>.</p>
+    </div>
+
+    <div class="card">
+      <span class="badge">7.3.3</span>
+      <h3 class="card-title">Air Temperature</h3>
+      <p>Room thermometers hang on walls of clinics, schools, hospitals — they tell us the room temperature.</p>
+      <p>Weather reports give the day's <b>maximum</b> and <b>minimum</b> air temperatures.</p>
+      <ul>
+        <li>Air temp changes through the day</li>
+        <li>Rises in summer, falls in winter</li>
+        <li>Measured at weather stations around the world</li>
+      </ul>
+      <div class="key-fact">Air temperature data + wind + humidity = weather forecasts!</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-yellow badge">Phase change</span>
+      <h3 class="card-title">Why Boiling Water Stays at 100°C</h3>
+      <p>Surprise: while water is BOILING, its temperature stays the SAME (~100°C in your area) — even though heat keeps coming in.</p>
+      <p>Similarly, while ice is MELTING, its temperature stays at 0°C.</p>
+      <div class="key-fact">The heat goes into changing the STATE (solid→liquid, liquid→gas), not into raising the temperature. You'll study this more in Grade 7!</div>
+    </div>
+
+    <div class="card">
+      <span class="badge">India</span>
+      <h3 class="card-title">🇮🇳 Anna Mani (1918–2001)</h3>
+      <p><b>The "Weather Woman of India"</b>.</p>
+      <ul>
+        <li>Built dozens of weather measurement instruments</li>
+        <li>Reduced India's dependence on foreign weather equipment</li>
+        <li>Pioneered wind &amp; solar energy research</li>
+        <li>Helped India become a global leader in renewables</li>
+      </ul>
+      <div class="key-fact">Her famous saying: <i>"Wrong measurements are worse than no measurements at all."</i></div>
+    </div>
+
+    <div class="card">
+      <span class="badge">⚠️ Why not</span>
+      <h3 class="card-title">Why Not Mercury?</h3>
+      <p>Old thermometers used mercury (silvery liquid metal). But it has problems:</p>
+      <ul>
+        <li>Highly <b>toxic</b> if ingested or inhaled</li>
+        <li>If thermometer breaks → tiny mercury droplets are HARD to clean</li>
+        <li>Difficult to dispose of safely</li>
+      </ul>
+      <div class="key-fact">Today, alcohol (coloured red) or digital sensors do the same job — safely.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-purple badge">Did you know?</span>
+      <h3 class="card-title">Pulse Before Thermometers</h3>
+      <p>Before thermometers were invented, how did people detect fever?</p>
+      <p>By checking the <b>pulse rate</b> — fever generally makes the heart beat faster.</p>
+      <p>This was known in ancient India!</p>
+      <div class="key-fact">But pulse rate alone isn't reliable — exercise, stress, and many other things also change it. A thermometer is the proper measure.</div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== STORY =================== -->
+<section id="story" class="tab-panel">
+  <h2 class="section-title">Story &amp; Cartoons</h2>
+
+  <div class="story-card">
+    <h3 class="card-title">Story 1: Phiban Checks Lambok</h3>
+    <div class="story-intro">
+      Lambok and Phiban live in Shillong. One afternoon, Lambok comes home complaining of fever. Phiban — older and wiser — wants to check. But she doesn't trust her hand. She grabs the thermometer.
+    </div>
+    <div class="comic-strip" id="strip1"></div>
+  </div>
+
+  <div class="story-card">
+    <h3 class="card-title">Story 2: Why Your Hand Lies</h3>
+    <div class="story-intro">
+      A science classroom. The teacher sets up three buckets of water and challenges the class. "Your hands will tell you two different things about the SAME water. Watch."
+    </div>
+    <div class="comic-strip" id="strip2"></div>
+  </div>
+
+  <div class="story-card">
+    <h3 class="card-title">Story 3: Meet the Thermometers</h3>
+    <div class="story-intro">
+      Mercury thermometer? Old school. Digital? Easy to read. Infrared? Touchless. Lab thermometer? For science experiments. Get to know the family of thermometers.
+    </div>
+    <div class="comic-strip" id="strip3"></div>
+  </div>
+
+  <div class="story-card">
+    <h3 class="card-title">Story 4: The Boiling Water Mystery</h3>
+    <div class="story-intro">
+      Phiban's class measures the temperature of boiling water. Five students get five different readings — 97.8°C, 98.0°C, 97.9°C, 98.0°C, 98.1°C. Why? And what's the right answer?
+    </div>
+    <div class="comic-strip" id="strip4"></div>
+  </div>
+
+  <div class="story-card">
+    <h3 class="card-title">Story 5: Anna Mani, the Weather Woman</h3>
+    <div class="story-intro">
+      Long before the COVID infrared gun thermometer or your school's lab thermometer, an Indian scientist named Anna Mani built dozens of weather instruments — and dreamed of clean energy from wind and sun.
+    </div>
+    <div class="comic-strip" id="strip5"></div>
+  </div>
+</section>
+
+<!-- =================== THERMOMETER LAB =================== -->
+<section id="simulations" class="tab-panel">
+  <h2 class="section-title">🌡️ Thermometer Lab</h2>
+
+  <div class="sim-card">
+    <h3 class="card-title">1. Hand-in-Water Illusion (Activity 7.1)</h3>
+    <p>Watch the demo. Hands feel temperature differently depending on what they JUST experienced. Click to step through.</p>
+    <div class="controls">
+      <button class="btn" onclick="handsSim.next()">Next step</button>
+      <button class="btn secondary" onclick="handsSim.reset()">Reset</button>
+    </div>
+    <canvas id="handsCanvas" width="600" height="320"></canvas>
+    <div class="result-box" id="handsResult">Click <b>Next step</b> to set up three bowls and play the trick.</div>
+  </div>
+
+  <div class="sim-card">
+    <h3 class="card-title">2. The Temperature Converter</h3>
+    <p>Drag the slider. See the SAME temperature in three scales (Celsius, Fahrenheit, Kelvin) — and what it represents in real life.</p>
+    <div class="controls">
+      <label>Temperature: <span id="tempVal">37.0</span> °C</label>
+      <input type="range" id="tempSlider" min="-30" max="120" step="0.5" value="37" oninput="convSim.update()">
+    </div>
+    <canvas id="convCanvas" width="600" height="240"></canvas>
+    <div class="result-box" id="convResult">37.0 °C = 98.6 °F = 310.15 K — normal human body temperature.</div>
+  </div>
+
+  <div class="sim-card">
+    <h3 class="card-title">3. Take Their Temperature</h3>
+    <p>Pick a "person" to test with a digital thermometer. Watch the reading appear after a beep.</p>
+    <div style="margin: 12px 0;">
+      <div class="person-grid" id="personGrid"></div>
+    </div>
+    <div class="controls">
+      <button class="btn" onclick="bodySim.measure()">Take temperature</button>
+      <button class="btn secondary" onclick="bodySim.reset()">Reset</button>
+    </div>
+    <canvas id="bodyCanvas" width="600" height="280"></canvas>
+    <div class="result-box" id="bodyResult">Pick a person, then <b>Take temperature</b>.</div>
+  </div>
+
+  <div class="sim-card">
+    <h3 class="card-title">4. Heat Up &amp; Boil — Watch the Phase Change</h3>
+    <p>A beaker of water on a flame. Watch the thermometer rise from room temperature to boiling. Surprise — it STOPS at 100°C even though we keep heating!</p>
+    <div class="controls">
+      <button class="btn" onclick="boilSim.start()">Start heating</button>
+      <button class="btn secondary" onclick="boilSim.reset()">Reset</button>
+    </div>
+    <canvas id="boilCanvas" width="600" height="340"></canvas>
+    <div class="observation" id="boilObs">Click <b>Start heating</b> to watch water go from room temp → 100°C → boiling at 100°C.</div>
+  </div>
+
+  <div class="sim-card">
+    <h3 class="card-title">5. Anatomy of a Lab Thermometer</h3>
+    <p>Click each labelled part to learn what it does and why it's there.</p>
+    <div class="controls">
+      <div class="toggle-group" id="anatToggle">
+        <button data-p="bulb" class="active">Bulb</button>
+        <button data-p="column">Liquid column</button>
+        <button data-p="scale">Scale</button>
+        <button data-p="stem">Stem</button>
+      </div>
+    </div>
+    <canvas id="anatCanvas" width="600" height="280"></canvas>
+    <div class="result-box" id="anatResult">Click parts above to learn what each does.</div>
+  </div>
+</section>
+
+<!-- =================== VIRTUAL EXPERIMENTS =================== -->
+<section id="experiments" class="tab-panel">
+  <h2 class="section-title">Virtual Experiments</h2>
+
+  <div class="exp-card">
+    <h3 class="card-title">Activity 7.1 — Three-Bowl Trick</h3>
+    <p>Why your hands lie about temperature.</p>
+    <canvas id="expHandsCanvas" width="600" height="320"></canvas>
+    <div class="controls">
+      <button class="btn" onclick="expHands.next()">Next step</button>
+      <button class="btn secondary" onclick="expHands.reset()">Reset</button>
+    </div>
+    <div class="step-display" id="expHandsStep">Click <b>Next step</b> to begin.</div>
+  </div>
+
+  <div class="exp-card">
+    <h3 class="card-title">Activity 7.2 — Measure Body Temperature</h3>
+    <p>Use a digital thermometer step by step.</p>
+    <canvas id="expBodyCanvas" width="600" height="280"></canvas>
+    <div class="controls">
+      <button class="btn" onclick="expBody.next()">Next step</button>
+      <button class="btn secondary" onclick="expBody.reset()">Reset</button>
+    </div>
+    <div class="step-display" id="expBodyStep">Walk through the proper way to measure body temperature.</div>
+  </div>
+
+  <div class="exp-card">
+    <h3 class="card-title">Activity 7.3 &amp; 7.4 — Range &amp; Least Count</h3>
+    <p>How to find the range and the smallest division of a lab thermometer.</p>
+    <canvas id="expRangeCanvas" width="600" height="280"></canvas>
+    <div class="controls">
+      <button class="btn blue" onclick="expRange.next()">Next step</button>
+      <button class="btn secondary" onclick="expRange.reset()">Reset</button>
+    </div>
+    <div class="step-display" id="expRangeStep">Step through how to read range and least count.</div>
+  </div>
+
+  <div class="exp-card">
+    <h3 class="card-title">Activity 7.5 — Measure Warm Water</h3>
+    <p>Show the correct way to dip and read a thermometer.</p>
+    <canvas id="expWaterCanvas" width="600" height="320"></canvas>
+    <div class="controls">
+      <button class="btn" onclick="expWater.next()">Next step</button>
+      <button class="btn secondary" onclick="expWater.reset()">Reset</button>
+    </div>
+    <div class="step-display" id="expWaterStep">Watch the correct technique — and common mistakes.</div>
+  </div>
+</section>
+
+<!-- =================== LAB EXPERIMENTS =================== -->
+<section id="lab" class="tab-panel">
+  <h2 class="section-title">🧪 Lab Experiments — Try These at Home / In Class</h2>
+  <p style="margin-bottom: 18px; color: #475569; font-size: 14px;">
+    All textbook activities + bonus add-ons.
+    <span style="display:inline-block; margin-left:10px;"><span class="difficulty easy">Easy</span><span class="difficulty medium">Medium</span><span class="difficulty hard">Adult Help</span></span>
+  </p>
+
+  <h3 style="color: #dc2626; font-size: 18px; margin: 20px 0 12px;">📘 From the Textbook</h3>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 7.1 — The Three-Bowl Trick <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>3 large bowls / containers (A, B, C)</li>
+        <li>Warm water (not hot!) for A</li>
+        <li>Tap (room temp) water for B</li>
+        <li>Ice-cold water for C</li>
+        <li>A timer</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Set up the three bowls — A: warm, B: room temp, C: ice-cold.</li>
+        <li>Dip your <b>right</b> hand in A and <b>left</b> hand in C. Wait 1-2 minutes.</li>
+        <li>Pull both out and quickly dip them simultaneously into B.</li>
+        <li>How does each hand feel?</li>
+      </ol>
+    </div>
+    <div class="lab-section safety">
+      <h4>Safety</h4>
+      <p>Don't use scalding water for A. Warm = comfortable to touch.</p>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Right hand feels B as <b>cool</b> (because it was warmer). Left hand feels B as <b>warm</b> (because it was colder). Same water — two different feelings! Touch can't be trusted.</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 7.2 — Measure Body Temperature <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>A digital clinical thermometer</li>
+        <li>Soap &amp; water (for cleaning)</li>
+        <li>A notebook</li>
+        <li>10 willing friends or family members</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Wash hands and the tip of the thermometer with soap.</li>
+        <li>Reset the thermometer.</li>
+        <li>Place the tip under the tongue with the mouth closed.</li>
+        <li>Wait for the beep / flash.</li>
+        <li>Read the display.</li>
+        <li>Wash and dry the tip. Repeat for next person.</li>
+        <li>Record all 10 readings.</li>
+      </ol>
+    </div>
+    <div class="lab-section safety">
+      <h4>Safety</h4>
+      <p>Wash the tip with soap before AND after each use. Don't share without cleaning.</p>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Average might be 37°C — but actual readings vary from person to person. Body temperature is a RANGE, not a fixed number.</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 7.3 — Find the Thermometer's Range <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>A laboratory thermometer (from school lab)</li>
+        <li>A magnifying glass (if marks are tiny)</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Look at the bottom of the scale. What's the lowest number?</li>
+        <li>Look at the top of the scale. What's the highest?</li>
+        <li>Range = highest − lowest.</li>
+        <li>Note units (probably °C).</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Every thermometer has a different range. A clinical thermometer covers ~35–42°C (body range). A lab thermometer typically –10°C to 110°C (ice to boiling).</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 7.4 — Find the Least Count <span class="difficulty medium">Medium</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>A laboratory thermometer</li>
+        <li>A magnifying glass (helpful)</li>
+        <li>Pen &amp; paper</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Find two large marks close together (e.g., 0°C and 10°C).</li>
+        <li>Calculate the difference: 10 − 0 = 10°C.</li>
+        <li>Count the small divisions BETWEEN them.</li>
+        <li>Divide: 10°C ÷ number of divisions = least count.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Least count = smallest temperature change the thermometer can show. For ours: 10°C ÷ 10 divisions = <b>1°C</b>.</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 7.5 — Measure Warm Water Correctly <span class="difficulty medium">Medium</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Laboratory thermometer</li>
+        <li>Beaker of warm water (~50°C)</li>
+        <li>Clamp / stand (optional)</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Pour warm water into the beaker.</li>
+        <li>Dip the bulb of the thermometer into the water.</li>
+        <li>Don't let the bulb touch the bottom or sides.</li>
+        <li>Hold the thermometer vertical.</li>
+        <li>Wait — watch the column rise. When it stops, read at eye level.</li>
+        <li>Note the temperature WHILE the bulb is still in water.</li>
+      </ol>
+    </div>
+    <div class="lab-section safety">
+      <h4>Safety</h4>
+      <p>Glass — handle carefully. Don't drop. Use warm, not boiling, water.</p>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Reading thermometers takes care! Reading from a tilt or after lifting out gives the wrong number. Eye level + immersed bulb = correct reading.</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 7.6 — Compare Boiling Water Readings <span class="difficulty hard">Adult Help</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Beaker with water</li>
+        <li>Tripod stand + wire gauze</li>
+        <li>Burner / spirit lamp</li>
+        <li>Laboratory thermometer</li>
+        <li>Class of students 🙋</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Adult heats water in the beaker until rolling boil.</li>
+        <li>Each student takes a turn measuring the temperature.</li>
+        <li>Record all readings.</li>
+        <li>Compare — are they all the same?</li>
+      </ol>
+    </div>
+    <div class="lab-section safety">
+      <h4>Safety</h4>
+      <p>Boiling water is dangerous. Adult demo only. Don't lean over the beaker.</p>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Readings differ slightly because of HOW students hold the thermometer, where the bulb is, eye level, etc. The temperature is the same — the technique matters!</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 7.7 — 10-Day Air Temperature Log <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Notebook + pen</li>
+        <li>Daily weather report (newspaper / TV / phone weather app)</li>
+        <li>Optional: a room thermometer</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>For 10 successive days, find the max and min air temperature of your city.</li>
+        <li>Note the date.</li>
+        <li>Plot on a simple graph: days vs temperature.</li>
+        <li>Look for patterns. Is it warming up? Cooling down?</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Air temperature changes daily — it's a weather variable. Patterns appear over weeks (e.g., as winter approaches). Real data, real science.</p>
+    </div>
+  </div>
+
+  <h3 style="color: #0284c7; font-size: 18px; margin: 30px 0 12px;">🎁 Bonus Add-Ons</h3>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 1 — Galileo's Bottle Thermoscope <span class="difficulty medium">Medium</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>An empty glass bottle</li>
+        <li>A drinking straw</li>
+        <li>Modelling clay or play-doh</li>
+        <li>A bit of coloured water</li>
+        <li>Hot water in a bowl, cold water in another</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Fill the bottle ⅓ with coloured water.</li>
+        <li>Insert the straw in the bottle so it dips into the water. Seal the bottle's mouth around the straw with clay (airtight).</li>
+        <li>Place the bottle in hot water. The coloured water rises up the straw!</li>
+        <li>Place in cold water. The level drops!</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Just like a real thermometer — but you built it yourself! Heat makes the air expand (rises liquid). Cold contracts it (falls). This is exactly how Galileo's original 1593 thermoscope worked.</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 2 — Forehead vs Mouth vs Armpit <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Digital clinical thermometer</li>
+        <li>Optional: infrared/forehead thermometer</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Measure your temperature three ways: under tongue (1 min), under armpit (2 min), and at the forehead (if you have an IR thermometer).</li>
+        <li>Compare the three readings.</li>
+        <li>Mouth is usually the closest to "true" body temperature.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Armpit reads 0.5-1°C lower than mouth. Forehead can vary with surrounding temperature. Doctors know this and adjust.</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 3 — Convert °C to °F and K <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>A calculator (or your brain!)</li>
+        <li>Notebook</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>°C → °F: multiply by 9/5, then add 32.</li>
+        <li>°C → K: add 273.15.</li>
+        <li>Convert: 0°C, 37°C, 100°C, –10°C, 25°C into both °F and K.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>0°C = 32°F = 273.15 K. 37°C = 98.6°F = 310.15 K. 100°C = 212°F = 373.15 K. Three scales, one temperature.</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 4 — Hottest/Coldest in My Home <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>A room / outdoor thermometer (or use a digital one carefully)</li>
+        <li>Notebook</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Measure temperature in different rooms: kitchen, bedroom, bathroom, balcony, fridge (just hold close), freezer (very briefly!).</li>
+        <li>Note when (day/night).</li>
+        <li>Rank from hottest to coldest.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Different rooms have different temperatures, depending on sunlight, ventilation, heating sources. The kitchen during cooking is hot; the freezer is way below 0°C.</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 5 — Body Temp Pattern Over a Day <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Digital thermometer</li>
+        <li>Notebook</li>
+        <li>One full day</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Take your temperature on waking up.</li>
+        <li>Take it before breakfast, mid-morning, afternoon, evening, before sleeping.</li>
+        <li>Plot a chart.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Body temperature is usually LOWEST in the early morning and HIGHEST in the late afternoon/evening. There's a daily rhythm — even when you're perfectly healthy.</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 6 — Make a Personal Weather Station <span class="difficulty medium">Medium</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Outdoor thermometer (place in shade!)</li>
+        <li>A notebook</li>
+        <li>2 weeks</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Place the thermometer in a shaded outdoor spot (don't put it in direct sun).</li>
+        <li>Note the temperature at 9 AM, noon, 3 PM, and 6 PM each day for 2 weeks.</li>
+        <li>Plot the highs and lows.</li>
+        <li>Compare with your weather app.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>You're now doing what Anna Mani did at scale. Real weather data, collected by you. Highs are usually 2-3 PM, lows are before dawn.</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 7 — Boiling Water Stays at 100°C <span class="difficulty hard">Adult Help</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Beaker</li>
+        <li>Burner / kettle</li>
+        <li>Lab thermometer</li>
+        <li>Stopwatch</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Heat water gently. Note temperature every minute.</li>
+        <li>Watch — temperature rises until ~100°C.</li>
+        <li>Now keep heating. Temperature STAYS at 100°C even though heat keeps adding!</li>
+        <li>The extra heat is going into making steam.</li>
+      </ol>
+    </div>
+    <div class="lab-section safety">
+      <h4>Safety</h4>
+      <p>Adult supervision. Hot water + steam can scald. Don't lean over.</p>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>During a phase change (liquid → gas), all the heat goes into the change of state — not into temperature. This is why steam burns more than hot water does.</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 8 — Anna Mani Tribute Project <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Internet access (with adult)</li>
+        <li>Chart paper / posters</li>
+        <li>Colours</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Research Anna Mani (1918-2001) — her childhood, education, inventions, contributions.</li>
+        <li>Make a poster on her life and work.</li>
+        <li>Present to your class.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Behind every "ordinary" instrument is a brilliant mind. Anna Mani made India self-reliant in weather measurement. India produces ~5% of the world's solar electricity today — her early work helped lay the foundation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =================== QUIZ =================== -->
+<section id="quiz" class="tab-panel">
+  <h2 class="section-title">Quick Quiz</h2>
+  <div id="quiz-container"></div>
+  <div id="quiz-score" style="display:none"></div>
+</section>
+
+<section id="kwl" class="tab-panel">
+  <style>@media (max-width: 800px) { #kwl-grid-cols { grid-template-columns: 1fr !important; } }</style>
+  <h2 style="font-size:22px; color:#b45309; margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid #b45309;">📝 KWL Chart</h2>
+  <div style="background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); border-left:4px solid #b45309; padding:14px 18px; border-radius:10px; margin-bottom:18px; font-size:14px; color:#78350f;">Fill in what you <b>K</b>now, <b>W</b>ant to know, and <b>L</b>earned. Auto-saves. Use Print to save as PDF.</div>
+  <div id="kwl-grid-cols" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin:14px 0;">
+    <div style="background:white; border-radius:12px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.06); border-top:5px solid #0284c7;"><h4 style="font-size:15px; color:#0e7490; margin-bottom:4px;">🔵 K — What I Know</h4><div style="font-size:12px; color:#64748b; margin-bottom:10px; font-style:italic;">About hot/cold/temperature.</div><textarea id="kwl-k" style="width:100%; min-height:200px; padding:10px 12px; border-radius:8px; border:1px solid #cbd5e1; font-family:inherit; font-size:13px; resize:vertical;" placeholder="• Hot is opposite of cold..."></textarea></div>
+    <div style="background:white; border-radius:12px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.06); border-top:5px solid #b45309;"><h4 style="font-size:15px; color:#b45309; margin-bottom:4px;">🟠 W — What I Want to Know</h4><div style="font-size:12px; color:#64748b; margin-bottom:10px; font-style:italic;">Your questions.</div><textarea id="kwl-w" style="width:100%; min-height:200px; padding:10px 12px; border-radius:8px; border:1px solid #cbd5e1; font-family:inherit; font-size:13px; resize:vertical;" placeholder="• How does a thermometer work?"></textarea></div>
+    <div style="background:white; border-radius:12px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.06); border-top:5px solid #15803d;"><h4 style="font-size:15px; color:#15803d; margin-bottom:4px;">🟢 L — What I Learned</h4><div style="font-size:12px; color:#64748b; margin-bottom:10px; font-style:italic;">After studying.</div><textarea id="kwl-l" style="width:100%; min-height:200px; padding:10px 12px; border-radius:8px; border:1px solid #cbd5e1; font-family:inherit; font-size:13px; resize:vertical;" placeholder="• Temperature in °C, body 37°C..."></textarea></div>
+  </div>
+  <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:14px 0; padding:12px; background:#f8fafc; border-radius:10px;">
+    <p style="font-size:12px; color:#64748b; margin:0; flex:1;">Auto-saves to your browser.</p>
+    <button onclick="kwlSave()" style="background:#15803d; color:white; border:none; padding:8px 16px; font-size:13px; font-weight:600; border-radius:6px; cursor:pointer;">💾 Save</button>
+    <button onclick="kwlClear()" style="background:#64748b; color:white; border:none; padding:8px 16px; font-size:13px; font-weight:600; border-radius:6px; cursor:pointer;">Clear</button>
+    <button onclick="printKWL()" style="background:#b45309; color:white; border:none; padding:8px 16px; font-size:13px; font-weight:600; border-radius:6px; cursor:pointer;">🖨️ Print / Save as PDF</button>
+  </div>
+  <script>
+    (function(){
+      const KWL_KEY = 'kwl_ch7_grade6';
+      function kwlLoad(){ try { const s=JSON.parse(localStorage.getItem(KWL_KEY)||'{}'); if(s.k)document.getElementById('kwl-k').value=s.k; if(s.w)document.getElementById('kwl-w').value=s.w; if(s.l)document.getElementById('kwl-l').value=s.l; } catch(e){} }
+      window.kwlSave = function(){ localStorage.setItem(KWL_KEY, JSON.stringify({k:document.getElementById('kwl-k').value, w:document.getElementById('kwl-w').value, l:document.getElementById('kwl-l').value})); };
+      window.kwlClear = function(){ if(!confirm('Clear KWL chart?')) return; ['kwl-k','kwl-w','kwl-l'].forEach(id=>document.getElementById(id).value=''); localStorage.removeItem(KWL_KEY); };
+      window.printKWL = function(){ const k=document.getElementById('kwl-k').value, w=document.getElementById('kwl-w').value, l=document.getElementById('kwl-l').value; const esc=s=>(s||'').replace(/</g,'&lt;'); const win=window.open('','_blank'); win.document.write('<html><head><title>KWL Chart - Chapter 7</title><style>body{font-family:sans-serif;padding:20px;color:#1e293b;}h1{color:#b45309;border-bottom:2px solid #b45309;padding-bottom:8px;}.col{margin:14px 0;padding:14px;border:1px solid #ccc;border-radius:8px;page-break-inside:avoid;}.col h2{margin:0 0 6px;font-size:16px;}.col p{white-space:pre-wrap;font-size:13px;margin:0;min-height:60px;}@media print{@page{size:A4;margin:1.2cm;}}</style></head><body><h1>KWL Chart — Chapter 7 · Temperature</h1><div class="col" style="border-top:4px solid #0284c7;"><h2 style="color:#0e7490;">K — What I Know</h2><p>'+esc(k)+'</p></div><div class="col" style="border-top:4px solid #b45309;"><h2 style="color:#b45309;">W — What I Want to Know</h2><p>'+esc(w)+'</p></div><div class="col" style="border-top:4px solid #15803d;"><h2 style="color:#15803d;">L — What I Learned</h2><p>'+esc(l)+'</p></div><scr'+'ipt>window.onload=function(){setTimeout(function(){window.print();},300);};</scr'+'ipt></body></html>'); win.document.close(); };
+      ['kwl-k','kwl-w','kwl-l'].forEach(id=>{const el=document.getElementById(id); if(el) el.addEventListener('input',()=>{clearTimeout(window._kt); window._kt=setTimeout(window.kwlSave,600);});});
+      kwlLoad();
+    })();
+  </script>
+</section>
+
+</main>
+
+
+<script>
+/* ============================================================
+   TABS
+   ============================================================ */
+document.querySelectorAll('nav.tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ============================================================
+   SIM 1: Hand-in-water trick
+   ============================================================ */
+const handsSim = (() => {
+  const c = document.getElementById('handsCanvas');
+  const ctx = c.getContext('2d');
+  const steps = [
+    'Step 1: Three bowls — A (warm, ~40°C), B (room temp, ~25°C), C (ice-cold, ~5°C).',
+    'Step 2: Dip RIGHT hand in A (warm). Dip LEFT hand in C (cold). Wait 1-2 minutes.',
+    'Step 3: Take both hands out. Plunge them simultaneously into B (room temp).',
+    'Step 4: SURPRISE! Right hand feels B as COOL. Left hand feels B as WARM. Same water!',
+    'Step 5: Why? Each hand compares B to what it was JUST experiencing. Touch isn\'t a reliable thermometer.'
+  ];
+  let step = -1;
+  function reset() {
+    step = -1;
+    document.getElementById('handsResult').innerHTML = 'Click <b>Next step</b> to set up three bowls and play the trick.';
+    draw();
+  }
+  function next() {
+    step = Math.min(steps.length - 1, step + 1);
+    document.getElementById('handsResult').innerHTML = steps[step];
+    draw();
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 320);
+    ctx.fillStyle = '#fef2f2';
+    ctx.fillRect(0, 0, 600, 320);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Activity 7.1: three bowls of water', 200, 22);
+
+    // bowls
+    const bowls = [
+      { x: 120, label: 'A (warm)', color: 'rgba(248, 113, 113, 0.5)', temp: '40°C' },
+      { x: 300, label: 'B (room)',  color: 'rgba(186, 230, 253, 0.5)', temp: '25°C' },
+      { x: 480, label: 'C (cold)', color: 'rgba(59, 130, 246, 0.5)', temp: '5°C' }
+    ];
+    bowls.forEach(b => {
+      ctx.fillStyle = b.color;
+      ctx.beginPath();
+      ctx.ellipse(b.x, 200, 60, 35, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.fillStyle = '#1e293b';
+      ctx.font = 'bold 11px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(b.label, b.x, 260);
+      ctx.fillText(b.temp, b.x, 275);
+      ctx.textAlign = 'left';
+    });
+
+    // hands at different positions
+    if (step === 1) {
+      // right hand in A, left hand in C
+      drawHand(120, 170, 'Right', 'A — warm', '#f87171');
+      drawHand(480, 170, 'Left', 'C — cold', '#3b82f6');
+    } else if (step >= 2) {
+      // both hands in B
+      drawHand(260, 170, 'Right', '"cool"', '#3b82f6');
+      drawHand(340, 170, 'Left', '"warm"', '#f87171');
+      if (step >= 3) {
+        ctx.fillStyle = '#dc2626';
+        ctx.font = 'bold 13px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Same water — two feelings!', 300, 130);
+        ctx.textAlign = 'left';
+      }
+    }
+  }
+  function drawHand(x, y, label, what, color) {
+    ctx.fillStyle = '#fde68a';
+    ctx.beginPath();
+    ctx.arc(x, y, 14, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5;
+    ctx.stroke();
+    // wrist
+    ctx.fillStyle = color;
+    ctx.fillRect(x - 6, y - 25, 12, 15);
+    // label
+    ctx.fillStyle = '#1c1917';
+    ctx.font = 'bold 10px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(label, x, y - 30);
+    ctx.fillStyle = color === '#3b82f6' ? '#1e40af' : '#7f1d1d';
+    ctx.fillText(what, x, y + 30);
+    ctx.textAlign = 'left';
+  }
+  draw();
+  return { next, reset };
+})();
+
+/* ============================================================
+   SIM 2: Temperature Converter
+   ============================================================ */
+const convSim = (() => {
+  const c = document.getElementById('convCanvas');
+  const ctx = c.getContext('2d');
+  function update() {
+    const C = +document.getElementById('tempSlider').value;
+    const F = C * 9 / 5 + 32;
+    const K = C + 273.15;
+    document.getElementById('tempVal').textContent = C.toFixed(1);
+    let desc;
+    if (C < 0) desc = 'Below freezing! Ice and snow temperature.';
+    else if (C < 15) desc = 'Cold day. Wear a jacket.';
+    else if (C < 25) desc = 'Cool / room temperature.';
+    else if (C < 30) desc = 'Warm — comfortable.';
+    else if (C < 36) desc = 'Hot day — start sweating.';
+    else if (C < 37.5) desc = '🌡️ Normal body temperature!';
+    else if (C < 40) desc = '⚠️ Fever territory!';
+    else if (C < 100) desc = 'Very hot — getting close to boiling.';
+    else if (C < 101) desc = '🫖 Water boils at this temperature.';
+    else desc = 'Beyond water\'s boiling point.';
+    document.getElementById('convResult').innerHTML =
+      `<b>${C.toFixed(1)} °C = ${F.toFixed(1)} °F = ${K.toFixed(2)} K</b><br>${desc}`;
+    draw(C, F, K);
+  }
+  function draw(C, F, K) {
+    ctx.clearRect(0, 0, 600, 240);
+    ctx.fillStyle = '#fef2f2';
+    ctx.fillRect(0, 0, 600, 240);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Temperature Converter — °C / °F / K', 180, 22);
+
+    // 3 thermometers side by side
+    drawThermo(150, '°C', C, -30, 120, '#dc2626');
+    drawThermo(300, '°F', F, -22, 248, '#7c2d12');
+    drawThermo(450, 'K', K, 243.15, 393.15, '#7e22ce');
+  }
+  function drawThermo(x, label, val, min, max, color) {
+    // bulb
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(x, 195, 14, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+    ctx.stroke();
+    // tube
+    ctx.fillStyle = '#f1f5f9';
+    ctx.fillRect(x - 5, 60, 10, 130);
+    ctx.strokeRect(x - 5, 60, 10, 130);
+    // fill
+    const frac = Math.max(0, Math.min(1, (val - min) / (max - min)));
+    const h = frac * 120;
+    ctx.fillStyle = color;
+    ctx.fillRect(x - 3, 190 - h, 6, h + 5);
+    // tick marks
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1;
+    for (let i = 0; i <= 6; i++) {
+      const y = 180 - i * 20;
+      ctx.beginPath();
+      ctx.moveTo(x + 5, y); ctx.lineTo(x + 12, y);
+      ctx.stroke();
+    }
+    // value
+    ctx.fillStyle = '#1c1917';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(val.toFixed(label === 'K' ? 2 : 1), x, 50);
+    ctx.fillText(label, x, 225);
+    ctx.textAlign = 'left';
+  }
+  update();
+  return { update };
+})();
+
+/* ============================================================
+   SIM 3: Body temp tester
+   ============================================================ */
+const people = [
+  { name: 'Healthy child (8 yr)',   temp: 37.4 },
+  { name: 'You',                    temp: 36.9 },
+  { name: 'Adult (35 yr)',          temp: 37.0 },
+  { name: 'Older person (75 yr)',   temp: 36.3 },
+  { name: 'Baby (2 yr)',            temp: 37.5 },
+  { name: 'Someone with fever',     temp: 39.2 },
+  { name: 'Athlete after running',  temp: 38.1 },
+  { name: 'In a cool morning',      temp: 36.5 }
+];
+const bodySim = (() => {
+  const c = document.getElementById('bodyCanvas');
+  const ctx = c.getContext('2d');
+  let sel = 0;
+  let measured = false;
+
+  const grid = document.getElementById('personGrid');
+  people.forEach((p, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'person-btn' + (i === 0 ? ' active' : '');
+    btn.textContent = p.name;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#personGrid .person-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      sel = i;
+      measured = false;
+      document.getElementById('bodyResult').innerHTML = 'Click <b>Take temperature</b>.';
+      draw();
+    });
+    grid.appendChild(btn);
+  });
+
+  function measure() {
+    measured = true;
+    const p = people[sel];
+    let verdict;
+    if (p.temp < 36) verdict = '🥶 Below normal (could be cold exposure)';
+    else if (p.temp < 37.5) verdict = '✅ Normal body temperature range';
+    else if (p.temp < 38) verdict = '⚠️ Slightly elevated — could be activity or mild fever';
+    else if (p.temp < 39) verdict = '🤒 Fever';
+    else verdict = '🚨 High fever — see a doctor!';
+    document.getElementById('bodyResult').innerHTML =
+      `<b>${p.name}</b>: <b>${p.temp.toFixed(1)} °C</b> (${(p.temp * 9 / 5 + 32).toFixed(1)} °F)<br>${verdict}`;
+    draw();
+  }
+  function reset() {
+    measured = false;
+    document.getElementById('bodyResult').innerHTML = 'Click <b>Take temperature</b>.';
+    draw();
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 280);
+    ctx.fillStyle = '#fef2f2';
+    ctx.fillRect(0, 0, 600, 280);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Sim 3: digital clinical thermometer', 200, 22);
+
+    const p = people[sel];
+
+    // person silhouette
+    ctx.fillStyle = '#fde68a';
+    ctx.beginPath();
+    ctx.arc(200, 110, 25, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5; ctx.stroke();
+    // body
+    ctx.fillStyle = '#0284c7';
+    ctx.fillRect(180, 130, 40, 90);
+    ctx.fillStyle = '#1c1917';
+    ctx.fillRect(184, 220, 12, 30);
+    ctx.fillRect(204, 220, 12, 30);
+
+    // thermometer
+    ctx.fillStyle = '#1c1917';
+    ctx.fillRect(280, 100, 200, 60);
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+    ctx.strokeRect(280, 100, 200, 60);
+    // display
+    ctx.fillStyle = '#22c55e';
+    ctx.fillRect(310, 115, 110, 30);
+    if (measured) {
+      ctx.fillStyle = '#1c1917';
+      ctx.font = 'bold 22px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(p.temp.toFixed(1) + '°', 365, 138);
+      ctx.textAlign = 'left';
+    } else {
+      ctx.fillStyle = '#1c1917';
+      ctx.font = 'bold 22px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('--.-', 365, 138);
+      ctx.textAlign = 'left';
+    }
+    // tip
+    ctx.fillStyle = '#fbbf24';
+    ctx.fillRect(265, 125, 18, 10);
+
+    // person name
+    ctx.fillStyle = '#1c1917';
+    ctx.font = 'bold 11px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(p.name, 200, 270);
+    ctx.textAlign = 'left';
+  }
+  draw();
+  return { measure, reset };
+})();
+
+/* ============================================================
+   SIM 4: Boiling water
+   ============================================================ */
+const boilSim = (() => {
+  const c = document.getElementById('boilCanvas');
+  const ctx = c.getContext('2d');
+  let t = 0;
+  let running = false;
+  let animId = null;
+  function reset() {
+    t = 0; running = false;
+    if (animId) cancelAnimationFrame(animId);
+    animId = null;
+    document.getElementById('boilObs').innerHTML = 'Click <b>Start heating</b> to watch water go from room temp → 100°C → boiling at 100°C.';
+    draw();
+  }
+  function getTemp() {
+    // Stays at 25 for first 5 seconds, rises to 100 by t=60, then stays at 100
+    if (t < 100) return 25 + (t / 100) * 75;
+    return 100;
+  }
+  function start() {
+    if (running) return;
+    running = true;
+    loop();
+  }
+  function loop() {
+    t = Math.min(150, t + 0.7);
+    const temp = getTemp();
+    if (temp < 100) {
+      document.getElementById('boilObs').innerHTML = `Temperature: <b>${temp.toFixed(1)}°C</b> — rising. Heat is making the water hotter.`;
+    } else if (t < 110) {
+      document.getElementById('boilObs').innerHTML = `Temperature: <b>${temp.toFixed(0)}°C</b> — water is BOILING! Bubbles forming.`;
+    } else {
+      document.getElementById('boilObs').innerHTML = `Temperature STAYS at <b>100°C</b> even though heat keeps coming. The extra heat is converting water to steam — not raising temperature. This is called a <b>phase change</b>!`;
+    }
+    draw();
+    if (t < 150) animId = requestAnimationFrame(loop);
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 340);
+    ctx.fillStyle = '#fef2f2';
+    ctx.fillRect(0, 0, 600, 340);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Sim 4: heat water — what happens at 100°C?', 130, 22);
+
+    const temp = getTemp();
+    // beaker
+    const beakerY = 80;
+    ctx.fillStyle = `rgba(${96 + temp}, ${165 - temp * 0.5}, ${250 - temp}, 0.5)`;
+    ctx.fillRect(200, beakerY + 20, 200, 180);
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(195, beakerY);
+    ctx.lineTo(200, beakerY);
+    ctx.lineTo(200, beakerY + 200);
+    ctx.lineTo(400, beakerY + 200);
+    ctx.lineTo(400, beakerY);
+    ctx.lineTo(405, beakerY);
+    ctx.stroke();
+
+    // bubbles when boiling
+    if (temp >= 99) {
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+      for (let i = 0; i < 15; i++) {
+        ctx.beginPath();
+        ctx.arc(210 + Math.random() * 180, beakerY + 100 + Math.random() * 90, 2 + Math.random() * 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      // steam
+      ctx.fillStyle = 'rgba(248, 250, 252, 0.7)';
+      for (let i = 0; i < 8; i++) {
+        ctx.beginPath();
+        ctx.arc(220 + i * 20, beakerY - 20 - Math.random() * 30, 8, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // thermometer
+    const thermoX = 470;
+    // bulb
+    ctx.fillStyle = '#dc2626';
+    ctx.beginPath();
+    ctx.arc(thermoX, beakerY + 180, 12, 0, Math.PI * 2);
+    ctx.fill();
+    // tube
+    ctx.fillStyle = '#f1f5f9';
+    ctx.fillRect(thermoX - 4, beakerY - 30, 8, 200);
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5;
+    ctx.strokeRect(thermoX - 4, beakerY - 30, 8, 200);
+    // fill
+    const fillH = (temp - 20) / 100 * 180;
+    ctx.fillStyle = '#dc2626';
+    ctx.fillRect(thermoX - 3, beakerY + 170 - fillH, 6, fillH + 5);
+    // reading
+    ctx.fillStyle = '#1c1917';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(temp.toFixed(0) + '°C', thermoX, beakerY - 40);
+    ctx.textAlign = 'left';
+
+    // burner
+    if (running) {
+      ctx.fillStyle = '#1c1917';
+      ctx.fillRect(250, beakerY + 230, 100, 30);
+      ctx.fillStyle = '#fbbf24';
+      ctx.beginPath();
+      ctx.moveTo(265, beakerY + 230);
+      ctx.lineTo(280, beakerY + 200);
+      ctx.lineTo(295, beakerY + 230);
+      ctx.closePath();
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(305, beakerY + 230);
+      ctx.lineTo(320, beakerY + 200);
+      ctx.lineTo(335, beakerY + 230);
+      ctx.closePath();
+      ctx.fill();
+    }
+  }
+  draw();
+  return { start, reset };
+})();
+
+/* ============================================================
+   SIM 5: Anatomy
+   ============================================================ */
+const anatSim = (() => {
+  const c = document.getElementById('anatCanvas');
+  const ctx = c.getContext('2d');
+  let highlight = 'bulb';
+  document.querySelectorAll('#anatToggle button').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#anatToggle button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      highlight = b.dataset.p;
+      update();
+    });
+  });
+  function update() {
+    const explain = {
+      bulb: '<b>BULB</b> — a small glass ball at the bottom. Contains the liquid (alcohol or mercury). When heated, the liquid expands and rises up the tube.',
+      column: '<b>LIQUID COLUMN</b> — coloured alcohol or silvery mercury. Rises with heat. The TOP of the column is your reading.',
+      scale: '<b>SCALE</b> — printed numbers on the side. Tells you the temperature where the liquid stops. Read at eye level for accuracy!',
+      stem: '<b>STEM (long glass tube)</b> — the long narrow tube. Liquid travels up here. The narrowness is important: it makes small temperature changes show up as big column movements.'
+    };
+    document.getElementById('anatResult').innerHTML = explain[highlight];
+    draw();
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 280);
+    ctx.fillStyle = '#fef2f2';
+    ctx.fillRect(0, 0, 600, 280);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Sim 5: anatomy of a lab thermometer', 180, 22);
+    const cx = 300;
+    // tube
+    ctx.fillStyle = '#f1f5f9';
+    ctx.fillRect(cx - 8, 50, 16, 180);
+    ctx.strokeStyle = highlight === 'stem' ? '#dc2626' : '#1c1917';
+    ctx.lineWidth = highlight === 'stem' ? 4 : 2;
+    ctx.strokeRect(cx - 8, 50, 16, 180);
+    // liquid column
+    ctx.fillStyle = '#dc2626';
+    ctx.fillRect(cx - 6, 130, 12, 100);
+    if (highlight === 'column') {
+      ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 3;
+      ctx.strokeRect(cx - 7, 129, 14, 102);
+    }
+    // bulb
+    ctx.fillStyle = '#dc2626';
+    ctx.beginPath();
+    ctx.arc(cx, 240, 18, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = highlight === 'bulb' ? '#fbbf24' : '#1c1917';
+    ctx.lineWidth = highlight === 'bulb' ? 4 : 2;
+    ctx.stroke();
+    // scale marks
+    ctx.strokeStyle = highlight === 'scale' ? '#dc2626' : '#1c1917';
+    ctx.lineWidth = highlight === 'scale' ? 2.5 : 1.2;
+    for (let i = 0; i <= 10; i++) {
+      const y = 220 - i * 16;
+      ctx.beginPath();
+      ctx.moveTo(cx + 10, y); ctx.lineTo(cx + 18 + (i % 5 === 0 ? 4 : 0), y);
+      ctx.stroke();
+      if (i % 5 === 0 && i > 0) {
+        ctx.fillStyle = '#1c1917';
+        ctx.font = '10px sans-serif';
+        ctx.fillText((i * 10) + '°C', cx + 26, y + 3);
+      }
+    }
+    // labels
+    ctx.fillStyle = '#1c1917';
+    ctx.font = 'bold 11px sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText('← bulb', cx - 25, 240);
+    ctx.fillText('← liquid column', cx - 25, 180);
+    ctx.fillText('← stem (tube)', cx - 25, 100);
+    ctx.fillText('scale →', cx - 75, 280);
+    ctx.textAlign = 'left';
+  }
+  update();
+  return {};
+})();
+
+/* ============================================================
+   EXPS (compact versions of textbook activities)
+   ============================================================ */
+const expHands = (() => {
+  const c = document.getElementById('expHandsCanvas');
+  const ctx = c.getContext('2d');
+  const steps = [
+    '3 bowls — warm A (40°C), room temp B (25°C), ice-cold C (5°C).',
+    'Right hand in A. Left hand in C. Wait 2 min.',
+    'Move both hands to B at the same time.',
+    'Right hand says B is COOL. Left hand says B is WARM. Both wrong!'
+  ];
+  let s = -1;
+  function reset() { s = -1; document.getElementById('expHandsStep').innerHTML = 'Click to begin.'; draw(); }
+  function next() { s = Math.min(steps.length - 1, s + 1); document.getElementById('expHandsStep').innerHTML = steps[s]; draw(); }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 320);
+    ctx.fillStyle = '#fef2f2';
+    ctx.fillRect(0, 0, 600, 320);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Activity 7.1: hands lie about temperature', 180, 22);
+    const bowls = [
+      { x: 120, c: 'rgba(248,113,113,0.5)', label: 'A — warm 40°C' },
+      { x: 300, c: 'rgba(186,230,253,0.5)', label: 'B — 25°C' },
+      { x: 480, c: 'rgba(59,130,246,0.5)', label: 'C — cold 5°C' }
+    ];
+    bowls.forEach(b => {
+      ctx.fillStyle = b.c;
+      ctx.beginPath();
+      ctx.ellipse(b.x, 200, 60, 30, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2; ctx.stroke();
+      ctx.fillStyle = '#1c1917'; ctx.font = 'bold 10px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(b.label, b.x, 250);
+      ctx.textAlign = 'left';
+    });
+    if (s === 1) {
+      drawHand(120, 175, 'R'); drawHand(480, 175, 'L');
+    } else if (s >= 2) {
+      drawHand(280, 175, 'R'); drawHand(320, 175, 'L');
+      if (s >= 3) {
+        ctx.fillStyle = '#dc2626'; ctx.font = 'bold 11px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('R: cool!', 280, 130);
+        ctx.fillText('L: warm!', 320, 110);
+        ctx.textAlign = 'left';
+      }
+    }
+  }
+  function drawHand(x, y, label) {
+    ctx.fillStyle = '#fde68a';
+    ctx.beginPath(); ctx.arc(x, y, 10, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#1c1917'; ctx.stroke();
+    ctx.fillStyle = '#1c1917'; ctx.font = 'bold 9px sans-serif';
+    ctx.textAlign = 'center'; ctx.fillText(label, x, y + 3);
+    ctx.textAlign = 'left';
+  }
+  draw();
+  return { next, reset };
+})();
+
+const expBody = (() => {
+  const c = document.getElementById('expBodyCanvas');
+  const ctx = c.getContext('2d');
+  const steps = [
+    '1. Wash thermometer tip with soap &amp; water.',
+    '2. Reset (press button).',
+    '3. Place tip under tongue. Close mouth.',
+    '4. Wait for BEEP.',
+    '5. Take out. Read display.',
+    '6. Wash tip again. Done!'
+  ];
+  let s = -1;
+  function reset() { s = -1; document.getElementById('expBodyStep').innerHTML = 'Click to walk through.'; draw(); }
+  function next() { s = Math.min(steps.length - 1, s + 1); document.getElementById('expBodyStep').innerHTML = steps[s]; draw(); }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 280);
+    ctx.fillStyle = '#fef2f2';
+    ctx.fillRect(0, 0, 600, 280);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Activity 7.2: measure body temp', 200, 22);
+    // thermometer
+    ctx.fillStyle = '#1c1917';
+    ctx.fillRect(180, 120, 200, 50);
+    ctx.fillStyle = '#22c55e';
+    ctx.fillRect(220, 130, 100, 30);
+    if (s >= 4) {
+      ctx.fillStyle = '#1c1917';
+      ctx.font = 'bold 22px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('37.0°', 270, 152);
+      ctx.textAlign = 'left';
+    }
+    ctx.fillStyle = '#fbbf24';
+    ctx.fillRect(165, 137, 18, 12);
+    // soap bubbles if washing
+    if (s === 0 || s === 5) {
+      ctx.fillStyle = 'rgba(186, 230, 253, 0.8)';
+      for (let i = 0; i < 8; i++) {
+        ctx.beginPath();
+        ctx.arc(160 + Math.random() * 30, 130 + Math.random() * 30, 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    // mouth icon
+    if (s === 2 || s === 3) {
+      ctx.fillStyle = '#1c1917'; ctx.font = '30px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('👅', 80, 150);
+      ctx.textAlign = 'left';
+    }
+    if (s === 3) {
+      ctx.fillStyle = '#dc2626'; ctx.font = 'bold 14px sans-serif';
+      ctx.fillText('⏳ Wait...', 450, 150);
+    }
+    if (s === 4) {
+      ctx.fillStyle = '#16a34a'; ctx.font = 'bold 14px sans-serif';
+      ctx.fillText('🔔 BEEP!', 450, 150);
+    }
+  }
+  draw();
+  return { next, reset };
+})();
+
+const expRange = (() => {
+  const c = document.getElementById('expRangeCanvas');
+  const ctx = c.getContext('2d');
+  const steps = [
+    'Look at the bottom of the scale. Lowest mark: <b>−10°C</b>.',
+    'Look at the top. Highest mark: <b>110°C</b>.',
+    'Range = highest − lowest = <b>110 − (−10) = 120°C</b>',
+    'Now find big marks: between 0°C and 10°C are 10 small divisions.',
+    'Least count = 10°C ÷ 10 divisions = <b>1°C</b>. Smallest reading possible.'
+  ];
+  let s = -1;
+  function reset() { s = -1; document.getElementById('expRangeStep').innerHTML = 'Click to begin.'; draw(); }
+  function next() { s = Math.min(steps.length - 1, s + 1); document.getElementById('expRangeStep').innerHTML = steps[s]; draw(); }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 280);
+    ctx.fillStyle = '#fef2f2';
+    ctx.fillRect(0, 0, 600, 280);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Activity 7.3 + 7.4: range &amp; least count', 180, 22);
+    // horizontal thermometer
+    ctx.fillStyle = '#f1f5f9';
+    ctx.fillRect(50, 130, 500, 20);
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+    ctx.strokeRect(50, 130, 500, 20);
+    // bulb
+    ctx.fillStyle = '#dc2626';
+    ctx.beginPath(); ctx.arc(50, 140, 12, 0, Math.PI * 2); ctx.fill();
+    ctx.stroke();
+    // scale -10 to 110
+    for (let i = 0; i <= 12; i++) {
+      const x = 65 + i * (500 - 30) / 12;
+      const tempVal = -10 + i * 10;
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(x, 150); ctx.lineTo(x, 160); ctx.stroke();
+      ctx.fillStyle = '#1c1917'; ctx.font = '10px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(tempVal, x, 175);
+      ctx.textAlign = 'left';
+    }
+    if (s === 0) {
+      ctx.fillStyle = '#dc2626'; ctx.font = 'bold 14px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('↓ lowest', 65, 110);
+      ctx.textAlign = 'left';
+    } else if (s === 1) {
+      ctx.fillStyle = '#dc2626'; ctx.font = 'bold 14px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('↓ highest', 545, 110);
+      ctx.textAlign = 'left';
+    } else if (s >= 2) {
+      ctx.fillStyle = '#16a34a'; ctx.font = 'bold 14px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Range = 120°C', 300, 110);
+      ctx.textAlign = 'left';
+    }
+    if (s >= 3) {
+      // zoom on 0-10
+      ctx.fillStyle = '#fef3c7';
+      ctx.fillRect(150, 200, 200, 50);
+      ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2;
+      ctx.strokeRect(150, 200, 200, 50);
+      for (let i = 0; i <= 10; i++) {
+        const x = 150 + i * 20;
+        ctx.strokeStyle = '#1c1917';
+        ctx.lineWidth = i % 5 === 0 ? 2 : 1;
+        ctx.beginPath();
+        ctx.moveTo(x, 220); ctx.lineTo(x, i % 5 === 0 ? 232 : 228);
+        ctx.stroke();
+      }
+      ctx.fillStyle = '#1c1917'; ctx.font = '10px sans-serif';
+      ctx.fillText('0°C', 145, 215);
+      ctx.fillText('10°C', 340, 215);
+    }
+    if (s >= 4) {
+      ctx.fillStyle = '#16a34a'; ctx.font = 'bold 13px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Least count = 1°C', 250, 270);
+      ctx.textAlign = 'left';
+    }
+  }
+  draw();
+  return { next, reset };
+})();
+
+const expWater = (() => {
+  const c = document.getElementById('expWaterCanvas');
+  const ctx = c.getContext('2d');
+  const steps = [
+    'Pour warm water into a beaker.',
+    'Dip thermometer — bulb fully in water, BUT not touching bottom or sides.',
+    'Hold vertically. Wait for the column to stop rising.',
+    'Read at eye level WHILE bulb is still immersed.',
+    '⚠️ Common mistakes: tilting thermometer, reading after removing it, eye not at column level.'
+  ];
+  let s = -1;
+  function reset() { s = -1; document.getElementById('expWaterStep').innerHTML = 'Click to begin.'; draw(); }
+  function next() { s = Math.min(steps.length - 1, s + 1); document.getElementById('expWaterStep').innerHTML = steps[s]; draw(); }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 320);
+    ctx.fillStyle = '#fef2f2';
+    ctx.fillRect(0, 0, 600, 320);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Activity 7.5: measure warm water correctly', 160, 22);
+    // beaker
+    const bX = 300;
+    if (s >= 0) {
+      ctx.fillStyle = 'rgba(252, 165, 165, 0.4)';
+      ctx.fillRect(bX - 80, 130, 160, 150);
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(bX - 85, 120);
+      ctx.lineTo(bX - 80, 120); ctx.lineTo(bX - 80, 280);
+      ctx.lineTo(bX + 80, 280); ctx.lineTo(bX + 80, 120);
+      ctx.lineTo(bX + 85, 120);
+      ctx.stroke();
+    }
+    if (s >= 1) {
+      // thermometer dipped properly
+      ctx.fillStyle = '#dc2626';
+      ctx.beginPath(); ctx.arc(bX, 220, 12, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2; ctx.stroke();
+      ctx.fillStyle = '#f1f5f9';
+      ctx.fillRect(bX - 5, 50, 10, 160);
+      ctx.strokeRect(bX - 5, 50, 10, 160);
+      ctx.fillStyle = '#dc2626';
+      ctx.fillRect(bX - 3, 130, 6, 90);
+      ctx.fillStyle = '#1c1917'; ctx.font = 'bold 11px sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText('bulb in middle', bX - 18, 222);
+      ctx.fillText('(no touching!)', bX - 18, 236);
+      ctx.textAlign = 'left';
+    }
+    if (s >= 3) {
+      ctx.fillStyle = '#1c1917'; ctx.font = 'bold 11px sans-serif';
+      ctx.fillText('reading: 50°C', bX + 20, 130);
+      // eye
+      ctx.fillStyle = '#fde68a';
+      ctx.beginPath(); ctx.arc(450, 130, 12, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5; ctx.stroke();
+      ctx.fillStyle = '#1c1917';
+      ctx.beginPath(); ctx.arc(450, 130, 4, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#1c1917'; ctx.font = '10px sans-serif';
+      ctx.fillText('eye level →', 470, 132);
+    }
+  }
+  draw();
+  return { next, reset };
+})();
+
+/* ============================================================
+   COMICS
+   ============================================================ */
+function drawKid(ctx, x, y, color, label) {
+  ctx.fillStyle = '#fde68a';
+  ctx.beginPath(); ctx.arc(x, y - 18, 11, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1.5; ctx.stroke();
+  ctx.fillStyle = '#1e293b';
+  ctx.beginPath(); ctx.arc(x - 3, y - 20, 1.2, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(x + 3, y - 20, 1.2, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = color;
+  ctx.fillRect(x - 11, y - 7, 22, 28);
+  ctx.fillStyle = '#1e293b';
+  ctx.fillRect(x - 8, y + 21, 5, 12);
+  ctx.fillRect(x + 3, y + 21, 5, 12);
+  if (label) {
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 10px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(label, x, y + 48);
+    ctx.textAlign = 'left';
+  }
+}
+function bubble(ctx, x, y, text, w) {
+  const lines = text.split('\n');
+  const h = lines.length * 13 + 10;
+  ctx.fillStyle = 'white';
+  ctx.strokeStyle = '#1e293b';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  if (ctx.roundRect) ctx.roundRect(x, y, w, h, 6);
+  else ctx.rect(x, y, w, h);
+  ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 11px sans-serif';
+  lines.forEach((line, i) => ctx.fillText(line, x + 6, y + 14 + i * 13));
+}
+function makeComic(stripId, num, caption, drawFn) {
+  const strip = document.getElementById(stripId);
+  const p = document.createElement('div');
+  p.className = 'comic-panel';
+  const n = document.createElement('div');
+  n.className = 'comic-number'; n.textContent = num;
+  p.appendChild(n);
+  const cnv = document.createElement('canvas');
+  cnv.width = 280; cnv.height = 200;
+  p.appendChild(cnv);
+  const c = document.createElement('div');
+  c.className = 'comic-caption'; c.textContent = caption;
+  p.appendChild(c);
+  strip.appendChild(p);
+  drawFn(cnv.getContext('2d'));
+}
+
+/* Strip 1: Phiban checks Lambok */
+makeComic('strip1', 1, 'Lambok comes home from school feeling sick. "Didi, I think I have a fever..."', (ctx) => {
+  ctx.fillStyle = '#fef2f2'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 80, 140, '#dc2626', 'Lambok');
+  drawKid(ctx, 180, 140, '#0284c7', 'Phiban');
+  // red cheeks
+  ctx.fillStyle = '#fca5a5';
+  ctx.beginPath(); ctx.arc(75, 122, 3, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(85, 122, 3, 0, Math.PI * 2); ctx.fill();
+  bubble(ctx, 30, 30, 'Didi, I feel\nfeverish!', 110);
+});
+makeComic('strip1', 2, 'Phiban touches his forehead. "Hmm... feels warm. But — let me check properly."', (ctx) => {
+  ctx.fillStyle = '#fff7ed'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 80, 140, '#dc2626', 'Lambok');
+  drawKid(ctx, 170, 140, '#0284c7', 'Phiban');
+  // hand on forehead (line)
+  ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(160, 130); ctx.lineTo(110, 120);
+  ctx.stroke();
+  bubble(ctx, 30, 30, 'Feels warm.\nBut hands can\nbe wrong!', 130);
+});
+makeComic('strip1', 3, 'She gets the digital thermometer, washes the tip, places it under his tongue. Beep!', (ctx) => {
+  ctx.fillStyle = '#fef3c7'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 140, 140, '#dc2626', 'Lambok');
+  // thermometer in mouth
+  ctx.fillStyle = '#1c1917';
+  ctx.fillRect(130, 115, 50, 8);
+  ctx.fillStyle = '#22c55e';
+  ctx.fillRect(135, 117, 30, 4);
+  ctx.fillStyle = '#fbbf24';
+  ctx.fillRect(120, 115, 12, 8);
+  bubble(ctx, 20, 30, 'BEEP!', 60);
+});
+makeComic('strip1', 4, 'Display: 36.9°C. Normal! "You\'re not running a fever. Just rest after lunch."', (ctx) => {
+  ctx.fillStyle = '#dcfce7'; ctx.fillRect(0, 0, 280, 200);
+  // big thermometer display
+  ctx.fillStyle = '#1c1917';
+  ctx.fillRect(60, 80, 160, 60);
+  ctx.fillStyle = '#22c55e';
+  ctx.fillRect(80, 95, 120, 35);
+  ctx.fillStyle = '#1c1917';
+  ctx.font = 'bold 28px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('36.9°', 140, 122);
+  ctx.fillStyle = '#16a34a';
+  ctx.font = 'bold 14px sans-serif';
+  ctx.fillText('NORMAL ✓', 140, 175);
+  ctx.textAlign = 'left';
+});
+
+/* Strip 2: hands lie */
+makeComic('strip2', 1, 'Teacher: "Today, I\'ll prove your hands are bad at measuring temperature!"', (ctx) => {
+  ctx.fillStyle = '#fef2f2'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 80, 140, '#16a34a', 'Teacher');
+  bubble(ctx, 130, 30, 'Hands\ncan\'t be\ntrusted!', 100);
+});
+makeComic('strip2', 2, 'Three bowls — A (warm, 40°C), B (room 25°C), C (ice cold, 5°C). Phiban dips one hand in each side bowl.', (ctx) => {
+  ctx.fillStyle = '#fff7ed'; ctx.fillRect(0, 0, 280, 200);
+  const bowls = [
+    { x: 50, c: 'rgba(248,113,113,0.5)', l: 'A 40°C' },
+    { x: 140, c: 'rgba(186,230,253,0.5)', l: 'B 25°C' },
+    { x: 230, c: 'rgba(59,130,246,0.5)', l: 'C 5°C' }
+  ];
+  bowls.forEach(b => {
+    ctx.fillStyle = b.c;
+    ctx.beginPath();
+    ctx.ellipse(b.x, 140, 32, 18, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 9px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(b.l, b.x, 170);
+    ctx.textAlign = 'left';
+  });
+  // hands in A and C
+  ctx.fillStyle = '#fde68a';
+  ctx.beginPath(); ctx.arc(50, 125, 8, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#1c1917'; ctx.stroke();
+  ctx.beginPath(); ctx.arc(230, 125, 8, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+});
+makeComic('strip2', 3, 'After 2 minutes, both hands go into B. RESULT: right says cool, left says warm. Same water!', (ctx) => {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = 'rgba(186,230,253,0.5)';
+  ctx.beginPath();
+  ctx.ellipse(140, 130, 50, 30, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 2; ctx.stroke();
+  // two hands in
+  ctx.fillStyle = '#fde68a';
+  ctx.beginPath(); ctx.arc(115, 115, 8, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#1c1917'; ctx.stroke();
+  ctx.beginPath(); ctx.arc(165, 115, 8, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  bubble(ctx, 20, 30, 'COOL!', 60);
+  bubble(ctx, 200, 30, 'WARM!', 65);
+});
+makeComic('strip2', 4, 'Lesson: Touch is RELATIVE. We need a thermometer for the absolute answer.', (ctx) => {
+  ctx.fillStyle = '#dcfce7'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#dc2626';
+  ctx.font = 'bold 14px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('NEED:', 140, 50);
+  ctx.fillText('THERMOMETER!', 140, 80);
+  // mini thermometer icon
+  ctx.fillStyle = '#dc2626';
+  ctx.beginPath(); ctx.arc(140, 150, 12, 0, Math.PI * 2); ctx.fill();
+  ctx.fillRect(135, 100, 10, 50);
+  ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5;
+  ctx.strokeRect(135, 100, 10, 50);
+  ctx.textAlign = 'left';
+});
+
+/* Strip 3: meet thermometers */
+makeComic('strip3', 1, 'Old mercury thermometer (now retired — too toxic).', (ctx) => {
+  ctx.fillStyle = '#fef2f2'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#475569';
+  ctx.beginPath(); ctx.arc(140, 170, 12, 0, Math.PI * 2); ctx.fill();
+  ctx.fillRect(135, 60, 10, 110);
+  ctx.fillStyle = '#94a3b8';
+  ctx.fillRect(137, 100, 6, 70);
+  ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5;
+  ctx.strokeRect(135, 60, 10, 110);
+  ctx.fillStyle = '#dc2626';
+  ctx.font = 'bold 12px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Mercury ⚠️', 140, 40);
+  ctx.fillStyle = '#1e293b';
+  ctx.font = '10px sans-serif';
+  ctx.fillText('Toxic!', 140, 195);
+  ctx.textAlign = 'left';
+});
+makeComic('strip3', 2, 'Digital clinical thermometer — beep, read, done. The modern home favourite.', (ctx) => {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#1c1917';
+  ctx.fillRect(50, 100, 200, 60);
+  ctx.fillStyle = '#22c55e';
+  ctx.fillRect(80, 115, 100, 30);
+  ctx.fillStyle = '#1c1917';
+  ctx.font = 'bold 22px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('37.0°', 130, 138);
+  ctx.fillStyle = '#fbbf24';
+  ctx.fillRect(40, 117, 14, 12);
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.fillText('Digital ✓', 140, 50);
+  ctx.textAlign = 'left';
+});
+makeComic('strip3', 3, 'Infrared (touchless) thermometer — point and shoot! Made famous during COVID-19.', (ctx) => {
+  ctx.fillStyle = '#fef3c7'; ctx.fillRect(0, 0, 280, 200);
+  // gun-shaped thermometer
+  ctx.fillStyle = '#475569';
+  ctx.fillRect(80, 100, 100, 30);
+  ctx.fillRect(120, 130, 30, 50);
+  ctx.fillStyle = '#1c1917';
+  ctx.fillRect(70, 105, 20, 18);
+  // beam (red dot)
+  ctx.fillStyle = 'rgba(220, 38, 38, 0.4)';
+  ctx.fillRect(70, 113, -50, 2);
+  ctx.fillStyle = '#dc2626';
+  ctx.beginPath(); ctx.arc(15, 115, 4, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Infrared 🎯', 140, 50);
+  ctx.font = '10px sans-serif';
+  ctx.fillText('No touch needed!', 140, 195);
+  ctx.textAlign = 'left';
+});
+makeComic('strip3', 4, 'Lab thermometer — for school science. Reads from −10°C (ice) to 110°C (boiling water).', (ctx) => {
+  ctx.fillStyle = '#dcfce7'; ctx.fillRect(0, 0, 280, 200);
+  // long thin thermometer (horizontal)
+  ctx.fillStyle = '#dc2626';
+  ctx.beginPath(); ctx.arc(30, 130, 10, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = '#f1f5f9';
+  ctx.fillRect(40, 124, 220, 12);
+  ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5;
+  ctx.strokeRect(40, 124, 220, 12);
+  ctx.fillStyle = '#dc2626';
+  ctx.fillRect(40, 127, 100, 6);
+  // scale ticks
+  for (let i = 0; i <= 12; i++) {
+    const x = 50 + i * 18;
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x, 136); ctx.lineTo(x, 142);
+    ctx.stroke();
+  }
+  ctx.fillStyle = '#1c1917';
+  ctx.font = '9px sans-serif';
+  ctx.fillText('-10°C', 35, 158);
+  ctx.fillText('110°C', 240, 158);
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Lab thermometer', 140, 80);
+  ctx.textAlign = 'left';
+});
+
+/* Strip 4: boiling water */
+makeComic('strip4', 1, 'Phiban\'s class measures boiling water. Five students take turns.', (ctx) => {
+  ctx.fillStyle = '#fef2f2'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 50, 140, '#dc2626', '');
+  drawKid(ctx, 100, 140, '#0284c7', '');
+  drawKid(ctx, 150, 140, '#16a34a', '');
+  drawKid(ctx, 200, 140, '#a855f7', '');
+  drawKid(ctx, 250, 140, '#f59e0b', '');
+  // beaker with steam
+  ctx.fillStyle = 'rgba(252, 165, 165, 0.5)';
+  ctx.fillRect(115, 70, 40, 50);
+  ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5;
+  ctx.strokeRect(115, 70, 40, 50);
+  ctx.fillStyle = 'rgba(248, 250, 252, 0.7)';
+  for (let i = 0; i < 4; i++) {
+    ctx.beginPath();
+    ctx.arc(120 + i * 10, 55 - i * 5, 5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+});
+makeComic('strip4', 2, '5 readings: 97.8, 98.0, 97.9, 98.0, 98.1°C. WHY ARE THEY DIFFERENT?', (ctx) => {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 14px monospace';
+  ctx.textAlign = 'center';
+  ['97.8°C', '98.0°C', '97.9°C', '98.0°C', '98.1°C'].forEach((t, i) => {
+    ctx.fillText(t, 140, 60 + i * 25);
+  });
+  ctx.fillStyle = '#dc2626';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.fillText('Why different??', 140, 195);
+  ctx.textAlign = 'left';
+});
+makeComic('strip4', 3, 'Maybe — different eye angles, tilted thermometers, took it out too early. TECHNIQUE matters!', (ctx) => {
+  ctx.fillStyle = '#fff7ed'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#dc2626';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Common mistakes:', 140, 40);
+  ctx.fillStyle = '#1e293b';
+  ctx.font = '11px sans-serif';
+  ['• tilted thermometer', '• eye not at column level', '• read after lifting out', '• bulb touched bottom'].forEach((t, i) => {
+    ctx.fillText(t, 140, 75 + i * 22);
+  });
+  ctx.textAlign = 'left';
+});
+makeComic('strip4', 4, 'CORRECT TECHNIQUE: bulb in middle, vertical, eye level, read while immersed. Then everyone gets ~100°C!', (ctx) => {
+  ctx.fillStyle = '#dcfce7'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#16a34a';
+  ctx.font = 'bold 16px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Correct way:', 140, 50);
+  ctx.font = '11px sans-serif';
+  ctx.fillStyle = '#1e293b';
+  ['✓ Bulb in middle of liquid', '✓ Hold vertically', '✓ Eye at column level', '✓ Read while immersed'].forEach((t, i) => {
+    ctx.fillText(t, 140, 85 + i * 22);
+  });
+  ctx.textAlign = 'left';
+});
+
+/* Strip 5: Anna Mani */
+makeComic('strip5', 1, 'Long ago in India, a curious girl named Anna Mani fell in love with science books — especially physics.', (ctx) => {
+  ctx.fillStyle = '#fef2f2'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 100, 140, '#a855f7', 'Anna');
+  // book
+  ctx.fillStyle = '#0284c7';
+  ctx.fillRect(180, 120, 50, 60);
+  ctx.fillStyle = '#fef3c7';
+  ctx.fillRect(184, 124, 42, 52);
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 9px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('PHYSICS', 205, 152);
+  ctx.textAlign = 'left';
+});
+makeComic('strip5', 2, 'She grew up to BUILD weather instruments — making India independent in measuring temperature, rain, wind.', (ctx) => {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 80, 140, '#a855f7', 'Anna Mani');
+  // thermometer
+  ctx.fillStyle = '#dc2626';
+  ctx.beginPath(); ctx.arc(170, 150, 8, 0, Math.PI * 2); ctx.fill();
+  ctx.fillRect(167, 110, 6, 40);
+  // wind vane
+  ctx.fillStyle = '#475569';
+  ctx.fillRect(218, 90, 4, 90);
+  ctx.beginPath();
+  ctx.moveTo(220, 90); ctx.lineTo(245, 100); ctx.lineTo(220, 110); ctx.closePath();
+  ctx.fill();
+});
+makeComic('strip5', 3, 'Her motto: "Wrong measurements are worse than no measurements at all." Precision matters!', (ctx) => {
+  ctx.fillStyle = '#ecfeff'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#0e7490';
+  ctx.font = 'italic bold 13px Georgia';
+  ctx.textAlign = 'center';
+  ctx.fillText('"Wrong', 140, 60);
+  ctx.fillText('measurements', 140, 80);
+  ctx.fillText('are worse than', 140, 100);
+  ctx.fillText('no measurements', 140, 120);
+  ctx.fillText('at all."', 140, 140);
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 11px sans-serif';
+  ctx.fillText('— Anna Mani', 140, 175);
+  ctx.textAlign = 'left';
+});
+makeComic('strip5', 4, 'She also championed SOLAR &amp; WIND energy in India — way ahead of her time. A true Indian hero of science.', (ctx) => {
+  ctx.fillStyle = '#dcfce7'; ctx.fillRect(0, 0, 280, 200);
+  // sun
+  ctx.fillStyle = '#fde047';
+  ctx.beginPath(); ctx.arc(80, 70, 25, 0, Math.PI * 2); ctx.fill();
+  // wind turbine
+  ctx.fillStyle = '#475569';
+  ctx.fillRect(180, 70, 6, 100);
+  ctx.fillStyle = '#94a3b8';
+  ctx.beginPath();
+  ctx.moveTo(183, 70); ctx.lineTo(160, 50); ctx.lineTo(183, 60); ctx.closePath();
+  ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(183, 70); ctx.lineTo(206, 50); ctx.lineTo(183, 60); ctx.closePath();
+  ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(183, 70); ctx.lineTo(183, 40); ctx.lineTo(190, 60); ctx.closePath();
+  ctx.fill();
+  ctx.fillStyle = '#16a34a';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Solar + Wind', 140, 195);
+  ctx.textAlign = 'left';
+});
+
+/* ============================================================
+   QUIZ
+   ============================================================ */
+const quizData = [
+  {
+    q: 'Why can\'t we always tell if water is "hot" or "cold" just by touching it?',
+    options: [
+      'Our hands are not sensitive enough',
+      'Our skin temperature affects what we feel — same water can feel cool to one hand, warm to the other',
+      'Hands cannot feel water',
+      'Touching always gives the right answer'
+    ],
+    correct: 1,
+    why: 'Touch is RELATIVE — it depends on what your skin just experienced. A warm hand feels room-temp water as cool; a cold hand feels the same water as warm.'
+  },
+  {
+    q: 'What is the normal body temperature of a healthy human?',
+    options: ['25.0 °C', '37.0 °C', '100 °C', '0 °C'],
+    correct: 1,
+    why: '37.0 °C = 98.6 °F. But healthy people vary — children slightly higher, older people lower, and it changes through the day.'
+  },
+  {
+    q: 'Which is the SI unit of temperature?',
+    options: ['Degree Celsius (°C)', 'Degree Fahrenheit (°F)', 'Kelvin (K)', 'Joule (J)'],
+    correct: 2,
+    why: 'Kelvin is the SI unit. Celsius and Fahrenheit are common everyday scales, but scientists use kelvin.'
+  },
+  {
+    q: 'A clinical thermometer can measure:',
+    options: [
+      'Temperatures from 0 °C to 100 °C',
+      'Temperatures around the human body range (~35–42 °C)',
+      'Boiling water',
+      'Ice temperature'
+    ],
+    correct: 1,
+    why: 'Clinical thermometers are designed for body temperature. They CAN\'T measure ice or boiling water — that\'s the lab thermometer\'s job.'
+  },
+  {
+    q: 'Why are mercury thermometers being replaced?',
+    options: [
+      'They are too expensive',
+      'Mercury is toxic — dangerous if the thermometer breaks',
+      'They are too small',
+      'They are not accurate'
+    ],
+    correct: 1,
+    why: 'Mercury is a heavy metal and highly toxic. Digital thermometers are safer and easier to read.'
+  },
+  {
+    q: 'Why must you read the thermometer WHILE the bulb is still in the water?',
+    options: [
+      'It looks nicer',
+      'It saves time',
+      'The liquid level changes as soon as the bulb leaves — giving the wrong reading',
+      'The thermometer breaks if removed'
+    ],
+    correct: 2,
+    why: 'The moment you lift it out, the liquid starts to fall (or rise) based on the new surroundings. Read while it\'s still in!'
+  },
+  {
+    q: 'A laboratory thermometer typically ranges from:',
+    options: ['0 °C to 50 °C', '35 °C to 42 °C', '-10 °C to 110 °C', '-100 °C to 1000 °C'],
+    correct: 2,
+    why: 'Lab thermometers usually cover -10°C (below freezing) to 110°C (above boiling water) — useful for school experiments.'
+  },
+  {
+    q: '37 °C converts to which kelvin temperature?',
+    options: ['273.15 K', '310.15 K', '0 K', '37 K'],
+    correct: 1,
+    why: 'K = °C + 273.15. So 37 + 273.15 = 310.15 K.'
+  },
+  {
+    q: 'Boiling water stays at 100 °C even when more heat is added. Why?',
+    options: [
+      'The water is broken',
+      'The extra heat is converting water to steam (phase change)',
+      'Heat stops working at 100 °C',
+      'The thermometer is wrong'
+    ],
+    correct: 1,
+    why: 'During phase change (boiling), all extra heat goes into making steam — not into raising temperature. The water boils away while staying at 100°C.'
+  },
+  {
+    q: 'During COVID-19, what kind of thermometer became famous for measuring temperature WITHOUT touching?',
+    options: [
+      'Mercury thermometer',
+      'Infrared (non-contact) thermometer',
+      'Laboratory thermometer',
+      'Sand thermometer'
+    ],
+    correct: 1,
+    why: 'Infrared thermometers measure heat radiation from a distance — used at airports, malls, schools to safely screen people without contact.'
+  },
+  {
+    q: 'Who is the famous Indian scientist known as the "Weather Woman of India"?',
+    options: ['Anna Mani', 'Marie Curie', 'Kalpana Chawla', 'Sunita Williams'],
+    correct: 0,
+    why: 'Anna Mani built dozens of weather instruments, making India self-reliant in meteorology. She also championed solar &amp; wind energy.'
+  },
+  {
+    q: 'You set the thermometer in your armpit. The reading is 36.5 °C. What\'s the likely mouth reading?',
+    options: ['Lower (~36 °C)', 'Same (36.5 °C)', 'Higher (~37 °C)', 'Cannot say'],
+    correct: 2,
+    why: 'Armpit readings are typically 0.5–1 °C LOWER than mouth (tongue) readings. So your actual body temp would be ~37 °C.'
+  }
+];
+
+const quizContainer = document.getElementById('quiz-container');
+let answeredCount = 0, score = 0;
+quizData.forEach((q, idx) => {
+  const wrap = document.createElement('div');
+  wrap.className = 'quiz-question';
+  const qText = document.createElement('div');
+  qText.className = 'q-text';
+  qText.textContent = `Q${idx + 1}. ${q.q}`;
+  wrap.appendChild(qText);
+  q.options.forEach((opt, i) => {
+    const o = document.createElement('div');
+    o.className = 'quiz-option';
+    o.textContent = opt;
+    o.addEventListener('click', () => {
+      if (wrap.dataset.answered) return;
+      wrap.dataset.answered = 'true';
+      answeredCount++;
+      const fb = document.createElement('div');
+      fb.className = 'quiz-feedback show';
+      if (i === q.correct) {
+        o.classList.add('correct');
+        fb.classList.add('correct');
+        fb.innerHTML = `<b>✅ Yes!</b> ${q.why}`;
+        score++;
+      } else {
+        o.classList.add('wrong');
+        wrap.querySelectorAll('.quiz-option')[q.correct].classList.add('correct');
+        fb.classList.add('wrong');
+        fb.innerHTML = `<b>🤔 Not quite.</b> ${q.why}`;
+      }
+      wrap.appendChild(fb);
+      if (answeredCount === quizData.length) {
+        const s = document.getElementById('quiz-score');
+        s.style.display = 'block';
+        s.innerHTML = `Score: <b>${score} / ${quizData.length}</b><br>${score === quizData.length ? '🏆 Temperature Master!' : score >= quizData.length * 0.7 ? '👏 Great work!' : '📚 Re-read and try again!'}`;
+      }
+    });
+    wrap.appendChild(o);
+  });
+  quizContainer.appendChild(wrap);
+});
+</script>
+
+<script src="smile-chapter-assessment.js"></script>
+</body>
+</html>

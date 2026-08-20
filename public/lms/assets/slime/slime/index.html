@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grade 6 Science — Curiosity Textbook Home</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #eff6ff;
+    color: #1e293b;
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+  header {
+    background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 35%, #facc15 100%);
+    color: white;
+    padding: 48px 24px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  header h1 { font-size: 36px; font-weight: 700; margin-bottom: 10px; position: relative; z-index: 2; }
+  header p.subtitle { opacity: 0.95; font-size: 16px; position: relative; z-index: 2; }
+  .floater {
+    position: absolute; font-size: 28px;
+    animation: float 18s linear infinite;
+    z-index: 1;
+  }
+  @keyframes float {
+    0%   { transform: translateX(-50px) translateY(0px) rotate(0deg); }
+    50%  { transform: translateX(50vw) translateY(-12px) rotate(180deg); }
+    100% { transform: translateX(calc(100vw + 50px)) translateY(0px) rotate(360deg); }
+  }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+  .hero {
+    background: linear-gradient(135deg, #dbeafe 0%, #fef9c3 100%);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+  .hero h2 { color: #1d4ed8; font-size: 24px; margin-bottom: 12px; }
+  .hero p { color: #334155; font-size: 15px; max-width: 760px; margin: 0 auto 10px; }
+  .hero .emoji-row { font-size: 34px; margin-top: 16px; letter-spacing: 14px; }
+  h2.section-title {
+    font-size: 24px; color: #2563eb; margin: 24px 0 18px;
+    padding-bottom: 8px; border-bottom: 2px solid #2563eb;
+  }
+  .toc {
+    background: white; border-radius: 12px; padding: 20px 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 28px;
+  }
+  .toc ol { list-style: none; counter-reset: chap; }
+  .toc li {
+    counter-increment: chap;
+    padding: 10px 0; border-bottom: 1px dashed #e2e8f0;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .toc li:last-child { border-bottom: none; }
+  .toc li::before {
+    content: counter(chap);
+    background: #2563eb; color: white; font-weight: 700;
+    width: 32px; height: 32px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 13px; flex-shrink: 0;
+  }
+  .toc a {
+    color: #1d4ed8; font-weight: 600; text-decoration: none;
+    font-size: 15px; flex: 1;
+  }
+  .toc a:hover { text-decoration: underline; color: #dc2626; }
+  .chapters-grid {
+    display: grid; gap: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+  .chap-card {
+    background: white; border-radius: 12px; padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-left: 5px solid #2563eb;
+    display: flex; flex-direction: column;
+  }
+  .chap-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+  .chap-card .num-badge {
+    display: inline-block; background: #dbeafe; color: #1d4ed8;
+    font-size: 11px; font-weight: 700; padding: 4px 10px;
+    border-radius: 999px; margin-bottom: 8px; letter-spacing: 0.5px;
+    align-self: flex-start;
+  }
+  .chap-card h3 {
+    font-size: 17px; color: #1e293b; margin-bottom: 10px;
+  }
+  .chap-card h3 a { color: inherit; text-decoration: none; }
+  .chap-card h3 a:hover { color: #2563eb; }
+  .chap-card p {
+    font-size: 13.5px; color: #475569; flex-grow: 1; margin-bottom: 14px;
+  }
+  .chap-card .read-link {
+    display: inline-block; color: #2563eb; font-weight: 600;
+    text-decoration: none; font-size: 13px; align-self: flex-start;
+    padding: 6px 14px; border: 1.5px solid #2563eb; border-radius: 999px;
+    transition: all 0.2s;
+  }
+  .chap-card .read-link:hover { background: #2563eb; color: white; }
+  .chap-card.c1 { border-left-color: #2563eb; }
+  .chap-card.c2 { border-left-color: #16a34a; }
+  .chap-card.c3 { border-left-color: #ea580c; }
+  .chap-card.c4 { border-left-color: #a855f7; }
+  .chap-card.c5 { border-left-color: #dc2626; }
+  .chap-card.c6 { border-left-color: #f59e0b; }
+  .chap-card.c7 { border-left-color: #0891b2; }
+  .chap-card.c8 { border-left-color: #0ea5e9; }
+  .chap-card.c9 { border-left-color: #8b5cf6; }
+  .chap-card.c10 { border-left-color: #10b981; }
+  .chap-card.c11 { border-left-color: #d97706; }
+  .chap-card.c12 { border-left-color: #6366f1; }
+  .chap-card.c1 .num-badge { background: #dbeafe; color: #1d4ed8; }
+  .chap-card.c2 .num-badge { background: #dcfce7; color: #15803d; }
+  .chap-card.c3 .num-badge { background: #ffedd5; color: #c2410c; }
+  .chap-card.c4 .num-badge { background: #f3e8ff; color: #7e22ce; }
+  .chap-card.c5 .num-badge { background: #fee2e2; color: #b91c1c; }
+  .chap-card.c6 .num-badge { background: #fef3c7; color: #b45309; }
+  .chap-card.c7 .num-badge { background: #cffafe; color: #0e7490; }
+  .chap-card.c8 .num-badge { background: #e0f2fe; color: #0369a1; }
+  .chap-card.c9 .num-badge { background: #ede9fe; color: #6d28d9; }
+  .chap-card.c10 .num-badge { background: #d1fae5; color: #047857; }
+  .chap-card.c11 .num-badge { background: #fef3c7; color: #92400e; }
+  .chap-card.c12 .num-badge { background: #e0e7ff; color: #4338ca; }
+  footer {
+    text-align: center; padding: 24px; color: #64748b; font-size: 13px;
+    border-top: 1px solid #e2e8f0; margin-top: 32px;
+  }
+  @media (max-width: 600px) {
+    header h1 { font-size: 26px; }
+    .hero { padding: 22px; }
+    .hero h2 { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="floater" style="top: 20%; left: -50px; animation-delay: 0s;">🔬</span>
+  <span class="floater" style="top: 60%; left: -50px; animation-delay: 4s;">🌍</span>
+  <span class="floater" style="top: 35%; left: -50px; animation-delay: 8s;">🧲</span>
+  <span class="floater" style="top: 70%; left: -50px; animation-delay: 12s;">🌱</span>
+  <h1>Grade 6 — Science Textbook</h1>
+  <p class="subtitle">Curiosity • A complete interactive guide to all 12 chapters</p>
+</header>
+
+<main>
+
+  <section class="hero">
+    <h2>Welcome to Your Science Journey!</h2>
+    <p>This textbook is your invitation to wonder. Across 12 carefully crafted chapters, you'll explore the living world around you, the materials you touch every day, the forces you cannot see, and the vast universe beyond Earth.</p>
+    <p>You'll learn to ask questions like a scientist, measure like an engineer, and observe nature with the eyes of a curious traveller. Each chapter blends activities, real-world examples, and thoughtful exercises so that science becomes something you do — not just something you read.</p>
+    <p>Use the table of contents below to jump straight to any chapter, or browse the cards to discover what each one is about. Happy exploring!</p>
+    <div class="emoji-row">🔍 🌿 🧪 🌌 ⚙️</div>
+  </section>
+
+  <h2 class="section-title">📑 Table of Contents</h2>
+  <nav class="toc">
+    <ol>
+      <li><a href="chapter1-wonderful-world.html">The Wonderful World of Science</a></li>
+      <li><a href="chapter2-diversity-living-world.html">Diversity in the Living World</a></li>
+      <li><a href="chapter3-mindful-eating.html">Mindful Eating: A Path to a Healthy Body</a></li>
+      <li><a href="chapter4-exploring-magnets.html">Exploring Magnets</a></li>
+      <li><a href="chapter5-measurement-motion.html">Measurement of Length and Motion</a></li>
+      <li><a href="chapter6-materials-around-us.html">Materials Around Us</a></li>
+      <li><a href="chapter7-temperature.html">Temperature and its Measurement</a></li>
+      <li><a href="chapter8-states-of-water.html">A Journey through States of Water</a></li>
+      <li><a href="chapter9-separation-methods.html">Methods of Separation in Everyday Life</a></li>
+      <li><a href="chapter10-living-creatures.html">Living Creatures: Exploring their Characteristics</a></li>
+      <li><a href="chapter11-natures-treasures.html">Nature's Treasures</a></li>
+      <li><a href="chapter12-beyond-earth.html">Beyond Earth</a></li>
+    </ol>
+  </nav>
+
+  <h2 class="section-title">📚 Chapter Overviews</h2>
+  <div class="chapters-grid">
+
+    <div class="chap-card c1">
+      <span class="num-badge">CHAPTER 1</span>
+      <h3><a href="chapter1-wonderful-world.html">The Wonderful World of Science</a></h3>
+      <p>Step into science as a way of looking at the world. This chapter introduces what science is, how scientists ask questions and find answers, and the major branches like physics, chemistry, and biology. You'll see how curiosity, observation, and experiments lead to discoveries that shape everyday life. It sets the stage for everything you'll learn in the chapters ahead.</p>
+      <a class="read-link" href="chapter1-wonderful-world.html">Read Chapter →</a>
+    </div>
+
+    <div class="chap-card c2">
+      <span class="num-badge">CHAPTER 2</span>
+      <h3><a href="chapter2-diversity-living-world.html">Diversity in the Living World</a></h3>
+      <p>Explore the incredible variety of plants, animals, and habitats that fill our planet. You'll learn how living things differ from non-living things, and how scientists group organisms based on shared features. The chapter takes you across forests, deserts, oceans, and grasslands to see how life adapts to its surroundings. By the end, you'll appreciate biodiversity and why protecting it matters.</p>
+      <a class="read-link" href="chapter2-diversity-living-world.html">Read Chapter →</a>
+    </div>
+
+    <div class="chap-card c3">
+      <span class="num-badge">CHAPTER 3</span>
+      <h3><a href="chapter3-mindful-eating.html">Mindful Eating: A Path to a Healthy Body</a></h3>
+      <p>Food is more than fuel — it's the foundation of growth, health, and happiness. This chapter looks at the components of food (carbohydrates, proteins, fats, vitamins, minerals, and water) and why a balanced diet matters. You'll discover where these nutrients come from and what happens when our diets miss them. It also encourages mindful eating habits that respect food, body, and culture.</p>
+      <a class="read-link" href="chapter3-mindful-eating.html">Read Chapter →</a>
+    </div>
+
+    <div class="chap-card c4">
+      <span class="num-badge">CHAPTER 4</span>
+      <h3><a href="chapter4-exploring-magnets.html">Exploring Magnets</a></h3>
+      <p>Magnets are invisible forces hidden inside fridge stickers, speakers, and even Earth itself. This chapter explores magnetic and non-magnetic materials, the poles of a magnet, and how like and unlike poles behave. You'll perform fun activities to discover how a compass works and how Earth acts as one giant magnet. It opens the door to understanding forces you can feel but cannot see.</p>
+      <a class="read-link" href="chapter4-exploring-magnets.html">Read Chapter →</a>
+    </div>
+
+    <div class="chap-card c5">
+      <span class="num-badge">CHAPTER 5</span>
+      <h3><a href="chapter5-measurement-motion.html">Measurement of Length and Motion</a></h3>
+      <p>How do we describe how big, how far, or how fast? This chapter takes you through standard units of length, the proper use of rulers and measuring tapes, and the idea of motion. You'll learn the difference between rest and motion and explore different types of motion like linear, circular, and oscillatory. Measurement turns out to be the language we use to make sense of the moving world.</p>
+      <a class="read-link" href="chapter5-measurement-motion.html">Read Chapter →</a>
+    </div>
+
+    <div class="chap-card c6">
+      <span class="num-badge">CHAPTER 6</span>
+      <h3><a href="chapter6-materials-around-us.html">Materials Around Us</a></h3>
+      <p>Everything around you — from your pencil to your shoes — is made of some material. This chapter helps you observe, group, and compare materials based on properties like hardness, transparency, solubility, and the ability to float or sink. You'll see how the same object can be made from different materials, and how we choose materials for the right job. It's a hands-on tour of the stuff our world is built from.</p>
+      <a class="read-link" href="chapter6-materials-around-us.html">Read Chapter →</a>
+    </div>
+
+    <div class="chap-card c7">
+      <span class="num-badge">CHAPTER 7</span>
+      <h3><a href="chapter7-temperature.html">Temperature and its Measurement</a></h3>
+      <p>Hot and cold are everywhere — but how do we measure them accurately? This chapter introduces temperature, the thermometer, and the Celsius scale. You'll learn how clinical and laboratory thermometers work and why precise temperature matters in medicine, cooking, and weather. By the end, you'll see how a simple number can tell a powerful story about heat.</p>
+      <a class="read-link" href="chapter7-temperature.html">Read Chapter →</a>
+    </div>
+
+    <div class="chap-card c8">
+      <span class="num-badge">CHAPTER 8</span>
+      <h3><a href="chapter8-states-of-water.html">A Journey through States of Water</a></h3>
+      <p>Water is a shape-shifter that exists as solid, liquid, and gas — sometimes all on the same day! This chapter follows water through melting, freezing, evaporation, and condensation, and explores the amazing water cycle that connects oceans, clouds, and rivers. You'll see how a single substance can power weather, life, and ecosystems. The journey reveals why every drop of water is precious.</p>
+      <a class="read-link" href="chapter8-states-of-water.html">Read Chapter →</a>
+    </div>
+
+    <div class="chap-card c9">
+      <span class="num-badge">CHAPTER 9</span>
+      <h3><a href="chapter9-separation-methods.html">Methods of Separation in Everyday Life</a></h3>
+      <p>From sifting flour to filtering water, we separate mixtures every day without realising it. This chapter introduces handpicking, winnowing, threshing, sieving, sedimentation, decantation, filtration, and evaporation. You'll discover why we separate substances and which method fits which mixture. It connects kitchen science, farming, and industry in surprisingly clever ways.</p>
+      <a class="read-link" href="chapter9-separation-methods.html">Read Chapter →</a>
+    </div>
+
+    <div class="chap-card c10">
+      <span class="num-badge">CHAPTER 10</span>
+      <h3><a href="chapter10-living-creatures.html">Living Creatures: Exploring their Characteristics</a></h3>
+      <p>What makes something alive? This chapter zooms in on the shared features of living creatures — growth, movement, breathing, response, reproduction, and the need for food and water. You'll observe plants and animals to compare how they show these signs of life in their own unique ways. It's a thoughtful look at the rules of life that link a tiger, a tulip, and you.</p>
+      <a class="read-link" href="chapter10-living-creatures.html">Read Chapter →</a>
+    </div>
+
+    <div class="chap-card c11">
+      <span class="num-badge">CHAPTER 11</span>
+      <h3><a href="chapter11-natures-treasures.html">Nature's Treasures</a></h3>
+      <p>Air, water, soil, minerals, forests, and fossil fuels are the gifts of nature that keep our world running. This chapter explains renewable and non-renewable resources and why we must use them wisely. You'll explore pollution, conservation, and the small daily choices that protect the planet. It's a call to become a thoughtful caretaker of Earth's treasures.</p>
+      <a class="read-link" href="chapter11-natures-treasures.html">Read Chapter →</a>
+    </div>
+
+    <div class="chap-card c12">
+      <span class="num-badge">CHAPTER 12</span>
+      <h3><a href="chapter12-beyond-earth.html">Beyond Earth</a></h3>
+      <p>Look up — there's a whole universe waiting! This chapter takes you on a journey through the Moon's phases, the planets of the Solar System, stars, constellations, and galaxies. You'll learn how ancient sky-watchers and modern space missions have unravelled cosmic mysteries. It ends Grade 6 science by reminding you that curiosity, the very first lesson, has no boundaries.</p>
+      <a class="read-link" href="chapter12-beyond-earth.html">Read Chapter →</a>
+    </div>
+
+  </div>
+
+</main>
+
+<footer>
+  📘 Grade 6 Science — Curiosity • Interactive Textbook Home Page
+</footer>
+
+</body>
+</html>

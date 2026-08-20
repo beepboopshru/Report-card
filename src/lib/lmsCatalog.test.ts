@@ -62,6 +62,13 @@ describe("lmsLevelPath", () => {
       ]),
     ).toBe("/lms/pages/blix.html?sessions=2,5");
   });
+
+  it("links Grade 6 Science Learning to its standalone textbook", () => {
+    const science = LMS_LEVELS.find((l) => l.id === "science6")!;
+    expect(lmsLevelPath(science)).toBe(
+      "/lms/assets/slime/slime/index.html",
+    );
+  });
 });
 
 describe("gradesLabel", () => {
