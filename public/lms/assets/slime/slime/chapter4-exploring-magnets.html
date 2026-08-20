@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grade 6 — Chapter 4 — Exploring Magnets</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fef2f2; color: #1e293b; line-height: 1.55; }
+  header { background: linear-gradient(135deg, #7f1d1d 0%, #dc2626 50%, #2563eb 100%); color: white; padding: 36px 24px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+  header h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; } header p { opacity: 0.95; font-size: 14px; }
+  nav.tabs { display: flex; justify-content: center; gap: 4px; background: white; padding: 8px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.08); flex-wrap: wrap; }
+  nav.tabs button { background: transparent; border: none; padding: 10px 16px; font-size: 13px; font-weight: 600; color: #475569; cursor: pointer; border-radius: 8px; transition: all 0.2s; }
+  nav.tabs button:hover { background: #fee2e2; color: #dc2626; }
+  nav.tabs button.active { background: #dc2626; color: white; }
+  nav.tabs button[data-tab="kwl"] { background: #fef3c7; color: #b45309; }
+  nav.tabs button[data-tab="kwl"]:hover { background: #fde68a; }
+  nav.tabs button[data-tab="kwl"].active { background: #b45309; color: white; }
+  nav.tabs button[data-tab="performance"] { background: #f3e8ff; color: #7e22ce; }
+  nav.tabs button[data-tab="performance"]:hover { background: #e9d5ff; }
+  nav.tabs button[data-tab="performance"].active { background: #7e22ce; color: white; }
+  main { max-width: 1100px; margin: 0 auto; padding: 24px; background: #fff7f7; min-height: 80vh; }
+  .tab-panel { display: none; animation: fadeIn 0.3s ease; }
+  .tab-panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  h2.section-title { font-size: 22px; color: #dc2626; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #dc2626; }
+  h3.card-title { font-size: 18px; color: #1e293b; margin-bottom: 10px; }
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+  .card, .sim-card, .exp-card, .story-card, .lab-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 16px; transition: transform 0.2s, box-shadow 0.2s; }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  .card p, .card li { font-size: 14px; color: #475569; margin-bottom: 6px; }
+  .card ul { margin-left: 18px; }
+  .badge { display: inline-block; background: #fee2e2; color: #b91c1c; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 999px; margin-bottom: 8px; }
+  .badge-blue { background: #dbeafe; color: #1d4ed8; }
+  .badge-amber { background: #fef3c7; color: #b45309; }
+  canvas { display: block; background: #fef2f2; border-radius: 8px; margin: 12px 0; max-width: 100%; }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; align-items: center; }
+  button.btn { background: #dc2626; color: white; border: none; padding: 8px 16px; font-size: 13px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: background 0.2s; }
+  button.btn:hover { background: #b91c1c; }
+  button.btn.secondary { background: #64748b; }
+  button.btn.secondary:hover { background: #475569; }
+  button.btn.blue { background: #2563eb; }
+  button.btn.blue:hover { background: #1d4ed8; }
+  label { font-size: 13px; color: #475569; font-weight: 500; }
+  input[type="range"] { width: 200px; }
+  .result-box { background: #fee2e2; border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px; margin-top: 12px; font-size: 14px; }
+  .observation { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 10px 14px; border-radius: 6px; margin-top: 10px; font-size: 13px; }
+  .step-display { background: #fef2f2; border: 1px solid #fee2e2; padding: 12px; border-radius: 6px; margin-top: 10px; font-size: 13px; min-height: 50px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+  th, td { padding: 7px 8px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+  th { background: #fef2f2; font-weight: 600; color: #475569; }
+  .key-fact { background: #fef2f2; border-left: 3px solid #dc2626; padding: 8px 12px; margin: 8px 0; font-size: 13px; border-radius: 4px; }
+  .toggle-group { display: inline-flex; background: #e2e8f0; padding: 3px; border-radius: 6px; flex-wrap: wrap; }
+  .toggle-group button { background: transparent; border: none; padding: 6px 12px; font-size: 12px; font-weight: 600; color: #475569; cursor: pointer; border-radius: 4px; }
+  .toggle-group button.active { background: white; color: #dc2626; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  .lab-card { border-left: 5px solid #dc2626; background: linear-gradient(to right, #fee2e2 0%, #ffffff 80px); }
+  .lab-card.addon { border-left-color: #2563eb; background: linear-gradient(to right, #dbeafe 0%, #ffffff 80px); }
+  .lab-section { margin-top: 12px; padding: 10px 14px; background: #fef2f2; border-radius: 6px; font-size: 13px; }
+  .lab-section h4 { color: #dc2626; font-size: 13px; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .lab-section.materials h4 { color: #b45309; }
+  .lab-section.procedure h4 { color: #16a34a; }
+  .lab-section.safety { background: #fef2f2; border: 1px solid #fecaca; }
+  .lab-section.safety h4 { color: #dc2626; }
+  .lab-section ol, .lab-section ul { margin-left: 18px; }
+  .lab-section li { margin-bottom: 4px; }
+  .difficulty { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 8px; }
+  .difficulty.easy { background: #dcfce7; color: #16a34a; }
+  .difficulty.medium { background: #fef3c7; color: #d97706; }
+  .difficulty.hard { background: #fee2e2; color: #dc2626; }
+  .comic-strip { display: grid; gap: 12px; margin-top: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .comic-panel { background: #fffbeb; border: 3px solid #1e293b; border-radius: 8px; overflow: hidden; position: relative; box-shadow: 4px 4px 0 rgba(30,41,59,0.4); }
+  .comic-panel canvas { background: #fefce8; border-radius: 0; margin: 0; width: 100%; display: block; }
+  .comic-caption { background: #1e293b; color: #fef9c3; padding: 10px 12px; font-size: 13px; font-weight: 500; line-height: 1.4; font-family: Georgia, serif; }
+  .comic-number { position: absolute; top: 6px; left: 8px; background: #dc2626; color: white; font-weight: 800; font-size: 14px; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #1e293b; z-index: 5; }
+  .story-intro { background: linear-gradient(135deg, #fee2e2 0%, #dbeafe 100%); border-left: 4px solid #dc2626; padding: 14px 18px; border-radius: 8px; margin-bottom: 14px; font-size: 14px; color: #7f1d1d; font-style: italic; }
+  .quiz-question { background: white; border-radius: 12px; padding: 20px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .quiz-question .q-text { font-weight: 600; margin-bottom: 12px; color: #1e293b; }
+  .quiz-option { display: block; padding: 10px 14px; margin-bottom: 6px; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.15s; }
+  .quiz-option:hover { border-color: #dc2626; background: #fef2f2; }
+  .quiz-option.correct { border-color: #16a34a; background: #f0fdf4; }
+  .quiz-option.wrong { border-color: #dc2626; background: #fef2f2; }
+  .quiz-feedback { margin-top: 10px; padding: 10px; border-radius: 6px; font-size: 13px; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: #f0fdf4; color: #166534; }
+  .quiz-feedback.wrong { background: #fef2f2; color: #991b1b; }
+  #quiz-score { background: linear-gradient(135deg, #dc2626 0%, #2563eb 100%); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-top: 16px; font-size: 16px; font-weight: 600; }
+  .quote-card { background: linear-gradient(135deg, #fee2e2 0%, #dbeafe 100%); border-radius: 14px; padding: 22px 26px; text-align: center; margin: 14px 0; border-left: 5px solid #dc2626; }
+  .quote-card .quote-text { font-size: 16px; font-style: italic; color: #7f1d1d; font-family: Georgia, serif; margin-bottom: 10px; }
+  .quote-card .quote-author { font-weight: 600; color: #475569; font-size: 13px; }
+  /* 5E */
+  .five-intro { background: linear-gradient(135deg, #fee2e2 0%, #dbeafe 100%); border-left: 4px solid #dc2626; padding: 14px 18px; border-radius: 10px; margin-bottom: 18px; font-size: 14px; color: #7f1d1d; }
+  .phase-card { background: white; border-radius: 14px; padding: 22px 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 6px solid #dc2626; }
+  .phase-card.phase-engage { border-left-color: #dc2626; background: linear-gradient(to right, #fef2f2 0%, #ffffff 80px); }
+  .phase-card.phase-explore { border-left-color: #f59e0b; background: linear-gradient(to right, #fef3c7 0%, #ffffff 80px); }
+  .phase-card.phase-explain { border-left-color: #2563eb; background: linear-gradient(to right, #eff6ff 0%, #ffffff 80px); }
+  .phase-card.phase-elaborate { border-left-color: #15803d; background: linear-gradient(to right, #f0fdf4 0%, #ffffff 80px); }
+  .phase-card.phase-evaluate { border-left-color: #7e22ce; background: linear-gradient(to right, #faf5ff 0%, #ffffff 80px); }
+  .phase-header { display: flex; gap: 14px; align-items: center; margin-bottom: 12px; }
+  .phase-num { background: #1e293b; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; flex-shrink: 0; }
+  .phase-card.phase-engage .phase-num { background: #dc2626; }
+  .phase-card.phase-explore .phase-num { background: #f59e0b; }
+  .phase-card.phase-explain .phase-num { background: #2563eb; }
+  .phase-card.phase-elaborate .phase-num { background: #15803d; }
+  .phase-card.phase-evaluate .phase-num { background: #7e22ce; }
+  .phase-header h3 { font-size: 18px; color: #1e293b; margin: 0; }
+  .phase-tagline { font-size: 12px; color: #64748b; margin: 2px 0 0; font-style: italic; }
+  .dialog-story { background: #fffbeb; border-radius: 10px; padding: 16px 18px; margin: 10px 0; font-size: 14px; line-height: 1.7; border: 1px solid #fde68a; }
+  .dialog-story p { margin-bottom: 10px; }
+  .speaker { font-weight: 700; }
+  .speaker.swara { color: #db2777; }
+  .speaker.ahana { color: #15803d; }
+  .speaker.amma { color: #7e22ce; }
+  .narration { color: #475569; font-style: italic; font-size: 13px; }
+  .vocab-term { background: #fde047; color: #713f12; padding: 1px 6px; border-radius: 4px; font-weight: 700; }
+  .vocab-summary { background: #fef2f2; border-radius: 10px; padding: 14px 18px; margin-top: 12px; border-left: 4px solid #dc2626; }
+  .vocab-summary h4 { color: #b91c1c; font-size: 14px; margin-bottom: 8px; }
+  .vocab-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .vocab-chip { background: white; border: 2px solid #dc2626; border-radius: 999px; padding: 4px 10px; font-size: 12px; color: #b91c1c; font-weight: 600; }
+  .exp-mini { background: white; border-radius: 10px; padding: 14px; margin: 8px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border-top: 3px solid #f59e0b; }
+  .exp-mini h5 { color: #b45309; font-size: 14px; margin-bottom: 6px; }
+  .exp-mini p { font-size: 13px; color: #475569; margin-bottom: 4px; }
+  .kit-link { display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: white; padding: 12px 20px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 14px; box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3); margin: 10px 0; }
+  .kit-link .kit-icon { font-size: 22px; }
+  .eval-quiz { background: white; border-radius: 10px; padding: 16px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .eval-quiz .eq-q { font-weight: 600; color: #1e293b; margin-bottom: 10px; }
+  .eval-quiz .eq-opt { display: block; padding: 8px 12px; margin-bottom: 5px; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; font-size: 13px; }
+  .eval-quiz .eq-opt:hover { border-color: #7e22ce; background: #faf5ff; }
+  .eval-quiz .eq-opt.correct { border-color: #15803d; background: #f0fdf4; }
+  .eval-quiz .eq-opt.wrong { border-color: #dc2626; background: #fef2f2; }
+  #pieResult { display: none; background: linear-gradient(135deg, #7e22ce 0%, #dc2626 100%); color: white; border-radius: 14px; padding: 22px; margin-top: 14px; text-align: center; }
+  #pieResult.show { display: block; }
+  #pieResult h3 { color: white; font-size: 20px; margin-bottom: 8px; }
+  /* KWL */
+  .kwl-intro { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid #b45309; padding: 14px 18px; border-radius: 10px; margin-bottom: 18px; font-size: 14px; color: #78350f; }
+  .kwl-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 14px 0; }
+  @media (max-width: 800px) { .kwl-grid { grid-template-columns: 1fr; } }
+  .kwl-col { background: white; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: flex; flex-direction: column; }
+  .kwl-col.k { border-top: 5px solid #0284c7; }
+  .kwl-col.w { border-top: 5px solid #b45309; }
+  .kwl-col.l { border-top: 5px solid #15803d; }
+  .kwl-col h4 { font-size: 15px; margin-bottom: 4px; }
+  .kwl-col.k h4 { color: #0e7490; }
+  .kwl-col.w h4 { color: #b45309; }
+  .kwl-col.l h4 { color: #15803d; }
+  .kwl-col .kwl-sub { font-size: 12px; color: #64748b; margin-bottom: 10px; font-style: italic; }
+  .kwl-textarea { width: 100%; min-height: 200px; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 13px; resize: vertical; flex: 1; }
+  .kwl-controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 14px 0; padding: 12px; background: #f8fafc; border-radius: 10px; }
+  .kwl-controls p { font-size: 12px; color: #64748b; margin: 0; flex: 1; }
+  /* Performance */
+  .rubric-block { margin-top: 18px; }
+  .student-info { display: grid; grid-template-columns: 1fr 80px 130px; gap: 10px; margin-bottom: 14px; background: #faf5ff; padding: 12px; border-radius: 10px; border: 1px solid #e9d5ff; }
+  .student-info label { display: block; font-size: 11px; color: #7e22ce; font-weight: 700; margin-bottom: 2px; text-transform: uppercase; }
+  .student-info input { width: 100%; padding: 6px 10px; border: 1px solid #c4b5fd; border-radius: 6px; font-size: 14px; font-family: inherit; }
+  .rubric-table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-size: 12px; margin-bottom: 12px; }
+  .rubric-table th, .rubric-table td { padding: 8px 10px; border: 1px solid #e2e8f0; text-align: left; vertical-align: top; }
+  .rubric-table th { background: #7e22ce; color: white; text-align: center; font-weight: 700; }
+  .rubric-table th:first-child { text-align: left; }
+  .rubric-table .rb-skill { background: #faf5ff; font-weight: 600; color: #581c87; width: 22%; }
+  .rubric-table .rb-cell { cursor: pointer; transition: all 0.15s; color: #475569; }
+  .rubric-table .rb-cell:hover { background: #f3e8ff; }
+  .rubric-table .rb-cell.selected { background: #c4b5fd; color: #1e293b; font-weight: 600; box-shadow: inset 0 0 0 2px #7e22ce; }
+  .rubric-summary { background: #faf5ff; border-radius: 10px; padding: 14px 18px; margin: 12px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .rubric-summary .rs-score { font-size: 28px; font-weight: 800; color: #7e22ce; }
+  .rubric-summary .rs-band { padding: 6px 14px; border-radius: 999px; font-weight: 700; font-size: 13px; }
+  .reflection { width: 100%; min-height: 80px; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 13px; resize: vertical; margin: 10px 0; }
+  .print-btn-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 14px 0; padding: 12px; background: #f8fafc; border-radius: 10px; }
+  .print-btn-row p { font-size: 12px; color: #64748b; margin: 0; flex: 1; }
+  .sig-row { display: none; }
+  .perf-header { background: linear-gradient(135deg, #7e22ce 0%, #dc2626 100%); color: white; border-radius: 14px; padding: 24px; margin-bottom: 18px; text-align: center; }
+  .perf-header h3 { color: white; font-size: 22px; margin-bottom: 6px; }
+  footer { text-align: center; padding: 20px; color: #94a3b8; font-size: 12px; background: #0f172a; }
+  @media print {
+    body { background: white; color: black; }
+    header, nav.tabs, footer { display: none !important; }
+    main { background: white; max-width: 100%; padding: 0; }
+    .tab-panel { display: none !important; }
+    .tab-panel.print-active { display: block !important; }
+    .print-btn-row { display: none !important; }
+    .kwl-grid { grid-template-columns: 1fr 1fr 1fr; }
+    .kwl-col { box-shadow: none; border: 1px solid #999; page-break-inside: avoid; }
+    .kwl-textarea { border: 1px solid #ccc; min-height: 100px; }
+    .rubric-table { font-size: 10px; page-break-inside: avoid; }
+    .rubric-table th { background: #666 !important; color: white !important; -webkit-print-color-adjust: exact; }
+    .rubric-table .rb-cell.selected { background: #ddd !important; -webkit-print-color-adjust: exact; }
+    @page { size: A4; margin: 1.2cm; }
+    .sig-row { margin-top: 30px; display: flex !important; gap: 40px; }
+    .sig-line { flex: 1; border-top: 1px solid #999; padding-top: 4px; font-size: 11px; color: #666; text-align: center; }
+    .perf-header { background: white !important; color: black !important; border: 2px solid #7e22ce; }
+  }
+</style>
+<link rel="stylesheet" href="smile-chapter-assessment.css">
+</head>
+<body>
+
+<header><h1>Exploring Magnets</h1></header>
+
+<nav class="tabs">
+  <button type="button" onclick="event.stopImmediatePropagation(); window.location.href='index.html'; return false;" style="background:#fef3c7; color:#b45309; padding:10px 16px; font-size:13px; font-weight:600; border-radius:8px; border:none; cursor:pointer; font-family:inherit;">🏠 Home</button>
+  <button data-tab="concepts" class="active">Concepts</button>
+  <button data-tab="kwl">📝 KWL Chart</button>
+  <button data-tab="fivee">5E Method 📚</button>
+  <button data-tab="story">Story &amp; Cartoons</button>
+  <button data-tab="simulations">Magnet Lab 🧲</button>
+  <button data-tab="experiments">Virtual Experiments</button>
+  <button data-tab="lab">Lab Experiments</button>
+  <button data-tab="quiz">Quiz</button>
+  <button data-tab="performance">📋 Performance</button>
+</nav>
+
+<main>
+
+<!-- CONCEPTS -->
+<section id="concepts" class="tab-panel active">
+  <h2 class="section-title">Key Concepts</h2>
+  <div class="quote-card"><div class="quote-text">Long before GPS or smartphones, Indian sailors used a magnetised iron fish floating in oil to find north — the matsya yantra. The same magnetic Earth still guides us today.</div><div class="quote-author">— Ancient Indian navigation</div></div>
+  <div class="grid">
+    <div class="card"><span class="badge">Big Idea</span><h3 class="card-title">Magnets — Invisible Pull</h3><p>A magnet can pull (or push) certain objects WITHOUT touching them. Iron filings dance to it. Pencil boxes click shut. Compass needles point north. All because of MAGNETIC FORCE.</p><div class="key-fact">Magnets do not need a battery — they always work!</div></div>
+    <div class="card"><span class="badge">4.1</span><h3 class="card-title">Magnetic vs Non-Magnetic</h3><p>Materials that stick to a magnet = <b>magnetic</b>. Examples: iron, nickel, cobalt (and many alloys of these).</p><p>Materials that DON\'T = <b>non-magnetic</b>. Examples: plastic, wood, glass, paper, rubber, aluminium, copper.</p><div class="key-fact">Aluminium and copper are metals but are NOT magnetic! Only iron, nickel, cobalt and their alloys are.</div></div>
+    <div class="card"><span class="badge-amber badge">Shapes</span><h3 class="card-title">Magnets Come in Shapes</h3><ul><li>Bar magnet — rectangular</li><li>Horseshoe (U-shaped)</li><li>Ring magnet — donut</li><li>Disc magnet — flat circle</li><li>Compass needle</li></ul><p>Modern magnets in fridges, headphones, motors, MRI machines.</p></div>
+    <div class="card"><span class="badge">4.2</span><h3 class="card-title">Two Poles — N and S</h3><p>Sprinkle iron filings on a bar magnet. They cluster at the two ENDS.</p><p>These ends are called <b>POLES</b>:</p><ul><li>🟥 <b>North pole (N)</b></li><li>🟦 <b>South pole (S)</b></li></ul><div class="key-fact">⚠️ Even if you break a magnet in half, BOTH halves still have N + S! You can never have a magnet with just one pole.</div></div>
+    <div class="card"><span class="badge">Rule</span><h3 class="card-title">Like Repels, Unlike Attracts</h3><p>Bring two magnets close:</p><ul><li><b>N + N</b> → push apart (REPEL)</li><li><b>S + S</b> → push apart (REPEL)</li><li><b>N + S</b> → pull together (ATTRACT)</li></ul><div class="key-fact">"Like" poles repel, "unlike" poles attract. Same rule as in life — opposites attract!</div></div>
+    <div class="card"><span class="badge-blue badge">4.3</span><h3 class="card-title">Magnets Find Direction</h3><p>Hang a bar magnet by a thread. It SETTLES pointing roughly NORTH-SOUTH.</p><p>That\'s because <b>Earth is a giant magnet</b>!</p><ul><li>One end of the magnet points to Earth\'s north → called the <b>NORTH-seeking pole</b></li><li>Other end → SOUTH-seeking pole</li></ul></div>
+    <div class="card"><span class="badge-blue badge">Compass</span><h3 class="card-title">The Magnetic Compass</h3><p>A small box with a magnetised needle that spins freely. The needle ALWAYS points north-south.</p><ul><li>Used for centuries by sailors</li><li>India had its own version: <b>matsya yantra</b> — a magnetised iron fish floating in oil</li><li>Replaced today by GPS but still essential for hiking, sailing</li></ul></div>
+    <div class="card"><span class="badge">Earth</span><h3 class="card-title">🌍 Earth — Giant Magnet</h3><p>Earth has its own magnetic field. The reason: hot molten iron in its core spinning around.</p><p>This field is what makes compasses work. It also protects us from harmful radiation from space!</p><div class="key-fact">Animals like birds, bees, even some fish can DETECT Earth\'s magnetic field — they use it to navigate during migration!</div></div>
+    <div class="card"><span class="badge">Make a magnet</span><h3 class="card-title">Make an Iron Needle into a Magnet</h3><p>Rub one end of a bar magnet along an iron needle — in ONE direction only, 30-40 times. Lift the magnet between strokes.</p><p>The needle becomes a temporary magnet!</p><div class="key-fact">Used to be how compass needles were made before mass production.</div></div>
+    <div class="card"><span class="badge-amber badge">Care</span><h3 class="card-title">Care for Your Magnets</h3><ul><li>🚫 Don\'t drop them — can lose magnetism</li><li>🚫 Don\'t heat them — heat destroys magnetism</li><li>🚫 Keep away from electronics (phones, watches, debit cards!)</li><li>✓ Store bar magnets in pairs (N to S)</li></ul></div>
+    <div class="card"><span class="badge">India</span><h3 class="card-title">🇮🇳 Indian Navigation Heritage</h3><p>Long before European compasses, Indian sailors used a magnetised iron fish floating in oil — called <b>matsya yantra</b> (fish-instrument).</p><p>Indian merchants traded across the Indian Ocean for centuries — and magnetic compasses helped them!</p></div>
+    <div class="card"><span class="badge">Real-life</span><h3 class="card-title">Magnets Everywhere</h3><ul><li>🔊 Speakers + headphones (every one!)</li><li>🚪 Refrigerator door (closing mechanism)</li><li>🛒 Recycling — magnets separate iron from waste</li><li>🏥 MRI machines (giant magnets for medical imaging)</li><li>🚝 Maglev trains (float on magnets!)</li><li>⚡ Every electric motor</li></ul></div>
+  </div>
+</section>
+
+<!-- KWL -->
+<section id="kwl" class="tab-panel">
+  <h2 class="section-title">📝 KWL Chart</h2>
+  <div class="kwl-intro">Fill all three columns — auto-saves to your browser. Print to save as PDF.</div>
+  <div class="kwl-grid">
+    <div class="kwl-col k"><h4>🔵 K — Know</h4><div class="kwl-sub">What you already know about magnets.</div><textarea class="kwl-textarea" id="kwl-k" placeholder="• I know magnets stick to fridges...
+• I know iron is attracted..."></textarea></div>
+    <div class="kwl-col w"><h4>🟠 W — Want to Know</h4><div class="kwl-sub">Your questions.</div><textarea class="kwl-textarea" id="kwl-w" placeholder="• How does a compass work?
+• Why is Earth a magnet?..."></textarea></div>
+    <div class="kwl-col l"><h4>🟢 L — Learned</h4><div class="kwl-sub">After completing the chapter.</div><textarea class="kwl-textarea" id="kwl-l" placeholder="• I learnt magnets have 2 poles.
+• I learnt like poles repel..."></textarea></div>
+  </div>
+  <div class="kwl-controls"><p>Auto-saves. Print to PDF.</p><button class="btn" onclick="kwlSave()">💾 Save</button><button class="btn secondary" onclick="kwlClear()">Clear</button><button class="btn" style="background:#b45309;" onclick="printKWL()">🖨️ Print / Save as PDF</button></div>
+</section>
+
+<!-- 5E -->
+<section id="fivee" class="tab-panel">
+  <h2 class="section-title">📚 The 5E Learning Path</h2>
+  <div class="five-intro">Walk through Chapter 4 with all 5 phases.</div>
+
+  <div class="phase-card phase-engage">
+    <div class="phase-header"><span class="phase-num">1</span><div><h3>🎯 ENGAGE</h3><p class="phase-tagline">Spark curiosity.</p></div></div>
+    <div class="dialog-story">
+      <p style="text-align:center; font-weight:700; color:#b91c1c; font-size:15px; margin-bottom:14px;">📖 Swara &amp; Ahana Find Reshma\'s Old Compass</p>
+      <p class="narration">Saturday at Swara\'s house. The girls dig out an old box from her appa\'s shelf. Inside — a tiny circular brass box with a clear glass top. Inside that: a needle balanced on a pin.</p>
+      <p><span class="speaker swara">Swara:</span> What is THIS?</p>
+      <p><span class="speaker ahana">Ahana:</span> Looks like... a compass?</p>
+      <p class="narration">Swara\'s appa walks in, smiles.</p>
+      <p><span class="speaker amma">Swara\'s Appa:</span> It IS a compass! Belonged to my grandfather. Now — turn the box around. Notice anything?</p>
+      <p><span class="speaker ahana">Ahana:</span> The needle always points the same way! Even when I rotate the box!</p>
+      <p><span class="speaker amma">Appa:</span> Yes — that\'s because the needle is a small <span class="vocab-term">magnet</span>. It always points <span class="vocab-term">north-south</span>. The red end is the <span class="vocab-term">North pole</span>.</p>
+      <p><span class="speaker swara">Swara:</span> But WHY does it point north?</p>
+      <p><span class="speaker amma">Appa:</span> Because the Earth itself is a giant <span class="vocab-term">magnet</span>! Magnetic poles inside the Earth pull on the compass needle.</p>
+      <p><span class="speaker ahana">Ahana:</span> What sticks to a magnet?</p>
+      <p class="narration">Appa brings a fridge magnet. Tests it on different things.</p>
+      <p><span class="speaker amma">Appa:</span> Iron objects stick — they are <span class="vocab-term">magnetic materials</span>. Plastic, wood, paper don\'t stick — they are <span class="vocab-term">non-magnetic</span>. Even most metals like copper and aluminium don\'t stick — only iron, nickel, and cobalt do!</p>
+      <p><span class="speaker swara">Swara:</span> So that\'s why my pencil case stays closed — the magnet inside is pulling on an iron piece!</p>
+      <p class="narration">Appa pulls out two bar magnets. Brings the red ends together — they push apart!</p>
+      <p><span class="speaker ahana">Ahana:</span> They REPEL each other!</p>
+      <p><span class="speaker amma">Appa:</span> Yes — <span class="vocab-term">like poles repel</span>. Now turn one around. <i>(They attract.)</i> <span class="vocab-term">Unlike poles attract</span>!</p>
+      <p><span class="speaker swara">Swara:</span> What if I break a magnet in half?</p>
+      <p><span class="speaker amma">Appa:</span> Surprise: each half STILL has both a North and a South pole. You can\'t get a magnet with just ONE pole — ever!</p>
+      <p><span class="speaker ahana">Ahana:</span> <i>(looking at compass)</i> Did people use this before GPS?</p>
+      <p><span class="speaker amma">Appa:</span> For centuries! Indian sailors had a similar compass called <span class="vocab-term">matsya yantra</span> — a magnetised iron fish floating in oil. It pointed north and helped them sail across the Indian Ocean.</p>
+    </div>
+    <div class="vocab-summary"><h4>📚 New words:</h4><div class="vocab-chips"><span class="vocab-chip">magnet</span><span class="vocab-chip">magnetic / non-magnetic</span><span class="vocab-chip">N pole / S pole</span><span class="vocab-chip">attract / repel</span><span class="vocab-chip">compass</span><span class="vocab-chip">north-south direction</span><span class="vocab-chip">Earth\'s magnetic field</span><span class="vocab-chip">matsya yantra</span></div></div>
+  </div>
+
+  <div class="phase-card phase-explore">
+    <div class="phase-header"><span class="phase-num">2</span><div><h3>🔬 EXPLORE</h3><p class="phase-tagline">Try it yourself.</p></div></div>
+    <div class="exp-mini"><h5>🧲 Experiment 1: Sticky Sort</h5><p>Get a magnet. Test 10 household objects. Sort into magnetic vs non-magnetic piles.</p></div>
+    <div class="exp-mini"><h5>🪡 Experiment 2: Make a Compass</h5><p>Magnetise an iron needle by stroking with one magnet pole 30 times. Float on cork in a bowl of water. It points north!</p></div>
+    <div class="exp-mini"><h5>🌐 Experiment 3: Like-Unlike</h5><p>Two bar magnets. Bring red-to-red. Then red-to-blue. Feel the push and pull!</p></div>
+  </div>
+
+  <div class="phase-card phase-explain">
+    <div class="phase-header"><span class="phase-num">3</span><div><h3>📖 EXPLAIN</h3><p class="phase-tagline">Put it all together.</p></div></div>
+    <canvas id="conceptMapCanvas" width="600" height="420"></canvas>
+    <div class="result-box" style="margin-top:10px;"><b>Key insight:</b> Magnets have 2 poles. Like poles repel; unlike attract. Earth is a giant magnet — that\'s why compasses work.</div>
+  </div>
+
+  <div class="phase-card phase-elaborate">
+    <div class="phase-header"><span class="phase-num">4</span><div><h3>🌍 ELABORATE</h3><p class="phase-tagline">Take it further.</p></div></div>
+    <a href="./kit-procedure-chapter4.pdf" target="_blank" class="kit-link"><span class="kit-icon">📄</span><span>Open Kit Procedure — Chapter 4</span><span style="margin-left:6px;">↗</span></a>
+    <div style="margin-top:16px;"><b style="color:#15803d;">Take it further:</b><ul style="margin-left:18px; margin-top:6px; font-size:13px; color:#475569;"><li>Build your own compass with a needle, cork, water, and a magnet.</li><li>Visit a scrapyard — see industrial magnetic separation.</li><li>Find out: how do birds use Earth\'s magnetic field to migrate?</li><li>Read about MRI scans — giant magnets help doctors see inside us.</li></ul></div>
+  </div>
+
+  <div class="phase-card phase-evaluate">
+    <div class="phase-header"><span class="phase-num">5</span><div><h3>✓ EVALUATE</h3><p class="phase-tagline">Quick check.</p></div></div>
+    <div id="evalQuizContainer"></div>
+    <div id="pieResult"><h3>Your Score</h3><canvas id="piechartCanvas" width="300" height="300"></canvas><div id="piechartLabel" style="font-size:18px; font-weight:700; margin-top:10px;"></div><div id="piechartLegend" style="margin-top:10px; display:flex; gap:18px; justify-content:center; flex-wrap:wrap;"></div></div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section id="story" class="tab-panel">
+  <h2 class="section-title">Story &amp; Cartoons</h2>
+  <div class="story-card">
+    <h3 class="card-title">Reshma\'s Sailor Story</h3>
+    <div class="story-intro">Reshma writes a story for her grandmother\'s 60th birthday. It\'s about old sailors carrying spices from Kerala. But what does she do when the sky is overcast and the sailors can\'t see stars? A search for the answer leads her to the magnetic compass — and the world of magnets!</div>
+    <div class="comic-strip" id="strip1"></div>
+  </div>
+</section>
+
+<!-- SIMULATIONS -->
+<section id="simulations" class="tab-panel">
+  <h2 class="section-title">🧲 Magnet Lab</h2>
+  <div class="sim-card"><h3 class="card-title">1. Magnetic or Not?</h3><p>An item appears. Click Yes or No.</p><div class="controls"><button class="btn" onclick="magYN.next()">Next item</button><button class="btn secondary" onclick="magYN.reset()">Reset</button></div><canvas id="magYNCanvas" width="600" height="220"></canvas><div class="controls" id="magYNOptions"></div><div class="result-box" id="magYNResult">Click <b>Next item</b>.</div></div>
+  <div class="sim-card"><h3 class="card-title">2. Two Magnets — Attract or Repel?</h3><p>Pick which poles face each other. Watch the magnets!</p><div class="controls"><div class="toggle-group" id="poleToggle"><button data-c="NN" class="active">N ↔ N</button><button data-c="SS">S ↔ S</button><button data-c="NS">N ↔ S</button></div></div><canvas id="poleCanvas" width="600" height="240"></canvas><div class="result-box" id="poleResult">Pick a combination.</div></div>
+  <div class="sim-card"><h3 class="card-title">3. Compass — Find North</h3><p>The compass needle always points north. Try rotating the box!</p><div class="controls"><label>Rotate box: <span id="rotVal">0</span>°</label><input type="range" id="rotSlider" min="0" max="360" step="5" value="0" oninput="compass.update()"></div><canvas id="compassCanvas" width="600" height="280"></canvas><div class="result-box" id="compassResult">The needle always points the same way (north). The box rotates around it!</div></div>
+</section>
+
+<!-- VIRTUAL EXPERIMENTS -->
+<section id="experiments" class="tab-panel">
+  <h2 class="section-title">Virtual Experiments</h2>
+  <div class="exp-card"><h3 class="card-title">Activity 4.1 — Magnetic Material Test</h3><p>Try various objects. Sort into magnetic vs non-magnetic.</p><canvas id="expSortCanvas" width="600" height="240"></canvas><div class="controls"><button class="btn" onclick="expSort.next()">Test next</button><button class="btn secondary" onclick="expSort.reset()">Reset</button></div><div class="step-display" id="expSortStep">Click to test items.</div></div>
+  <div class="exp-card"><h3 class="card-title">Activity 4.2 — Iron Filings on a Magnet</h3><p>Sprinkle iron filings on paper above a bar magnet. They form a pattern!</p><canvas id="expFilingsCanvas" width="600" height="240"></canvas><div class="step-display">Iron filings concentrate at the POLES — the strongest points of the magnet.</div></div>
+  <div class="exp-card"><h3 class="card-title">Activity 4.4 — Make Your Own Compass</h3><p>Step-by-step: needle → magnetise → float → north!</p><canvas id="expCompCanvas" width="600" height="260"></canvas><div class="controls"><button class="btn" onclick="expComp.next()">Next step</button><button class="btn secondary" onclick="expComp.reset()">Reset</button></div><div class="step-display" id="expCompStep">Click to begin.</div></div>
+</section>
+
+<!-- LAB -->
+<section id="lab" class="tab-panel">
+  <h2 class="section-title">🧪 Lab Experiments</h2>
+  <p style="margin-bottom:18px; color:#475569; font-size:14px;">Textbook activities + add-ons.</p>
+  <div class="lab-card"><h3 class="card-title">Activity 4.1 — Sort by Magnetism <span class="difficulty easy">Easy</span></h3><div class="lab-section materials"><h4>Materials</h4><ul><li>1 magnet</li><li>Various items: pencil, eraser, iron nail, paper clip, aluminium foil, paper, plastic spoon, wooden block, coin</li></ul></div><div class="lab-section procedure"><h4>Procedure</h4><ol><li>Predict which items stick to the magnet.</li><li>Test each item.</li><li>Record results in a table.</li><li>Conclusion: which materials are magnetic?</li></ol></div></div>
+  <div class="lab-card"><h3 class="card-title">Activity 4.2 — Iron Filings Pattern <span class="difficulty medium">Medium</span></h3><div class="lab-section materials"><h4>Materials</h4><ul><li>1 bar magnet</li><li>White paper</li><li>Iron filings (from a workshop or grind a rusty nail)</li></ul></div><div class="lab-section procedure"><h4>Procedure</h4><ol><li>Place a bar magnet under a paper.</li><li>Sprinkle iron filings on the paper.</li><li>Tap the paper gently.</li><li>Observe — filings form lines from N to S poles!</li></ol></div><div class="lab-section"><h4>What It Teaches</h4><p>Magnetic FIELD LINES. Strongest at the poles. The lines reveal the invisible force.</p></div></div>
+  <div class="lab-card"><h3 class="card-title">Activity 4.3 — Suspended Magnet Test <span class="difficulty easy">Easy</span></h3><div class="lab-section procedure"><h4>Procedure</h4><ol><li>Tie a string to the middle of a bar magnet.</li><li>Suspend it freely — let it stop.</li><li>It always settles N-S!</li><li>Mark the direction on the floor.</li></ol></div></div>
+  <div class="lab-card"><h3 class="card-title">Activity 4.4 — Make a Compass <span class="difficulty medium">Medium</span></h3><div class="lab-section materials"><h4>Materials</h4><ul><li>Iron sewing needle</li><li>Bar magnet</li><li>Small piece of cork</li><li>Bowl of water</li></ul></div><div class="lab-section procedure"><h4>Procedure</h4><ol><li>Stroke the needle in ONE direction with one pole of the magnet, 30-40 times.</li><li>Test: needle should now attract pins.</li><li>Push needle through cork.</li><li>Float on water. Watch — it points N-S!</li></ol></div></div>
+  <div class="lab-card addon"><h3 class="card-title">Add-On 1 — Magnet Through Paper <span class="difficulty easy">Easy</span></h3><div class="lab-section procedure"><h4>Procedure</h4><ol><li>Put a paper clip on a table.</li><li>Put a piece of paper on it.</li><li>Drag a magnet across the paper — clip moves with it!</li><li>Try with a book. Then with a thicker book.</li><li>How thick can material be before the magnet stops working?</li></ol></div></div>
+  <div class="lab-card addon"><h3 class="card-title">Add-On 2 — Magnetic Treasure Hunt <span class="difficulty easy">Easy</span></h3><div class="lab-section procedure"><h4>Procedure</h4><ol><li>Hide 10 small iron objects in a tray of sand.</li><li>Give a magnet to a friend.</li><li>Time how fast they find all 10!</li></ol></div></div>
+  <div class="lab-card addon"><h3 class="card-title">Add-On 3 — Identify Magnetic Substances in Food <span class="difficulty easy">Easy</span></h3><div class="lab-section procedure"><h4>Procedure</h4><ol><li>Crush iron-fortified breakfast cereal with water in a zip bag.</li><li>Hold a strong magnet to the bag.</li><li>Tiny black iron particles will collect under the magnet — iron in your food!</li></ol></div></div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz" class="tab-panel">
+  <h2 class="section-title">Quick Quiz</h2>
+  <div id="quiz-container"></div>
+  <div id="quiz-score" style="display:none"></div>
+</section>
+
+<!-- PERFORMANCE -->
+<section id="performance" class="tab-panel">
+  <h2 class="section-title">📋 Performance — Overall Assessment</h2>
+  <div class="perf-header"><h3>Student Performance Report</h3><p>Chapter 4 · Exploring Magnets</p></div>
+  <div class="rubric-block">
+    <div class="student-info"><div><label>Name</label><input type="text" id="studentName" /></div><div><label>Class</label><input type="text" id="studentClass" placeholder="6" /></div><div><label>Date</label><input type="date" id="studentDate" /></div></div>
+    <table class="rubric-table" id="rubricTable">
+      <thead><tr><th>Skill</th><th>1 - Beginning</th><th>2 - Developing</th><th>3 - Proficient</th><th>4 - Advanced</th></tr></thead>
+      <tbody>
+        <tr><td class="rb-skill">Magnetic vs non-magnetic materials</td><td class="rb-cell" data-level="1">Guesses</td><td class="rb-cell" data-level="2">Some correct</td><td class="rb-cell" data-level="3">All correct</td><td class="rb-cell" data-level="4">Knows iron, nickel, cobalt specifically</td></tr>
+        <tr><td class="rb-skill">Poles of a magnet (N, S)</td><td class="rb-cell" data-level="1">New concept</td><td class="rb-cell" data-level="2">Names them</td><td class="rb-cell" data-level="3">Locates them</td><td class="rb-cell" data-level="4">Knows both poles always exist</td></tr>
+        <tr><td class="rb-skill">Like repels, unlike attracts</td><td class="rb-cell" data-level="1">Unclear</td><td class="rb-cell" data-level="2">Learns rule</td><td class="rb-cell" data-level="3">Applies correctly</td><td class="rb-cell" data-level="4">Predicts experiments</td></tr>
+        <tr><td class="rb-skill">Compass / Earth\'s magnetism</td><td class="rb-cell" data-level="1">Doesn\'t know</td><td class="rb-cell" data-level="2">Knows compass shows N</td><td class="rb-cell" data-level="3">Knows Earth is a magnet</td><td class="rb-cell" data-level="4">Connects to migration, navigation history</td></tr>
+        <tr><td class="rb-skill">Making a magnet from iron</td><td class="rb-cell" data-level="1">Doesn\'t know</td><td class="rb-cell" data-level="2">Knows it\'s possible</td><td class="rb-cell" data-level="3">Performs successfully</td><td class="rb-cell" data-level="4">Explains why one-direction rubbing matters</td></tr>
+        <tr><td class="rb-skill">Real-world applications</td><td class="rb-cell" data-level="1">Knows fridge magnet</td><td class="rb-cell" data-level="2">Names 2-3 uses</td><td class="rb-cell" data-level="3">Many examples</td><td class="rb-cell" data-level="4">Speakers, MRI, maglev trains, motors</td></tr>
+      </tbody>
+    </table>
+    <div class="rubric-summary"><div><div style="font-size:11px; color:#7e22ce;">Total</div><div><span class="rs-score" id="rubricTotal">0</span> / 24</div></div><div><div style="font-size:11px; color:#7e22ce;">Band</div><span class="rs-band" id="rubricBand" style="background:#e2e8f0; color:#475569;">— Not yet —</span></div><div><div style="font-size:11px; color:#7e22ce;">Avg</div><div id="rubricAvg" style="font-weight:700; font-size:18px; color:#581c87;">—</div></div></div>
+    <div><label style="font-size:12px; color:#7e22ce; font-weight:700; text-transform:uppercase;">Reflection</label><textarea class="reflection" id="reflectionText"></textarea></div>
+    <div><label style="font-size:12px; color:#7e22ce; font-weight:700; text-transform:uppercase;">Teacher Comments</label><textarea class="reflection" id="teacherComments"></textarea></div>
+    <div class="sig-row"><div class="sig-line">Student</div><div class="sig-line">Teacher / Parent</div></div>
+    <div class="print-btn-row"><p>Save as PDF.</p><button class="btn" onclick="printPerf()" style="background:#7e22ce;">🖨️ Save as PDF</button></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* TABS */
+document.querySelectorAll('nav.tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* KWL */
+const KWL_KEY = 'kwl_ch4_grade6';
+function kwlLoad() { try { const s = JSON.parse(localStorage.getItem(KWL_KEY) || '{}'); if(s.k) document.getElementById('kwl-k').value=s.k; if(s.w) document.getElementById('kwl-w').value=s.w; if(s.l) document.getElementById('kwl-l').value=s.l; } catch(e){} }
+function kwlSave() { localStorage.setItem(KWL_KEY, JSON.stringify({ k: document.getElementById('kwl-k').value, w: document.getElementById('kwl-w').value, l: document.getElementById('kwl-l').value })); }
+function kwlClear() { if (!confirm('Clear all KWL?')) return; ['kwl-k','kwl-w','kwl-l'].forEach(id => document.getElementById(id).value = ''); localStorage.removeItem(KWL_KEY); }
+['kwl-k','kwl-w','kwl-l'].forEach(id => { const el = document.getElementById(id); if (el) el.addEventListener('input', () => { clearTimeout(window._kt); window._kt = setTimeout(kwlSave, 600); }); });
+kwlLoad();
+function printKWL() { document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('print-active')); document.getElementById('kwl').classList.add('print-active'); window.print(); setTimeout(() => document.getElementById('kwl').classList.remove('print-active'), 1000); }
+function printPerf() { document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('print-active')); document.getElementById('performance').classList.add('print-active'); window.print(); setTimeout(() => document.getElementById('performance').classList.remove('print-active'), 1000); }
+
+/* SIM 1: Magnetic Y/N */
+const magYN = (() => {
+  const c = document.getElementById('magYNCanvas'); const ctx = c.getContext('2d');
+  const items = [
+    { name: 'Iron nail', icon: '⚒️', mag: true },
+    { name: 'Pencil', icon: '✏️', mag: false },
+    { name: 'Paper clip', icon: '📎', mag: true },
+    { name: 'Plastic spoon', icon: '🥄', mag: false },
+    { name: 'Aluminium foil', icon: '🧻', mag: false },
+    { name: 'Eraser', icon: '🟪', mag: false },
+    { name: 'Copper wire', icon: '🟧', mag: false },
+    { name: 'Steel scissors', icon: '✂️', mag: true },
+    { name: 'Glass marble', icon: '🔵', mag: false },
+    { name: 'Iron key', icon: '🔑', mag: true }
+  ];
+  let i = -1, score = 0, tries = 0;
+  function reset() { i = -1; score = 0; tries = 0; document.getElementById('magYNResult').innerHTML = 'Click <b>Next item</b>.'; document.getElementById('magYNOptions').innerHTML = ''; draw(null); }
+  function next() {
+    i = (i+1)%items.length;
+    const it = items[i];
+    const box = document.getElementById('magYNOptions'); box.innerHTML = '';
+    ['Yes — attracted', 'No — not attracted'].forEach((label, j) => {
+      const b = document.createElement('button'); b.className = 'btn'; b.textContent = label;
+      b.style.background = j === 0 ? '#fee2e2' : '#dbeafe';
+      b.style.color = j === 0 ? '#b91c1c' : '#1d4ed8';
+      b.addEventListener('click', () => choose(j === 0, b)); box.appendChild(b);
+    });
+    document.getElementById('magYNResult').innerHTML = `<b>Item:</b> ${it.name}<br>Will the magnet attract it?`;
+    draw(it);
+  }
+  function choose(pred, btn) {
+    const it = items[i]; tries++;
+    if (pred === it.mag) { btn.style.background = '#16a34a'; btn.style.color = 'white'; score++; document.getElementById('magYNResult').innerHTML = `✅ ${it.mag ? 'Yes!' : 'Right — no!'} <b>${it.name}</b> ${it.mag ? 'is iron-based — magnetic.' : 'is not magnetic.'} Score: ${score}/${tries}`; }
+    else { btn.style.background = '#dc2626'; btn.style.color = 'white'; document.getElementById('magYNResult').innerHTML = `❌ Actually <b>${it.name}</b> ${it.mag ? 'IS' : 'is NOT'} magnetic. Score: ${score}/${tries}`; }
+    document.querySelectorAll('#magYNOptions .btn').forEach(b => b.disabled = true);
+  }
+  function draw(it) {
+    ctx.clearRect(0,0,600,220); ctx.fillStyle = '#fef2f2'; ctx.fillRect(0,0,600,220);
+    ctx.fillStyle = '#1e293b'; ctx.font = 'bold 13px sans-serif'; ctx.fillText('Sim 1: Magnetic or not?', 230, 22);
+    if (!it) return;
+    ctx.font = '80px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(it.icon, 200, 130);
+    // magnet on right
+    ctx.fillStyle = '#dc2626'; ctx.fillRect(360, 90, 40, 40);
+    ctx.fillStyle = '#2563eb'; ctx.fillRect(400, 90, 40, 40);
+    ctx.fillStyle = 'white'; ctx.font = 'bold 16px sans-serif'; ctx.fillText('N', 380, 115); ctx.fillText('S', 420, 115);
+    ctx.fillStyle = '#1e293b'; ctx.font = 'bold 13px sans-serif'; ctx.fillText(it.name, 200, 175); ctx.textAlign = 'left';
+  }
+  reset(); return { next, reset };
+})();
+
+/* SIM 2: Pole interaction */
+const poleSim = (() => {
+  const c = document.getElementById('poleCanvas'); const ctx = c.getContext('2d');
+  let mode = 'NN';
+  document.querySelectorAll('#poleToggle button').forEach(b => {
+    b.addEventListener('click', () => { document.querySelectorAll('#poleToggle button').forEach(x => x.classList.remove('active')); b.classList.add('active'); mode = b.dataset.c; update(); });
+  });
+  function update() {
+    const messages = {
+      'NN': '🔴 N — 🔴 N: <b>REPEL</b> (like poles push apart). Both magnets push each other away.',
+      'SS': '🔵 S — 🔵 S: <b>REPEL</b> (like poles push apart). Same result with two south poles.',
+      'NS': '🔴 N — 🔵 S: <b>ATTRACT</b> (unlike poles pull together). The magnets snap together!'
+    };
+    document.getElementById('poleResult').innerHTML = messages[mode];
+    draw();
+  }
+  function draw() {
+    ctx.clearRect(0,0,600,240); ctx.fillStyle = '#fef2f2'; ctx.fillRect(0,0,600,240);
+    ctx.fillStyle = '#1e293b'; ctx.font = 'bold 13px sans-serif'; ctx.fillText('Sim 2: Two magnets interact', 200, 22);
+    const repel = mode === 'NN' || mode === 'SS';
+    const offset = repel ? 40 : -10;
+    // left magnet
+    const lLeft = mode === 'NN' ? ['#2563eb','#dc2626'] : mode === 'SS' ? ['#dc2626','#2563eb'] : ['#2563eb','#dc2626'];
+    const rLeft = mode === 'NN' ? ['#dc2626','#2563eb'] : mode === 'SS' ? ['#2563eb','#dc2626'] : ['#2563eb','#dc2626'];
+    // left magnet positioned at 180 - offset
+    ctx.fillStyle = lLeft[0]; ctx.fillRect(140 - offset, 110, 40, 40);
+    ctx.fillStyle = lLeft[1]; ctx.fillRect(180 - offset, 110, 40, 40);
+    ctx.fillStyle = 'white'; ctx.font = 'bold 16px sans-serif';
+    ctx.fillText(mode === 'NN' ? 'S' : mode === 'SS' ? 'N' : 'S', 160 - offset, 135);
+    ctx.fillText(mode === 'NN' ? 'N' : mode === 'SS' ? 'S' : 'N', 200 - offset, 135);
+    // right magnet (270 + offset)
+    ctx.fillStyle = rLeft[0]; ctx.fillRect(380 + offset, 110, 40, 40);
+    ctx.fillStyle = rLeft[1]; ctx.fillRect(420 + offset, 110, 40, 40);
+    ctx.fillStyle = 'white';
+    ctx.fillText(mode === 'NN' ? 'N' : mode === 'SS' ? 'S' : 'S', 400 + offset, 135);
+    ctx.fillText(mode === 'NN' ? 'S' : mode === 'SS' ? 'N' : 'N', 440 + offset, 135);
+    // arrows
+    ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 3;
+    if (repel) {
+      ctx.beginPath(); ctx.moveTo(240, 200); ctx.lineTo(190, 200); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(190, 200); ctx.lineTo(200, 194); ctx.lineTo(200, 206); ctx.closePath(); ctx.fillStyle='#1e293b'; ctx.fill();
+      ctx.beginPath(); ctx.moveTo(360, 200); ctx.lineTo(410, 200); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(410, 200); ctx.lineTo(400, 194); ctx.lineTo(400, 206); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#dc2626'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('REPEL ↔', 300, 205);
+    } else {
+      ctx.beginPath(); ctx.moveTo(240, 200); ctx.lineTo(280, 200); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(280, 200); ctx.lineTo(270, 194); ctx.lineTo(270, 206); ctx.closePath(); ctx.fillStyle='#1e293b'; ctx.fill();
+      ctx.beginPath(); ctx.moveTo(360, 200); ctx.lineTo(320, 200); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(320, 200); ctx.lineTo(330, 194); ctx.lineTo(330, 206); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#16a34a'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('ATTRACT →←', 300, 205);
+    }
+    ctx.textAlign = 'left';
+  }
+  update(); return {};
+})();
+
+/* SIM 3: Compass */
+const compass = (() => {
+  const c = document.getElementById('compassCanvas'); const ctx = c.getContext('2d');
+  function update() {
+    const rot = +document.getElementById('rotSlider').value;
+    document.getElementById('rotVal').textContent = rot;
+    draw(rot);
+  }
+  function draw(rot) {
+    ctx.clearRect(0,0,600,280); ctx.fillStyle = '#fef2f2'; ctx.fillRect(0,0,600,280);
+    ctx.fillStyle = '#1e293b'; ctx.font = 'bold 13px sans-serif'; ctx.fillText('Sim 3: Magnetic compass — rotate the BOX', 130, 22);
+    const cx = 300, cy = 140, r = 90;
+    // box (rotates)
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(rot * Math.PI / 180);
+    ctx.fillStyle = '#fef9c3';
+    ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 3; ctx.stroke();
+    // dial markings
+    ['N','E','S','W'].forEach((d,i) => {
+      const a = i * Math.PI/2 - Math.PI/2;
+      ctx.save(); ctx.translate(Math.cos(a)*70, Math.sin(a)*70); ctx.rotate(-rot*Math.PI/180);
+      ctx.fillStyle = '#1c1917'; ctx.font = 'bold 16px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText(d, 0, 6); ctx.restore();
+    });
+    ctx.restore();
+    // needle (always points up = north, doesn't rotate with box)
+    ctx.fillStyle = '#dc2626';
+    ctx.beginPath(); ctx.moveTo(cx, cy-60); ctx.lineTo(cx-6, cy); ctx.lineTo(cx+6, cy); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#94a3b8';
+    ctx.beginPath(); ctx.moveTo(cx, cy+60); ctx.lineTo(cx-6, cy); ctx.lineTo(cx+6, cy); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#1c1917'; ctx.beginPath(); ctx.arc(cx, cy, 4, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#dc2626'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('N (red)', cx, cy-72);
+    ctx.fillStyle = '#1c1917';
+    ctx.font = 'bold 11px sans-serif';
+    ctx.fillText('Box rotated ' + rot + '°', cx, cy+100);
+    ctx.fillText('Needle: ALWAYS POINTS NORTH', cx, cy+115);
+    ctx.textAlign = 'left';
+  }
+  update(); return { update };
+})();
+
+/* EXPERIMENTS */
+const expSort = (() => {
+  const c = document.getElementById('expSortCanvas'); const ctx = c.getContext('2d');
+  const items = [
+    { name: 'Iron nail', mag: true }, { name: 'Aluminium foil', mag: false }, { name: 'Wood block', mag: false },
+    { name: 'Copper wire', mag: false }, { name: 'Steel pin', mag: true }, { name: 'Glass marble', mag: false },
+    { name: 'Rubber eraser', mag: false }, { name: 'Iron key', mag: true }
+  ];
+  let i = -1;
+  function reset() { i = -1; document.getElementById('expSortStep').innerHTML = 'Click to test.'; draw(); }
+  function next() { i = (i+1)%items.length; const it = items[i]; document.getElementById('expSortStep').innerHTML = `<b>${it.name}</b>: ${it.mag ? '<b style="color:#dc2626">attracted to magnet ✓ MAGNETIC</b>' : '<b style="color:#475569">not attracted ✗ NON-MAGNETIC</b>'}`; draw(); }
+  function draw() {
+    ctx.clearRect(0,0,600,240); ctx.fillStyle = '#fef2f2'; ctx.fillRect(0,0,600,240);
+    ctx.fillStyle = '#1e293b'; ctx.font = 'bold 13px sans-serif'; ctx.fillText('Activity 4.1: magnetic material test', 180, 22);
+    if (i < 0) return;
+    const it = items[i];
+    ctx.fillStyle = '#dc2626'; ctx.fillRect(380, 100, 40, 40);
+    ctx.fillStyle = '#2563eb'; ctx.fillRect(420, 100, 40, 40);
+    ctx.fillStyle = 'white'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('N', 400, 124); ctx.fillText('S', 440, 124);
+    ctx.fillStyle = '#92400e'; ctx.fillRect(150, 110, 40, 20);
+    ctx.fillStyle = '#1e293b'; ctx.font = 'bold 12px sans-serif';
+    ctx.fillText(it.name, 170, 160);
+    if (it.mag) { ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(200, 120); ctx.lineTo(370, 120); ctx.stroke(); }
+    ctx.textAlign = 'left';
+  }
+  draw(); return { next, reset };
+})();
+
+(function(){
+  const c = document.getElementById('expFilingsCanvas'); if (!c) return;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#fef2f2'; ctx.fillRect(0,0,600,240);
+  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 13px sans-serif'; ctx.fillText('Activity 4.2: iron filings pattern', 200, 22);
+  // bar magnet
+  ctx.fillStyle = '#dc2626'; ctx.fillRect(150, 100, 100, 40);
+  ctx.fillStyle = '#2563eb'; ctx.fillRect(350, 100, 100, 40);
+  ctx.fillStyle = '#cbd5e1'; ctx.fillRect(250, 100, 100, 40);
+  ctx.fillStyle = 'white'; ctx.font = 'bold 16px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('N', 200, 125); ctx.fillText('S', 400, 125);
+  ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2; ctx.strokeRect(150, 100, 300, 40);
+  // iron filings — dense at poles, sparse in middle
+  ctx.fillStyle = '#1c1917';
+  for (let k = 0; k < 200; k++) {
+    const x = 50 + Math.random() * 500; const y = 50 + Math.random() * 140;
+    const dN = Math.hypot(x-200, y-120), dS = Math.hypot(x-400, y-120);
+    const minD = Math.min(dN, dS);
+    if (Math.random() < (200 - minD)/200) { ctx.beginPath(); ctx.arc(x, y, 1, 0, Math.PI*2); ctx.fill(); }
+  }
+  ctx.textAlign = 'left';
+})();
+
+const expComp = (() => {
+  const c = document.getElementById('expCompCanvas'); const ctx = c.getContext('2d');
+  const steps = [
+    'Step 1: Take an iron sewing needle. Place on a table.',
+    'Step 2: Stroke ONE pole of a magnet along the needle, in one direction, 30-40 times.',
+    'Step 3: Test — needle should now attract paper clips. It\'s a magnet!',
+    'Step 4: Push needle through a cork. Float on water.',
+    'Step 5: Watch — the needle settles pointing NORTH-SOUTH!'
+  ];
+  let s = -1;
+  function reset() { s = -1; document.getElementById('expCompStep').innerHTML = 'Click to begin.'; draw(); }
+  function next() { s = Math.min(steps.length-1, s+1); document.getElementById('expCompStep').innerHTML = steps[s]; draw(); }
+  function draw() {
+    ctx.clearRect(0,0,600,260); ctx.fillStyle = '#fef2f2'; ctx.fillRect(0,0,600,260);
+    ctx.fillStyle = '#1e293b'; ctx.font = 'bold 13px sans-serif'; ctx.fillText('Activity 4.4: make a compass', 200, 22);
+    if (s < 0) return;
+    const cx = 300, cy = 140;
+    // needle
+    ctx.fillStyle = '#475569'; ctx.fillRect(cx-60, cy-2, 120, 4);
+    ctx.beginPath(); ctx.moveTo(cx+60, cy-4); ctx.lineTo(cx+72, cy); ctx.lineTo(cx+60, cy+4); ctx.fill();
+    if (s >= 3) {
+      // cork
+      ctx.fillStyle = '#92400e'; ctx.fillRect(cx-25, cy-10, 50, 20);
+      ctx.strokeStyle = '#451a03'; ctx.strokeRect(cx-25, cy-10, 50, 20);
+      // water
+      ctx.fillStyle = 'rgba(186, 230, 253, 0.5)';
+      ctx.beginPath(); ctx.ellipse(cx, cy+50, 100, 30, 0, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5; ctx.stroke();
+    }
+    if (s === 1) {
+      // bar magnet stroking
+      ctx.fillStyle = '#dc2626'; ctx.fillRect(cx-30, cy-30, 30, 20);
+      ctx.fillStyle = '#2563eb'; ctx.fillRect(cx, cy-30, 30, 20);
+      ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 1; ctx.setLineDash([3,3]);
+      ctx.beginPath(); ctx.moveTo(cx-60, cy-30); ctx.lineTo(cx+60, cy-30); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    if (s === 4) {
+      ctx.fillStyle = '#dc2626'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('↑ N', cx-60, cy-20);
+      ctx.fillStyle = '#2563eb'; ctx.fillText('S ↓', cx+60, cy+30);
+      ctx.textAlign = 'left';
+    }
+  }
+  draw(); return { next, reset };
+})();
+
+/* CONCEPT MAP */
+(function(){
+  const c = document.getElementById('conceptMapCanvas'); if (!c) return;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#eff6ff'; ctx.fillRect(0,0,600,420);
+  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('Concept Map — Magnets', 300, 24);
+  const cx = 300, cy = 220;
+  ctx.fillStyle = '#fee2e2'; ctx.beginPath(); ctx.arc(cx,cy,55,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 3; ctx.stroke();
+  ctx.fillStyle = '#1c1917'; ctx.font = 'bold 13px sans-serif'; ctx.fillText('MAGNET',cx,cy+5);
+  const nodes = [
+    { angle: -Math.PI/2, label: '2 POLES', sub: 'N and S — always together', color: '#fee2e2', stroke: '#dc2626' },
+    { angle: -Math.PI/6, label: 'POLES INTERACT', sub: 'Like repel; unlike attract', color: '#dbeafe', stroke: '#2563eb' },
+    { angle: Math.PI/6, label: 'ATTRACTS', sub: 'Iron, nickel, cobalt', color: '#fef3c7', stroke: '#d97706' },
+    { angle: Math.PI/2, label: 'EARTH MAGNET', sub: 'Compass points N-S', color: '#dcfce7', stroke: '#15803d' },
+    { angle: 5*Math.PI/6, label: 'CAN BE MADE', sub: 'Iron + stroke', color: '#f3e8ff', stroke: '#7e22ce' },
+    { angle: -5*Math.PI/6, label: 'CARE', sub: 'No drop, no heat', color: '#fde68a', stroke: '#a16207' }
+  ];
+  nodes.forEach(n => {
+    const x = cx + Math.cos(n.angle)*150, y = cy + Math.sin(n.angle)*150;
+    ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(cx+Math.cos(n.angle)*55, cy+Math.sin(n.angle)*55); ctx.lineTo(x,y); ctx.stroke();
+    ctx.fillStyle = n.color;
+    ctx.beginPath(); if(ctx.roundRect) ctx.roundRect(x-75,y-25,150,50,12); else ctx.rect(x-75,y-25,150,50); ctx.fill();
+    ctx.strokeStyle = n.stroke; ctx.lineWidth = 2.5; ctx.stroke();
+    ctx.fillStyle = n.stroke; ctx.font = 'bold 11px sans-serif'; ctx.fillText(n.label, x, y-4);
+    ctx.fillStyle = '#1c1917'; ctx.font = '9px sans-serif'; ctx.fillText(n.sub, x, y+12);
+  });
+  ctx.textAlign = 'left';
+})();
+
+/* EVAL */
+(function(){
+  const data = [
+    { q: 'Which material is magnetic?', options: ['Wood','Iron','Plastic','Copper'], correct: 1 },
+    { q: 'How many poles does a magnet have?', options: ['1','2','3','None'], correct: 1 },
+    { q: 'N + N poles brought close will:', options: ['Attract','Repel','Do nothing','Break'], correct: 1 },
+    { q: 'A freely suspended magnet points:', options: ['East-West','North-South','Random','Up-Down'], correct: 1 },
+    { q: 'Earth itself is a:', options: ['Static object','Giant magnet','Liquid','Not magnetic'], correct: 1 }
+  ];
+  const container = document.getElementById('evalQuizContainer'); if (!container) return;
+  let a = 0, s = 0;
+  data.forEach((q,idx) => {
+    const w = document.createElement('div'); w.className='eval-quiz';
+    const qt = document.createElement('div'); qt.className='eq-q'; qt.innerHTML=`Q${idx+1}. ${q.q}`; w.appendChild(qt);
+    q.options.forEach((opt,i) => {
+      const o = document.createElement('div'); o.className='eq-opt'; o.innerHTML=opt;
+      o.addEventListener('click', () => {
+        if (w.dataset.done) return; w.dataset.done='true'; a++;
+        if (i === q.correct) { o.classList.add('correct'); s++; } else { o.classList.add('wrong'); w.querySelectorAll('.eq-opt')[q.correct].classList.add('correct'); }
+        if (a === data.length) drawPie(s, data.length-s);
+      });
+      w.appendChild(o);
+    });
+    container.appendChild(w);
+  });
+  function drawPie(correct, wrong) {
+    document.getElementById('pieResult').classList.add('show');
+    const c = document.getElementById('piechartCanvas'); const ctx = c.getContext('2d');
+    ctx.clearRect(0,0,300,300);
+    const total = correct + wrong; if (total === 0) return;
+    const cx = 150, cy = 150, r = 110; let sa = -Math.PI/2;
+    [{v: correct, c: '#22c55e'},{v: wrong, c: '#dc2626'}].forEach(seg => {
+      if (seg.v === 0) return;
+      const sl = (seg.v/total)*Math.PI*2;
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,sa,sa+sl); ctx.closePath();
+      ctx.fillStyle = seg.c; ctx.fill();
+      ctx.strokeStyle = 'white'; ctx.lineWidth = 3; ctx.stroke();
+      const m = sa+sl/2;
+      ctx.fillStyle = 'white'; ctx.font = 'bold 22px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText(seg.v, cx+Math.cos(m)*r*0.6, cy+Math.sin(m)*r*0.6+8);
+      sa += sl;
+    });
+    ctx.beginPath(); ctx.arc(cx,cy,50,0,Math.PI*2); ctx.fillStyle = 'rgba(255,255,255,0.2)'; ctx.fill();
+    ctx.fillStyle = 'white'; ctx.font = 'bold 20px sans-serif'; ctx.fillText((correct/total*100).toFixed(0)+'%', cx, cy+7);
+    ctx.textAlign = 'left';
+    document.getElementById('piechartLabel').textContent = `${correct} of ${total} correct`;
+    document.getElementById('piechartLegend').innerHTML = `<span style="display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:14px; height:14px; background:#22c55e; border-radius:3px;"></span>Correct (${correct})</span><span style="display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:14px; height:14px; background:#dc2626; border-radius:3px;"></span>Wrong (${wrong})</span>`;
+  }
+})();
+
+/* RUBRIC */
+(function(){
+  const table = document.getElementById('rubricTable'); if (!table) return;
+  table.addEventListener('click', (e) => { const cell = e.target.closest('.rb-cell'); if (!cell) return; cell.parentElement.querySelectorAll('.rb-cell').forEach(c => c.classList.remove('selected')); cell.classList.add('selected'); recalc(); });
+  function recalc() {
+    let t = 0, a = 0;
+    table.querySelectorAll('tbody tr').forEach(r => { const s = r.querySelector('.rb-cell.selected'); if (s) { t += parseInt(s.dataset.level); a++; } });
+    document.getElementById('rubricTotal').textContent = t;
+    document.getElementById('rubricAvg').textContent = a > 0 ? (t/a).toFixed(1)+' / 4' : '—';
+    const band = document.getElementById('rubricBand'); const tot = table.querySelectorAll('tbody tr').length;
+    if (a === 0) { band.textContent = '— Not yet scored —'; band.style.background = '#e2e8f0'; band.style.color = '#475569'; }
+    else if (a < tot) { band.textContent = `In progress (${a}/${tot})`; band.style.background = '#fef3c7'; band.style.color = '#a16207'; }
+    else { const av = t/tot; let l, bg, fg;
+      if (av >= 3.5) { l='🏆 Advanced'; bg='#dcfce7'; fg='#15803d'; }
+      else if (av >= 2.5) { l='👍 Proficient'; bg='#dbeafe'; fg='#1e40af'; }
+      else if (av >= 1.5) { l='📚 Developing'; bg='#fef3c7'; fg='#a16207'; }
+      else { l='🌱 Beginning'; bg='#fee2e2'; fg='#b91c1c'; }
+      band.textContent = l; band.style.background = bg; band.style.color = fg;
+    }
+  }
+  const di = document.getElementById('studentDate'); if (di) di.valueAsDate = new Date();
+})();
+
+/* COMICS */
+function drawKid(ctx,x,y,color,label){
+  ctx.fillStyle='#fde68a'; ctx.beginPath(); ctx.arc(x,y-18,11,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle='#1e293b'; ctx.lineWidth=1.5; ctx.stroke();
+  ctx.fillStyle='#1e293b'; ctx.beginPath(); ctx.arc(x-3,y-20,1.2,0,Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.arc(x+3,y-20,1.2,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle=color; ctx.fillRect(x-11,y-7,22,28);
+  ctx.fillStyle='#1e293b'; ctx.fillRect(x-8,y+21,5,12); ctx.fillRect(x+3,y+21,5,12);
+  if(label){ ctx.fillStyle='#1e293b'; ctx.font='bold 10px sans-serif'; ctx.textAlign='center'; ctx.fillText(label,x,y+48); ctx.textAlign='left'; }
+}
+function makeComic(stripId,num,caption,drawFn){
+  const strip=document.getElementById(stripId); const p=document.createElement('div'); p.className='comic-panel';
+  const n=document.createElement('div'); n.className='comic-number'; n.textContent=num; p.appendChild(n);
+  const cnv=document.createElement('canvas'); cnv.width=280; cnv.height=200; p.appendChild(cnv);
+  const c=document.createElement('div'); c.className='comic-caption'; c.textContent=caption; p.appendChild(c);
+  strip.appendChild(p); drawFn(cnv.getContext('2d'));
+}
+
+makeComic('strip1', 1, 'Reshma writes a story for her grandma\'s 60th. Sailors carrying spices, lost at sea, no stars. How will they find their way?', (ctx) => {
+  ctx.fillStyle='#0c4a6e'; ctx.fillRect(0,0,280,100);
+  ctx.fillStyle='#0284c7'; ctx.fillRect(0,100,280,100);
+  // ship
+  ctx.fillStyle='#92400e'; ctx.fillRect(100, 130, 80, 30);
+  ctx.beginPath(); ctx.moveTo(140, 130); ctx.lineTo(140, 80); ctx.stroke();
+  // waves
+  ctx.strokeStyle='#bae6fd';
+  for(let i=0;i<5;i++) { ctx.beginPath(); ctx.arc(20+i*60, 170, 5, 0, Math.PI); ctx.stroke(); }
+  drawKid(ctx, 220, 170, '#dc2626', 'Reshma');
+});
+makeComic('strip1', 2, 'Library! She finds a book about ancient navigation. Compasses! "Indian sailors used a magnetised iron fish floating in oil — the matsya yantra."', (ctx) => {
+  ctx.fillStyle='#fef3c7'; ctx.fillRect(0,0,280,200);
+  ctx.fillStyle='#2563eb'; ctx.beginPath();
+  ctx.moveTo(140, 80); ctx.bezierCurveTo(110, 70, 110, 110, 140, 100);
+  ctx.bezierCurveTo(170, 110, 170, 70, 140, 80);
+  ctx.fill();
+  // tail
+  ctx.beginPath(); ctx.moveTo(170, 90); ctx.lineTo(200, 70); ctx.lineTo(200, 110); ctx.closePath(); ctx.fill();
+  ctx.fillStyle='#dc2626';
+  ctx.beginPath(); ctx.arc(120, 85, 5, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle='#1e293b'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+  ctx.fillText('Matsya Yantra', 140, 155); ctx.fillText('(fish-compass)', 140, 170);
+  ctx.textAlign='left';
+});
+makeComic('strip1', 3, 'She finds a modern compass at home — and a bar magnet from her science kit. Time to explore!', (ctx) => {
+  ctx.fillStyle='#fef2f2'; ctx.fillRect(0,0,280,200);
+  // compass
+  ctx.fillStyle='#fef9c3'; ctx.beginPath(); ctx.arc(90, 120, 30, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle='#1c1917'; ctx.lineWidth=2; ctx.stroke();
+  ctx.fillStyle='#dc2626'; ctx.beginPath(); ctx.moveTo(90, 100); ctx.lineTo(85, 120); ctx.lineTo(95, 120); ctx.closePath(); ctx.fill();
+  // bar magnet
+  ctx.fillStyle='#dc2626'; ctx.fillRect(170, 110, 30, 25);
+  ctx.fillStyle='#2563eb'; ctx.fillRect(200, 110, 30, 25);
+  ctx.fillStyle='white'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+  ctx.fillText('N', 185, 128); ctx.fillText('S', 215, 128); ctx.textAlign='left';
+});
+makeComic('strip1', 4, '"The needle always points NORTH! No matter how I turn the box. Earth itself is a magnet."', (ctx) => {
+  ctx.fillStyle='#dcfce7'; ctx.fillRect(0,0,280,200);
+  ctx.fillStyle='#2563eb'; ctx.beginPath(); ctx.arc(140, 110, 50, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle='#dc2626'; ctx.fillRect(135, 60, 10, 15);
+  ctx.fillStyle='#1e293b'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+  ctx.fillText('N', 140, 50);
+  ctx.fillStyle='#16a34a'; ctx.font='bold 13px sans-serif';
+  ctx.fillText('🌍 Earth is a magnet!', 140, 180); ctx.textAlign='left';
+});
+
+/* QUIZ */
+const quizData = [
+  { q: 'Which is magnetic?', options: ['Wood','Iron nail','Plastic spoon','Glass'], correct: 1, why: 'Iron is magnetic — sticks to a magnet. Wood, plastic, glass do not.' },
+  { q: 'A magnet has how many poles?', options: ['1','2','4','None'], correct: 1, why: 'Two poles — North and South. Always together!' },
+  { q: 'Two North poles brought close will:', options: ['Attract','Repel','Stick','Disappear'], correct: 1, why: 'Like poles REPEL. Same poles push apart.' },
+  { q: 'A freely suspended magnet points:', options: ['East-West','North-South','Random','Up-Down'], correct: 1, why: 'It points N-S because Earth is a giant magnet!' },
+  { q: 'Which Indian device was used to find direction at sea?', options: ['Sundial','Matsya yantra','Telescope','Periscope'], correct: 1, why: 'Matsya yantra — a magnetised iron fish floating in oil.' },
+  { q: 'If you break a bar magnet in half, the halves:', options: ['Lose magnetism','Each have only N','Each have only S','Each have BOTH N and S'], correct: 3, why: 'You cannot get a single-pole magnet. Each piece always has N AND S.' },
+  { q: 'Where do iron filings concentrate most on a bar magnet?', options: ['Middle','At the poles','Equal everywhere','None'], correct: 1, why: 'The magnetic force is strongest at the poles.' },
+  { q: 'A compass works because:', options: ['Of its colour','Earth is a giant magnet','It has electricity','It uses light'], correct: 1, why: 'The Earth magnetic field pulls the compass needle to align N-S.' },
+  { q: 'Which is NOT magnetic?', options: ['Iron','Nickel','Cobalt','Aluminium'], correct: 3, why: 'Iron, nickel, cobalt are magnetic. Aluminium is a metal but NOT magnetic.' },
+  { q: 'To make a magnet from an iron needle, you:', options: ['Heat it','Drop it','Stroke it with a magnet repeatedly in one direction','Cool it'], correct: 2, why: 'Stroking with one magnet pole 30-40 times in the same direction magnetises the needle.' }
+];
+const quizContainer = document.getElementById('quiz-container');
+let answeredCount = 0, score = 0;
+quizData.forEach((q, idx) => {
+  const wrap = document.createElement('div'); wrap.className = 'quiz-question';
+  const qText = document.createElement('div'); qText.className = 'q-text'; qText.textContent = `Q${idx+1}. ${q.q}`; wrap.appendChild(qText);
+  q.options.forEach((opt, i) => {
+    const o = document.createElement('div'); o.className = 'quiz-option'; o.textContent = opt;
+    o.addEventListener('click', () => {
+      if (wrap.dataset.answered) return; wrap.dataset.answered = 'true'; answeredCount++;
+      const fb = document.createElement('div'); fb.className = 'quiz-feedback show';
+      if (i === q.correct) { o.classList.add('correct'); fb.classList.add('correct'); fb.innerHTML = `<b>✅ Yes!</b> ${q.why}`; score++; }
+      else { o.classList.add('wrong'); wrap.querySelectorAll('.quiz-option')[q.correct].classList.add('correct'); fb.classList.add('wrong'); fb.innerHTML = `<b>🤔 Not quite.</b> ${q.why}`; }
+      wrap.appendChild(fb);
+      if (answeredCount === quizData.length) { const s = document.getElementById('quiz-score'); s.style.display = 'block'; s.innerHTML = `Score: <b>${score}/${quizData.length}</b><br>${score === quizData.length ? '🏆 Magnet Master!' : score >= quizData.length*0.7 ? '👏 Great!' : '📚 Re-read!'}`; }
+    });
+    wrap.appendChild(o);
+  });
+  quizContainer.appendChild(wrap);
+});
+</script>
+
+<script src="smile-chapter-assessment.js"></script>
+</body>
+</html>

@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grade 6 — Chapter 2 — Diversity in the Living World</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f0fdf4; color: #1e293b; line-height: 1.55; }
+  header { background: linear-gradient(135deg, #14532d 0%, #16a34a 45%, #84cc16 100%); color: white; padding: 36px 24px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+  header h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+  header p { opacity: 0.95; font-size: 14px; }
+  nav.tabs { display: flex; justify-content: center; gap: 4px; background: white; padding: 8px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.08); flex-wrap: wrap; }
+  nav.tabs button { background: transparent; border: none; padding: 10px 16px; font-size: 13px; font-weight: 600; color: #475569; cursor: pointer; border-radius: 8px; transition: all 0.2s; }
+  nav.tabs button:hover { background: #dcfce7; color: #16a34a; }
+  nav.tabs button.active { background: #16a34a; color: white; }
+  nav.tabs button[data-tab="kwl"] { background: #fef3c7; color: #b45309; }
+  nav.tabs button[data-tab="kwl"]:hover { background: #fde68a; }
+  nav.tabs button[data-tab="kwl"].active { background: #b45309; color: white; }
+  nav.tabs button[data-tab="performance"] { background: #f3e8ff; color: #7e22ce; }
+  nav.tabs button[data-tab="performance"]:hover { background: #e9d5ff; }
+  nav.tabs button[data-tab="performance"].active { background: #7e22ce; color: white; }
+  main { max-width: 1100px; margin: 0 auto; padding: 24px; background: #ecfdf5; min-height: 80vh; }
+  .tab-panel { display: none; animation: fadeIn 0.3s ease; }
+  .tab-panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  h2.section-title { font-size: 22px; color: #16a34a; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #16a34a; }
+  h3.card-title { font-size: 18px; color: #1e293b; margin-bottom: 10px; }
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+  .card, .sim-card, .exp-card, .story-card, .lab-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 16px; transition: transform 0.2s, box-shadow 0.2s; }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  .card p, .card li { font-size: 14px; color: #475569; margin-bottom: 6px; }
+  .card ul { margin-left: 18px; }
+  .badge { display: inline-block; background: #dcfce7; color: #15803d; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 999px; margin-bottom: 8px; }
+  .badge-blue { background: #dbeafe; color: #1d4ed8; }
+  .badge-amber { background: #fef3c7; color: #b45309; }
+  canvas { display: block; background: #ecfdf5; border-radius: 8px; margin: 12px 0; max-width: 100%; }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; align-items: center; }
+  button.btn { background: #16a34a; color: white; border: none; padding: 8px 16px; font-size: 13px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: background 0.2s; }
+  button.btn:hover { background: #15803d; }
+  button.btn.secondary { background: #64748b; }
+  button.btn.secondary:hover { background: #475569; }
+  label { font-size: 13px; color: #475569; font-weight: 500; }
+  .result-box { background: #dcfce7; border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 6px; margin-top: 12px; font-size: 14px; }
+  .observation { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 10px 14px; border-radius: 6px; margin-top: 10px; font-size: 13px; }
+  .step-display { background: #f0fdf4; border: 1px solid #d1fae5; padding: 12px; border-radius: 6px; margin-top: 10px; font-size: 13px; min-height: 50px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+  th, td { padding: 7px 8px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+  th { background: #f0fdf4; font-weight: 600; color: #475569; }
+  .key-fact { background: #ecfdf5; border-left: 3px solid #16a34a; padding: 8px 12px; margin: 8px 0; font-size: 13px; border-radius: 4px; }
+  .toggle-group { display: inline-flex; background: #e2e8f0; padding: 3px; border-radius: 6px; flex-wrap: wrap; }
+  .toggle-group button { background: transparent; border: none; padding: 6px 12px; font-size: 12px; font-weight: 600; color: #475569; cursor: pointer; border-radius: 4px; }
+  .toggle-group button.active { background: white; color: #16a34a; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  .lab-card { border-left: 5px solid #16a34a; background: linear-gradient(to right, #ecfdf5 0%, #ffffff 80px); }
+  .lab-card.addon { border-left-color: #84cc16; background: linear-gradient(to right, #f7fee7 0%, #ffffff 80px); }
+  .lab-section { margin-top: 12px; padding: 10px 14px; background: #ecfdf5; border-radius: 6px; font-size: 13px; }
+  .lab-section h4 { color: #16a34a; font-size: 13px; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .lab-section.materials h4 { color: #b45309; }
+  .lab-section.procedure h4 { color: #15803d; }
+  .lab-section.safety { background: #fef2f2; }
+  .lab-section.safety h4 { color: #dc2626; }
+  .lab-section ol, .lab-section ul { margin-left: 18px; }
+  .lab-section li { margin-bottom: 4px; }
+  .difficulty { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 8px; }
+  .difficulty.easy { background: #dcfce7; color: #16a34a; }
+  .difficulty.medium { background: #fef3c7; color: #d97706; }
+  .difficulty.hard { background: #fee2e2; color: #dc2626; }
+  .comic-strip { display: grid; gap: 12px; margin-top: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .comic-panel { background: #fffbeb; border: 3px solid #1e293b; border-radius: 8px; overflow: hidden; position: relative; box-shadow: 4px 4px 0 rgba(30,41,59,0.4); }
+  .comic-panel canvas { background: #fefce8; border-radius: 0; margin: 0; width: 100%; display: block; }
+  .comic-caption { background: #1e293b; color: #fef9c3; padding: 10px 12px; font-size: 13px; font-weight: 500; line-height: 1.4; font-family: Georgia, serif; }
+  .comic-number { position: absolute; top: 6px; left: 8px; background: #16a34a; color: white; font-weight: 800; font-size: 14px; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #1e293b; z-index: 5; }
+  .story-intro { background: linear-gradient(135deg, #dcfce7 0%, #fef9c3 100%); border-left: 4px solid #16a34a; padding: 14px 18px; border-radius: 8px; margin-bottom: 14px; font-size: 14px; color: #14532d; font-style: italic; }
+  .quiz-question { background: white; border-radius: 12px; padding: 20px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .quiz-question .q-text { font-weight: 600; margin-bottom: 12px; color: #1e293b; }
+  .quiz-option { display: block; padding: 10px 14px; margin-bottom: 6px; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.15s; }
+  .quiz-option:hover { border-color: #16a34a; background: #ecfdf5; }
+  .quiz-option.correct { border-color: #16a34a; background: #f0fdf4; }
+  .quiz-option.wrong { border-color: #dc2626; background: #fef2f2; }
+  .quiz-feedback { margin-top: 10px; padding: 10px; border-radius: 6px; font-size: 13px; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: #f0fdf4; color: #166534; }
+  .quiz-feedback.wrong { background: #fef2f2; color: #991b1b; }
+  #quiz-score { background: linear-gradient(135deg, #16a34a 0%, #84cc16 100%); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-top: 16px; font-size: 16px; font-weight: 600; }
+  .quote-card { background: linear-gradient(135deg, #dcfce7 0%, #fef9c3 100%); border-radius: 14px; padding: 22px 26px; text-align: center; margin: 14px 0; border-left: 5px solid #16a34a; }
+  .quote-card .quote-text { font-size: 16px; font-style: italic; color: #14532d; font-family: Georgia, serif; margin-bottom: 10px; }
+  .quote-card .quote-author { font-weight: 600; color: #475569; font-size: 13px; }
+  /* 5E phase cards */
+  .five-intro { background: linear-gradient(135deg, #dcfce7 0%, #fef9c3 100%); border-left: 4px solid #16a34a; padding: 14px 18px; border-radius: 10px; margin-bottom: 18px; font-size: 14px; color: #14532d; }
+  .phase-card { background: white; border-radius: 14px; padding: 22px 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 6px solid #16a34a; }
+  .phase-card.phase-engage { border-left-color: #dc2626; background: linear-gradient(to right, #fef2f2 0%, #ffffff 80px); }
+  .phase-card.phase-explore { border-left-color: #f59e0b; background: linear-gradient(to right, #fef3c7 0%, #ffffff 80px); }
+  .phase-card.phase-explain { border-left-color: #0284c7; background: linear-gradient(to right, #eff6ff 0%, #ffffff 80px); }
+  .phase-card.phase-elaborate { border-left-color: #15803d; background: linear-gradient(to right, #f0fdf4 0%, #ffffff 80px); }
+  .phase-card.phase-evaluate { border-left-color: #7e22ce; background: linear-gradient(to right, #faf5ff 0%, #ffffff 80px); }
+  .phase-header { display: flex; gap: 14px; align-items: center; margin-bottom: 12px; }
+  .phase-num { background: #1e293b; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; flex-shrink: 0; }
+  .phase-card.phase-engage .phase-num { background: #dc2626; }
+  .phase-card.phase-explore .phase-num { background: #f59e0b; }
+  .phase-card.phase-explain .phase-num { background: #0284c7; }
+  .phase-card.phase-elaborate .phase-num { background: #15803d; }
+  .phase-card.phase-evaluate .phase-num { background: #7e22ce; }
+  .phase-header h3 { font-size: 18px; color: #1e293b; margin: 0; }
+  .phase-tagline { font-size: 12px; color: #64748b; margin: 2px 0 0; font-style: italic; }
+  .dialog-story { background: #fffbeb; border-radius: 10px; padding: 16px 18px; margin: 10px 0; font-size: 14px; line-height: 1.7; border: 1px solid #fde68a; }
+  .dialog-story p { margin-bottom: 10px; }
+  .speaker { font-weight: 700; }
+  .speaker.swara { color: #db2777; }
+  .speaker.ahana { color: #15803d; }
+  .speaker.amma { color: #7e22ce; }
+  .narration { color: #475569; font-style: italic; font-size: 13px; }
+  .vocab-term { background: #fde047; color: #713f12; padding: 1px 6px; border-radius: 4px; font-weight: 700; }
+  .vocab-summary { background: #ecfdf5; border-radius: 10px; padding: 14px 18px; margin-top: 12px; border-left: 4px solid #16a34a; }
+  .vocab-summary h4 { color: #15803d; font-size: 14px; margin-bottom: 8px; }
+  .vocab-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .vocab-chip { background: white; border: 2px solid #16a34a; border-radius: 999px; padding: 4px 10px; font-size: 12px; color: #15803d; font-weight: 600; }
+  .exp-mini { background: white; border-radius: 10px; padding: 14px; margin: 8px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border-top: 3px solid #f59e0b; }
+  .exp-mini h5 { color: #b45309; font-size: 14px; margin-bottom: 6px; }
+  .exp-mini p { font-size: 13px; color: #475569; margin-bottom: 4px; }
+  .kit-link { display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: white; padding: 12px 20px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 14px; box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3); transition: all 0.2s; margin: 10px 0; }
+  .kit-link:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(22, 163, 74, 0.4); }
+  .kit-link .kit-icon { font-size: 22px; }
+  .eval-quiz { background: white; border-radius: 10px; padding: 16px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .eval-quiz .eq-q { font-weight: 600; color: #1e293b; margin-bottom: 10px; }
+  .eval-quiz .eq-opt { display: block; padding: 8px 12px; margin-bottom: 5px; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; font-size: 13px; }
+  .eval-quiz .eq-opt:hover { border-color: #7e22ce; background: #faf5ff; }
+  .eval-quiz .eq-opt.correct { border-color: #15803d; background: #f0fdf4; }
+  .eval-quiz .eq-opt.wrong { border-color: #dc2626; background: #fef2f2; }
+  #pieResult { display: none; background: linear-gradient(135deg, #7e22ce 0%, #16a34a 100%); color: white; border-radius: 14px; padding: 22px; margin-top: 14px; text-align: center; }
+  #pieResult.show { display: block; }
+  #pieResult h3 { color: white; font-size: 20px; margin-bottom: 8px; }
+  /* KWL Chart */
+  .kwl-intro { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid #b45309; padding: 14px 18px; border-radius: 10px; margin-bottom: 18px; font-size: 14px; color: #78350f; }
+  .kwl-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 14px 0; }
+  @media (max-width: 800px) { .kwl-grid { grid-template-columns: 1fr; } }
+  .kwl-col { background: white; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: flex; flex-direction: column; }
+  .kwl-col.k { border-top: 5px solid #0284c7; }
+  .kwl-col.w { border-top: 5px solid #b45309; }
+  .kwl-col.l { border-top: 5px solid #15803d; }
+  .kwl-col h4 { font-size: 15px; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+  .kwl-col.k h4 { color: #0e7490; }
+  .kwl-col.w h4 { color: #b45309; }
+  .kwl-col.l h4 { color: #15803d; }
+  .kwl-col .kwl-sub { font-size: 12px; color: #64748b; margin-bottom: 10px; font-style: italic; }
+  .kwl-textarea { width: 100%; min-height: 200px; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 13px; resize: vertical; flex: 1; }
+  .kwl-textarea:focus { outline: none; }
+  .kwl-col.k .kwl-textarea:focus { border-color: #0284c7; }
+  .kwl-col.w .kwl-textarea:focus { border-color: #b45309; }
+  .kwl-col.l .kwl-textarea:focus { border-color: #15803d; }
+  .kwl-controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 14px 0; padding: 12px; background: #f8fafc; border-radius: 10px; }
+  .kwl-controls p { font-size: 12px; color: #64748b; margin: 0; flex: 1; }
+  /* Performance Tab */
+  .rubric-block { margin-top: 18px; }
+  .student-info { display: grid; grid-template-columns: 1fr 80px 130px; gap: 10px; margin-bottom: 14px; background: #faf5ff; padding: 12px; border-radius: 10px; border: 1px solid #e9d5ff; }
+  .student-info label { display: block; font-size: 11px; color: #7e22ce; font-weight: 700; margin-bottom: 2px; text-transform: uppercase; }
+  .student-info input { width: 100%; padding: 6px 10px; border: 1px solid #c4b5fd; border-radius: 6px; font-size: 14px; font-family: inherit; }
+  .student-info input:focus { outline: none; border-color: #7e22ce; }
+  .rubric-table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-size: 12px; margin-bottom: 12px; }
+  .rubric-table th, .rubric-table td { padding: 8px 10px; border: 1px solid #e2e8f0; text-align: left; vertical-align: top; }
+  .rubric-table th { background: #7e22ce; color: white; text-align: center; font-weight: 700; }
+  .rubric-table th:first-child { text-align: left; }
+  .rubric-table .rb-skill { background: #faf5ff; font-weight: 600; color: #581c87; width: 22%; }
+  .rubric-table .rb-cell { cursor: pointer; transition: all 0.15s; color: #475569; }
+  .rubric-table .rb-cell:hover { background: #f3e8ff; }
+  .rubric-table .rb-cell.selected { background: #c4b5fd; color: #1e293b; font-weight: 600; box-shadow: inset 0 0 0 2px #7e22ce; }
+  .rubric-summary { background: #faf5ff; border-radius: 10px; padding: 14px 18px; margin: 12px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .rubric-summary .rs-score { font-size: 28px; font-weight: 800; color: #7e22ce; }
+  .rubric-summary .rs-band { padding: 6px 14px; border-radius: 999px; font-weight: 700; font-size: 13px; }
+  .reflection { width: 100%; min-height: 80px; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 13px; resize: vertical; margin: 10px 0; }
+  .reflection:focus { outline: none; border-color: #7e22ce; }
+  .print-btn-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 14px 0; padding: 12px; background: #f8fafc; border-radius: 10px; }
+  .print-btn-row p { font-size: 12px; color: #64748b; margin: 0; flex: 1; }
+  .sig-row { display: none; }
+  .perf-header { background: linear-gradient(135deg, #7e22ce 0%, #16a34a 100%); color: white; border-radius: 14px; padding: 24px; margin-bottom: 18px; text-align: center; }
+  .perf-header h3 { color: white; font-size: 22px; margin-bottom: 6px; }
+  .perf-header p { color: #f3e8ff; font-size: 14px; }
+  footer { text-align: center; padding: 20px; color: #94a3b8; font-size: 12px; background: #0f172a; }
+  @media print {
+    body { background: white; color: black; }
+    header, nav.tabs, footer { display: none !important; }
+    main { background: white; max-width: 100%; padding: 0; }
+    .tab-panel { display: none !important; }
+    .tab-panel.print-active { display: block !important; }
+    .print-btn-row { display: none !important; }
+    .kwl-grid { grid-template-columns: 1fr 1fr 1fr; }
+    .kwl-col { box-shadow: none; border: 1px solid #999; page-break-inside: avoid; }
+    .kwl-textarea { border: 1px solid #ccc; min-height: 100px; }
+    .rubric-table { font-size: 10px; page-break-inside: avoid; }
+    .rubric-table th { background: #666 !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .rubric-table .rb-cell.selected { background: #ddd !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    @page { size: A4; margin: 1.2cm; }
+    .student-info { border: 1px solid #999; background: white !important; }
+    .sig-row { margin-top: 30px; display: flex !important; gap: 40px; }
+    .sig-line { flex: 1; border-top: 1px solid #999; padding-top: 4px; font-size: 11px; color: #666; text-align: center; }
+    .perf-header { background: white !important; color: black !important; border: 2px solid #7e22ce; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+<link rel="stylesheet" href="smile-chapter-assessment.css">
+</head>
+<body>
+
+<header>
+  <h1>Diversity in the Living World</h1>
+</header>
+
+<nav class="tabs">
+  <button type="button" onclick="event.stopImmediatePropagation(); window.location.href='index.html'; return false;" style="background:#fef3c7; color:#b45309; padding:10px 16px; font-size:13px; font-weight:600; border-radius:8px; border:none; cursor:pointer; font-family:inherit;">🏠 Home</button>
+  <button data-tab="concepts" class="active">Concepts</button>
+  <button data-tab="kwl">📝 KWL Chart</button>
+  <button data-tab="fivee">5E Method 📚</button>
+  <button data-tab="story">Story &amp; Cartoons</button>
+  <button data-tab="simulations">Nature Lab 🌿</button>
+  <button data-tab="experiments">Virtual Experiments</button>
+  <button data-tab="lab">Lab Experiments</button>
+  <button data-tab="quiz">Quiz</button>
+  <button data-tab="performance">📋 Performance</button>
+</nav>
+
+<main>
+
+<!-- CONCEPTS -->
+<section id="concepts" class="tab-panel active">
+  <h2 class="section-title">Key Concepts</h2>
+  <div class="quote-card">
+    <div class="quote-text">"Trees stand in the Sun and give shade to others. Their fruits are also for others. Likewise, good people bear hardships and bring welfare to others."</div>
+    <div class="quote-author">— Wise Sanskrit saying</div>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <span class="badge">Big Idea</span>
+      <h3 class="card-title">Diversity Means Variety</h3>
+      <p>Look around. In just one school garden, you can find <b>dozens</b> of different plants and animals — each unique.</p>
+      <p>This <b>variety</b> of living beings in a region is called <b>biodiversity</b>.</p>
+      <div class="key-fact">Every bird species has its own unique chirp. Every leaf has its own shape. That's biodiversity!</div>
+    </div>
+    <div class="card">
+      <span class="badge">2.1</span>
+      <h3 class="card-title">Plants Are Different</h3>
+      <p>Plants vary in:</p>
+      <ul>
+        <li>Height — tiny grass to huge banyan</li>
+        <li>Stem — hard / soft, thick / thin, green / brown</li>
+        <li>Leaves — shapes, sizes, arrangements</li>
+        <li>Flowers — colour, size, scent</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="badge">Animals</span>
+      <h3 class="card-title">Animals Are Different Too</h3>
+      <p>Animals vary in:</p>
+      <ul>
+        <li>Where they live — land, water, air, trees, underground</li>
+        <li>What they eat — plants, meat, both</li>
+        <li>How they move — walk, run, swim, fly, slither</li>
+        <li>Sounds they make, colours, body parts</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="badge-amber badge">2.2</span>
+      <h3 class="card-title">Why Group?</h3>
+      <p>So much variety can be confusing. We <b>group</b> things by their common features. This makes them easier to study and remember.</p>
+      <p>Groupings can be based on:</p>
+      <ul>
+        <li>Shape, size, colour</li>
+        <li>Where they live</li>
+        <li>What they eat</li>
+        <li>How they move</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="badge-blue badge">2.2.1</span>
+      <h3 class="card-title">Herbs, Shrubs &amp; Trees</h3>
+      <table>
+        <tr><th>Type</th><th>Height</th><th>Stem</th></tr>
+        <tr><td>🌱 <b>Herb</b></td><td>Small</td><td>Soft, green, tender</td></tr>
+        <tr><td>🌿 <b>Shrub</b></td><td>Medium</td><td>Hard, woody, many stems from ground</td></tr>
+        <tr><td>🌳 <b>Tree</b></td><td>Tall</td><td>Single thick hard stem, branches up high</td></tr>
+      </table>
+      <p style="margin-top:8px;">Tomato = herb. Rose = shrub. Mango = tree.</p>
+    </div>
+    <div class="card">
+      <span class="badge">Climbers &amp; Creepers</span>
+      <h3 class="card-title">Weak-Stem Plants</h3>
+      <ul>
+        <li><b>Climbers</b>: weak stem, need support to grow UP (money plant, grape vine)</li>
+        <li><b>Creepers</b>: weak stem, spread along the ground (pumpkin, watermelon)</li>
+      </ul>
+      <div class="key-fact">Both have weak stems — but one goes up, the other crawls along!</div>
+    </div>
+    <div class="card">
+      <span class="badge-blue badge">Leaves</span>
+      <h3 class="card-title">Venation — Pattern of Veins</h3>
+      <ul>
+        <li><b>Reticulate venation</b> — net-like pattern (hibiscus, mango)</li>
+        <li><b>Parallel venation</b> — veins run side by side (banana, grass)</li>
+      </ul>
+      <p>You can tell a lot about a plant from its leaves alone!</p>
+    </div>
+    <div class="card">
+      <span class="badge-blue badge">Roots</span>
+      <h3 class="card-title">Tap Root vs Fibrous Root</h3>
+      <ul>
+        <li><b>Tap root</b>: ONE main thick root + side branches (mango, gram)</li>
+        <li><b>Fibrous root</b>: many thin roots from base, no main one (grass, wheat)</li>
+      </ul>
+      <div class="key-fact">Bonus rule: plants with reticulate-vein leaves usually have tap roots. Parallel-vein leaves usually have fibrous roots!</div>
+    </div>
+    <div class="card">
+      <span class="badge">Animal habitat</span>
+      <h3 class="card-title">Grouping Animals by Habitat</h3>
+      <table>
+        <tr><th>Habitat</th><th>Examples</th></tr>
+        <tr><td>🌳 Trees</td><td>Monkey, squirrel, woodpecker</td></tr>
+        <tr><td>🌍 Land</td><td>Cow, dog, ant, elephant</td></tr>
+        <tr><td>🐟 Water</td><td>Fish, octopus, dolphin</td></tr>
+        <tr><td>✈️ Air</td><td>Birds, butterflies</td></tr>
+        <tr><td>🐸 Both land &amp; water</td><td>Frog, crocodile</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <span class="badge">Feeding</span>
+      <h3 class="card-title">Grouping by Diet</h3>
+      <ul>
+        <li>🌱 <b>Herbivores</b> — eat only plants (cow, goat, deer)</li>
+        <li>🥩 <b>Carnivores</b> — eat only other animals (lion, eagle)</li>
+        <li>🍎 <b>Omnivores</b> — eat both (humans, bears, crows)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="badge-amber badge">Big point</span>
+      <h3 class="card-title">All Connected</h3>
+      <p>Plants and animals are <b>not separate</b> — they depend on each other:</p>
+      <ul>
+        <li>Trees give shelter &amp; food to animals</li>
+        <li>Animals spread seeds (after eating fruits)</li>
+        <li>Bees pollinate flowers</li>
+        <li>Earthworms enrich soil for plants</li>
+      </ul>
+      <div class="key-fact">This network = an <b>ecosystem</b>. Every species matters!</div>
+    </div>
+    <div class="card">
+      <span class="badge">India</span>
+      <h3 class="card-title">India's Rich Biodiversity</h3>
+      <p>India has many <b>biodiversity hotspots</b>:</p>
+      <ul>
+        <li><b>Western Ghats</b> — forests, elephants, tigers</li>
+        <li><b>Himalayas</b> — snow leopards, rhododendrons</li>
+        <li><b>Sundarbans</b> — Royal Bengal tiger, mangroves</li>
+        <li><b>Andaman &amp; Nicobar</b> — coral reefs, unique species</li>
+      </ul>
+      <div class="key-fact">Indian Sanskrit tradition has long valued nature — "Vasudhaiva Kutumbakam" (the world is one family).</div>
+    </div>
+  </div>
+</section>
+
+<!-- KWL CHART -->
+<section id="kwl" class="tab-panel">
+  <h2 class="section-title">📝 KWL Chart — Know · Want to Know · Learned</h2>
+  <div class="kwl-intro">
+    A <b>KWL chart</b> helps you make your thinking visible. Fill out the three columns:
+    <ul style="margin-left: 18px; margin-top: 6px;">
+      <li><b>K — Know:</b> what you ALREADY know about plants, animals &amp; biodiversity</li>
+      <li><b>W — Want to know:</b> what you'd like to learn from this chapter</li>
+      <li><b>L — Learned:</b> what you ACTUALLY learnt (fill this after going through the chapter!)</li>
+    </ul>
+    Your notes save automatically in this browser. Use the print button to save your KWL as a PDF.
+  </div>
+
+  <div class="kwl-grid">
+    <div class="kwl-col k">
+      <h4>🔵 K — What I Know</h4>
+      <div class="kwl-sub">List things you already know about plants, animals, habitats, biodiversity.</div>
+      <textarea class="kwl-textarea" id="kwl-k" placeholder="• I know plants need sunlight and water...
+• I know some animals live in water, some on land...
+• I know roses have thorns..."></textarea>
+    </div>
+    <div class="kwl-col w">
+      <h4>🟠 W — What I Want to Know</h4>
+      <div class="kwl-sub">Write your curiosity questions before starting the chapter.</div>
+      <textarea class="kwl-textarea" id="kwl-w" placeholder="• Why do some leaves have parallel veins and others have nets?
+• How do animals find food in forests?
+• Why are there so many different kinds of birds?..."></textarea>
+    </div>
+    <div class="kwl-col l">
+      <h4>🟢 L — What I Learned</h4>
+      <div class="kwl-sub">Fill this AFTER you've completed the chapter — what new things did you discover?</div>
+      <textarea class="kwl-textarea" id="kwl-l" placeholder="• I learnt herbs, shrubs and trees are grouped by stem type and height.
+• I learnt about reticulate and parallel venation.
+• I learnt about climbers and creepers..."></textarea>
+    </div>
+  </div>
+
+  <div class="kwl-controls">
+    <p>Your KWL notes save automatically. Click the print button to save them as a PDF.</p>
+    <button class="btn" onclick="kwlSave()">💾 Save Now</button>
+    <button class="btn secondary" onclick="kwlClear()">Clear All</button>
+    <button class="btn" style="background:#b45309;" onclick="printKWL()">🖨️ Print / Save as PDF</button>
+  </div>
+</section>
+
+<!-- 5E METHOD -->
+<section id="fivee" class="tab-panel">
+  <h2 class="section-title">📚 The 5E Learning Path</h2>
+  <div class="five-intro">The 5E Model — Engage, Explore, Explain, Elaborate, Evaluate — is how scientists actually learn. Walk through Chapter 2 using all five steps.</div>
+
+  <div class="phase-card phase-engage">
+    <div class="phase-header"><span class="phase-num">1</span><div><h3>🎯 ENGAGE</h3><p class="phase-tagline">Spark curiosity. Notice something interesting.</p></div></div>
+
+    <div class="dialog-story">
+      <p style="text-align:center; font-weight:700; color:#15803d; font-size:15px; margin-bottom:14px;">📖 A Nature Walk in the Park — Swara, Ahana &amp; Amma</p>
+      <p class="narration">Saturday morning. Swara has come over to Ahana's house. Ahana's amma takes both girls to the neighbourhood park.</p>
+      <p><span class="speaker amma">Amma:</span> Let's just walk slowly today. Notice everything. Plants, animals, sounds, smells. Don't pluck anything — just look!</p>
+      <p><span class="speaker swara">Swara:</span> <i>(looking at the grass)</i> Amma uncle look — grass is so short. But that mango tree is HUGE. Same family?</p>
+      <p><span class="speaker amma">Amma:</span> Same kingdom — plants — but very different groups. The little grass is a <span class="vocab-term">herb</span>. The mango is a <span class="vocab-term">tree</span>. And in between we have <span class="vocab-term">shrubs</span> — like that rose bush.</p>
+      <p><span class="speaker ahana">Ahana:</span> What's the difference?</p>
+      <p><span class="speaker amma">Amma:</span> Herbs are small with soft green stems. Shrubs are medium with many woody stems near the ground. Trees are tall with one thick brown trunk.</p>
+      <p><span class="speaker swara">Swara:</span> <i>(touching a money plant)</i> What about this one? Its stem is weak — it's climbing on the wall.</p>
+      <p><span class="speaker amma">Amma:</span> That's called a <span class="vocab-term">climber</span>. Weak stem, needs support to go up. <i>(points to a pumpkin patch)</i> That pumpkin plant is a <span class="vocab-term">creeper</span> — also weak stem, but spreads along the ground.</p>
+      <p><span class="speaker ahana">Ahana:</span> So plants can be: herbs, shrubs, trees, climbers, creepers. Five types just by stem!</p>
+      <p class="narration">Amma picks up a fallen leaf from a hibiscus, and another from a banana plant. She holds them side by side.</p>
+      <p><span class="speaker amma">Amma:</span> Look closely. The hibiscus leaf has veins that branch like a net — that's <span class="vocab-term">reticulate venation</span>. The banana leaf has veins all running parallel — that's <span class="vocab-term">parallel venation</span>.</p>
+      <p><span class="speaker swara">Swara:</span> Each plant has its own design even in its leaves!</p>
+      <p class="narration">A monkey leaps from a tree. A crow caws nearby. A butterfly sits on a flower.</p>
+      <p><span class="speaker ahana">Ahana:</span> Monkeys live in trees, crows fly through the air, butterflies visit flowers... so animals live in many different places!</p>
+      <p><span class="speaker amma">Amma:</span> Yes! That\'s called <span class="vocab-term">habitat</span> — where an animal lives. Some live on land, some in water, some in trees, some can do BOTH like frogs.</p>
+      <p><span class="speaker swara">Swara:</span> And cows eat grass, lions eat other animals, crows eat anything! Different diets!</p>
+      <p><span class="speaker amma">Amma:</span> Right — that gives us three groups: <span class="vocab-term">herbivores</span> (plant-eaters), <span class="vocab-term">carnivores</span> (meat-eaters), and <span class="vocab-term">omnivores</span> (both).</p>
+      <p><span class="speaker ahana">Ahana:</span> <i>(thinking)</i> Humans must be omnivores then!</p>
+      <p><span class="speaker amma">Amma:</span> Exactly. And all these plants and animals together — that's called <span class="vocab-term">biodiversity</span>. The variety of life. Every species has a role in the network.</p>
+      <p><span class="speaker swara">Swara:</span> <i>(looking up at the trees, smiling)</i> So many lives, all connected!</p>
+    </div>
+    <div class="vocab-summary">
+      <h4>📚 New science words you met:</h4>
+      <div class="vocab-chips">
+        <span class="vocab-chip">biodiversity</span><span class="vocab-chip">herb</span><span class="vocab-chip">shrub</span><span class="vocab-chip">tree</span><span class="vocab-chip">climber</span><span class="vocab-chip">creeper</span><span class="vocab-chip">reticulate venation</span><span class="vocab-chip">parallel venation</span><span class="vocab-chip">habitat</span><span class="vocab-chip">herbivore</span><span class="vocab-chip">carnivore</span><span class="vocab-chip">omnivore</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-card phase-explore">
+    <div class="phase-header"><span class="phase-num">2</span><div><h3>🔬 EXPLORE</h3><p class="phase-tagline">Try it yourself. Hands-on with the world.</p></div></div>
+    <p style="margin-bottom:12px; color:#475569;">Pick any of these three explore activities:</p>
+    <div class="exp-mini">
+      <h5>🌳 Experiment 1: Leaf Hunt</h5>
+      <p>Collect 6 different leaves from around your school/home (don\'t pluck — pick fallen ones!). Sort by reticulate vs parallel venation. Tape into a notebook.</p>
+    </div>
+    <div class="exp-mini">
+      <h5>🐜 Experiment 2: Animal Spotter</h5>
+      <p>For 15 minutes in your garden / park, list every animal/insect you see. Note: where each lives (ground, tree, sky), what each eats, how each moves.</p>
+    </div>
+    <div class="exp-mini">
+      <h5>📸 Experiment 3: Group It!</h5>
+      <p>Take photos of 10 plants near your home. Sort them as herb, shrub, tree, climber, or creeper. Make a poster.</p>
+    </div>
+  </div>
+
+  <div class="phase-card phase-explain">
+    <div class="phase-header"><span class="phase-num">3</span><div><h3>📖 EXPLAIN</h3><p class="phase-tagline">Name what you observed. Put it in a concept map.</p></div></div>
+    <p style="margin-bottom:10px; color:#475569;">Here\'s how everything fits together:</p>
+    <canvas id="conceptMapCanvas" width="600" height="420"></canvas>
+    <div class="result-box" style="margin-top:10px;"><b>Key insight:</b> We group living things by their features — to make sense of the huge variety. Each group helps us study, predict, and care for nature.</div>
+  </div>
+
+  <div class="phase-card phase-elaborate">
+    <div class="phase-header"><span class="phase-num">4</span><div><h3>🌍 ELABORATE</h3><p class="phase-tagline">Take it further.</p></div></div>
+    <a href="./kit-procedure-chapter2.pdf" target="_blank" class="kit-link"><span class="kit-icon">📄</span><span>Open Kit Procedure Document — Chapter 2</span><span style="margin-left:6px;">↗</span></a>
+    <p style="font-size:12px; color:#64748b;"><i>Replace with your kit\'s actual file path.</i></p>
+    <div style="margin-top:16px;"><b style="color:#15803d;">Try these next:</b>
+      <ul style="margin-left:18px; margin-top:6px; font-size:13px; color:#475569;">
+        <li>Visit a nearby zoo or botanical garden. Count how many groups of plants/animals you can spot.</li>
+        <li>Make a "biodiversity diary" for one month — note one new species each day.</li>
+        <li>Find out about an endangered species in your state. What can you do to help?</li>
+        <li>Plant 3 different types of plants at home (one herb, one shrub, one climber).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase-card phase-evaluate">
+    <div class="phase-header"><span class="phase-num">5</span><div><h3>✓ EVALUATE</h3><p class="phase-tagline">Quick check.</p></div></div>
+    <p style="margin-bottom:10px; color:#475569;">Five questions. Get your pie chart at the end.</p>
+    <div id="evalQuizContainer"></div>
+    <div id="pieResult"><h3>Your Score</h3><canvas id="piechartCanvas" width="300" height="300"></canvas><div id="piechartLabel" style="font-size:18px; font-weight:700; margin-top:10px;"></div><div id="piechartLegend" style="margin-top:10px; display:flex; gap:18px; justify-content:center; flex-wrap:wrap;"></div></div>
+    <p style="margin-top:14px; font-size:13px; color:#475569;"><b>For the full overall assessment with rubric &amp; printable report</b> — see the <b>📋 Performance</b> tab.</p>
+  </div>
+</section>
+
+<!-- STORY -->
+<section id="story" class="tab-panel">
+  <h2 class="section-title">Story &amp; Cartoons</h2>
+  <div class="story-card">
+    <h3 class="card-title">A Nature Walk with Dr Raghu and Maniram Chacha</h3>
+    <div class="story-intro">A pleasant morning after the rain. Madam Sulekha invites Dr Raghu (a research scientist) and Maniram chacha (a community elder who can mimic bird calls and identify plants). The class heads to the park for a nature walk they\'ll never forget.</div>
+    <div class="comic-strip" id="strip1"></div>
+  </div>
+</section>
+
+<!-- SIMULATIONS -->
+<section id="simulations" class="tab-panel">
+  <h2 class="section-title">🌿 Nature Lab</h2>
+  <div class="sim-card">
+    <h3 class="card-title">1. Sort the Plant — Herb, Shrub, or Tree?</h3>
+    <p>A plant appears on screen. Click the correct group. Get instant feedback.</p>
+    <div class="controls">
+      <button class="btn" onclick="plantSorter.next()">Next plant</button>
+      <button class="btn secondary" onclick="plantSorter.reset()">Reset</button>
+    </div>
+    <canvas id="plantCanvas" width="600" height="240"></canvas>
+    <div id="plantOptions" class="controls"></div>
+    <div class="result-box" id="plantResult">Click <b>Next plant</b> to begin.</div>
+  </div>
+  <div class="sim-card">
+    <h3 class="card-title">2. Animal Habitat Match</h3>
+    <p>Pick a habitat. See which animals live there.</p>
+    <div class="controls">
+      <div class="toggle-group" id="habitatToggle">
+        <button data-h="land" class="active">🌍 Land</button>
+        <button data-h="water">🐟 Water</button>
+        <button data-h="air">✈️ Air</button>
+        <button data-h="tree">🌳 Trees</button>
+        <button data-h="both">🐸 Both land &amp; water</button>
+      </div>
+    </div>
+    <canvas id="habitatCanvas" width="600" height="280"></canvas>
+    <div class="result-box" id="habitatResult">Pick a habitat.</div>
+  </div>
+  <div class="sim-card">
+    <h3 class="card-title">3. Leaf Venation Identifier</h3>
+    <p>Pick a leaf. See its venation pattern up close.</p>
+    <div class="controls">
+      <div class="toggle-group" id="leafToggle">
+        <button data-l="hibiscus" class="active">Hibiscus</button>
+        <button data-l="mango">Mango</button>
+        <button data-l="banana">Banana</button>
+        <button data-l="grass">Grass</button>
+        <button data-l="neem">Neem</button>
+      </div>
+    </div>
+    <canvas id="leafCanvas" width="600" height="280"></canvas>
+    <div class="result-box" id="leafResult">Pick a leaf.</div>
+  </div>
+</section>
+
+<!-- VIRTUAL EXPERIMENTS -->
+<section id="experiments" class="tab-panel">
+  <h2 class="section-title">Virtual Experiments</h2>
+  <div class="exp-card">
+    <h3 class="card-title">Activity 2.1 — Nature Walk (Plants)</h3>
+    <p>Step through observations of common plants and their features.</p>
+    <canvas id="expPlantCanvas" width="600" height="240"></canvas>
+    <div class="controls">
+      <button class="btn" onclick="expPlant.next()">Next plant</button>
+      <button class="btn secondary" onclick="expPlant.reset()">Reset</button>
+    </div>
+    <div class="step-display" id="expPlantStep">Click to walk through.</div>
+  </div>
+  <div class="exp-card">
+    <h3 class="card-title">Activity 2.4 — Plants by Stem &amp; Height</h3>
+    <p>Compare a herb, a shrub, and a tree side by side.</p>
+    <canvas id="expStemCanvas" width="600" height="280"></canvas>
+    <div class="step-display" id="expStemStep">Compare the three on the canvas.</div>
+  </div>
+  <div class="exp-card">
+    <h3 class="card-title">Activity 2.5 — Leaf Venation Comparison</h3>
+    <p>Three leaves side by side. Hibiscus (reticulate). Banana &amp; grass (parallel).</p>
+    <canvas id="expLeafCanvas" width="600" height="240"></canvas>
+    <div class="step-display" id="expLeafStep">Observe the venation patterns.</div>
+  </div>
+  <div class="exp-card">
+    <h3 class="card-title">Activity 2.6 — Tap Root vs Fibrous Root</h3>
+    <p>Compare the roots of a mango (tap) and grass (fibrous).</p>
+    <canvas id="expRootCanvas" width="600" height="280"></canvas>
+    <div class="step-display" id="expRootStep">See the two root systems.</div>
+  </div>
+</section>
+
+<!-- LAB EXPERIMENTS -->
+<section id="lab" class="tab-panel">
+  <h2 class="section-title">🧪 Lab Experiments</h2>
+  <p style="margin-bottom:18px; color:#475569; font-size:14px;">Activities from the textbook + bonus add-ons. <span style="display:inline-block; margin-left:10px;"><span class="difficulty easy">Easy</span><span class="difficulty medium">Medium</span><span class="difficulty hard">Adult Help</span></span></p>
+  <h3 style="color:#16a34a; font-size:18px; margin: 20px 0 12px;">📘 From the Textbook</h3>
+  <div class="lab-card">
+    <h3 class="card-title">Activity 2.1 — Nature Walk &amp; Observation <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials"><h4>Materials Needed</h4><ul><li>A notebook + pen</li><li>Water bottle</li><li>An adult to accompany you</li><li>A nearby park / garden / forest</li></ul></div>
+    <div class="lab-section procedure"><h4>Procedure</h4><ol><li>Walk slowly through the area.</li><li>For each plant you see — note stem type, leaves, flowers (if any).</li><li>For each animal you see — note where it lives, how it moves, what it eats.</li><li>Do NOT disturb plants or animals. Just observe!</li><li>Make a table at home with your observations.</li></ol></div>
+    <div class="lab-section"><h4>What It Teaches</h4><p>Plants and animals are everywhere — but we have to LOOK to see the variety.</p></div>
+  </div>
+  <div class="lab-card">
+    <h3 class="card-title">Activity 2.3 — Picture Grouping Game <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials"><h4>Materials Needed</h4><ul><li>Old magazines, newspapers, or printouts</li><li>Scissors, glue, cards (or A4 sheets cut into quarters)</li><li>Group of 5-6 friends</li></ul></div>
+    <div class="lab-section procedure"><h4>Procedure</h4><ol><li>Each person cuts 10 pictures of plants &amp; animals.</li><li>Pool all cards in the centre.</li><li>Decide a feature to group by — height, colour, habitat, food, etc.</li><li>Sort into groups.</li><li>Compare with other student-groups. Did they pick the same criteria?</li></ol></div>
+  </div>
+  <div class="lab-card">
+    <h3 class="card-title">Activity 2.4 — Identify Herbs, Shrubs, Trees <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials"><h4>Materials Needed</h4><ul><li>A garden or park</li><li>Notebook</li></ul></div>
+    <div class="lab-section procedure"><h4>Procedure</h4><ol><li>For each plant: measure / estimate height.</li><li>Touch the stem — soft &amp; green or hard &amp; brown?</li><li>Where do branches start? Close to ground = shrub. Higher up = tree.</li><li>Classify each as herb, shrub, or tree.</li></ol></div>
+  </div>
+  <div class="lab-card">
+    <h3 class="card-title">Activity 2.5 — Leaf Venation Sort <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials"><h4>Materials Needed</h4><ul><li>~10 fallen leaves of different plants</li><li>Magnifying glass (optional)</li><li>Notebook</li></ul></div>
+    <div class="lab-section procedure"><h4>Procedure</h4><ol><li>Look at the back of each leaf — see the veins.</li><li>Reticulate (net-like) → one pile.</li><li>Parallel → another pile.</li><li>Tape examples in your notebook.</li></ol></div>
+  </div>
+  <div class="lab-card">
+    <h3 class="card-title">Activity 2.6 — Tap vs Fibrous Roots <span class="difficulty medium">Medium</span></h3>
+    <div class="lab-section materials"><h4>Materials Needed</h4><ul><li>An open area with weeds (with permission)</li><li>A grass plant + a small herb (like radish if available)</li><li>Water to wash roots</li></ul></div>
+    <div class="lab-section procedure"><h4>Procedure</h4><ol><li>Carefully dig up a small grass plant + a small herb.</li><li>Wash the roots gently in water.</li><li>Compare: grass has many thin similar roots (fibrous). Herb may have a thick main root (tap).</li><li>Match with the leaf venation — parallel-vein → fibrous; reticulate → tap.</li></ol></div>
+  </div>
+  <h3 style="color:#84cc16; font-size:18px; margin: 30px 0 12px;">🎁 Bonus Add-Ons</h3>
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 1 — Animal Bingo <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section procedure"><h4>Procedure</h4><ol><li>Make a 5×5 grid with 25 different animals (a mix of land/water/air/tree).</li><li>Take it on a walk. Tick each animal as you spot it!</li><li>First to fill a row shouts BINGO.</li></ol></div>
+  </div>
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 2 — Plant a Climber and a Creeper <span class="difficulty medium">Medium</span></h3>
+    <div class="lab-section procedure"><h4>Procedure</h4><ol><li>Get money plant cuttings (a climber) + pumpkin seeds (creeper).</li><li>Plant the climber near a wall or stick.</li><li>Plant the pumpkin in open ground.</li><li>Watch them over weeks — climber goes UP, creeper spreads SIDEWAYS.</li></ol></div>
+  </div>
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 3 — Build a Biodiversity Diary <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section procedure"><h4>Procedure</h4><ol><li>Every day for 30 days, note ONE new plant or animal you see.</li><li>Include a small sketch + where you saw it.</li><li>At the end of the month — count. You\'ve documented your local biodiversity!</li></ol></div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz" class="tab-panel">
+  <h2 class="section-title">Quick Quiz</h2>
+  <div id="quiz-container"></div>
+  <div id="quiz-score" style="display:none"></div>
+</section>
+
+<!-- PERFORMANCE -->
+<section id="performance" class="tab-panel">
+  <h2 class="section-title">📋 Performance — Overall Assessment</h2>
+  <div class="perf-header"><h3>Student Performance Report</h3><p>Chapter 2 · Diversity in the Living World</p></div>
+  <div class="rubric-block">
+    <p style="font-size:14px; color:#475569; margin-bottom:10px;">Fill in your details, click the level for each skill, write your reflection, then print as PDF.</p>
+    <div class="student-info">
+      <div><label>Student Name</label><input type="text" id="studentName" placeholder="Your name" /></div>
+      <div><label>Class</label><input type="text" id="studentClass" placeholder="6" /></div>
+      <div><label>Date</label><input type="date" id="studentDate" /></div>
+    </div>
+    <h4 style="color:#7e22ce; font-size:16px; margin: 14px 0 8px;">📋 Assessment Rubric</h4>
+    <div style="overflow-x:auto;">
+      <table class="rubric-table" id="rubricTable">
+        <thead><tr><th>Skill / Criterion</th><th>1 — Beginning</th><th>2 — Developing</th><th>3 — Proficient</th><th>4 — Advanced</th></tr></thead>
+        <tbody>
+          <tr><td class="rb-skill">Identifying herb, shrub, tree, climber, creeper</td><td class="rb-cell" data-level="1">Knows 1-2 categories</td><td class="rb-cell" data-level="2">Knows 3-4</td><td class="rb-cell" data-level="3">All 5 with examples</td><td class="rb-cell" data-level="4">All 5 + explains why</td></tr>
+          <tr><td class="rb-skill">Reticulate vs parallel venation</td><td class="rb-cell" data-level="1">Confused</td><td class="rb-cell" data-level="2">Can name them</td><td class="rb-cell" data-level="3">Sorts leaves correctly</td><td class="rb-cell" data-level="4">Connects venation to root type</td></tr>
+          <tr><td class="rb-skill">Tap vs fibrous roots</td><td class="rb-cell" data-level="1">New concept</td><td class="rb-cell" data-level="2">Knows the names</td><td class="rb-cell" data-level="3">Identifies from a plant</td><td class="rb-cell" data-level="4">Predicts from leaf venation</td></tr>
+          <tr><td class="rb-skill">Grouping animals by habitat</td><td class="rb-cell" data-level="1">Lists a few animals</td><td class="rb-cell" data-level="2">Sorts 2-3 habitats</td><td class="rb-cell" data-level="3">All habitats with examples</td><td class="rb-cell" data-level="4">Includes "both" categories (frog, etc.)</td></tr>
+          <tr><td class="rb-skill">Herbivore / carnivore / omnivore</td><td class="rb-cell" data-level="1">New term</td><td class="rb-cell" data-level="2">Knows 2 categories</td><td class="rb-cell" data-level="3">All 3 with examples</td><td class="rb-cell" data-level="4">Identifies animals from diet clues</td></tr>
+          <tr><td class="rb-skill">Concept of biodiversity</td><td class="rb-cell" data-level="1">Word is new</td><td class="rb-cell" data-level="2">Knows it means "many species"</td><td class="rb-cell" data-level="3">Gives local examples</td><td class="rb-cell" data-level="4">Explains why every species matters</td></tr>
+          <tr><td class="rb-skill">Observation &amp; vocabulary</td><td class="rb-cell" data-level="1">Uses everyday words</td><td class="rb-cell" data-level="2">Uses 2-3 science terms</td><td class="rb-cell" data-level="3">Uses correct vocab; observes carefully</td><td class="rb-cell" data-level="4">Records detailed scientific observations</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="rubric-summary">
+      <div><div style="font-size:11px; color:#7e22ce; text-transform:uppercase; font-weight:700;">Total Score</div><div><span class="rs-score" id="rubricTotal">0</span> <span style="color:#94a3b8; font-size:16px;">/ 28</span></div></div>
+      <div><div style="font-size:11px; color:#7e22ce; text-transform:uppercase; font-weight:700;">Performance Band</div><span class="rs-band" id="rubricBand" style="background:#e2e8f0; color:#475569;">— Not yet scored —</span></div>
+      <div><div style="font-size:11px; color:#7e22ce; text-transform:uppercase; font-weight:700;">Average Level</div><div style="font-weight:700; font-size:18px; color:#581c87;" id="rubricAvg">—</div></div>
+    </div>
+    <div><label style="font-size:12px; color:#7e22ce; font-weight:700; text-transform:uppercase;">Student Reflection</label><textarea class="reflection" id="reflectionText" placeholder="What did I learn well? What surprised me about plants &amp; animals?"></textarea></div>
+    <div><label style="font-size:12px; color:#7e22ce; font-weight:700; text-transform:uppercase;">Teacher / Parent Comments</label><textarea class="reflection" id="teacherComments" placeholder="Comments and feedback..."></textarea></div>
+    <div class="sig-row"><div class="sig-line">Student signature</div><div class="sig-line">Teacher / Parent signature</div></div>
+    <div class="print-btn-row"><p>Click below to save this report as PDF.</p><button class="btn" onclick="printPerf()" style="background:#7e22ce;">🖨️ Save as PDF / Print</button></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* TABS */
+document.querySelectorAll('nav.tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* KWL persistence */
+const KWL_KEY = 'kwl_ch2_grade6';
+function kwlLoad() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(KWL_KEY) || '{}');
+    if (saved.k) document.getElementById('kwl-k').value = saved.k;
+    if (saved.w) document.getElementById('kwl-w').value = saved.w;
+    if (saved.l) document.getElementById('kwl-l').value = saved.l;
+  } catch(e) {}
+}
+function kwlSave() {
+  const data = { k: document.getElementById('kwl-k').value, w: document.getElementById('kwl-w').value, l: document.getElementById('kwl-l').value };
+  localStorage.setItem(KWL_KEY, JSON.stringify(data));
+}
+function kwlClear() {
+  if (!confirm('Clear all KWL notes?')) return;
+  document.getElementById('kwl-k').value = '';
+  document.getElementById('kwl-w').value = '';
+  document.getElementById('kwl-l').value = '';
+  localStorage.removeItem(KWL_KEY);
+}
+['kwl-k','kwl-w','kwl-l'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', () => { clearTimeout(window._kwlT); window._kwlT = setTimeout(kwlSave, 600); });
+});
+kwlLoad();
+function printKWL() {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('print-active'));
+  document.getElementById('kwl').classList.add('print-active');
+  window.print();
+  setTimeout(() => document.getElementById('kwl').classList.remove('print-active'), 1000);
+}
+function printPerf() {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('print-active'));
+  document.getElementById('performance').classList.add('print-active');
+  window.print();
+  setTimeout(() => document.getElementById('performance').classList.remove('print-active'), 1000);
+}
+
+/* SIM 1: Plant Sorter */
+const plantSorter = (() => {
+  const c = document.getElementById('plantCanvas'); const ctx = c.getContext('2d');
+  const plants = [
+    { name: 'Tomato', cat: 'herb', icon: '🍅' },
+    { name: 'Mango', cat: 'tree', icon: '🥭' },
+    { name: 'Rose', cat: 'shrub', icon: '🌹' },
+    { name: 'Money plant', cat: 'climber', icon: '🌿' },
+    { name: 'Pumpkin vine', cat: 'creeper', icon: '🎃' },
+    { name: 'Grass', cat: 'herb', icon: '🌾' },
+    { name: 'Banyan', cat: 'tree', icon: '🌳' },
+    { name: 'Hibiscus', cat: 'shrub', icon: '🌺' }
+  ];
+  const groups = ['herb','shrub','tree','climber','creeper'];
+  const labels = { herb: 'Herb', shrub: 'Shrub', tree: 'Tree', climber: 'Climber', creeper: 'Creeper' };
+  let idx = -1, score = 0, tries = 0;
+  function reset() { idx = -1; score = 0; tries = 0; document.getElementById('plantResult').innerHTML = 'Click <b>Next plant</b> to begin.'; document.getElementById('plantOptions').innerHTML = ''; draw(null); }
+  function next() {
+    idx = (idx+1)%plants.length;
+    const p = plants[idx];
+    const opts = groups.slice().sort(() => Math.random()-0.5);
+    const box = document.getElementById('plantOptions');
+    box.innerHTML = '';
+    opts.forEach(g => {
+      const b = document.createElement('button');
+      b.className = 'btn'; b.textContent = labels[g];
+      b.style.background = '#dcfce7'; b.style.color = '#15803d';
+      b.addEventListener('click', () => choose(g, b));
+      box.appendChild(b);
+    });
+    document.getElementById('plantResult').innerHTML = `<b>Plant:</b> ${p.name}<br>Which group is it?`;
+    draw(p);
+  }
+  function choose(g, btn) {
+    const p = plants[idx]; tries++;
+    if (g === p.cat) { btn.style.background = '#16a34a'; btn.style.color = 'white'; score++; document.getElementById('plantResult').innerHTML = `✅ Correct! <b>${p.name}</b> is a <b>${labels[p.cat]}</b>.<br>Score: ${score}/${tries}`; }
+    else { btn.style.background = '#fee2e2'; btn.style.color = '#b91c1c'; document.getElementById('plantResult').innerHTML = `❌ Actually, <b>${p.name}</b> is a <b>${labels[p.cat]}</b>.<br>Score: ${score}/${tries}`; }
+    document.querySelectorAll('#plantOptions .btn').forEach(x => x.disabled = true);
+  }
+  function draw(p) {
+    ctx.clearRect(0,0,600,240); ctx.fillStyle = '#ecfdf5'; ctx.fillRect(0,0,600,240);
+    ctx.fillStyle = '#1e293b'; ctx.font = 'bold 13px sans-serif'; ctx.fillText('Sim 1: Sort the plant', 220, 22);
+    if (!p) return;
+    ctx.font = '80px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(p.icon, 300, 130);
+    ctx.fillStyle = '#1e293b'; ctx.font = 'bold 18px sans-serif'; ctx.fillText(p.name, 300, 190); ctx.textAlign = 'left';
+  }
+  reset(); return { next, reset };
+})();
+
+/* SIM 2: Habitat */
+const habitatSim = (() => {
+  const c = document.getElementById('habitatCanvas'); const ctx = c.getContext('2d');
+  const habitats = {
+    land: { color: '#a16207', animals: ['🐄','🐶','🐜','🐘','🐅','🐎'] },
+    water: { color: '#0284c7', animals: ['🐟','🐙','🐬','🐢','🦈','🦐'] },
+    air: { color: '#bae6fd', animals: ['🦅','🦋','🐝','🦜','🦉','🦢'] },
+    tree: { color: '#16a34a', animals: ['🐒','🐿️','🦜','🐍','🦥','🐨'] },
+    both: { color: '#06b6d4', animals: ['🐸','🐊','🦆','🦦'] }
+  };
+  let cur = 'land';
+  document.querySelectorAll('#habitatToggle button').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#habitatToggle button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active'); cur = b.dataset.h; update();
+    });
+  });
+  function update() {
+    const h = habitats[cur];
+    const labels = { land: 'on LAND', water: 'in WATER', air: 'in the AIR', tree: 'in TREES', both: 'in BOTH land &amp; water' };
+    document.getElementById('habitatResult').innerHTML = `Animals that live ${labels[cur]}: ${h.animals.join(' ')}`;
+    draw();
+  }
+  function draw() {
+    ctx.clearRect(0,0,600,280);
+    const h = habitats[cur]; ctx.fillStyle = h.color; ctx.fillRect(0,0,600,280);
+    ctx.fillStyle = '#1e293b'; ctx.font = 'bold 13px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('Sim 2: Animals by habitat', 300, 24); ctx.textAlign = 'left';
+    ctx.font = '60px sans-serif'; ctx.textAlign = 'center';
+    h.animals.forEach((a, i) => { ctx.fillText(a, 80 + i*90, 160); });
+    ctx.textAlign = 'left';
+  }
+  update(); return {};
+})();
+
+/* SIM 3: Leaf */
+const leafSim = (() => {
+  const c = document.getElementById('leafCanvas'); const ctx = c.getContext('2d');
+  const leaves = {
+    hibiscus: { name: 'Hibiscus', venation: 'reticulate', color: '#16a34a' },
+    mango: { name: 'Mango', venation: 'reticulate', color: '#15803d' },
+    banana: { name: 'Banana', venation: 'parallel', color: '#84cc16' },
+    grass: { name: 'Grass', venation: 'parallel', color: '#22c55e' },
+    neem: { name: 'Neem', venation: 'reticulate', color: '#16a34a' }
+  };
+  let cur = 'hibiscus';
+  document.querySelectorAll('#leafToggle button').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#leafToggle button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active'); cur = b.dataset.l; update();
+    });
+  });
+  function update() {
+    const l = leaves[cur];
+    document.getElementById('leafResult').innerHTML = `<b>${l.name} leaf</b> — venation: <b>${l.venation.toUpperCase()}</b>. ${l.venation === 'reticulate' ? 'Veins branch like a net.' : 'Veins run side-by-side.'} (Usually means: ${l.venation === 'reticulate' ? 'TAP root' : 'FIBROUS root'}.)`;
+    draw();
+  }
+  function draw() {
+    ctx.clearRect(0,0,600,280); ctx.fillStyle = '#ecfdf5'; ctx.fillRect(0,0,600,280);
+    ctx.fillStyle = '#1e293b'; ctx.font = 'bold 13px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('Sim 3: Leaf venation', 300, 22); ctx.textAlign = 'left';
+    const l = leaves[cur];
+    const cx = 300, cy = 140;
+    ctx.fillStyle = l.color;
+    ctx.beginPath();
+    if (l.name === 'Grass' || l.name === 'Banana') {
+      ctx.moveTo(cx-100, cy);
+      ctx.bezierCurveTo(cx-100, cy-30, cx+100, cy-30, cx+100, cy);
+      ctx.bezierCurveTo(cx+100, cy+30, cx-100, cy+30, cx-100, cy);
+    } else {
+      ctx.ellipse(cx, cy, 100, 60, 0, 0, Math.PI*2);
+    }
+    ctx.fill();
+    ctx.strokeStyle = '#14532d'; ctx.lineWidth = 2.5;
+    if (l.venation === 'reticulate') {
+      // central vein
+      ctx.beginPath(); ctx.moveTo(cx-95, cy); ctx.lineTo(cx+95, cy); ctx.stroke();
+      // branching veins
+      ctx.lineWidth = 1.5;
+      for (let i = -3; i <= 3; i++) {
+        const x = cx + i*25;
+        ctx.beginPath(); ctx.moveTo(x, cy); ctx.lineTo(x-15, cy-40); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(x, cy); ctx.lineTo(x-15, cy+40); ctx.stroke();
+      }
+      // network
+      ctx.lineWidth = 0.8;
+      for (let i = -3; i <= 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          ctx.beginPath();
+          ctx.moveTo(cx + i*25 - 10, cy - 15 - j*8);
+          ctx.lineTo(cx + i*25 - 5, cy - 25 - j*8);
+          ctx.stroke();
+        }
+      }
+    } else {
+      // parallel veins
+      ctx.lineWidth = 1.5;
+      for (let i = -5; i <= 5; i++) {
+        ctx.beginPath();
+        const y = cy + i*8;
+        ctx.moveTo(cx-95, y); ctx.lineTo(cx+95, y);
+        ctx.stroke();
+      }
+    }
+    ctx.fillStyle = '#1e293b'; ctx.font = 'bold 13px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(l.name + ' — ' + l.venation, cx, cy+90); ctx.textAlign = 'left';
+  }
+  update(); return {};
+})();
+
+/* EXPERIMENTS — simpler step displays */
+const expPlant = (() => {
+  const c = document.getElementById('expPlantCanvas'); const ctx = c.getContext('2d');
+  const items = [
+    { name: 'Common grass', stem: 'soft', leaves: 'long & thin, parallel veins' },
+    { name: 'Tulsi (Holy basil)', stem: 'thin, soft', leaves: 'opposite arrangement, reticulate' },
+    { name: 'Hibiscus', stem: 'hard, woody', leaves: 'reticulate, with flowers' },
+    { name: 'Neem', stem: 'hard, thick', leaves: 'compound, reticulate' },
+    { name: 'Mango tree', stem: 'very hard, very thick', leaves: 'long oval, reticulate' }
+  ];
+  let i = -1;
+  function reset() { i = -1; document.getElementById('expPlantStep').innerHTML = 'Click to walk through plants.'; draw(); }
+  function next() { i = (i+1)%items.length; const it = items[i]; document.getElementById('expPlantStep').innerHTML = `<b>${it.name}</b><br>Stem: ${it.stem}<br>Leaves: ${it.leaves}`; draw(); }
+  function draw() {
+    ctx.clearRect(0,0,600,240); ctx.fillStyle = '#ecfdf5'; ctx.fillRect(0,0,600,240);
+    ctx.fillStyle = '#1e293b'; ctx.font = 'bold 13px sans-serif'; ctx.fillText('Activity 2.1: observe plants', 200, 22);
+    if (i < 0) return;
+    const cx = 300;
+    ctx.fillStyle = '#16a34a';
+    if (i === 0) {
+      for (let k = 0; k < 8; k++) {
+        ctx.beginPath();
+        ctx.moveTo(cx - 30 + k*8, 180); ctx.quadraticCurveTo(cx - 30 + k*8 + 2, 120, cx - 30 + k*8 + 5, 100);
+        ctx.lineWidth = 2; ctx.strokeStyle = '#16a34a'; ctx.stroke();
+      }
+    } else {
+      ctx.fillStyle = '#92400e'; ctx.fillRect(cx-3, 100, 6, 100);
+      ctx.fillStyle = '#16a34a';
+      ctx.beginPath(); ctx.arc(cx-20, 95, 12, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(cx+20, 95, 12, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(cx, 80, 15, 0, Math.PI*2); ctx.fill();
+    }
+    ctx.fillStyle = '#1e293b'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(items[i].name, cx, 220); ctx.textAlign = 'left';
+  }
+  draw(); return { next, reset };
+})();
+
+(function(){
+  const c = document.getElementById('expStemCanvas'); if (!c) return;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#ecfdf5'; ctx.fillRect(0,0,600,280);
+  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 13px sans-serif'; ctx.fillText('Activity 2.4: herb vs shrub vs tree', 170, 22);
+  // herb (tomato)
+  ctx.fillStyle = '#16a34a'; ctx.fillRect(118, 200, 4, 60);
+  ctx.beginPath(); ctx.arc(120, 200, 10, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#dc2626'; ctx.beginPath(); ctx.arc(115, 215, 5, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('HERB', 120, 275); ctx.fillText('(tomato)', 120, 50);
+  // shrub (rose)
+  ctx.fillStyle = '#92400e'; for (let i=0;i<3;i++) { ctx.fillRect(295+i*3-3, 180, 3, 80); }
+  ctx.fillStyle = '#16a34a'; for (let i=0;i<5;i++) { ctx.beginPath(); ctx.arc(285+i*5, 175, 7, 0, Math.PI*2); ctx.fill(); }
+  ctx.fillStyle = '#dc2626'; ctx.beginPath(); ctx.arc(305, 170, 8, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#1e293b'; ctx.fillText('SHRUB', 300, 275); ctx.fillText('(rose)', 300, 50);
+  // tree (mango)
+  ctx.fillStyle = '#92400e'; ctx.fillRect(478, 150, 12, 110);
+  ctx.fillStyle = '#16a34a'; ctx.beginPath(); ctx.arc(484, 130, 40, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#fbbf24'; ctx.beginPath(); ctx.arc(470, 140, 5, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(495, 125, 5, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#1e293b'; ctx.fillText('TREE', 484, 275); ctx.fillText('(mango)', 484, 50);
+  ctx.textAlign = 'left';
+})();
+
+(function(){
+  const c = document.getElementById('expLeafCanvas'); if (!c) return;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#ecfdf5'; ctx.fillRect(0,0,600,240);
+  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 13px sans-serif'; ctx.fillText('Activity 2.5: leaf venation comparison', 160, 22);
+  function drawLeaf(cx, cy, label, vent) {
+    ctx.fillStyle = '#16a34a';
+    ctx.beginPath(); ctx.ellipse(cx, cy, 60, 35, 0, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = '#14532d'; ctx.lineWidth = 2;
+    if (vent === 'reticulate') {
+      ctx.beginPath(); ctx.moveTo(cx-55, cy); ctx.lineTo(cx+55, cy); ctx.stroke();
+      ctx.lineWidth = 1;
+      for (let i=-2;i<=2;i++) { ctx.beginPath(); ctx.moveTo(cx+i*15, cy); ctx.lineTo(cx+i*15-10, cy-25); ctx.stroke(); ctx.beginPath(); ctx.moveTo(cx+i*15, cy); ctx.lineTo(cx+i*15-10, cy+25); ctx.stroke(); }
+    } else {
+      ctx.lineWidth = 1;
+      for (let i=-3;i<=3;i++) { ctx.beginPath(); ctx.moveTo(cx-55, cy+i*7); ctx.lineTo(cx+55, cy+i*7); ctx.stroke(); }
+    }
+    ctx.fillStyle = '#1e293b'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(label, cx, cy+60); ctx.fillText(vent, cx, cy+75); ctx.textAlign = 'left';
+  }
+  drawLeaf(120, 120, 'Hibiscus', 'reticulate');
+  drawLeaf(300, 120, 'Banana', 'parallel');
+  drawLeaf(480, 120, 'Grass', 'parallel');
+})();
+
+(function(){
+  const c = document.getElementById('expRootCanvas'); if (!c) return;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#ecfdf5'; ctx.fillRect(0,0,600,280);
+  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 13px sans-serif'; ctx.fillText('Activity 2.6: tap vs fibrous roots', 180, 22);
+  // soil line
+  ctx.fillStyle = '#a16207'; ctx.fillRect(0, 140, 600, 4);
+  // tap root (mango)
+  ctx.fillStyle = '#16a34a'; ctx.fillRect(178, 60, 4, 80);
+  ctx.beginPath(); ctx.arc(180, 60, 12, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle = '#92400e'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(180, 140); ctx.lineTo(180, 240); ctx.stroke();
+  ctx.lineWidth = 1.5;
+  for (let i=0;i<6;i++) { const y = 155+i*15; ctx.beginPath(); ctx.moveTo(180, y); ctx.lineTo(180+12*(i%2===0?1:-1), y+10); ctx.stroke(); }
+  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('TAP ROOT', 180, 260); ctx.fillText('(mango)', 180, 50);
+  // fibrous (grass)
+  ctx.fillStyle = '#16a34a';
+  for (let i=0;i<6;i++) { ctx.fillRect(460+i*4, 80, 2, 60); }
+  ctx.strokeStyle = '#92400e'; ctx.lineWidth = 1.5;
+  for (let i=0;i<10;i++) { const x = 455 + i*5; ctx.beginPath(); ctx.moveTo(x, 140); ctx.bezierCurveTo(x+5, 170, x-5, 200, x+ Math.random()*10-5, 220); ctx.stroke(); }
+  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('FIBROUS ROOT', 480, 260); ctx.fillText('(grass)', 480, 50);
+  ctx.textAlign = 'left';
+})();
+
+/* CONCEPT MAP */
+(function(){
+  const c = document.getElementById('conceptMapCanvas'); if (!c) return;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#eff6ff'; ctx.fillRect(0,0,600,420);
+  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('Concept Map — Diversity in Living World', 300, 24);
+  // center
+  const cx = 300, cy = 210;
+  ctx.fillStyle = '#fde68a';
+  ctx.beginPath(); ctx.arc(cx, cy, 50, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle = '#d97706'; ctx.lineWidth = 3; ctx.stroke();
+  ctx.fillStyle = '#1c1917'; ctx.font = 'bold 13px sans-serif';
+  ctx.fillText('LIVING', cx, cy-4); ctx.fillText('THINGS', cx, cy+12);
+  // 4 main branches: Plants, Animals, Habitats, Diets
+  const nodes = [
+    { angle: -Math.PI/2, label: 'PLANTS', sub: 'herb/shrub/tree/climber/creeper', color: '#dcfce7', stroke: '#15803d' },
+    { angle: 0, label: 'ANIMALS', sub: 'fish/bird/mammal/insect...', color: '#fef3c7', stroke: '#d97706' },
+    { angle: Math.PI/2, label: 'HABITATS', sub: 'land/water/air/tree/both', color: '#dbeafe', stroke: '#1d4ed8' },
+    { angle: Math.PI, label: 'DIETS', sub: 'herbivore/carnivore/omnivore', color: '#fce7f3', stroke: '#db2777' }
+  ];
+  nodes.forEach(n => {
+    const x = cx + Math.cos(n.angle)*150, y = cy + Math.sin(n.angle)*150;
+    ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(cx+Math.cos(n.angle)*50, cy+Math.sin(n.angle)*50); ctx.lineTo(x, y); ctx.stroke();
+    ctx.fillStyle = n.color;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(x-80, y-25, 160, 50, 12); else ctx.rect(x-80, y-25, 160, 50);
+    ctx.fill();
+    ctx.strokeStyle = n.stroke; ctx.lineWidth = 2.5; ctx.stroke();
+    ctx.fillStyle = n.stroke; ctx.font = 'bold 12px sans-serif';
+    ctx.fillText(n.label, x, y-4);
+    ctx.fillStyle = '#1c1917'; ctx.font = '9px sans-serif';
+    ctx.fillText(n.sub, x, y+12);
+  });
+  ctx.fillStyle = '#16a34a'; ctx.font = 'bold 12px sans-serif';
+  ctx.fillText('All connected — that\'s BIODIVERSITY', 300, 405);
+  ctx.textAlign = 'left';
+})();
+
+/* 5E EVAL QUIZ */
+(function(){
+  const evalData = [
+    { q: 'A rose plant is a:', options: ['Herb','Shrub','Tree','Creeper'], correct: 1 },
+    { q: 'Hibiscus leaves show which venation?', options: ['Parallel','Reticulate','None','Both'], correct: 1 },
+    { q: 'Frogs are animals that live in:', options: ['Only water','Only land','Both land &amp; water','Only trees'], correct: 2 },
+    { q: 'A cow eats only plants. She is:', options: ['Carnivore','Omnivore','Herbivore','None'], correct: 2 },
+    { q: 'The variety of life in a region is called:', options: ['Habitat','Diversity / Biodiversity','Climate','Population'], correct: 1 }
+  ];
+  const container = document.getElementById('evalQuizContainer'); if (!container) return;
+  let eAnswered = 0, eScore = 0;
+  evalData.forEach((q, idx) => {
+    const wrap = document.createElement('div'); wrap.className = 'eval-quiz';
+    const qText = document.createElement('div'); qText.className = 'eq-q'; qText.innerHTML = `Q${idx+1}. ${q.q}`; wrap.appendChild(qText);
+    q.options.forEach((opt, i) => {
+      const o = document.createElement('div'); o.className = 'eq-opt'; o.innerHTML = opt;
+      o.addEventListener('click', () => {
+        if (wrap.dataset.done) return; wrap.dataset.done = 'true'; eAnswered++;
+        if (i === q.correct) { o.classList.add('correct'); eScore++; }
+        else { o.classList.add('wrong'); wrap.querySelectorAll('.eq-opt')[q.correct].classList.add('correct'); }
+        if (eAnswered === evalData.length) drawPie(eScore, evalData.length - eScore);
+      });
+      wrap.appendChild(o);
+    });
+    container.appendChild(wrap);
+  });
+  function drawPie(correct, wrong) {
+    document.getElementById('pieResult').classList.add('show');
+    const c = document.getElementById('piechartCanvas'); const ctx = c.getContext('2d');
+    ctx.clearRect(0,0,300,300);
+    const total = correct + wrong; if (total === 0) return;
+    const cx = 150, cy = 150, r = 110; let startAngle = -Math.PI/2;
+    const segments = [{ value: correct, color: '#22c55e' },{ value: wrong, color: '#dc2626' }];
+    segments.forEach(seg => {
+      if (seg.value === 0) return;
+      const slice = (seg.value/total) * Math.PI*2;
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, r, startAngle, startAngle+slice); ctx.closePath();
+      ctx.fillStyle = seg.color; ctx.fill();
+      ctx.strokeStyle = 'white'; ctx.lineWidth = 3; ctx.stroke();
+      const mid = startAngle + slice/2;
+      ctx.fillStyle = 'white'; ctx.font = 'bold 22px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText(seg.value, cx+Math.cos(mid)*r*0.6, cy+Math.sin(mid)*r*0.6+8);
+      startAngle += slice;
+    });
+    ctx.beginPath(); ctx.arc(cx, cy, 50, 0, Math.PI*2); ctx.fillStyle = 'rgba(255,255,255,0.2)'; ctx.fill();
+    ctx.fillStyle = 'white'; ctx.font = 'bold 20px sans-serif'; ctx.fillText((correct/total*100).toFixed(0) + '%', cx, cy+7);
+    ctx.textAlign = 'left';
+    let msg = correct === total ? '🏆 Perfect!' : correct >= total*0.6 ? '👏 Great!' : '📚 Try again!';
+    document.getElementById('piechartLabel').textContent = `${correct} of ${total} correct · ${msg}`;
+    document.getElementById('piechartLegend').innerHTML =
+      `<span style="display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:14px; height:14px; background:#22c55e; border-radius:3px;"></span>Correct (${correct})</span>` +
+      `<span style="display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:14px; height:14px; background:#dc2626; border-radius:3px;"></span>Wrong (${wrong})</span>`;
+  }
+})();
+
+/* RUBRIC */
+(function(){
+  const table = document.getElementById('rubricTable'); if (!table) return;
+  table.addEventListener('click', (e) => {
+    const cell = e.target.closest('.rb-cell'); if (!cell) return;
+    const row = cell.parentElement;
+    row.querySelectorAll('.rb-cell').forEach(c => c.classList.remove('selected'));
+    cell.classList.add('selected'); recalc();
+  });
+  function recalc() {
+    let total = 0, answered = 0;
+    table.querySelectorAll('tbody tr').forEach(row => { const sel = row.querySelector('.rb-cell.selected'); if (sel) { total += parseInt(sel.dataset.level); answered++; } });
+    document.getElementById('rubricTotal').textContent = total;
+    document.getElementById('rubricAvg').textContent = answered > 0 ? (total/answered).toFixed(1) + ' / 4' : '—';
+    const band = document.getElementById('rubricBand'); const totalCriteria = table.querySelectorAll('tbody tr').length;
+    if (answered === 0) { band.textContent = '— Not yet scored —'; band.style.background = '#e2e8f0'; band.style.color = '#475569'; }
+    else if (answered < totalCriteria) { band.textContent = `In progress (${answered}/${totalCriteria})`; band.style.background = '#fef3c7'; band.style.color = '#a16207'; }
+    else { const a = total/totalCriteria; let l, bg, fg;
+      if (a >= 3.5) { l='🏆 Advanced'; bg='#dcfce7'; fg='#15803d'; }
+      else if (a >= 2.5) { l='👍 Proficient'; bg='#dbeafe'; fg='#1e40af'; }
+      else if (a >= 1.5) { l='📚 Developing'; bg='#fef3c7'; fg='#a16207'; }
+      else { l='🌱 Beginning'; bg='#fee2e2'; fg='#b91c1c'; }
+      band.textContent = l; band.style.background = bg; band.style.color = fg;
+    }
+  }
+  const di = document.getElementById('studentDate'); if (di) di.valueAsDate = new Date();
+})();
+
+/* COMICS */
+function drawKid(ctx,x,y,color,label){
+  ctx.fillStyle='#fde68a'; ctx.beginPath(); ctx.arc(x,y-18,11,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle='#1e293b'; ctx.lineWidth=1.5; ctx.stroke();
+  ctx.fillStyle='#1e293b'; ctx.beginPath(); ctx.arc(x-3,y-20,1.2,0,Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.arc(x+3,y-20,1.2,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle=color; ctx.fillRect(x-11,y-7,22,28);
+  ctx.fillStyle='#1e293b'; ctx.fillRect(x-8,y+21,5,12); ctx.fillRect(x+3,y+21,5,12);
+  if(label){ ctx.fillStyle='#1e293b'; ctx.font='bold 10px sans-serif'; ctx.textAlign='center'; ctx.fillText(label,x,y+48); ctx.textAlign='left'; }
+}
+function bubble(ctx,x,y,text,w){
+  const lines=text.split('\n'); const h=lines.length*13+10;
+  ctx.fillStyle='white'; ctx.strokeStyle='#1e293b'; ctx.lineWidth=1.5;
+  ctx.beginPath(); if(ctx.roundRect) ctx.roundRect(x,y,w,h,6); else ctx.rect(x,y,w,h); ctx.fill(); ctx.stroke();
+  ctx.fillStyle='#1e293b'; ctx.font='bold 11px sans-serif';
+  lines.forEach((line,i)=>ctx.fillText(line,x+6,y+14+i*13));
+}
+function makeComic(stripId,num,caption,drawFn){
+  const strip=document.getElementById(stripId); const p=document.createElement('div'); p.className='comic-panel';
+  const n=document.createElement('div'); n.className='comic-number'; n.textContent=num; p.appendChild(n);
+  const cnv=document.createElement('canvas'); cnv.width=280; cnv.height=200; p.appendChild(cnv);
+  const c=document.createElement('div'); c.className='comic-caption'; c.textContent=caption; p.appendChild(c);
+  strip.appendChild(p); drawFn(cnv.getContext('2d'));
+}
+
+makeComic('strip1', 1, 'A rainy morning. The class is excited — Dr Raghu and Maniram chacha are coming for a nature walk!', (ctx) => {
+  ctx.fillStyle='#dcfce7'; ctx.fillRect(0,0,280,200);
+  ctx.strokeStyle='#0284c7'; ctx.lineWidth=1.5;
+  for(let i=0;i<10;i++){ const x=Math.random()*280; ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x-3,20); ctx.stroke(); }
+  drawKid(ctx,80,140,'#16a34a','Dr Raghu');
+  drawKid(ctx,170,140,'#92400e','Chacha');
+});
+makeComic('strip1', 2, 'Maniram chacha shows the children a hibiscus leaf, a banana leaf, and a tomato plant. Each so different!', (ctx) => {
+  ctx.fillStyle='#fef9c3'; ctx.fillRect(0,0,280,200);
+  ctx.fillStyle='#16a34a';
+  ctx.beginPath(); ctx.ellipse(60,120,30,18,0,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle='#14532d'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(40,120); ctx.lineTo(80,120); ctx.stroke();
+  for(let i=-2;i<=2;i++){ ctx.beginPath(); ctx.moveTo(60+i*8,120); ctx.lineTo(60+i*8-5,110); ctx.stroke(); ctx.beginPath(); ctx.moveTo(60+i*8,120); ctx.lineTo(60+i*8-5,130); ctx.stroke(); }
+  // banana
+  ctx.fillStyle='#84cc16'; ctx.beginPath(); ctx.ellipse(140,120,35,15,0,0,Math.PI*2); ctx.fill();
+  for(let i=-3;i<=3;i++){ ctx.beginPath(); ctx.moveTo(110,120+i*4); ctx.lineTo(170,120+i*4); ctx.strokeStyle='#15803d'; ctx.stroke(); }
+  // tomato
+  ctx.fillStyle='#16a34a'; ctx.fillRect(218,110,3,40);
+  ctx.fillStyle='#dc2626'; ctx.beginPath(); ctx.arc(220,125,8,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#1e293b'; ctx.font='9px sans-serif'; ctx.textAlign='center';
+  ctx.fillText('hibiscus',60,160); ctx.fillText('banana',140,160); ctx.fillText('tomato',220,160);
+  ctx.textAlign='left';
+});
+makeComic('strip1', 3, 'A monkey leaps! A frog hops! A crow flies! Each animal is suited to its own habitat.', (ctx) => {
+  ctx.fillStyle='#bae6fd'; ctx.fillRect(0,0,280,100);
+  ctx.fillStyle='#16a34a'; ctx.fillRect(0,100,280,100);
+  ctx.font='40px sans-serif'; ctx.textAlign='center';
+  ctx.fillText('🐒',60,80); ctx.fillText('🐸',140,170); ctx.fillText('🦅',220,60);
+  ctx.fillStyle='#1e293b'; ctx.font='bold 10px sans-serif';
+  ctx.fillText('tree',60,110); ctx.fillText('pond',140,195); ctx.fillText('sky',220,110);
+  ctx.textAlign='left';
+});
+makeComic('strip1', 4, 'BIG IDEA: All these different plants and animals together — that\'s BIODIVERSITY. Every species has a role!', (ctx) => {
+  ctx.fillStyle='#fef9c3'; ctx.fillRect(0,0,280,200);
+  ctx.fillStyle='#15803d'; ctx.font='bold 18px sans-serif'; ctx.textAlign='center';
+  ctx.fillText('BIODIVERSITY',140,60);
+  ctx.fillStyle='#1e293b'; ctx.font='11px sans-serif';
+  ctx.fillText('= variety of life',140,85);
+  ctx.font='40px sans-serif';
+  ctx.fillText('🌳 🌹 🌿',140,140);
+  ctx.fillText('🐅 🦋 🐝',140,185);
+  ctx.textAlign='left';
+});
+
+/* MAIN QUIZ */
+const quizData = [
+  { q: 'A small plant with a soft green stem is called:', options: ['Herb','Shrub','Tree','Climber'], correct: 0, why: 'Herbs are small with soft, green, tender stems.' },
+  { q: 'A pumpkin plant spreads along the ground. It is a:', options: ['Tree','Creeper','Climber','Shrub'], correct: 1, why: 'Creepers spread along the ground (weak stem). Climbers go UP using support.' },
+  { q: 'Banana leaves have which type of venation?', options: ['Reticulate','Parallel','Diagonal','None'], correct: 1, why: 'Parallel venation — veins run side-by-side. Same in grasses.' },
+  { q: 'Which root system goes with reticulate-vein leaves?', options: ['Tap root','Fibrous root','No roots','Both'], correct: 0, why: 'Reticulate-vein leaves usually pair with tap roots. Parallel veins pair with fibrous roots.' },
+  { q: 'A frog can live both on land and in water. Its habitat is:', options: ['Only water','Only land','Both','Sky'], correct: 2, why: 'Frogs are amphibians — they live in both habitats!' },
+  { q: 'An animal that eats only plants is called:', options: ['Carnivore','Herbivore','Omnivore','Predator'], correct: 1, why: 'Herbivores eat only plants. Examples: cow, goat, deer.' },
+  { q: 'Variety of plants and animals in a region is called:', options: ['Habitat','Diversity / Biodiversity','Climate','Forest'], correct: 1, why: 'Biodiversity = the variety of living things in a place.' },
+  { q: 'Which is NOT a tree?', options: ['Mango','Banyan','Rose','Neem'], correct: 2, why: 'Rose is a shrub — medium height, many woody stems from the ground.' },
+  { q: 'A money plant grows up a wall. It is a:', options: ['Climber','Creeper','Herb','Tree'], correct: 0, why: 'Climbers have weak stems and need support to grow upwards.' },
+  { q: 'Humans eat both plants and meat. We are:', options: ['Herbivores','Carnivores','Omnivores','None'], correct: 2, why: 'Omnivores eat both plants and animals. Humans, bears, crows are omnivores.' }
+];
+const quizContainer = document.getElementById('quiz-container');
+let answeredCount = 0, score = 0;
+quizData.forEach((q, idx) => {
+  const wrap = document.createElement('div'); wrap.className = 'quiz-question';
+  const qText = document.createElement('div'); qText.className = 'q-text'; qText.textContent = `Q${idx+1}. ${q.q}`; wrap.appendChild(qText);
+  q.options.forEach((opt, i) => {
+    const o = document.createElement('div'); o.className = 'quiz-option'; o.textContent = opt;
+    o.addEventListener('click', () => {
+      if (wrap.dataset.answered) return; wrap.dataset.answered = 'true'; answeredCount++;
+      const fb = document.createElement('div'); fb.className = 'quiz-feedback show';
+      if (i === q.correct) { o.classList.add('correct'); fb.classList.add('correct'); fb.innerHTML = `<b>✅ Yes!</b> ${q.why}`; score++; }
+      else { o.classList.add('wrong'); wrap.querySelectorAll('.quiz-option')[q.correct].classList.add('correct'); fb.classList.add('wrong'); fb.innerHTML = `<b>🤔 Not quite.</b> ${q.why}`; }
+      wrap.appendChild(fb);
+      if (answeredCount === quizData.length) { const s = document.getElementById('quiz-score'); s.style.display = 'block'; s.innerHTML = `Score: <b>${score} / ${quizData.length}</b><br>${score === quizData.length ? '🏆 Diversity Master!' : score >= quizData.length*0.7 ? '👏 Great!' : '📚 Re-read and try!'}`; }
+    });
+    wrap.appendChild(o);
+  });
+  quizContainer.appendChild(wrap);
+});
+</script>
+
+<script src="smile-chapter-assessment.js"></script>
+</body>
+</html>

@@ -3,8 +3,8 @@
 // upstream GitHub repo via jsDelivr.
 export interface LmsLevel {
   id: string;
-  /** `year` URL param the vendored LMS uses for this level ("blix" and "year2" are off-URL). */
-  year: "1" | "2" | "blix" | "year2";
+  /** `year` URL param the vendored LMS uses for this level (standalone courses are off-URL). */
+  year: "1" | "2" | "blix" | "year2" | "science6";
   name: string;
   classes: string;
   /** `grade` URL params of the classes inside this level, in display order. */
@@ -54,10 +54,21 @@ export const LMS_LEVELS: LmsLevel[] = [
     grades: ["6", "7", "8", "9"],
     kitNumber: 0, // no robotics rubric kit for Year 2 yet
   },
+  {
+    // Standalone interactive science textbook. It has chapters instead of
+    // robotics sessions/5E groups, so assignment is a single course toggle.
+    id: "science6",
+    year: "science6",
+    name: "Grade 6 Science Learning",
+    classes: "Class 6 · 12 interactive chapters",
+    grades: ["6"],
+    kitNumber: 0,
+  },
 ];
 
 export const BLIX_LEVEL_ID = "blix";
 export const YEAR2_LEVEL_ID = "year2";
+export const SCIENCE6_LEVEL_ID = "science6";
 
 /** BLIX session numbers ("1".."10"); no intro session, no 5E phases. */
 export const BLIX_SESSIONS = Array.from({ length: 10 }, (_, i) =>
@@ -69,6 +80,7 @@ export const YEAR2_SESSIONS = BLIX_SESSIONS;
 
 /** The session numbers a level's course actually has. */
 export function levelSessions(level: LmsLevel): string[] {
+  if (level.id === SCIENCE6_LEVEL_ID) return [];
   if (level.id === BLIX_LEVEL_ID) return BLIX_SESSIONS;
   if (level.id === YEAR2_LEVEL_ID) return YEAR2_SESSIONS;
   return LMS_SESSIONS;
@@ -122,6 +134,9 @@ export function lmsLevelPath(
   sessions?: SessionPick[],
   gradeNames?: Record<string, string>,
 ): string {
+  if (level.id === SCIENCE6_LEVEL_ID) {
+    return "/lms/assets/slime/slime/index.html";
+  }
   if (level.id === BLIX_LEVEL_ID) {
     // BLIX is its own page; `sessions` (comma list of session numbers)
     // restricts which sessions its nav shows. Empty/absent = full course.

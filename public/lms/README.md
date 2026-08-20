@@ -37,6 +37,10 @@ Local patches (keep when re-vendoring):
    quiz results with the pseudo-year "year2" (Level 1 shares Classes 6/7, so
    the keys must not collide). `js/level2-dependencies-content.js` hides Year 2
    phases whose 5E group ("core"/"extend") isn't assigned.
+8. Grade 6 Science Learning is vendored under `assets/slime/slime/` and is
+   registered as the standalone `science6` course in
+   `convex/lib/lmsCatalog.ts`. It has 12 chapters rather than robotics
+   sessions/5E groups, so it is assigned with a single course checkbox.
 
 To update content: re-run the sparse clone of the upstream repo, copy
 `index.html css/ js/ pages/` over this directory, and re-apply the patches above.

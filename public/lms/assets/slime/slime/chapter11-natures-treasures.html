@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grade 6 — Chapter 11 — Nature's Treasures</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f0fdfa; color: #1e293b; line-height: 1.55; }
+header { background: linear-gradient(135deg, #134e4a 0%, #0d9488 45%, #84cc16 100%); color: white; padding: 36px 24px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+header h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; } header p { opacity: 0.95; font-size: 14px; }
+nav.tabs { display: flex; justify-content: center; gap: 4px; background: white; padding: 8px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.08); flex-wrap: wrap; }
+nav.tabs button { background: transparent; border: none; padding: 10px 16px; font-size: 13px; font-weight: 600; color: #475569; cursor: pointer; border-radius: 8px; }
+nav.tabs button:hover { background: #ccfbf1; color: #0d9488; }
+nav.tabs button.active { background: #0d9488; color: white; }
+nav.tabs button[data-tab="kwl"] { background: #fef3c7; color: #b45309; }
+nav.tabs button[data-tab="kwl"].active { background: #b45309; color: white; }
+nav.tabs button[data-tab="performance"] { background: #f3e8ff; color: #7e22ce; }
+nav.tabs button[data-tab="performance"].active { background: #7e22ce; color: white; }
+main { max-width: 1100px; margin: 0 auto; padding: 24px; background: #f0fdfa; min-height: 80vh; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+h2.section-title { font-size: 22px; color: #0d9488; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #0d9488; }
+h3.card-title { font-size: 18px; color: #1e293b; margin-bottom: 10px; }
+.grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+.card, .sim-card, .exp-card, .story-card, .lab-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 16px; }
+.card p, .card li { font-size: 14px; color: #475569; margin-bottom: 6px; }
+.card ul { margin-left: 18px; }
+.badge { display: inline-block; background: #ccfbf1; color: #0f766e; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 999px; margin-bottom: 8px; }
+canvas { display: block; background: #f0fdfa; border-radius: 8px; margin: 12px 0; max-width: 100%; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; align-items: center; }
+button.btn { background: #0d9488; color: white; border: none; padding: 8px 16px; font-size: 13px; font-weight: 600; border-radius: 6px; cursor: pointer; }
+button.btn:hover { background: #0f766e; }
+button.btn.secondary { background: #64748b; }
+.result-box { background: #ccfbf1; border-left: 4px solid #0d9488; padding: 12px 16px; border-radius: 6px; margin-top: 12px; font-size: 14px; }
+.step-display { background: #f0fdfa; border: 1px solid #99f6e4; padding: 12px; border-radius: 6px; margin-top: 10px; font-size: 13px; min-height: 50px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+th, td { padding: 7px 8px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+th { background: #f0fdfa; font-weight: 600; color: #475569; }
+.key-fact { background: #f0fdfa; border-left: 3px solid #0d9488; padding: 8px 12px; margin: 8px 0; font-size: 13px; border-radius: 4px; }
+.toggle-group { display: inline-flex; background: #e2e8f0; padding: 3px; border-radius: 6px; flex-wrap: wrap; }
+.toggle-group button { background: transparent; border: none; padding: 6px 12px; font-size: 12px; font-weight: 600; color: #475569; cursor: pointer; border-radius: 4px; }
+.toggle-group button.active { background: white; color: #0d9488; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.lab-card { border-left: 5px solid #0d9488; background: linear-gradient(to right, #ccfbf1 0%, #ffffff 80px); }
+.lab-section { margin-top: 12px; padding: 10px 14px; background: #f0fdfa; border-radius: 6px; font-size: 13px; }
+.lab-section h4 { color: #0d9488; font-size: 13px; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.lab-section.materials h4 { color: #b45309; } .lab-section.procedure h4 { color: #15803d; }
+.lab-section ol, .lab-section ul { margin-left: 18px; }
+.difficulty { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-left: 8px; background: #dcfce7; color: #16a34a; }
+.comic-strip { display: grid; gap: 12px; margin-top: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.comic-panel { background: #fffbeb; border: 3px solid #1e293b; border-radius: 8px; overflow: hidden; position: relative; box-shadow: 4px 4px 0 rgba(30,41,59,0.4); }
+.comic-panel canvas { background: #fefce8; border-radius: 0; margin: 0; width: 100%; display: block; }
+.comic-caption { background: #1e293b; color: #fef9c3; padding: 10px 12px; font-size: 13px; font-weight: 500; line-height: 1.4; font-family: Georgia, serif; }
+.comic-number { position: absolute; top: 6px; left: 8px; background: #0d9488; color: white; font-weight: 800; font-size: 14px; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #1e293b; z-index: 5; }
+.story-intro { background: linear-gradient(135deg, #ccfbf1 0%, #d9f99d 100%); border-left: 4px solid #0d9488; padding: 14px 18px; border-radius: 8px; margin-bottom: 14px; font-size: 14px; color: #134e4a; font-style: italic; }
+.quiz-question { background: white; border-radius: 12px; padding: 20px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.quiz-question .q-text { font-weight: 600; margin-bottom: 12px; color: #1e293b; }
+.quiz-option { display: block; padding: 10px 14px; margin-bottom: 6px; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; font-size: 14px; }
+.quiz-option:hover { border-color: #0d9488; background: #f0fdfa; }
+.quiz-option.correct { border-color: #16a34a; background: #f0fdf4; }
+.quiz-option.wrong { border-color: #dc2626; background: #fef2f2; }
+.quiz-feedback { margin-top: 10px; padding: 10px; border-radius: 6px; font-size: 13px; display: none; }
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct { background: #f0fdf4; color: #166534; }
+.quiz-feedback.wrong { background: #fef2f2; color: #991b1b; }
+#quiz-score { background: linear-gradient(135deg, #0d9488 0%, #84cc16 100%); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-top: 16px; font-size: 16px; font-weight: 600; }
+.quote-card { background: linear-gradient(135deg, #ccfbf1 0%, #d9f99d 100%); border-radius: 14px; padding: 22px 26px; text-align: center; margin: 14px 0; border-left: 5px solid #0d9488; }
+.quote-card .quote-text { font-size: 16px; font-style: italic; color: #134e4a; font-family: Georgia, serif; margin-bottom: 10px; }
+.five-intro { background: linear-gradient(135deg, #ccfbf1 0%, #d9f99d 100%); border-left: 4px solid #0d9488; padding: 14px 18px; border-radius: 10px; margin-bottom: 18px; font-size: 14px; color: #134e4a; }
+.phase-card { background: white; border-radius: 14px; padding: 22px 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 6px solid #0d9488; }
+.phase-card.phase-engage { border-left-color: #dc2626; background: linear-gradient(to right, #fef2f2 0%, #ffffff 80px); }
+.phase-card.phase-explore { border-left-color: #f59e0b; background: linear-gradient(to right, #fef3c7 0%, #ffffff 80px); }
+.phase-card.phase-explain { border-left-color: #0284c7; background: linear-gradient(to right, #eff6ff 0%, #ffffff 80px); }
+.phase-card.phase-elaborate { border-left-color: #15803d; background: linear-gradient(to right, #f0fdf4 0%, #ffffff 80px); }
+.phase-card.phase-evaluate { border-left-color: #7e22ce; background: linear-gradient(to right, #faf5ff 0%, #ffffff 80px); }
+.phase-header { display: flex; gap: 14px; align-items: center; margin-bottom: 12px; }
+.phase-num { background: #1e293b; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; flex-shrink: 0; }
+.phase-card.phase-engage .phase-num { background: #dc2626; } .phase-card.phase-explore .phase-num { background: #f59e0b; } .phase-card.phase-explain .phase-num { background: #0284c7; } .phase-card.phase-elaborate .phase-num { background: #15803d; } .phase-card.phase-evaluate .phase-num { background: #7e22ce; }
+.phase-header h3 { font-size: 18px; color: #1e293b; margin: 0; }
+.phase-tagline { font-size: 12px; color: #64748b; margin: 2px 0 0; font-style: italic; }
+.dialog-story { background: #fffbeb; border-radius: 10px; padding: 16px 18px; margin: 10px 0; font-size: 14px; line-height: 1.7; border: 1px solid #fde68a; }
+.dialog-story p { margin-bottom: 10px; }
+.speaker { font-weight: 700; } .speaker.swara { color: #db2777; } .speaker.ahana { color: #15803d; } .speaker.amma { color: #7e22ce; }
+.narration { color: #475569; font-style: italic; font-size: 13px; }
+.vocab-term { background: #fde047; color: #713f12; padding: 1px 6px; border-radius: 4px; font-weight: 700; }
+.vocab-summary { background: #f0fdfa; border-radius: 10px; padding: 14px 18px; margin-top: 12px; border-left: 4px solid #0d9488; }
+.vocab-summary h4 { color: #0f766e; font-size: 14px; margin-bottom: 8px; }
+.vocab-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.vocab-chip { background: white; border: 2px solid #0d9488; border-radius: 999px; padding: 4px 10px; font-size: 12px; color: #0f766e; font-weight: 600; }
+.exp-mini { background: white; border-radius: 10px; padding: 14px; margin: 8px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border-top: 3px solid #f59e0b; }
+.exp-mini h5 { color: #b45309; font-size: 14px; margin-bottom: 6px; }
+.exp-mini p { font-size: 13px; color: #475569; margin-bottom: 4px; }
+.kit-link { display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: white; padding: 12px 20px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 14px; margin: 10px 0; }
+.eval-quiz { background: white; border-radius: 10px; padding: 16px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.eval-quiz .eq-q { font-weight: 600; color: #1e293b; margin-bottom: 10px; }
+.eval-quiz .eq-opt { display: block; padding: 8px 12px; margin-bottom: 5px; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; font-size: 13px; }
+.eval-quiz .eq-opt:hover { border-color: #7e22ce; background: #faf5ff; }
+.eval-quiz .eq-opt.correct { border-color: #15803d; background: #f0fdf4; }
+.eval-quiz .eq-opt.wrong { border-color: #dc2626; background: #fef2f2; }
+#pieResult { display: none; background: linear-gradient(135deg, #7e22ce 0%, #0d9488 100%); color: white; border-radius: 14px; padding: 22px; margin-top: 14px; text-align: center; }
+#pieResult.show { display: block; }
+.kwl-intro { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid #b45309; padding: 14px 18px; border-radius: 10px; margin-bottom: 18px; font-size: 14px; color: #78350f; }
+.kwl-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 14px 0; }
+@media (max-width: 800px) { .kwl-grid { grid-template-columns: 1fr; } }
+.kwl-col { background: white; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: flex; flex-direction: column; }
+.kwl-col.k { border-top: 5px solid #0284c7; } .kwl-col.w { border-top: 5px solid #b45309; } .kwl-col.l { border-top: 5px solid #15803d; }
+.kwl-col h4 { font-size: 15px; margin-bottom: 4px; }
+.kwl-col.k h4 { color: #0e7490; } .kwl-col.w h4 { color: #b45309; } .kwl-col.l h4 { color: #15803d; }
+.kwl-col .kwl-sub { font-size: 12px; color: #64748b; margin-bottom: 10px; font-style: italic; }
+.kwl-textarea { width: 100%; min-height: 200px; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 13px; resize: vertical; flex: 1; }
+.kwl-controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 14px 0; padding: 12px; background: #f8fafc; border-radius: 10px; }
+.kwl-controls p { font-size: 12px; color: #64748b; margin: 0; flex: 1; }
+.student-info { display: grid; grid-template-columns: 1fr 80px 130px; gap: 10px; margin-bottom: 14px; background: #faf5ff; padding: 12px; border-radius: 10px; }
+.student-info label { display: block; font-size: 11px; color: #7e22ce; font-weight: 700; margin-bottom: 2px; text-transform: uppercase; }
+.student-info input { width: 100%; padding: 6px 10px; border: 1px solid #c4b5fd; border-radius: 6px; font-size: 14px; font-family: inherit; }
+.rubric-table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-size: 12px; margin-bottom: 12px; }
+.rubric-table th, .rubric-table td { padding: 8px 10px; border: 1px solid #e2e8f0; text-align: left; vertical-align: top; }
+.rubric-table th { background: #7e22ce; color: white; text-align: center; font-weight: 700; }
+.rubric-table th:first-child { text-align: left; }
+.rubric-table .rb-skill { background: #faf5ff; font-weight: 600; color: #581c87; width: 22%; }
+.rubric-table .rb-cell { cursor: pointer; transition: all 0.15s; color: #475569; }
+.rubric-table .rb-cell:hover { background: #f3e8ff; }
+.rubric-table .rb-cell.selected { background: #c4b5fd; color: #1e293b; font-weight: 600; box-shadow: inset 0 0 0 2px #7e22ce; }
+.rubric-summary { background: #faf5ff; border-radius: 10px; padding: 14px 18px; margin: 12px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.rubric-summary .rs-score { font-size: 28px; font-weight: 800; color: #7e22ce; }
+.reflection { width: 100%; min-height: 80px; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 13px; resize: vertical; margin: 10px 0; }
+.print-btn-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 14px 0; padding: 12px; background: #f8fafc; border-radius: 10px; }
+.print-btn-row p { font-size: 12px; color: #64748b; margin: 0; flex: 1; }
+.sig-row { display: none; }
+.perf-header { background: linear-gradient(135deg, #7e22ce 0%, #0d9488 100%); color: white; border-radius: 14px; padding: 24px; margin-bottom: 18px; text-align: center; }
+.perf-header h3 { color: white; font-size: 22px; margin-bottom: 6px; }
+footer { text-align: center; padding: 20px; color: #94a3b8; font-size: 12px; background: #0f172a; }
+@media print {
+  body { background: white; color: black; }
+  header, nav.tabs, footer { display: none !important; }
+  main { background: white; max-width: 100%; padding: 0; }
+  .tab-panel { display: none !important; }
+  .tab-panel.print-active { display: block !important; }
+  .print-btn-row { display: none !important; }
+  .kwl-col { box-shadow: none; border: 1px solid #999; page-break-inside: avoid; }
+  .rubric-table { font-size: 10px; page-break-inside: avoid; }
+  .rubric-table th { background: #666 !important; color: white !important; -webkit-print-color-adjust: exact; }
+  @page { size: A4; margin: 1.2cm; }
+  .sig-row { margin-top: 30px; display: flex !important; gap: 40px; }
+  .sig-line { flex: 1; border-top: 1px solid #999; padding-top: 4px; font-size: 11px; color: #666; text-align: center; }
+}
+</style>
+<link rel="stylesheet" href="smile-chapter-assessment.css">
+</head>
+<body>
+<header><h1>Nature\'s Treasures</h1></header>
+<nav class="tabs">
+  <button type="button" onclick="event.stopImmediatePropagation(); window.location.href='index.html'; return false;" style="background:#fef3c7; color:#b45309; padding:10px 16px; font-size:13px; font-weight:600; border-radius:8px; border:none; cursor:pointer; font-family:inherit;">🏠 Home</button>
+  <button data-tab="concepts" class="active">Concepts</button>
+  <button data-tab="kwl">📝 KWL Chart</button>
+  <button data-tab="fivee">5E Method 📚</button>
+  <button data-tab="story">Story &amp; Cartoons</button>
+  <button data-tab="simulations">Nature Lab 🌍</button>
+  <button data-tab="lab">Lab Experiments</button>
+  <button data-tab="quiz">Quiz</button>
+  <button data-tab="performance">📋 Performance</button>
+</nav>
+<main>
+
+<section id="concepts" class="tab-panel active">
+  <h2 class="section-title">Key Concepts</h2>
+  <div class="quote-card"><div class="quote-text">"Air, water, soil, sunlight, plants and animals — these are Nature\'s treasures. Without them, life on Earth would not exist."</div></div>
+  <div class="grid">
+    <div class="card"><span class="badge">Big Idea</span><h3 class="card-title">Nature\'s Gifts</h3><p>Around us, every day, nature provides:</p><ul><li>🌬️ <b>Air</b> — to breathe</li><li>💧 <b>Water</b> — to drink, cook, clean</li><li>🌍 <b>Soil</b> — to grow food</li><li>☀️ <b>Sunlight</b> — for energy &amp; life</li><li>🌳 <b>Plants &amp; animals</b> — for food, materials</li></ul><div class="key-fact">All living beings depend on these treasures. We must protect them.</div></div>
+    <div class="card"><span class="badge">11.1</span><h3 class="card-title">Air — A Mix of Gases</h3><p>Air is invisible but essential. Hold your breath for 30 sec — you\'ll understand!</p><p><b>Composition</b>:</p><ul><li>78% Nitrogen</li><li>21% Oxygen</li><li>1% Argon + CO₂ + others</li></ul><div class="key-fact">We can survive days without food, but only minutes without oxygen!</div></div>
+    <div class="card"><span class="badge">Wind</span><h3 class="card-title">Wind = Moving Air</h3><p>Air on the move = wind. You see it in:</p><ul><li>Leaves rustling</li><li>Clothes swaying</li><li>Firki (paper pinwheel) rotating</li><li>Windmills generating power!</li></ul><div class="key-fact">India has big wind farms: <b>Muppandal</b> (Tamil Nadu), <b>Jaisalmer</b> (Rajasthan), <b>Brahmanvel</b> (Maharashtra) — clean energy from wind!</div></div>
+    <div class="card"><span class="badge">11.2</span><h3 class="card-title">Water — Precious Treasure</h3><p>2/3 of Earth is water — but:</p><ul><li>Most is SALTY ocean water (~97%)</li><li>2% locked in ice</li><li>Only ~1% is fresh, accessible drinking water!</li></ul><div class="key-fact">⚠️ Don\'t waste water. Turn off taps. Fix leaks. Reuse where possible.</div></div>
+    <div class="card"><span class="badge">Sources</span><h3 class="card-title">Where Does Water Come From?</h3><ul><li>Rivers &amp; lakes</li><li>Underground (wells, borewells)</li><li>Rain</li><li>Glaciers melting</li></ul><p>All connected by the <b>water cycle</b> — evaporation, condensation, rain.</p></div>
+    <div class="card"><span class="badge">11.3</span><h3 class="card-title">Soil — Earth\'s Skin</h3><p>The dark layer on top of land — where plants grow.</p><p>Made from:</p><ul><li>Tiny rock particles</li><li>Decayed plants &amp; animals (humus)</li><li>Water + air in spaces</li><li>Microorganisms</li></ul><div class="key-fact">Without soil — no farming, no food. Save soil!</div></div>
+    <div class="card"><span class="badge">Soil types</span><h3 class="card-title">Types of Soil</h3><table><tr><th>Type</th><th>Feel</th><th>Use</th></tr><tr><td>Sandy</td><td>Rough, large grains</td><td>Drains fast</td></tr><tr><td>Clayey</td><td>Smooth, sticky</td><td>Holds water; pottery</td></tr><tr><td>Loamy</td><td>Mixed, balanced</td><td>Best for farming</td></tr></table></div>
+    <div class="card"><span class="badge">11.4</span><h3 class="card-title">Sunlight — Energy from the Sky</h3><p>Sun provides:</p><ul><li>Light to see</li><li>Heat to warm</li><li>Energy for plants (photosynthesis)</li><li>Source of Vitamin D for us!</li><li>Drives the water cycle</li></ul><div class="key-fact">Without the Sun — Earth would be a frozen, dark, lifeless ball.</div></div>
+    <div class="card"><span class="badge">Solar power</span><h3 class="card-title">Solar Energy</h3><p>We can convert sunlight directly to electricity using <b>solar panels</b>.</p><p>India is a world leader in solar power — especially with the <b>International Solar Alliance</b> (HQ in Gurugram).</p><ul><li>Solar lights in remote villages</li><li>Solar water heaters</li><li>Solar cookers</li><li>Big solar farms</li></ul></div>
+    <div class="card"><span class="badge">11.5</span><h3 class="card-title">Plants &amp; Animals — Living Treasures</h3><p>Plants give us:</p><ul><li>Oxygen 🌬️</li><li>Food (fruit, veg, grains)</li><li>Wood, paper, medicines</li><li>Shelter for animals</li></ul><p>Animals give us:</p><ul><li>Milk, eggs, honey</li><li>Wool, leather, silk</li><li>Help in farming (bulls, cows)</li><li>Pollination (bees!)</li></ul></div>
+    <div class="card"><span class="badge">11.6</span><h3 class="card-title">Save the Treasures!</h3><p>Air pollution, water pollution, deforestation, soil erosion — all human-made problems.</p><p>Easy ways to help:</p><ul><li>Use less plastic 🥤</li><li>Plant trees 🌳</li><li>Turn off taps 💧</li><li>Walk / cycle / public transport 🚲</li><li>Reduce, Reuse, Recycle ♻️</li></ul></div>
+    <div class="card"><span class="badge">India</span><h3 class="card-title">🇮🇳 Indian Conservation</h3><p>India has many great traditions of conserving nature:</p><ul><li>Sacred groves — forests preserved for centuries by communities</li><li>Bishnoi community in Rajasthan — protect blackbucks &amp; trees</li><li>Chipko movement — Himalayan villagers hugging trees to prevent cutting</li><li>"Vasudhaiva Kutumbakam" — the world is one family</li></ul></div>
+  </div>
+</section>
+
+<section id="kwl" class="tab-panel">
+  <h2 class="section-title">📝 KWL Chart</h2>
+  <div class="kwl-intro">Fill all 3 columns — auto-saves. Print to PDF.</div>
+  <div class="kwl-grid">
+    <div class="kwl-col k"><h4>🔵 K — Know</h4><div class="kwl-sub">About air, water, soil, sunlight.</div><textarea class="kwl-textarea" id="kwl-k" placeholder="• I know we need air to breathe..."></textarea></div>
+    <div class="kwl-col w"><h4>🟠 W — Want to Know</h4><div class="kwl-sub">Questions.</div><textarea class="kwl-textarea" id="kwl-w" placeholder="• What is in the air? How is soil made?..."></textarea></div>
+    <div class="kwl-col l"><h4>🟢 L — Learned</h4><div class="kwl-sub">After chapter.</div><textarea class="kwl-textarea" id="kwl-l" placeholder="• I learnt air is 78% nitrogen, 21% oxygen..."></textarea></div>
+  </div>
+  <div class="kwl-controls"><p>Auto-saves.</p><button class="btn" onclick="kwlSave()">💾 Save</button><button class="btn secondary" onclick="kwlClear()">Clear</button><button class="btn" style="background:#b45309;" onclick="printKWL()">🖨️ Print / Save as PDF</button></div>
+</section>
+
+<section id="fivee" class="tab-panel">
+  <h2 class="section-title">📚 The 5E Learning Path</h2>
+  <div class="five-intro">Walk through Chapter 11 with all 5 phases.</div>
+  <div class="phase-card phase-engage">
+    <div class="phase-header"><span class="phase-num">1</span><div><h3>🎯 ENGAGE</h3><p class="phase-tagline">Spark curiosity.</p></div></div>
+    <div class="dialog-story">
+      <p style="text-align:center; font-weight:700; color:#0f766e; font-size:15px; margin-bottom:14px;">📖 Swara &amp; Ahana visit Ahana\'s Ajji (Grandmother)</p>
+      <p class="narration">Summer vacation. The two friends visit Ahana\'s ajji in a village near the Western Ghats. Cool air. Birds chirping. A stream nearby.</p>
+      <p><span class="speaker swara">Swara:</span> Wow! The air feels so... clean!</p>
+      <p><span class="speaker amma">Ajji:</span> Yes! Pure mountain air. You know — it\'s not just empty space. <span class="vocab-term">Air</span> is a mix of gases. 78% nitrogen, 21% oxygen, 1% others.</p>
+      <p><span class="speaker ahana">Ahana:</span> Why do we need air?</p>
+      <p><span class="speaker amma">Ajji:</span> Our bodies need oxygen for everything — breathing, energy, even thinking. Hold your breath for 30 seconds and see how uncomfortable it feels!</p>
+      <p class="narration">A breeze blows. Leaves rustle. The girls see a firki spin nearby.</p>
+      <p><span class="speaker ahana">Ahana:</span> The wind moves things!</p>
+      <p><span class="speaker amma">Ajji:</span> Moving air = <span class="vocab-term">wind</span>. India uses wind to make electricity — huge <span class="vocab-term">windmill</span> farms in Tamil Nadu and Rajasthan.</p>
+      <p><span class="speaker swara">Swara:</span> What\'s in the stream? Why is the water so clear?</p>
+      <p><span class="speaker amma">Ajji:</span> Fresh water from melting snow up in the hills. <span class="vocab-term">Freshwater</span> is precious — only 1% of Earth\'s water is fresh and usable. The rest is salty oceans!</p>
+      <p><span class="speaker ahana">Ahana:</span> So we have to save it...</p>
+      <p><span class="speaker amma">Ajji:</span> Yes — every drop counts. Turn off taps, fix leaks, don\'t waste.</p>
+      <p class="narration">She bends down, picks up some soil.</p>
+      <p><span class="speaker amma">Ajji:</span> See this <span class="vocab-term">soil</span>? It\'s made of tiny rocks, decayed plants and animals (called <span class="vocab-term">humus</span>), water, air, and tiny living things. Without soil — no food, no trees, no us!</p>
+      <p><span class="speaker swara">Swara:</span> And the sun?</p>
+      <p><span class="speaker amma">Ajji:</span> <span class="vocab-term">Sunlight</span> gives us light, warmth, vitamin D, and powers all plant growth. We can even use solar panels to make electricity!</p>
+      <p><span class="speaker ahana">Ahana:</span> So many treasures from nature...</p>
+      <p><span class="speaker amma">Ajji:</span> Yes, beta. Air, water, soil, sun, plants, animals — without them, there\'s no life. Our job is to PROTECT them.</p>
+    </div>
+    <div class="vocab-summary"><h4>📚 New words:</h4><div class="vocab-chips"><span class="vocab-chip">air</span><span class="vocab-chip">oxygen / nitrogen</span><span class="vocab-chip">wind</span><span class="vocab-chip">windmill</span><span class="vocab-chip">freshwater</span><span class="vocab-chip">soil</span><span class="vocab-chip">humus</span><span class="vocab-chip">sunlight</span><span class="vocab-chip">solar energy</span><span class="vocab-chip">conservation</span></div></div>
+  </div>
+  <div class="phase-card phase-explore">
+    <div class="phase-header"><span class="phase-num">2</span><div><h3>🔬 EXPLORE</h3><p class="phase-tagline">Try it.</p></div></div>
+    <div class="exp-mini"><h5>🎐 Experiment 1: Make a Firki (paper pinwheel)</h5><p>15cm x 15cm paper square. Follow textbook instructions. Hold up to wind — watch it spin! That\'s wind energy in action.</p></div>
+    <div class="exp-mini"><h5>💧 Experiment 2: 24-Hour Water Track</h5><p>Note every use of water in your home for a day. Discuss with family: where can we save?</p></div>
+    <div class="exp-mini"><h5>🌱 Experiment 3: Compare 3 Soils</h5><p>Get sandy soil, clay, and garden soil. Pour water in each. Which drains fastest? Which holds water? Which is best for plants?</p></div>
+  </div>
+  <div class="phase-card phase-explain">
+    <div class="phase-header"><span class="phase-num">3</span><div><h3>📖 EXPLAIN</h3><p class="phase-tagline">Put it together.</p></div></div>
+    <canvas id="conceptMapCanvas" width="600" height="420"></canvas>
+    <div class="result-box" style="margin-top:10px;"><b>Key insight:</b> Air, water, soil, sun, plants, animals — together they form the web of life. Take care of each!</div>
+  </div>
+  <div class="phase-card phase-elaborate">
+    <div class="phase-header"><span class="phase-num">4</span><div><h3>🌍 ELABORATE</h3><p class="phase-tagline">Go further.</p></div></div>
+    <a href="./kit-procedure-chapter11.pdf" target="_blank" class="kit-link"><span class="kit-icon">📄</span><span>Open Kit Procedure — Chapter 11</span></a>
+    <div style="margin-top:16px;"><b style="color:#15803d;">Try next:</b><ul style="margin-left:18px; margin-top:6px; font-size:13px; color:#475569;"><li>Visit a wind farm or solar farm (search online for one near you).</li><li>Start a "Save Water" campaign in your school.</li><li>Read about the Chipko movement and Bishnoi community.</li><li>Make a poster for World Environment Day (June 5).</li></ul></div>
+  </div>
+  <div class="phase-card phase-evaluate">
+    <div class="phase-header"><span class="phase-num">5</span><div><h3>✓ EVALUATE</h3><p class="phase-tagline">Quick check.</p></div></div>
+    <div id="evalQuizContainer"></div>
+    <div id="pieResult"><h3>Your Score</h3><canvas id="piechartCanvas" width="300" height="300"></canvas><div id="piechartLabel" style="font-size:18px; font-weight:700; margin-top:10px;"></div><div id="piechartLegend" style="margin-top:10px; display:flex; gap:18px; justify-content:center; flex-wrap:wrap;"></div></div>
+  </div>
+</section>
+
+<section id="story" class="tab-panel">
+  <h2 class="section-title">Story &amp; Cartoons</h2>
+  <div class="story-card">
+    <h3 class="card-title">Bhoomi, Surya &amp; Ajji in the Western Ghats</h3>
+    <div class="story-intro">Vacation time! Bhoomi and Surya visit Ajji\'s village at the edge of a forest. The air is fresh, the soil rich, the streams clear. Ajji shows them what makes a healthy place healthy — and why we must protect it.</div>
+    <div class="comic-strip" id="strip1"></div>
+  </div>
+</section>
+
+<section id="simulations" class="tab-panel">
+  <h2 class="section-title">🌍 Nature Lab</h2>
+  <div class="sim-card"><h3 class="card-title">1. Air Composition (Pie chart)</h3><p>See the proportion of gases in Earth\'s atmosphere.</p><canvas id="airCanvas" width="600" height="320"></canvas><div class="result-box">Earth\'s atmosphere: 78% Nitrogen, 21% Oxygen, 1% Others (Argon, CO₂, etc.)</div></div>
+  <div class="sim-card"><h3 class="card-title">2. Animated Windmill</h3><p>The faster the wind, the more power the windmill generates!</p><div class="controls"><label>Wind speed: <span id="windVal">5</span> m/s</label><input type="range" id="windSlider" min="0" max="20" step="1" value="5" oninput="windSim.update()"></div><canvas id="windCanvas" width="600" height="280"></canvas><div class="result-box" id="windResult">Move the slider!</div></div>
+  <div class="sim-card"><h3 class="card-title">3. Soil Drainage Test</h3><p>Pick a soil type — watch water drainage speed.</p><div class="controls"><div class="toggle-group" id="soilToggle"><button data-s="sandy" class="active">Sandy</button><button data-s="clayey">Clayey</button><button data-s="loamy">Loamy</button></div></div><canvas id="soilCanvas" width="600" height="240"></canvas><div class="result-box" id="soilResult">Pick a soil.</div></div>
+</section>
+
+<section id="lab" class="tab-panel">
+  <h2 class="section-title">🧪 Lab Experiments</h2>
+  <div class="lab-card"><h3 class="card-title">Activity 11.1 — Breath-Holding <span class="difficulty">Easy</span></h3><div class="lab-section procedure"><h4>Procedure</h4><ol><li>Take a deep breath in.</li><li>Hold as long as you can.</li><li>Note how you feel — uncomfortable!</li><li>That\'s because your body NEEDS oxygen.</li></ol></div></div>
+  <div class="lab-card"><h3 class="card-title">Activity 11.2 — Make a Firki <span class="difficulty">Easy</span></h3><div class="lab-section materials"><h4>Materials</h4><ul><li>Square paper (15cm)</li><li>Scissors</li><li>Pin</li><li>Soft stick</li></ul></div><div class="lab-section procedure"><h4>Procedure</h4><ol><li>Fold paper diagonally, cut from each corner toward centre (not all the way).</li><li>Bring alternate corners to centre.</li><li>Pin through them, attach to stick.</li><li>Run with it or blow — watch it spin!</li></ol></div></div>
+  <div class="lab-card"><h3 class="card-title">Activity 11.3 — Water Audit <span class="difficulty">Easy</span></h3><div class="lab-section procedure"><h4>Procedure</h4><ol><li>For one day, list every water use in your home (handwash, dishes, bathing...).</li><li>Note how it\'s wasted (taps left running, leaks).</li><li>Suggest 1 fix per case.</li><li>Discuss with family.</li></ol></div></div>
+  <div class="lab-card"><h3 class="card-title">Activity 11.4 — Soil Test <span class="difficulty">Easy</span></h3><div class="lab-section materials"><h4>Materials</h4><ul><li>Sandy soil, clay, garden soil samples</li><li>3 funnels + 3 jars</li><li>Cotton (to plug holes)</li><li>Water</li></ul></div><div class="lab-section procedure"><h4>Procedure</h4><ol><li>Cotton at bottom of each funnel. Add equal soil.</li><li>Pour same amount of water on each.</li><li>Time how long water takes to drip through.</li><li>Sandy drains fast. Clay slow. Loamy medium.</li></ol></div></div>
+</section>
+
+<section id="quiz" class="tab-panel">
+  <h2 class="section-title">Quick Quiz</h2>
+  <div id="quiz-container"></div>
+  <div id="quiz-score" style="display:none"></div>
+</section>
+
+<section id="performance" class="tab-panel">
+  <h2 class="section-title">📋 Performance</h2>
+  <div class="perf-header"><h3>Student Performance Report</h3><p>Chapter 11 · Nature\'s Treasures</p></div>
+  <div class="student-info"><div><label>Name</label><input type="text" id="studentName" /></div><div><label>Class</label><input type="text" id="studentClass" placeholder="6" /></div><div><label>Date</label><input type="date" id="studentDate" /></div></div>
+  <table class="rubric-table" id="rubricTable"><thead><tr><th>Skill</th><th>1</th><th>2</th><th>3</th><th>4</th></tr></thead><tbody>
+    <tr><td class="rb-skill">Composition of air</td><td class="rb-cell" data-level="1">New</td><td class="rb-cell" data-level="2">Knows we breathe O2</td><td class="rb-cell" data-level="3">Knows ratios</td><td class="rb-cell" data-level="4">Explains why nitrogen matters</td></tr>
+    <tr><td class="rb-skill">Water sources &amp; conservation</td><td class="rb-cell" data-level="1">Basic</td><td class="rb-cell" data-level="2">Knows fresh vs salt</td><td class="rb-cell" data-level="3">Conserves at home</td><td class="rb-cell" data-level="4">Plans broader action</td></tr>
+    <tr><td class="rb-skill">Soil types &amp; uses</td><td class="rb-cell" data-level="1">New</td><td class="rb-cell" data-level="2">Knows 1-2 types</td><td class="rb-cell" data-level="3">All 3 with uses</td><td class="rb-cell" data-level="4">Tests &amp; identifies</td></tr>
+    <tr><td class="rb-skill">Sunlight + solar energy</td><td class="rb-cell" data-level="1">Knows it warms</td><td class="rb-cell" data-level="2">Knows photosynthesis exists</td><td class="rb-cell" data-level="3">Knows solar panels</td><td class="rb-cell" data-level="4">Connects to ISA, climate</td></tr>
+    <tr><td class="rb-skill">Wind energy</td><td class="rb-cell" data-level="1">New</td><td class="rb-cell" data-level="2">Knows windmills exist</td><td class="rb-cell" data-level="3">Knows Indian farms</td><td class="rb-cell" data-level="4">Compares with solar</td></tr>
+    <tr><td class="rb-skill">Conservation action</td><td class="rb-cell" data-level="1">Doesn\'t take action</td><td class="rb-cell" data-level="2">Knows reduce-reuse-recycle</td><td class="rb-cell" data-level="3">Practices at home</td><td class="rb-cell" data-level="4">Leads campaigns</td></tr>
+  </tbody></table>
+  <div class="rubric-summary"><div><div style="font-size:11px; color:#7e22ce;">Total</div><div><span class="rs-score" id="rubricTotal">0</span> / 24</div></div><div><div style="font-size:11px; color:#7e22ce;">Band</div><span class="rs-band" id="rubricBand" style="background:#e2e8f0; color:#475569; padding:6px 14px; border-radius:999px; font-weight:700; font-size:13px;">— Not yet —</span></div><div><div style="font-size:11px; color:#7e22ce;">Avg</div><div id="rubricAvg" style="font-weight:700; font-size:18px; color:#581c87;">—</div></div></div>
+  <div><label style="font-size:12px; color:#7e22ce; font-weight:700; text-transform:uppercase;">Reflection</label><textarea class="reflection" id="reflectionText"></textarea></div>
+  <div><label style="font-size:12px; color:#7e22ce; font-weight:700; text-transform:uppercase;">Teacher Comments</label><textarea class="reflection" id="teacherComments"></textarea></div>
+  <div class="sig-row"><div class="sig-line">Student</div><div class="sig-line">Teacher / Parent</div></div>
+  <div class="print-btn-row"><p>Save as PDF.</p><button class="btn" onclick="printPerf()" style="background:#7e22ce;">🖨️ Save as PDF</button></div>
+</section>
+
+</main>
+<script>
+document.querySelectorAll('nav.tabs button').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active')); document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active')); btn.classList.add('active'); document.getElementById(btn.dataset.tab).classList.add('active'); }); });
+
+const KWL_KEY = 'kwl_ch11_grade6';
+function kwlLoad() { try { const s = JSON.parse(localStorage.getItem(KWL_KEY) || '{}'); if(s.k) document.getElementById('kwl-k').value=s.k; if(s.w) document.getElementById('kwl-w').value=s.w; if(s.l) document.getElementById('kwl-l').value=s.l; } catch(e){} }
+function kwlSave() { localStorage.setItem(KWL_KEY, JSON.stringify({ k: document.getElementById('kwl-k').value, w: document.getElementById('kwl-w').value, l: document.getElementById('kwl-l').value })); }
+function kwlClear() { if (!confirm('Clear?')) return; ['kwl-k','kwl-w','kwl-l'].forEach(id => document.getElementById(id).value = ''); localStorage.removeItem(KWL_KEY); }
+['kwl-k','kwl-w','kwl-l'].forEach(id => { const el = document.getElementById(id); if (el) el.addEventListener('input', () => { clearTimeout(window._kt); window._kt = setTimeout(kwlSave, 600); }); });
+kwlLoad();
+function printKWL() { document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('print-active')); document.getElementById('kwl').classList.add('print-active'); window.print(); setTimeout(() => document.getElementById('kwl').classList.remove('print-active'), 1000); }
+function printPerf() { document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('print-active')); document.getElementById('performance').classList.add('print-active'); window.print(); setTimeout(() => document.getElementById('performance').classList.remove('print-active'), 1000); }
+
+(function(){
+  const c = document.getElementById('airCanvas'); const ctx = c.getContext('2d');
+  ctx.fillStyle='#f0fdfa'; ctx.fillRect(0,0,600,320);
+  ctx.fillStyle='#1e293b'; ctx.font='bold 13px sans-serif'; ctx.textAlign='center'; ctx.fillText('Sim 1: What is in the air?', 300, 22);
+  const cx=300, cy=170, r=110;
+  const segs = [{v:78, c:'#0d9488', l:'Nitrogen 78%'},{v:21, c:'#84cc16', l:'Oxygen 21%'},{v:1, c:'#f59e0b', l:'Others 1%'}];
+  let sa = -Math.PI/2;
+  segs.forEach(s => {
+    const sl = s.v/100*Math.PI*2;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,sa,sa+sl); ctx.closePath();
+    ctx.fillStyle=s.c; ctx.fill(); ctx.strokeStyle='white'; ctx.lineWidth=3; ctx.stroke();
+    const m=sa+sl/2;
+    ctx.fillStyle='white'; ctx.font='bold 14px sans-serif'; ctx.fillText(s.l, cx+Math.cos(m)*r*0.65, cy+Math.sin(m)*r*0.65+5);
+    sa += sl;
+  });
+  ctx.textAlign='left';
+})();
+
+const windSim = (() => {
+  const c = document.getElementById('windCanvas'); const ctx = c.getContext('2d');
+  let speed = 5, t = 0;
+  function update() { speed = +document.getElementById('windSlider').value; document.getElementById('windVal').textContent = speed; document.getElementById('windResult').innerHTML = `Wind speed: <b>${speed} m/s</b>. ${speed < 3 ? 'Too low — windmill barely turns.' : speed < 10 ? 'Good wind — generating power!' : speed < 15 ? 'Strong wind — full power!' : '⚠️ Storm winds — turbines auto-shut off for safety.'}`; }
+  function loop() { t += 0.05*speed; draw(); requestAnimationFrame(loop); }
+  function draw() {
+    ctx.clearRect(0,0,600,280); ctx.fillStyle='#bae6fd'; ctx.fillRect(0,0,600,200); ctx.fillStyle='#84cc16'; ctx.fillRect(0,200,600,80);
+    // sun
+    ctx.fillStyle='#fde047'; ctx.beginPath(); ctx.arc(80, 40, 18, 0, Math.PI*2); ctx.fill();
+    // windmill
+    const cx=300, cy=130;
+    ctx.fillStyle='#94a3b8'; ctx.fillRect(cx-4, cy, 8, 120);
+    ctx.fillStyle='#0d9488';
+    for (let i=0; i<3; i++) {
+      ctx.save(); ctx.translate(cx, cy); ctx.rotate(t + i*Math.PI*2/3);
+      ctx.fillRect(-3, 0, 6, 60); ctx.beginPath(); ctx.moveTo(0, 60); ctx.lineTo(-10, 70); ctx.lineTo(10, 70); ctx.closePath(); ctx.fill();
+      ctx.restore();
+    }
+    ctx.fillStyle='#1c1917'; ctx.beginPath(); ctx.arc(cx, cy, 7, 0, Math.PI*2); ctx.fill();
+    // wind arrows
+    if (speed > 0) {
+      ctx.strokeStyle='rgba(13,148,136,0.6)'; ctx.lineWidth=2;
+      for (let i=0; i<Math.min(8, speed); i++) {
+        const y = 60 + i*15;
+        ctx.beginPath(); ctx.moveTo(20, y); ctx.lineTo(20 + speed*8, y); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(20+speed*8, y); ctx.lineTo(15+speed*8, y-4); ctx.lineTo(15+speed*8, y+4); ctx.closePath(); ctx.fillStyle='rgba(13,148,136,0.6)'; ctx.fill();
+      }
+    }
+  }
+  loop(); update();
+  return { update };
+})();
+
+const soilSim = (() => {
+  const c = document.getElementById('soilCanvas'); const ctx = c.getContext('2d');
+  let type = 'sandy';
+  const data = { sandy: { name:'Sandy', drain:'Fast', desc:'Large particles, water drains quickly. Plants struggle in dry seasons.', color:'#fbbf24' }, clayey: { name:'Clayey', drain:'Slow', desc:'Fine particles, holds water. Sticky. Good for pottery, but plants can drown.', color:'#a16207' }, loamy: { name:'Loamy', drain:'Medium', desc:'Mix of sand, silt, clay + humus. Best for farming! Holds water but drains excess.', color:'#78350f' } };
+  document.querySelectorAll('#soilToggle button').forEach(b => { b.addEventListener('click', () => { document.querySelectorAll('#soilToggle button').forEach(x => x.classList.remove('active')); b.classList.add('active'); type = b.dataset.s; update(); }); });
+  function update() {
+    const d = data[type];
+    document.getElementById('soilResult').innerHTML = `<b>${d.name}</b> — drains: <b>${d.drain}</b>. ${d.desc}`;
+    ctx.clearRect(0,0,600,240); ctx.fillStyle='#f0fdfa'; ctx.fillRect(0,0,600,240);
+    ctx.fillStyle='#1e293b'; ctx.font='bold 13px sans-serif'; ctx.fillText('Sim 3: Soil drainage', 240, 22);
+    // funnel
+    ctx.strokeStyle='#1c1917'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(220, 60); ctx.lineTo(380, 60); ctx.lineTo(330, 160); ctx.lineTo(270, 160); ctx.closePath(); ctx.stroke();
+    // soil
+    ctx.fillStyle = d.color; ctx.fillRect(222, 80, 156, 60);
+    // water drops below
+    const dropCount = type === 'sandy' ? 8 : type === 'loamy' ? 4 : 1;
+    ctx.fillStyle='#0284c7';
+    for (let i=0; i<dropCount; i++) {
+      ctx.beginPath(); ctx.arc(300, 180 + i*8, 3, 0, Math.PI*2); ctx.fill();
+    }
+    ctx.fillStyle='#1e293b'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(d.name + ' soil — ' + d.drain + ' drainage', 300, 230); ctx.textAlign='left';
+  }
+  update(); return {};
+})();
+
+(function(){
+  const c = document.getElementById('conceptMapCanvas'); if (!c) return;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#eff6ff'; ctx.fillRect(0,0,600,420);
+  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('Concept Map — Nature\'s Treasures', 300, 24);
+  const cx = 300, cy = 220;
+  ctx.fillStyle = '#ccfbf1'; ctx.beginPath(); ctx.arc(cx,cy,55,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle = '#0d9488'; ctx.lineWidth = 3; ctx.stroke();
+  ctx.fillStyle = '#1c1917'; ctx.font = 'bold 13px sans-serif'; ctx.fillText('NATURE\'S', cx, cy-4); ctx.fillText('TREASURES', cx, cy+12);
+  const nodes = [
+    { angle: -Math.PI/2, label: '🌬️ Air', color: '#dbeafe', stroke: '#2563eb' },
+    { angle: -Math.PI/3, label: '💧 Water', color: '#cffafe', stroke: '#0891b2' },
+    { angle: Math.PI/9, label: '🌍 Soil', color: '#fef3c7', stroke: '#a16207' },
+    { angle: Math.PI/2, label: '☀️ Sunlight', color: '#fef9c3', stroke: '#d97706' },
+    { angle: 2*Math.PI/3, label: '🌳 Plants', color: '#dcfce7', stroke: '#15803d' },
+    { angle: -2*Math.PI/3, label: '🐾 Animals', color: '#fed7aa', stroke: '#c2410c' }
+  ];
+  nodes.forEach(n => {
+    const x = cx + Math.cos(n.angle)*150, y = cy + Math.sin(n.angle)*150;
+    ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(cx+Math.cos(n.angle)*55, cy+Math.sin(n.angle)*55); ctx.lineTo(x,y); ctx.stroke();
+    ctx.fillStyle = n.color;
+    ctx.beginPath(); if(ctx.roundRect) ctx.roundRect(x-55,y-22,110,44,12); else ctx.rect(x-55,y-22,110,44); ctx.fill();
+    ctx.strokeStyle = n.stroke; ctx.lineWidth = 2.5; ctx.stroke();
+    ctx.fillStyle = n.stroke; ctx.font = 'bold 13px sans-serif'; ctx.fillText(n.label, x, y+5);
+  });
+  ctx.textAlign = 'left';
+})();
+
+(function(){
+  const data = [
+    { q: 'What percentage of air is oxygen?', options: ['78%','21%','1%','50%'], correct: 1 },
+    { q: 'Most of Earth\'s freshwater is locked in:', options: ['Lakes','Ice/glaciers','Rivers','Wells'], correct: 1 },
+    { q: 'Which soil is best for farming?', options: ['Sandy','Clayey','Loamy','None'], correct: 2 },
+    { q: 'Windmills convert wind energy to:', options: ['Light','Electricity','Sound','Heat'], correct: 1 },
+    { q: 'The Chipko movement was about:', options: ['Saving rivers','Hugging trees to prevent cutting','Building dams','Wildlife rescue'], correct: 1 }
+  ];
+  const container = document.getElementById('evalQuizContainer'); if (!container) return;
+  let a = 0, s = 0;
+  data.forEach((q,idx) => {
+    const w = document.createElement('div'); w.className='eval-quiz';
+    const qt = document.createElement('div'); qt.className='eq-q'; qt.innerHTML=`Q${idx+1}. ${q.q}`; w.appendChild(qt);
+    q.options.forEach((opt,i) => {
+      const o = document.createElement('div'); o.className='eq-opt'; o.innerHTML=opt;
+      o.addEventListener('click', () => {
+        if (w.dataset.done) return; w.dataset.done='true'; a++;
+        if (i === q.correct) { o.classList.add('correct'); s++; } else { o.classList.add('wrong'); w.querySelectorAll('.eq-opt')[q.correct].classList.add('correct'); }
+        if (a === data.length) drawPie(s, data.length-s);
+      });
+      w.appendChild(o);
+    });
+    container.appendChild(w);
+  });
+  function drawPie(correct, wrong) {
+    document.getElementById('pieResult').classList.add('show');
+    const c = document.getElementById('piechartCanvas'); const ctx = c.getContext('2d');
+    ctx.clearRect(0,0,300,300);
+    const total = correct + wrong; if (total === 0) return;
+    const cx = 150, cy = 150, r = 110; let sa = -Math.PI/2;
+    [{v: correct, c: '#22c55e'},{v: wrong, c: '#dc2626'}].forEach(seg => {
+      if (seg.v === 0) return;
+      const sl = (seg.v/total)*Math.PI*2;
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,sa,sa+sl); ctx.closePath();
+      ctx.fillStyle = seg.c; ctx.fill();
+      ctx.strokeStyle = 'white'; ctx.lineWidth = 3; ctx.stroke();
+      const m = sa+sl/2;
+      ctx.fillStyle = 'white'; ctx.font = 'bold 22px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText(seg.v, cx+Math.cos(m)*r*0.6, cy+Math.sin(m)*r*0.6+8);
+      sa += sl;
+    });
+    ctx.beginPath(); ctx.arc(cx,cy,50,0,Math.PI*2); ctx.fillStyle = 'rgba(255,255,255,0.2)'; ctx.fill();
+    ctx.fillStyle = 'white'; ctx.font = 'bold 20px sans-serif'; ctx.fillText((correct/total*100).toFixed(0)+'%', cx, cy+7);
+    ctx.textAlign = 'left';
+    document.getElementById('piechartLabel').textContent = `${correct}/${total} correct`;
+    document.getElementById('piechartLegend').innerHTML = `<span style="display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:14px; height:14px; background:#22c55e; border-radius:3px;"></span>Correct (${correct})</span><span style="display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:14px; height:14px; background:#dc2626; border-radius:3px;"></span>Wrong (${wrong})</span>`;
+  }
+})();
+
+(function(){
+  const table = document.getElementById('rubricTable'); if (!table) return;
+  table.addEventListener('click', (e) => { const cell = e.target.closest('.rb-cell'); if (!cell) return; cell.parentElement.querySelectorAll('.rb-cell').forEach(c => c.classList.remove('selected')); cell.classList.add('selected'); recalc(); });
+  function recalc() {
+    let t = 0, a = 0;
+    table.querySelectorAll('tbody tr').forEach(r => { const s = r.querySelector('.rb-cell.selected'); if (s) { t += parseInt(s.dataset.level); a++; } });
+    document.getElementById('rubricTotal').textContent = t;
+    document.getElementById('rubricAvg').textContent = a > 0 ? (t/a).toFixed(1)+' / 4' : '—';
+    const band = document.getElementById('rubricBand'); const tot = table.querySelectorAll('tbody tr').length;
+    if (a === 0) { band.textContent = '— Not yet —'; band.style.background = '#e2e8f0'; band.style.color = '#475569'; }
+    else if (a < tot) { band.textContent = `In progress (${a}/${tot})`; band.style.background = '#fef3c7'; band.style.color = '#a16207'; }
+    else { const av = t/tot; let l, bg, fg;
+      if (av >= 3.5) { l='🏆 Advanced'; bg='#dcfce7'; fg='#15803d'; }
+      else if (av >= 2.5) { l='👍 Proficient'; bg='#dbeafe'; fg='#1e40af'; }
+      else if (av >= 1.5) { l='📚 Developing'; bg='#fef3c7'; fg='#a16207'; }
+      else { l='🌱 Beginning'; bg='#fee2e2'; fg='#b91c1c'; }
+      band.textContent = l; band.style.background = bg; band.style.color = fg;
+    }
+  }
+  const di = document.getElementById('studentDate'); if (di) di.valueAsDate = new Date();
+})();
+
+function drawKid(ctx,x,y,color,label){ ctx.fillStyle='#fde68a'; ctx.beginPath(); ctx.arc(x,y-18,11,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='#1e293b'; ctx.lineWidth=1.5; ctx.stroke(); ctx.fillStyle='#1e293b'; ctx.beginPath(); ctx.arc(x-3,y-20,1.2,0,Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.arc(x+3,y-20,1.2,0,Math.PI*2); ctx.fill(); ctx.fillStyle=color; ctx.fillRect(x-11,y-7,22,28); ctx.fillStyle='#1e293b'; ctx.fillRect(x-8,y+21,5,12); ctx.fillRect(x+3,y+21,5,12); if(label){ ctx.fillStyle='#1e293b'; ctx.font='bold 10px sans-serif'; ctx.textAlign='center'; ctx.fillText(label,x,y+48); ctx.textAlign='left'; } }
+function makeComic(stripId,num,caption,drawFn){ const strip=document.getElementById(stripId); const p=document.createElement('div'); p.className='comic-panel'; const n=document.createElement('div'); n.className='comic-number'; n.textContent=num; p.appendChild(n); const cnv=document.createElement('canvas'); cnv.width=280; cnv.height=200; p.appendChild(cnv); const c=document.createElement('div'); c.className='comic-caption'; c.textContent=caption; p.appendChild(c); strip.appendChild(p); drawFn(cnv.getContext('2d')); }
+
+makeComic('strip1', 1, 'Bhoomi and Surya arrive at Ajji\'s village in the Western Ghats. The air feels different — so fresh!', (ctx) => { ctx.fillStyle='#bae6fd'; ctx.fillRect(0,0,280,100); ctx.fillStyle='#15803d'; ctx.fillRect(0,100,280,100); ctx.fillStyle='#1c1917'; ctx.beginPath(); ctx.moveTo(40, 100); ctx.lineTo(80, 50); ctx.lineTo(120, 100); ctx.fill(); ctx.beginPath(); ctx.moveTo(150, 100); ctx.lineTo(200, 40); ctx.lineTo(250, 100); ctx.fill(); drawKid(ctx, 100, 150, '#0d9488', 'Bhoomi'); drawKid(ctx, 180, 150, '#dc2626', 'Surya'); });
+makeComic('strip1', 2, 'Ajji shows them air, water, soil, sun — "These are nature\'s 4 great treasures."', (ctx) => { ctx.fillStyle='#fef9c3'; ctx.fillRect(0,0,280,200); ctx.fillStyle='#fde047'; ctx.beginPath(); ctx.arc(70, 60, 25, 0, Math.PI*2); ctx.fill(); ctx.font='40px sans-serif'; ctx.textAlign='center'; ctx.fillText('💧', 200, 75); ctx.fillText('🌬️', 70, 160); ctx.fillText('🌍', 200, 160); ctx.textAlign='left'; });
+makeComic('strip1', 3, '"And plants &amp; animals are ALSO treasures! They give us oxygen, food, materials — everything."', (ctx) => { ctx.fillStyle='#dcfce7'; ctx.fillRect(0,0,280,200); ctx.font='50px sans-serif'; ctx.textAlign='center'; ctx.fillText('🌳 🌳', 100, 100); ctx.fillText('🐄 🐝', 200, 100); ctx.fillText('🐦 🦋', 140, 170); ctx.textAlign='left'; });
+makeComic('strip1', 4, '"Our job: PROTECT them all. Save water, plant trees, use clean energy, respect every life."', (ctx) => { ctx.fillStyle='#f0fdfa'; ctx.fillRect(0,0,280,200); ctx.fillStyle='#0d9488'; ctx.font='bold 14px sans-serif'; ctx.textAlign='center'; ctx.fillText('PROTECT', 140, 60); ctx.fillText('NATURE', 140, 85); ctx.font='bold 11px sans-serif'; ctx.fillStyle='#1e293b'; ctx.fillText('💧 Save water', 140, 120); ctx.fillText('🌳 Plant trees', 140, 140); ctx.fillText('♻️ Reduce-Reuse-Recycle', 140, 160); ctx.textAlign='left'; });
+
+const quizData = [
+  { q: 'Air is mostly:', options: ['Oxygen','Nitrogen','CO₂','Water vapour'], correct: 1, why: 'Air is 78% nitrogen! Only 21% is oxygen — but that\'s the one we breathe.' },
+  { q: 'How much of Earth\'s water is fresh and drinkable?', options: ['50%','25%','About 1%','Half'], correct: 2, why: 'Only ~1% is easily accessible fresh water. Most is salty oceans, then frozen ice.' },
+  { q: 'Soil is made of:', options: ['Just rock','Tiny rock particles + humus + air + water','Only sand','Salt water'], correct: 1, why: 'Soil = rock particles + decayed organic matter (humus) + water + air + microbes.' },
+  { q: 'Which soil drains water fastest?', options: ['Clay','Sandy','Loamy','None'], correct: 1, why: 'Sandy soil has large gaps → water flows through quickly.' },
+  { q: 'Wind energy can be used to make:', options: ['Sound','Electricity','Oxygen','Soil'], correct: 1, why: 'Windmills spin from wind, drive generators, make electricity. India has big wind farms.' },
+  { q: 'The Sun gives us all of these EXCEPT:', options: ['Light','Heat','Energy for plants','Water'], correct: 3, why: 'Sun gives light, heat, energy — but water comes from rain, rivers, etc. (Though the Sun POWERS the water cycle!)' },
+  { q: 'Solar panels convert sunlight to:', options: ['Steam','Electricity','Sound','Food'], correct: 1, why: 'Photovoltaic cells convert sunlight directly to electricity.' },
+  { q: 'Why save water?', options: ['It\'s a fun hobby','Only 1% is easily usable; population is growing','Water is dirty','To save money only'], correct: 1, why: 'Fresh water is limited. Every drop matters!' },
+  { q: 'The Chipko movement was about:', options: ['Building dams','Saving trees by hugging them','Catching fish','Mining'], correct: 1, why: 'In the 1970s, Himalayan villagers (especially women) hugged trees to prevent loggers from cutting them.' },
+  { q: 'The international body that India founded for solar energy is the:', options: ['UN','International Solar Alliance','Greenpeace','WHO'], correct: 1, why: 'ISA (International Solar Alliance) — HQ in Gurugram, India. Many countries members.' }
+];
+const quizContainer = document.getElementById('quiz-container');
+let answeredCount = 0, score = 0;
+quizData.forEach((q, idx) => {
+  const wrap = document.createElement('div'); wrap.className = 'quiz-question';
+  const qText = document.createElement('div'); qText.className = 'q-text'; qText.textContent = `Q${idx+1}. ${q.q}`; wrap.appendChild(qText);
+  q.options.forEach((opt, i) => {
+    const o = document.createElement('div'); o.className = 'quiz-option'; o.textContent = opt;
+    o.addEventListener('click', () => {
+      if (wrap.dataset.answered) return; wrap.dataset.answered = 'true'; answeredCount++;
+      const fb = document.createElement('div'); fb.className = 'quiz-feedback show';
+      if (i === q.correct) { o.classList.add('correct'); fb.classList.add('correct'); fb.innerHTML = `<b>✅ Yes!</b> ${q.why}`; score++; }
+      else { o.classList.add('wrong'); wrap.querySelectorAll('.quiz-option')[q.correct].classList.add('correct'); fb.classList.add('wrong'); fb.innerHTML = `<b>🤔 Not quite.</b> ${q.why}`; }
+      wrap.appendChild(fb);
+      if (answeredCount === quizData.length) { const s = document.getElementById('quiz-score'); s.style.display = 'block'; s.innerHTML = `Score: <b>${score}/${quizData.length}</b><br>${score === quizData.length ? '🏆 Nature Hero!' : '👏 Keep learning!'}`; }
+    });
+    wrap.appendChild(o);
+  });
+  quizContainer.appendChild(wrap);
+});
+</script>
+<script src="smile-chapter-assessment.js"></script>
+</body>
+</html>

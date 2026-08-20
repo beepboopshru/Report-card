@@ -1,0 +1,2575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grade 6 — Chapter 6 — Materials Around Us</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #ecfeff;
+    color: #1e293b;
+    line-height: 1.55;
+  }
+  header {
+    background: linear-gradient(135deg, #155e75 0%, #0891b2 45%, #f97316 100%);
+    color: white;
+    padding: 36px 24px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  }
+  header h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+  header p { opacity: 0.95; font-size: 14px; }
+  nav.tabs {
+    display: flex; justify-content: center; gap: 4px;
+    background: white; padding: 8px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); flex-wrap: wrap;
+  }
+  nav.tabs button {
+    background: transparent; border: none;
+    padding: 10px 16px; font-size: 13px; font-weight: 600;
+    color: #475569; cursor: pointer; border-radius: 8px;
+    transition: all 0.2s;
+  }
+  nav.tabs button:hover { background: #cffafe; color: #0891b2; }
+  nav.tabs button.active { background: #0891b2; color: white; }
+  main { max-width: 1100px; margin: 0 auto; padding: 24px; background: #f0fdff; min-height: 80vh; }
+  .tab-panel { display: none; animation: fadeIn 0.3s ease; }
+  .tab-panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  h2.section-title {
+    font-size: 22px; color: #0891b2; margin-bottom: 16px;
+    padding-bottom: 8px; border-bottom: 2px solid #0891b2;
+  }
+  h3.card-title { font-size: 18px; color: #1e293b; margin-bottom: 10px; }
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+  .card, .sim-card, .exp-card, .story-card, .lab-card {
+    background: white; border-radius: 12px; padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    margin-bottom: 16px; transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  .card p, .card li { font-size: 14px; color: #475569; margin-bottom: 6px; }
+  .card ul { margin-left: 18px; }
+  .badge {
+    display: inline-block; background: #cffafe; color: #0e7490;
+    font-size: 11px; font-weight: 600; padding: 3px 8px;
+    border-radius: 999px; margin-bottom: 8px;
+  }
+  .badge-orange { background: #ffedd5; color: #c2410c; }
+  .badge-green { background: #dcfce7; color: #16a34a; }
+  .badge-purple { background: #f3e8ff; color: #7e22ce; }
+  canvas { display: block; background: #ecfeff; border-radius: 8px; margin: 12px 0; max-width: 100%; }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; align-items: center; }
+  button.btn {
+    background: #0891b2; color: white; border: none;
+    padding: 8px 16px; font-size: 13px; font-weight: 600;
+    border-radius: 6px; cursor: pointer; transition: background 0.2s;
+  }
+  button.btn:hover { background: #0e7490; }
+  button.btn.secondary { background: #64748b; }
+  button.btn.secondary:hover { background: #475569; }
+  button.btn.orange { background: #f97316; }
+  button.btn.orange:hover { background: #ea580c; }
+  label { font-size: 13px; color: #475569; font-weight: 500; }
+  .result-box {
+    background: #cffafe; border-left: 4px solid #0891b2;
+    padding: 12px 16px; border-radius: 6px; margin-top: 12px; font-size: 14px;
+  }
+  .observation {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 10px 14px; border-radius: 6px; margin-top: 10px; font-size: 13px;
+  }
+  .step-display {
+    background: #ecfeff; border: 1px solid #cffafe;
+    padding: 12px; border-radius: 6px; margin-top: 10px;
+    font-size: 13px; min-height: 50px;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+  th, td { padding: 7px 8px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+  th { background: #ecfeff; font-weight: 600; color: #475569; }
+  .key-fact {
+    background: #ecfeff; border-left: 3px solid #0891b2;
+    padding: 8px 12px; margin: 8px 0; font-size: 13px; border-radius: 4px;
+  }
+  .toggle-group { display: inline-flex; background: #e2e8f0; padding: 3px; border-radius: 6px; flex-wrap: wrap; }
+  .toggle-group button {
+    background: transparent; border: none;
+    padding: 6px 12px; font-size: 12px; font-weight: 600;
+    color: #475569; cursor: pointer; border-radius: 4px;
+  }
+  .toggle-group button.active { background: white; color: #0891b2; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  .lab-card {
+    border-left: 5px solid #0891b2;
+    background: linear-gradient(to right, #ecfeff 0%, #ffffff 80px);
+  }
+  .lab-card.addon { border-left-color: #f97316; background: linear-gradient(to right, #fff7ed 0%, #ffffff 80px); }
+  .lab-section {
+    margin-top: 12px; padding: 10px 14px;
+    background: #ecfeff; border-radius: 6px;
+    font-size: 13px;
+  }
+  .lab-section h4 { color: #0891b2; font-size: 13px; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .lab-section.materials h4 { color: #c2410c; }
+  .lab-section.procedure h4 { color: #16a34a; }
+  .lab-section.safety { background: #fef2f2; }
+  .lab-section.safety h4 { color: #dc2626; }
+  .lab-section ol, .lab-section ul { margin-left: 18px; }
+  .lab-section li { margin-bottom: 4px; }
+  .difficulty {
+    display: inline-block; padding: 2px 10px;
+    border-radius: 999px; font-size: 11px; font-weight: 600;
+    margin-left: 8px;
+  }
+  .difficulty.easy   { background: #dcfce7; color: #16a34a; }
+  .difficulty.medium { background: #fef3c7; color: #d97706; }
+  .difficulty.hard   { background: #fee2e2; color: #dc2626; }
+  .comic-strip {
+    display: grid; gap: 12px; margin-top: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  .comic-panel {
+    background: #fffbeb; border: 3px solid #1e293b;
+    border-radius: 8px; overflow: hidden; position: relative;
+    box-shadow: 4px 4px 0 rgba(30,41,59,0.4);
+  }
+  .comic-panel canvas { background: #fefce8; border-radius: 0; margin: 0; width: 100%; display: block; }
+  .comic-caption {
+    background: #1e293b; color: #fef9c3;
+    padding: 10px 12px; font-size: 13px;
+    font-weight: 500; line-height: 1.4; font-family: Georgia, serif;
+  }
+  .comic-number {
+    position: absolute; top: 6px; left: 8px;
+    background: #0891b2; color: white; font-weight: 800; font-size: 14px;
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid #1e293b; z-index: 5;
+  }
+  .story-intro {
+    background: linear-gradient(135deg, #cffafe 0%, #ffedd5 100%);
+    border-left: 4px solid #0891b2;
+    padding: 14px 18px; border-radius: 8px;
+    margin-bottom: 14px; font-size: 14px;
+    color: #134e4a; font-style: italic;
+  }
+  .quiz-question {
+    background: white; border-radius: 12px;
+    padding: 20px; margin-bottom: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .quiz-question .q-text { font-weight: 600; margin-bottom: 12px; color: #1e293b; }
+  .quiz-option {
+    display: block; padding: 10px 14px; margin-bottom: 6px;
+    border: 2px solid #e2e8f0; border-radius: 8px;
+    cursor: pointer; font-size: 14px; transition: all 0.15s;
+  }
+  .quiz-option:hover { border-color: #0891b2; background: #ecfeff; }
+  .quiz-option.correct { border-color: #16a34a; background: #f0fdf4; }
+  .quiz-option.wrong { border-color: #dc2626; background: #fef2f2; }
+  .quiz-feedback {
+    margin-top: 10px; padding: 10px; border-radius: 6px;
+    font-size: 13px; display: none;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: #f0fdf4; color: #166534; }
+  .quiz-feedback.wrong { background: #fef2f2; color: #991b1b; }
+  #quiz-score {
+    background: linear-gradient(135deg, #0891b2 0%, #f97316 100%);
+    color: white; padding: 20px; border-radius: 12px;
+    text-align: center; margin-top: 16px;
+    font-size: 16px; font-weight: 600;
+  }
+  .material-btn {
+    background: white;
+    border: 2px solid #e2e8f0;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-weight: 500;
+  }
+  .material-btn:hover { border-color: #0891b2; background: #ecfeff; }
+  .material-btn.active { border-color: #0891b2; background: #cffafe; color: #0e7490; }
+  .material-grid { display: grid; gap: 6px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); margin: 10px 0; }
+  /* Sorter */
+  .sort-bin {
+    background: white; border: 3px dashed #cbd5e1;
+    border-radius: 12px; padding: 16px; min-height: 160px;
+    transition: all 0.2s;
+  }
+  .sort-bin.transparent { border-color: #0891b2; background: #ecfeff; }
+  .sort-bin.translucent { border-color: #f59e0b; background: #fef3c7; }
+  .sort-bin.opaque { border-color: #475569; background: #f1f5f9; }
+  .sort-bin h4 { font-size: 14px; margin-bottom: 8px; }
+  .obj-chip {
+    background: white;
+    border: 2px solid #94a3b8;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 13px;
+    margin: 4px;
+    cursor: pointer;
+    display: inline-block;
+    transition: all 0.15s;
+  }
+  .obj-chip:hover { border-color: #0891b2; transform: scale(1.05); }
+  .obj-chip.transparent { background: #cffafe; border-color: #0891b2; }
+  .obj-chip.translucent { background: #fef3c7; border-color: #f59e0b; }
+  .obj-chip.opaque { background: #e2e8f0; border-color: #475569; }
+  .change-bank { margin-bottom: 16px; min-height: 60px; padding: 10px; background: #f8fafc; border-radius: 8px; }
+  .sort-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  @media (max-width: 700px) { .sort-row { grid-template-columns: 1fr; } }
+  /* Ayurveda pairs */
+  .guna-pair {
+    background: white;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin: 6px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 8px;
+    align-items: center;
+  }
+  .guna-pair .guna-a, .guna-pair .guna-b {
+    font-size: 13px; color: #0e7490; font-weight: 600;
+    padding: 4px 10px;
+    background: #ecfeff; border-radius: 8px;
+    text-align: center;
+  }
+  .guna-pair .guna-vs { color: #94a3b8; font-size: 11px; text-align: center; }
+  footer { text-align: center; padding: 20px; color: #94a3b8; font-size: 12px; background: #0f172a; }
+</style>
+<link rel="stylesheet" href="smile-chapter-assessment.css">
+</head>
+<body>
+
+<header>
+  <h1>Materials Around Us</h1>
+</header>
+
+<nav class="tabs">
+  <button type="button" onclick="event.stopImmediatePropagation(); window.location.href='index.html'; return false;" style="background:#fef3c7; color:#b45309; padding:10px 16px; font-size:13px; font-weight:600; border-radius:8px; border:none; cursor:pointer; font-family:inherit;">🏠 Home</button>
+  <button data-tab="concepts" class="active">Concepts</button>
+  <button data-tab="kwl" style="background:#fef3c7; color:#b45309;">📝 KWL Chart</button>
+  <button data-tab="story">Story &amp; Cartoons</button>
+  <button data-tab="simulations">Properties Lab 🔍</button>
+  <button data-tab="experiments">Virtual Experiments</button>
+  <button data-tab="lab">Lab Experiments</button>
+  <button data-tab="quiz">Quiz</button>
+</nav>
+
+<main>
+
+<!-- =================== CONCEPTS =================== -->
+<section id="concepts" class="tab-panel active">
+  <h2 class="section-title">Key Concepts</h2>
+  <div class="grid">
+
+    <div class="card">
+      <span class="badge">Big Idea</span>
+      <h3 class="card-title">What is a Material?</h3>
+      <p>Look at your school bag, your books, your pen, your tiffin box, your water bottle…</p>
+      <p>Every <b>object</b> is made of one or more <b>materials</b> — like paper, wood, cloth, glass, metal, plastic, clay.</p>
+      <div class="key-fact">Any substance used to make an object is called a <b>material</b>.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge">6.2</span>
+      <h3 class="card-title">Why Group Materials?</h3>
+      <p>Arranging objects into groups is called <b>classification</b>.</p>
+      <p>Why do we classify?</p>
+      <ul>
+        <li>It helps us see <b>patterns</b></li>
+        <li>It helps us <b>find things</b> (like spices in the kitchen)</li>
+        <li>It helps us <b>choose</b> the right material for each purpose</li>
+      </ul>
+      <div class="key-fact">You can group materials by colour, shape, hardness, shine, transparency, or what they are made of.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-orange badge">6.3.1</span>
+      <h3 class="card-title">Lustre — Shiny or Dull?</h3>
+      <p>Some materials <b>shine</b> when light falls on them. We say they have <b>lustre</b>.</p>
+      <ul>
+        <li><b>Lustrous</b> ✨: iron, copper, aluminium, gold, silver (usually metals)</li>
+        <li><b>Non-lustrous</b>: paper, wood, rubber, jute</li>
+      </ul>
+      <div class="key-fact">⚠️ "All that glitters is not gold!" Some non-metals are <i>coated</i> with shiny plastic or wax to look lustrous — but they're not metals.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-orange badge">6.3.2</span>
+      <h3 class="card-title">Hard or Soft?</h3>
+      <p>Press it. Scratch it.</p>
+      <ul>
+        <li><b>Hard</b> materials don't compress or scratch easily: stone, iron, brick</li>
+        <li><b>Soft</b> materials compress easily: sponge, cotton, rubber, pillow</li>
+      </ul>
+      <div class="key-fact">"Hard" is <b>relative</b> — rubber is harder than sponge but softer than iron.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-purple badge">6.3.3</span>
+      <h3 class="card-title">Transparent / Translucent / Opaque</h3>
+      <p>Can you see through it?</p>
+      <table>
+        <tr><th>Type</th><th>Means</th><th>Examples</th></tr>
+        <tr><td><b>Transparent</b></td><td>See clearly</td><td>Glass, water, air, cellophane</td></tr>
+        <tr><td><b>Translucent</b></td><td>See — but not clearly</td><td>Butter paper, frosted glass</td></tr>
+        <tr><td><b>Opaque</b></td><td>Cannot see at all</td><td>Wood, cardboard, metal, walls</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <span class="badge-green badge">6.3.4</span>
+      <h3 class="card-title">Soluble or Insoluble?</h3>
+      <p>Drop it in water and stir:</p>
+      <ul>
+        <li><b>Soluble</b> ✓ — disappears completely: sugar, salt, lemon juice</li>
+        <li><b>Insoluble</b> ✗ — doesn't dissolve: sand, chalk powder, sawdust</li>
+      </ul>
+      <div class="key-fact">Water dissolves many things — that's why it's important for our bodies and for fish (oxygen also dissolves in water!).</div>
+      <p style="margin-top: 8px;">Some <b>liquids</b> mix with water (vinegar, lemon juice) and some don't (oil, honey can settle).</p>
+    </div>
+
+    <div class="card">
+      <span class="badge">6.3.5</span>
+      <h3 class="card-title">Mass — How Much Matter?</h3>
+      <p>An iron ball is heavier than a wooden ball of the same size. Why?</p>
+      <p>Because they have different <b>mass</b>.</p>
+      <p>Mass tells us the <b>amount of matter</b> in an object.</p>
+      <ul>
+        <li>Measured with a <b>balance</b></li>
+        <li>Unit: <b>kilogram (kg)</b> or <b>gram (g)</b></li>
+      </ul>
+      <div class="key-fact">1 kg = 1000 g. Always leave a space between number and unit: write <b>7 kg</b>, not 7kg or 7kgs.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge">6.3.6</span>
+      <h3 class="card-title">Volume — How Much Space?</h3>
+      <p>Volume = the <b>space</b> a substance occupies.</p>
+      <ul>
+        <li>A bag on your seat takes up space → you can't sit there!</li>
+        <li>A 1 L bottle of water has more volume than a 500 mL bottle</li>
+      </ul>
+      <p>Measured in: <b>litre (L)</b>, <b>millilitre (mL)</b>, or <b>cubic metre (m³)</b>.</p>
+      <div class="key-fact">1 m³ = 1000 L.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge">6.4</span>
+      <h3 class="card-title">What is Matter?</h3>
+      <p>Two special properties are shared by EVERY material:</p>
+      <ul>
+        <li>It has <b>mass</b></li>
+        <li>It occupies <b>volume</b> (space)</li>
+      </ul>
+      <p>Anything that has mass AND occupies space is called <b>matter</b>.</p>
+      <div class="key-fact">All materials are matter. Water, sand, air, cup, pencil — all matter! Even air has mass (very little, but real).</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-orange badge">India</span>
+      <h3 class="card-title">🏺 Ancient Pottery</h3>
+      <p>The earliest pottery in India dates back <b>7,000–8,000 years</b>!</p>
+      <ul>
+        <li>Found in Lahuradewa (Ganga plains) and Mehrgarh (Baluchistan)</li>
+        <li>Around 4000 BCE — wheel-turned pottery, painted designs, "slips" (coloured coats)</li>
+        <li>Sindhu-Sarasvatī (Harappan) Civilisation: bright red surfaces, black designs</li>
+        <li><b>Terracotta</b> = baked clay</li>
+      </ul>
+      <div class="key-fact">Large storage jars and other Harappan pottery are exhibited at the National Museum, New Delhi.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-purple badge">India</span>
+      <h3 class="card-title">🌿 Ayurveda's 20 Properties</h3>
+      <p>Ayurveda (ancient Indian medical system) describes <b>all physical matter</b> using <b>20 properties</b> — ten pairs of opposites called <b>guṇa</b>.</p>
+      <div class="guna-pair"><span class="guna-a">guru (heavy)</span><span class="guna-vs">vs</span><span class="guna-b">laghu (light)</span></div>
+      <div class="guna-pair"><span class="guna-a">manda (slow)</span><span class="guna-vs">vs</span><span class="guna-b">tīkṣhna (fast)</span></div>
+      <div class="guna-pair"><span class="guna-a">hima (cold)</span><span class="guna-vs">vs</span><span class="guna-b">uṣhna (hot)</span></div>
+      <div class="guna-pair"><span class="guna-a">snigdha (oily)</span><span class="guna-vs">vs</span><span class="guna-b">rukṣha (dry)</span></div>
+      <div class="guna-pair"><span class="guna-a">shlakṣhana (smooth)</span><span class="guna-vs">vs</span><span class="guna-b">khara (rough)</span></div>
+      <div class="guna-pair"><span class="guna-a">sāndra (solid)</span><span class="guna-vs">vs</span><span class="guna-b">drava (liquid)</span></div>
+      <div class="guna-pair"><span class="guna-a">mṛidu (soft)</span><span class="guna-vs">vs</span><span class="guna-b">kaṭhina (hard)</span></div>
+      <div class="guna-pair"><span class="guna-a">sthira (stable)</span><span class="guna-vs">vs</span><span class="guna-b">cala (moving)</span></div>
+      <div class="guna-pair"><span class="guna-a">sūkṣhma (small)</span><span class="guna-vs">vs</span><span class="guna-b">sthūla (big)</span></div>
+      <div class="guna-pair"><span class="guna-a">vishada (non-slimy)</span><span class="guna-vs">vs</span><span class="guna-b">picchhila (slimy)</span></div>
+    </div>
+
+    <div class="card">
+      <span class="badge-green badge">Real life</span>
+      <h3 class="card-title">💧 Make ORS at Home</h3>
+      <p>ORS = Oral Rehydration Solution — used to treat dehydration from diarrhoea.</p>
+      <p style="text-align: center; padding: 12px; background: #ecfeff; border-radius: 8px; margin: 8px 0;">
+        <b>6 tsp sugar</b> + <b>½ tsp salt</b><br>
+        in <b>1 litre boiled, cooled water</b>
+      </p>
+      <p>The sugar and salt are <b>soluble</b> in water. Once dissolved, the body can absorb them quickly. A simple chemistry that saves lives!</p>
+    </div>
+
+    <div class="card">
+      <span class="badge">Choosing</span>
+      <h3 class="card-title">Material Matches the Purpose</h3>
+      <p>Why isn't a tumbler made of paper or cloth? Because water would leak through!</p>
+      <p>We choose materials based on the <b>job</b> we want them to do:</p>
+      <table>
+        <tr><th>For…</th><th>Use…</th><th>Because…</th></tr>
+        <tr><td>Holding water</td><td>Glass / steel / plastic</td><td>Doesn't leak</td></tr>
+        <tr><td>Bouncing ball</td><td>Rubber</td><td>Springy</td></tr>
+        <tr><td>Window</td><td>Glass</td><td>Transparent</td></tr>
+        <tr><td>Door</td><td>Wood / metal</td><td>Hard, opaque</td></tr>
+        <tr><td>Pillow</td><td>Cotton, foam</td><td>Soft</td></tr>
+        <tr><td>Cooking pot</td><td>Metal</td><td>Conducts heat</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- =================== STORY =================== -->
+<section id="story" class="tab-panel">
+  <h2 class="section-title">Story &amp; Cartoons</h2>
+
+  <div class="story-card">
+    <h3 class="card-title">Story 1: A New Class with Madam Vidya</h3>
+    <div class="story-intro">
+      First day after summer break. Ghulan and Sheeta enter their new classroom carrying new notebooks and pens. Madam Vidya, their science teacher, has a curious question — "What are all these things made of?"
+    </div>
+    <div class="comic-strip" id="strip1"></div>
+  </div>
+
+  <div class="story-card">
+    <h3 class="card-title">Story 2: Three Balls, Three Surprises</h3>
+    <div class="story-intro">
+      The class compares three balls: a tennis ball, a cricket ball, and a hand-exercise ball. Same size — but very different. They drop them. The bounces are NOTHING alike. Why?
+    </div>
+    <div class="comic-strip" id="strip2"></div>
+  </div>
+
+  <div class="story-card">
+    <h3 class="card-title">Story 3: Hide and Seek with Transparent, Translucent, Opaque</h3>
+    <div class="story-intro">
+      Ghulan, Sheeta, and Sara are playing hide and seek. Ghulan hides behind a brick wall. Sheeta crouches behind a tree. Sara stands behind a frosted glass door. Sheeta's brother watches it all from inside through a regular window. Why did each one work?
+    </div>
+    <div class="comic-strip" id="strip3"></div>
+  </div>
+
+  <div class="story-card">
+    <h3 class="card-title">Story 4: The Disappearing Sugar</h3>
+    <div class="story-intro">
+      Ghulan comes home tired and thirsty. His mother makes shikanji — sugar, salt, lemon juice in a glass of water. Ghulan stares — the sugar VANISHES! Where did it go? (Hint: it didn't actually disappear.)
+    </div>
+    <div class="comic-strip" id="strip4"></div>
+  </div>
+
+  <div class="story-card">
+    <h3 class="card-title">Story 5: The Bag on the Seat</h3>
+    <div class="story-intro">
+      Madam Vidya tells the class to sit. But they can't — bags are on their seats! "Why can't you sit?" she asks. They reply, "No space — the bags are there." A simple moment leads to a big idea: VOLUME.
+    </div>
+    <div class="comic-strip" id="strip5"></div>
+  </div>
+</section>
+
+<!-- =================== PROPERTIES LAB =================== -->
+<section id="simulations" class="tab-panel">
+  <h2 class="section-title">🔍 Properties Lab</h2>
+
+  <div class="sim-card">
+    <h3 class="card-title">1. The Material Inspector</h3>
+    <p>Pick a material. Pick a property. See the result instantly.</p>
+    <div style="margin: 14px 0;">
+      <label style="display:block; margin-bottom: 6px; font-weight: 600;">Pick a material:</label>
+      <div class="material-grid" id="materialGrid"></div>
+    </div>
+    <div style="margin: 14px 0;">
+      <label style="display:block; margin-bottom: 6px; font-weight: 600;">Pick a property to test:</label>
+      <div class="toggle-group" id="propToggle">
+        <button data-p="lustre" class="active">Lustre</button>
+        <button data-p="hardness">Hardness</button>
+        <button data-p="transparency">Transparency</button>
+        <button data-p="solubility">Solubility</button>
+      </div>
+    </div>
+    <canvas id="propCanvas" width="600" height="260"></canvas>
+    <div class="result-box" id="propResult">Pick a material and a property to test.</div>
+  </div>
+
+  <div class="sim-card">
+    <h3 class="card-title">2. Transparent / Translucent / Opaque Sorter</h3>
+    <p>Click each chip to cycle it between the bins. Auto-sort for the answer key.</p>
+    <div class="change-bank" id="objBank"></div>
+    <div class="sort-row">
+      <div class="sort-bin transparent">
+        <h4 style="color:#0891b2;">🔵 Transparent</h4>
+        <div id="binTransparent"></div>
+      </div>
+      <div class="sort-bin translucent">
+        <h4 style="color:#d97706;">🟡 Translucent</h4>
+        <div id="binTranslucent"></div>
+      </div>
+      <div class="sort-bin opaque">
+        <h4 style="color:#475569;">⚫ Opaque</h4>
+        <div id="binOpaque"></div>
+      </div>
+    </div>
+    <div class="controls">
+      <button class="btn" onclick="sorter.autoSort()">Auto-sort &amp; explain</button>
+      <button class="btn secondary" onclick="sorter.reset()">Reset</button>
+    </div>
+    <div class="result-box" id="sorterResult">Click chips to cycle through bins.</div>
+  </div>
+
+  <div class="sim-card">
+    <h3 class="card-title">3. The Solubility Lab</h3>
+    <p>Drop different things into water. Stir. Watch what happens.</p>
+    <div class="controls">
+      <div class="toggle-group" id="solToggle">
+        <button data-s="sugar" class="active">Sugar</button>
+        <button data-s="salt">Salt</button>
+        <button data-s="chalk">Chalk powder</button>
+        <button data-s="sand">Sand</button>
+        <button data-s="sawdust">Sawdust</button>
+        <button data-s="oil">Oil</button>
+      </div>
+      <button class="btn" onclick="solSim.stir()">Stir!</button>
+      <button class="btn secondary" onclick="solSim.reset()">Reset</button>
+    </div>
+    <canvas id="solCanvas" width="600" height="320"></canvas>
+    <div class="observation" id="solObs">Pick a substance and click <b>Stir!</b> to mix it into water.</div>
+  </div>
+
+  <div class="sim-card">
+    <h3 class="card-title">4. The Bouncing Ball Test</h3>
+    <p>Drop three balls from the same height. Compare bounce heights — same size, very different bouncing!</p>
+    <div class="controls">
+      <button class="btn orange" onclick="bounceSim.drop()">Drop all three balls</button>
+      <button class="btn secondary" onclick="bounceSim.reset()">Reset</button>
+    </div>
+    <canvas id="bounceCanvas" width="600" height="320"></canvas>
+    <div class="observation" id="bounceObs">Click <b>Drop</b> to release tennis, cricket, and hand-exercise balls together.</div>
+  </div>
+
+  <div class="sim-card">
+    <h3 class="card-title">5. Mass vs Volume Compare</h3>
+    <p>Three identical cups. One holds water, one sand, one pebbles. Same volume. Compare mass on the balance.</p>
+    <div class="controls">
+      <div class="toggle-group" id="massToggle">
+        <button data-l="water" class="active">Water</button>
+        <button data-l="sand">Sand</button>
+        <button data-l="pebbles">Pebbles</button>
+      </div>
+      <div class="toggle-group" id="massToggle2">
+        <button data-r="water">Water</button>
+        <button data-r="sand">Sand</button>
+        <button data-r="pebbles" class="active">Pebbles</button>
+      </div>
+    </div>
+    <canvas id="massCanvas" width="600" height="280"></canvas>
+    <div class="observation" id="massObs">Pick what to put on each pan. The heavier side dips down.</div>
+  </div>
+</section>
+
+<!-- =================== VIRTUAL EXPERIMENTS =================== -->
+<section id="experiments" class="tab-panel">
+  <h2 class="section-title">Virtual Experiments</h2>
+
+  <div class="exp-card">
+    <h3 class="card-title">Activity 6.4 — Bouncing Balls</h3>
+    <p>Tennis, cricket, hand exercise — same size, different materials. Watch the bounces.</p>
+    <canvas id="expBounceCanvas" width="600" height="320"></canvas>
+    <div class="controls">
+      <button class="btn" onclick="expBounce.drop()">Drop balls</button>
+      <button class="btn secondary" onclick="expBounce.reset()">Reset</button>
+    </div>
+    <div class="step-display" id="expBounceStep">Click <b>Drop balls</b> to release.</div>
+  </div>
+
+  <div class="exp-card">
+    <h3 class="card-title">Activity 6.5 — Hard or Soft? Press &amp; Scratch</h3>
+    <p>Press different objects. Watch which ones dent (soft) vs which resist (hard).</p>
+    <canvas id="expHardCanvas" width="600" height="280"></canvas>
+    <div class="controls">
+      <div class="toggle-group" id="hardToggle">
+        <button data-o="brick" class="active">Brick</button>
+        <button data-o="pillow">Pillow</button>
+        <button data-o="tumbler">Tumbler</button>
+        <button data-o="table">Wood table</button>
+        <button data-o="sweater">Sweater</button>
+        <button data-o="bottle">Plastic bottle</button>
+      </div>
+    </div>
+    <div class="step-display" id="expHardStep">Pick an object and watch what happens when pressed.</div>
+  </div>
+
+  <div class="exp-card">
+    <h3 class="card-title">Activity 6.6 — Transparent / Translucent / Opaque</h3>
+    <p>Hold each item up to a light source. How much can you see through it?</p>
+    <canvas id="expTransCanvas" width="600" height="260"></canvas>
+    <div class="controls">
+      <div class="toggle-group" id="transToggle">
+        <button data-t="glassTumbler" class="active">Glass tumbler</button>
+        <button data-t="butterPaper">Butter paper</button>
+        <button data-t="eraser">Eraser</button>
+        <button data-t="frostedGlass">Frosted glass</button>
+        <button data-t="woodenBoard">Wooden board</button>
+        <button data-t="windowGlass">Window glass</button>
+      </div>
+    </div>
+    <div class="step-display" id="expTransStep">Pick an object. Look through it!</div>
+  </div>
+
+  <div class="exp-card">
+    <h3 class="card-title">Activity 6.7 — Mixing in Water</h3>
+    <p>Five tumblers, five substances. Add to water and stir. Which dissolve? Which don't?</p>
+    <canvas id="expSolCanvas" width="600" height="280"></canvas>
+    <div class="controls">
+      <button class="btn" onclick="expSol.next()">Stir the next one</button>
+      <button class="btn secondary" onclick="expSol.reset()">Reset</button>
+    </div>
+    <div class="step-display" id="expSolStep">Click to mix sugar, salt, chalk powder, sand, sawdust — one at a time.</div>
+  </div>
+
+  <div class="exp-card">
+    <h3 class="card-title">Activity 6.8 — Heavy or Light? (Mass!)</h3>
+    <p>Three paper cups, each filled half-way. One with water, one with sand, one with pebbles. Same volume — but who weighs more?</p>
+    <canvas id="expMassCanvas" width="600" height="280"></canvas>
+    <div class="controls">
+      <button class="btn" onclick="expMass.weigh()">Weigh them all</button>
+      <button class="btn secondary" onclick="expMass.reset()">Reset</button>
+    </div>
+    <div class="step-display" id="expMassStep">Click to weigh A (water), B (sand), C (pebbles).</div>
+  </div>
+</section>
+
+<!-- =================== LAB EXPERIMENTS =================== -->
+<section id="lab" class="tab-panel">
+  <h2 class="section-title">🧪 Lab Experiments — Try These at Home / In Class</h2>
+  <p style="margin-bottom: 18px; color: #475569; font-size: 14px;">
+    All textbook activities + bonus add-ons.
+    <span style="display:inline-block; margin-left:10px;"><span class="difficulty easy">Easy</span><span class="difficulty medium">Medium</span><span class="difficulty hard">Adult Help</span></span>
+  </p>
+
+  <h3 style="color: #0891b2; font-size: 18px; margin: 20px 0 12px;">📘 From the Textbook</h3>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 6.1 — Identify Materials Around You <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>A notebook + pen</li>
+        <li>Your eyes &amp; your home / classroom</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Walk around your home or classroom.</li>
+        <li>List 10 objects you see in your notebook.</li>
+        <li>Next to each, write what material(s) it's made of.</li>
+        <li>Some objects use MORE than one material (e.g., a pen = plastic + metal + ink).</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Everything around us is made of materials. The same material can be used for many objects (plastic → bottles, pens, toys, chairs).</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 6.4 — Bouncing Balls <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Tennis ball</li>
+        <li>Cricket ball</li>
+        <li>Hand-exercise ball (rubber stress ball)</li>
+        <li>Tape measure or ruler</li>
+        <li>A wall for marking heights</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Mark a height (about 1 metre) on the wall.</li>
+        <li>Hold each ball at that height. Drop one at a time.</li>
+        <li>Watch how high it bounces back. Mark each.</li>
+        <li>Rank: highest bounce → lowest bounce.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Same size — different materials → different bounce. Rubber bounces more than cork (cricket ball) more than dense rubber filling. Material decides the use!</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 6.5 — Hard or Soft? <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>A brick</li>
+        <li>A water bottle</li>
+        <li>A pillow</li>
+        <li>A glass tumbler</li>
+        <li>A wooden table</li>
+        <li>A sweater (wool/cotton)</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Press each object with your finger.</li>
+        <li>Does it dent / squish? It's SOFT.</li>
+        <li>Does it stay firm? It's HARD.</li>
+        <li>Write hard/soft + the material it's made of in your table.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Hardness is relative. Brick → very hard. Pillow → very soft. We choose materials based on whether we need hard or soft (chair top: hard. Cushion: soft.)</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 6.6 — See-Through Test <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Glass tumbler</li>
+        <li>Butter paper / tracing paper</li>
+        <li>An eraser</li>
+        <li>Frosted glass (or a piece of frosted plastic)</li>
+        <li>Wooden board</li>
+        <li>Window glass</li>
+        <li>A torch / phone light</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Hold each item up to a light source.</li>
+        <li>Can you see clearly through it? → TRANSPARENT</li>
+        <li>Can you see a hazy outline? → TRANSLUCENT</li>
+        <li>Can't see at all? → OPAQUE</li>
+        <li>Now classify each item.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Light passes through different materials in different amounts. That's why we use glass for windows (transparent), butter paper for tracing (translucent), wood for doors (opaque).</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 6.7 — What Dissolves in Water? <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>5 clear glass tumblers</li>
+        <li>Water (fill each ⅔)</li>
+        <li>Sugar, salt, chalk powder, sand, sawdust (small amounts of each)</li>
+        <li>5 separate spoons</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Fill 5 tumblers ⅔ with water.</li>
+        <li>Add 1 spoon of each substance to its own tumbler.</li>
+        <li>Predict what will happen for each — dissolve or not.</li>
+        <li>Stir each well. Wait 2 minutes.</li>
+        <li>Observe — note which disappear (soluble) and which stay (insoluble).</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Sugar, salt → soluble. Chalk powder, sand, sawdust → insoluble (they may float or settle). This is why we can make sweet lemonade but can't drink water with sand in it!</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 6.8 — Heavy or Light? <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>3 identical paper cups (or small bowls)</li>
+        <li>Water</li>
+        <li>Sand</li>
+        <li>Pebbles</li>
+        <li>A balance (or just compare by hand)</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Fill each cup half-way: A with water, B with sand, C with pebbles.</li>
+        <li>Predict order: heaviest → lightest.</li>
+        <li>Place on a balance, two at a time.</li>
+        <li>Watch the balance tip!</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Same volume — different mass. Pebbles are usually heaviest, then sand, then water. Mass tells us how much "stuff" is packed in.</p>
+    </div>
+  </div>
+
+  <h3 style="color: #f97316; font-size: 18px; margin: 30px 0 12px;">🎁 Bonus Add-Ons</h3>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 1 — Make ORS at Home <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>1 litre of boiled, cooled water</li>
+        <li>6 teaspoons sugar</li>
+        <li>½ teaspoon salt</li>
+        <li>A clean bottle</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Boil water for 5 min. Let it cool.</li>
+        <li>Pour 1 L into the bottle.</li>
+        <li>Add 6 teaspoons sugar + ½ teaspoon salt.</li>
+        <li>Stir until completely dissolved (try the tongue test: it should taste like tears).</li>
+      </ol>
+    </div>
+    <div class="lab-section safety">
+      <h4>Safety</h4>
+      <p>Only drink it if needed (diarrhoea / dehydration). Get adult guidance — overuse can cause salt imbalance.</p>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>This is the same ORS that saves millions of lives every year. The sugar &amp; salt are SOLUBLE in water — once dissolved, the body absorbs them quickly.</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 2 — Make a Rainbow with Sugar Layers <span class="difficulty medium">Medium</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>5 glasses</li>
+        <li>Sugar (lots — about 10 spoons)</li>
+        <li>Food colouring (4 different colours)</li>
+        <li>Spoon (for gentle pouring)</li>
+        <li>Tall narrow glass for the final stack</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>In glass 1: 4 tsp sugar + warm water (most concentrated) + red colour.</li>
+        <li>In glass 2: 3 tsp sugar + warm water + yellow.</li>
+        <li>In glass 3: 2 tsp sugar + warm water + green.</li>
+        <li>In glass 4: 1 tsp sugar + warm water + blue.</li>
+        <li>SLOWLY pour glass 1 into the tall glass.</li>
+        <li>Then VERY slowly pour glass 2 over the back of a spoon. It floats on top!</li>
+        <li>Repeat with 3 and 4. You'll see beautiful layers.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>More sugar = heavier (denser) solution. Less dense floats on more dense. Same idea explains why oil floats on water!</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 3 — Penny Polish (Lustre vs Tarnish) <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>5-10 old dull copper coins</li>
+        <li>Lemon juice or vinegar</li>
+        <li>Pinch of salt</li>
+        <li>Small bowl</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Pour vinegar into the bowl. Add a pinch of salt. Stir.</li>
+        <li>Drop in dull coins. Wait 30 sec, swirl.</li>
+        <li>Take out, dry with cloth.</li>
+        <li>Shiny copper! Lustre revealed.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>The dullness on coins is a thin coating of copper oxide. Acid + salt strips it off, revealing the original shiny metal — its <b>true lustre</b>.</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 4 — Air Has Mass! <span class="difficulty medium">Medium</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>2 identical balloons</li>
+        <li>A long ruler or stick</li>
+        <li>Thread</li>
+        <li>A pin</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Tie a balloon to each end of the stick. Balance the stick from the centre with a thread.</li>
+        <li>Now inflate ONE balloon and re-tie.</li>
+        <li>The stick TILTS toward the inflated balloon.</li>
+        <li>Why? Because the air inside has mass!</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>We don't usually think of air as having mass — but it does (just very little). Anything that has mass and takes up space is MATTER. So air IS matter!</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 5 — Window Spotter: Which is Translucent? <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>A torch / phone light</li>
+        <li>Things from around: cling film, fabric, paper, plastic sheets, leaves, etc.</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>In a darkish room, hold each item against the torch.</li>
+        <li>Sort into 3 piles based on what you see through it.</li>
+        <li>Take photos for fun comparisons!</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Many everyday materials are translucent — not fully clear, not fully opaque. Frosted glass, tissue paper, butter paper, white plastic bags.</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 6 — Volume by Displacement <span class="difficulty medium">Medium</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>A measuring cup or graduated jar</li>
+        <li>Water</li>
+        <li>A small stone, a small toy, a metal key</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Fill the measuring cup with 200 mL water. Note the level exactly.</li>
+        <li>Drop in the stone. Note the new water level.</li>
+        <li>The difference is the volume of the stone!</li>
+        <li>Repeat for other objects.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>You can measure volume even for funny-shaped things — by seeing how much water they push aside. (This is what Archimedes did, in his famous bathtub story!)</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 7 — Material Detective <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>A notebook</li>
+        <li>10 items you find around the house</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>For each item, fill out:
+          <ul>
+            <li>Lustrous or non-lustrous?</li>
+            <li>Hard or soft?</li>
+            <li>Transparent / Translucent / Opaque?</li>
+            <li>Soluble in water?</li>
+            <li>Made of what materials?</li>
+          </ul>
+        </li>
+        <li>Compare two items. Which has more properties in common?</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Every object is a unique combination of properties — and putting them in a table makes patterns suddenly visible. That's scientific classification in action!</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 8 — Ayurveda Property Match <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Just a thinking cap! And maybe a snack.</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Look at the 10 Ayurveda property pairs (in Concepts tab).</li>
+        <li>Pick 5 objects around you (rice, ice, oil, brick, cloud).</li>
+        <li>For each, try to assign which guṇa applies (e.g., ice = hima (cold), kaṭhina (hard), shlakṣhana (smooth)…).</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Ancient Indian thinkers had a sophisticated way to describe ANY material — using just 10 pairs of opposites. Compare with our modern 5–6 properties. Both work!</p>
+    </div>
+  </div>
+</section>
+
+<!-- =================== QUIZ =================== -->
+<section id="quiz" class="tab-panel">
+  <h2 class="section-title">Quick Quiz</h2>
+  <div id="quiz-container"></div>
+  <div id="quiz-score" style="display:none"></div>
+</section>
+
+<section id="kwl" class="tab-panel">
+  <style>@media (max-width: 800px) { #kwl-grid-cols { grid-template-columns: 1fr !important; } }</style>
+  <h2 style="font-size:22px; color:#b45309; margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid #b45309;">📝 KWL Chart</h2>
+  <div style="background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); border-left:4px solid #b45309; padding:14px 18px; border-radius:10px; margin-bottom:18px; font-size:14px; color:#78350f;">Fill in what you <b>K</b>now, <b>W</b>ant to know, and <b>L</b>earned. Auto-saves. Use Print to save as PDF.</div>
+  <div id="kwl-grid-cols" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin:14px 0;">
+    <div style="background:white; border-radius:12px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.06); border-top:5px solid #0284c7;"><h4 style="font-size:15px; color:#0e7490; margin-bottom:4px;">🔵 K — What I Know</h4><div style="font-size:12px; color:#64748b; margin-bottom:10px; font-style:italic;">About materials around you.</div><textarea id="kwl-k" style="width:100%; min-height:200px; padding:10px 12px; border-radius:8px; border:1px solid #cbd5e1; font-family:inherit; font-size:13px; resize:vertical;" placeholder="• Wood is hard, water is liquid..."></textarea></div>
+    <div style="background:white; border-radius:12px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.06); border-top:5px solid #b45309;"><h4 style="font-size:15px; color:#b45309; margin-bottom:4px;">🟠 W — What I Want to Know</h4><div style="font-size:12px; color:#64748b; margin-bottom:10px; font-style:italic;">Your questions.</div><textarea id="kwl-w" style="width:100%; min-height:200px; padding:10px 12px; border-radius:8px; border:1px solid #cbd5e1; font-family:inherit; font-size:13px; resize:vertical;" placeholder="• What makes metals shiny? Why does ice float?"></textarea></div>
+    <div style="background:white; border-radius:12px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.06); border-top:5px solid #15803d;"><h4 style="font-size:15px; color:#15803d; margin-bottom:4px;">🟢 L — What I Learned</h4><div style="font-size:12px; color:#64748b; margin-bottom:10px; font-style:italic;">After studying.</div><textarea id="kwl-l" style="width:100%; min-height:200px; padding:10px 12px; border-radius:8px; border:1px solid #cbd5e1; font-family:inherit; font-size:13px; resize:vertical;" placeholder="• Materials grouped by properties..."></textarea></div>
+  </div>
+  <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:14px 0; padding:12px; background:#f8fafc; border-radius:10px;">
+    <p style="font-size:12px; color:#64748b; margin:0; flex:1;">Auto-saves to your browser.</p>
+    <button onclick="kwlSave()" style="background:#15803d; color:white; border:none; padding:8px 16px; font-size:13px; font-weight:600; border-radius:6px; cursor:pointer;">💾 Save</button>
+    <button onclick="kwlClear()" style="background:#64748b; color:white; border:none; padding:8px 16px; font-size:13px; font-weight:600; border-radius:6px; cursor:pointer;">Clear</button>
+    <button onclick="printKWL()" style="background:#b45309; color:white; border:none; padding:8px 16px; font-size:13px; font-weight:600; border-radius:6px; cursor:pointer;">🖨️ Print / Save as PDF</button>
+  </div>
+  <script>
+    (function(){
+      const KWL_KEY = 'kwl_ch6_grade6';
+      function kwlLoad(){ try { const s=JSON.parse(localStorage.getItem(KWL_KEY)||'{}'); if(s.k)document.getElementById('kwl-k').value=s.k; if(s.w)document.getElementById('kwl-w').value=s.w; if(s.l)document.getElementById('kwl-l').value=s.l; } catch(e){} }
+      window.kwlSave = function(){ localStorage.setItem(KWL_KEY, JSON.stringify({k:document.getElementById('kwl-k').value, w:document.getElementById('kwl-w').value, l:document.getElementById('kwl-l').value})); };
+      window.kwlClear = function(){ if(!confirm('Clear KWL chart?')) return; ['kwl-k','kwl-w','kwl-l'].forEach(id=>document.getElementById(id).value=''); localStorage.removeItem(KWL_KEY); };
+      window.printKWL = function(){ const k=document.getElementById('kwl-k').value, w=document.getElementById('kwl-w').value, l=document.getElementById('kwl-l').value; const esc=s=>(s||'').replace(/</g,'&lt;'); const win=window.open('','_blank'); win.document.write('<html><head><title>KWL Chart - Chapter 6</title><style>body{font-family:sans-serif;padding:20px;color:#1e293b;}h1{color:#b45309;border-bottom:2px solid #b45309;padding-bottom:8px;}.col{margin:14px 0;padding:14px;border:1px solid #ccc;border-radius:8px;page-break-inside:avoid;}.col h2{margin:0 0 6px;font-size:16px;}.col p{white-space:pre-wrap;font-size:13px;margin:0;min-height:60px;}@media print{@page{size:A4;margin:1.2cm;}}</style></head><body><h1>KWL Chart — Chapter 6 · Materials Around Us</h1><div class="col" style="border-top:4px solid #0284c7;"><h2 style="color:#0e7490;">K — What I Know</h2><p>'+esc(k)+'</p></div><div class="col" style="border-top:4px solid #b45309;"><h2 style="color:#b45309;">W — What I Want to Know</h2><p>'+esc(w)+'</p></div><div class="col" style="border-top:4px solid #15803d;"><h2 style="color:#15803d;">L — What I Learned</h2><p>'+esc(l)+'</p></div><scr'+'ipt>window.onload=function(){setTimeout(function(){window.print();},300);};</scr'+'ipt></body></html>'); win.document.close(); };
+      ['kwl-k','kwl-w','kwl-l'].forEach(id=>{const el=document.getElementById(id); if(el) el.addEventListener('input',()=>{clearTimeout(window._kt); window._kt=setTimeout(window.kwlSave,600);});});
+      kwlLoad();
+    })();
+  </script>
+</section>
+
+</main>
+
+
+<script>
+/* ============================================================
+   TABS
+   ============================================================ */
+document.querySelectorAll('nav.tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ============================================================
+   MATERIAL DATABASE
+   ============================================================ */
+const materials = [
+  { name: 'Iron nail', color: '#475569', lustre: true, hard: true, transparent: false, soluble: false, isMetal: true },
+  { name: 'Copper wire', color: '#b45309', lustre: true, hard: true, transparent: false, soluble: false, isMetal: true },
+  { name: 'Aluminium foil', color: '#cbd5e1', lustre: true, hard: false, transparent: false, soluble: false, isMetal: true },
+  { name: 'Wooden block', color: '#92400e', lustre: false, hard: true, transparent: false, soluble: false, isMetal: false },
+  { name: 'Paper', color: '#fef9c3', lustre: false, hard: false, transparent: false, soluble: false, isMetal: false },
+  { name: 'Glass tumbler', color: '#bae6fd', lustre: false, hard: true, transparent: true, soluble: false, isMetal: false },
+  { name: 'Rubber eraser', color: '#dc2626', lustre: false, hard: false, transparent: false, soluble: false, isMetal: false },
+  { name: 'Sugar', color: '#f8fafc', lustre: false, hard: false, transparent: false, soluble: true, isMetal: false },
+  { name: 'Salt', color: '#f1f5f9', lustre: false, hard: false, transparent: false, soluble: true, isMetal: false },
+  { name: 'Sand', color: '#a16207', lustre: false, hard: true, transparent: false, soluble: false, isMetal: false },
+  { name: 'Brick', color: '#dc2626', lustre: false, hard: true, transparent: false, soluble: false, isMetal: false },
+  { name: 'Cotton sweater', color: '#fef3c7', lustre: false, hard: false, transparent: false, soluble: false, isMetal: false }
+];
+
+/* ============================================================
+   PROPERTY INSPECTOR
+   ============================================================ */
+const propInspector = (() => {
+  const c = document.getElementById('propCanvas');
+  const ctx = c.getContext('2d');
+  let sel = 0;
+  let prop = 'lustre';
+
+  const grid = document.getElementById('materialGrid');
+  materials.forEach((m, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'material-btn' + (i === 0 ? ' active' : '');
+    btn.textContent = m.name;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#materialGrid .material-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      sel = i;
+      update();
+    });
+    grid.appendChild(btn);
+  });
+  document.querySelectorAll('#propToggle button').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#propToggle button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      prop = b.dataset.p;
+      update();
+    });
+  });
+
+  function update() {
+    const m = materials[sel];
+    let txt;
+    if (prop === 'lustre') {
+      txt = m.lustre
+        ? `<b>${m.name}</b> is <b>lustrous</b> ✨ — it shines when light falls on it. ${m.isMetal ? 'Most metals show lustre.' : ''}`
+        : `<b>${m.name}</b> is <b>non-lustrous</b> — it doesn't shine.`;
+    } else if (prop === 'hardness') {
+      txt = m.hard
+        ? `<b>${m.name}</b> is <b>HARD</b> — difficult to press or scratch.`
+        : `<b>${m.name}</b> is <b>SOFT</b> — can be pressed or compressed easily.`;
+    } else if (prop === 'transparency') {
+      txt = m.transparent
+        ? `<b>${m.name}</b> is <b>transparent</b> — you can see clearly through it.`
+        : `<b>${m.name}</b> is <b>opaque</b> — you can't see through it.`;
+    } else if (prop === 'solubility') {
+      txt = m.soluble
+        ? `<b>${m.name}</b> is <b>SOLUBLE</b> in water — it dissolves and disappears.`
+        : `<b>${m.name}</b> is <b>INSOLUBLE</b> in water — it doesn't dissolve.`;
+    }
+    document.getElementById('propResult').innerHTML = txt;
+    draw();
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, 600, 260);
+    ctx.fillStyle = '#ecfeff';
+    ctx.fillRect(0, 0, 600, 260);
+    const m = materials[sel];
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText(`Test: ${m.name} → ${propLabel(prop)}`, 130, 24);
+
+    const cx = 300, cy = 130;
+    if (prop === 'lustre') {
+      // shiny sphere if lustrous
+      if (m.lustre) {
+        const grd = ctx.createRadialGradient(cx - 15, cy - 15, 0, cx, cy, 50);
+        grd.addColorStop(0, 'white');
+        grd.addColorStop(0.4, m.color);
+        grd.addColorStop(1, '#1c1917');
+        ctx.fillStyle = grd;
+      } else {
+        ctx.fillStyle = m.color;
+      }
+      ctx.beginPath(); ctx.arc(cx, cy, 50, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2; ctx.stroke();
+      if (m.lustre) {
+        ctx.fillStyle = '#fbbf24'; ctx.font = '24px sans-serif';
+        ctx.fillText('✨', cx + 60, cy + 5);
+      }
+    } else if (prop === 'hardness') {
+      // hammer + object
+      ctx.fillStyle = m.color;
+      ctx.fillRect(cx - 40, cy + 10, 80, 30);
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+      ctx.strokeRect(cx - 40, cy + 10, 80, 30);
+      // press finger / hammer
+      ctx.fillStyle = '#fde68a';
+      ctx.beginPath();
+      ctx.arc(cx, cy - 5, 12, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#1c1917'; ctx.stroke();
+      // arrow down
+      ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - 40); ctx.lineTo(cx, cy - 15);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - 15); ctx.lineTo(cx - 5, cy - 22); ctx.lineTo(cx + 5, cy - 22); ctx.closePath();
+      ctx.fillStyle = '#dc2626'; ctx.fill();
+      ctx.fillStyle = m.hard ? '#16a34a' : '#dc2626';
+      ctx.font = 'bold 14px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(m.hard ? 'HARD — won\'t dent' : 'SOFT — dents in!', cx, cy + 70);
+      ctx.textAlign = 'left';
+    } else if (prop === 'transparency') {
+      // pane shaped like object
+      ctx.fillStyle = m.transparent ? 'rgba(186, 230, 253, 0.4)' : m.color;
+      ctx.fillRect(cx - 50, cy - 50, 100, 100);
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+      ctx.strokeRect(cx - 50, cy - 50, 100, 100);
+      // letter behind it
+      ctx.fillStyle = m.transparent ? '#1c1917' : 'rgba(28, 25, 23, 0.05)';
+      ctx.font = 'bold 60px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('A', cx, cy + 20);
+      ctx.textAlign = 'left';
+      ctx.fillStyle = m.transparent ? '#16a34a' : '#dc2626';
+      ctx.font = 'bold 13px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(m.transparent ? '✓ SEE CLEARLY' : '✗ Can\'t see', cx, cy + 75);
+      ctx.textAlign = 'left';
+    } else if (prop === 'solubility') {
+      // glass of water
+      ctx.fillStyle = 'rgba(96, 165, 250, 0.4)';
+      ctx.fillRect(cx - 50, cy - 30, 100, 90);
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(cx - 55, cy - 40);
+      ctx.lineTo(cx - 50, cy - 40);
+      ctx.lineTo(cx - 50, cy + 60);
+      ctx.lineTo(cx + 50, cy + 60);
+      ctx.lineTo(cx + 50, cy - 40);
+      ctx.lineTo(cx + 55, cy - 40);
+      ctx.stroke();
+      // substance
+      if (m.soluble) {
+        // dispersed dots
+        ctx.fillStyle = m.color;
+        for (let i = 0; i < 30; i++) {
+          ctx.beginPath();
+          ctx.arc(cx - 40 + Math.random() * 80, cy - 25 + Math.random() * 80, 1.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.fillStyle = '#16a34a';
+        ctx.font = 'bold 13px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('DISSOLVED ✓', cx, cy + 90);
+        ctx.textAlign = 'left';
+      } else {
+        // particles at bottom
+        ctx.fillStyle = m.color;
+        ctx.fillRect(cx - 45, cy + 50, 90, 10);
+        ctx.fillStyle = '#dc2626';
+        ctx.font = 'bold 13px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Settled at bottom ✗', cx, cy + 90);
+        ctx.textAlign = 'left';
+      }
+    }
+  }
+  function propLabel(p) {
+    return { lustre: 'Lustre Test', hardness: 'Hardness Test', transparency: 'See-Through Test', solubility: 'Water Test' }[p];
+  }
+  update();
+  return {};
+})();
+
+/* ============================================================
+   SORTER (transparent / translucent / opaque)
+   ============================================================ */
+const sortItems = [
+  { text: 'Window glass', cat: 'transparent', why: 'Plain glass lets light through clearly — you can see what\'s on the other side.' },
+  { text: 'Air', cat: 'transparent', why: 'Air is invisible — you see right through it.' },
+  { text: 'Clean water', cat: 'transparent', why: 'Pure water is clear — you can see through a glass of it.' },
+  { text: 'Cellophane', cat: 'transparent', why: 'Thin transparent plastic film — used for packaging because we can see what\'s inside.' },
+  { text: 'Butter paper', cat: 'translucent', why: 'Light passes through but blurry — you can\'t make out shapes clearly.' },
+  { text: 'Frosted glass', cat: 'translucent', why: 'Hazy surface scatters light. Good for bathroom doors!' },
+  { text: 'Tissue paper', cat: 'translucent', why: 'Thin enough for light to pass through, but text behind is fuzzy.' },
+  { text: 'Plastic milk bag (white)', cat: 'translucent', why: 'You can see a glow but not the milk inside clearly.' },
+  { text: 'Wooden door', cat: 'opaque', why: 'Wood blocks light completely. You can\'t see through it.' },
+  { text: 'Iron sheet', cat: 'opaque', why: 'Solid metal — no light gets through.' },
+  { text: 'Cardboard', cat: 'opaque', why: 'Too thick for light to pass.' },
+  { text: 'Eraser', cat: 'opaque', why: 'Solid rubber — completely blocks light.' },
+  { text: 'Brick wall', cat: 'opaque', why: 'Walls block light (that\'s why we have windows!).' },
+  { text: 'Mirror', cat: 'opaque', why: 'Even though shiny, light bounces back (reflects) — doesn\'t pass through.' }
+];
+
+const sorter = (() => {
+  const bank = document.getElementById('objBank');
+  const bins = {
+    transparent: document.getElementById('binTransparent'),
+    translucent: document.getElementById('binTranslucent'),
+    opaque: document.getElementById('binOpaque')
+  };
+  const state = sortItems.map(s => ({ ...s, placed: null }));
+
+  function render() {
+    bank.innerHTML = '';
+    Object.values(bins).forEach(b => b.innerHTML = '');
+    state.forEach((s, i) => {
+      const chip = document.createElement('span');
+      chip.className = 'obj-chip' + (s.placed ? ' ' + s.placed : '');
+      chip.textContent = s.text;
+      chip.addEventListener('click', () => move(i));
+      (s.placed ? bins[s.placed] : bank).appendChild(chip);
+    });
+  }
+  function move(i) {
+    const next = { null: 'transparent', transparent: 'translucent', translucent: 'opaque', opaque: null };
+    state[i].placed = next[state[i].placed === null ? 'null' : state[i].placed];
+    if (state[i].placed === null) state[i].placed = null;
+    render();
+    check();
+  }
+  function check() {
+    const placed = state.filter(s => s.placed).length;
+    if (placed < state.length) {
+      document.getElementById('sorterResult').innerHTML = `Placed: <b>${placed} / ${state.length}</b>. Click chips to cycle through bins.`;
+      return;
+    }
+    const right = state.filter(s => s.placed === s.cat).length;
+    document.getElementById('sorterResult').innerHTML = `<b>${right} / ${state.length}</b> sorted correctly! ${right === state.length ? '🏆 Perfect!' : 'Try <b>Auto-sort &amp; explain</b> for the key.'}`;
+  }
+  function autoSort() {
+    state.forEach(s => s.placed = s.cat);
+    render();
+    document.getElementById('sorterResult').innerHTML = '<b>Auto-sorted!</b><br><br>' +
+      state.map(s => `<b>${s.text}</b> — ${s.cat.toUpperCase()}: ${s.why}`).join('<br>');
+  }
+  function reset() {
+    state.forEach(s => s.placed = null);
+    render();
+    check();
+  }
+  render();
+  return { autoSort, reset };
+})();
+
+/* ============================================================
+   SOLUBILITY LAB
+   ============================================================ */
+const solSim = (() => {
+  const c = document.getElementById('solCanvas');
+  const ctx = c.getContext('2d');
+  const subs = {
+    sugar:   { name: 'Sugar',         color: '#f8fafc', soluble: true, sink: false },
+    salt:    { name: 'Salt',          color: '#e2e8f0', soluble: true, sink: false },
+    chalk:   { name: 'Chalk powder',  color: '#f1f5f9', soluble: false, sink: true },
+    sand:    { name: 'Sand',          color: '#a16207', soluble: false, sink: true },
+    sawdust: { name: 'Sawdust',       color: '#92400e', soluble: false, sink: false },
+    oil:     { name: 'Oil',           color: '#fbbf24', soluble: false, sink: false }
+  };
+  let chosen = 'sugar';
+  let stirred = false;
+  document.querySelectorAll('#solToggle button').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#solToggle button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      chosen = b.dataset.s;
+      stirred = false;
+      draw();
+      document.getElementById('solObs').innerHTML = 'Click <b>Stir!</b> to mix the substance.';
+    });
+  });
+  function stir() {
+    stirred = true;
+    const s = subs[chosen];
+    let msg;
+    if (s.soluble) {
+      msg = `<b>${s.name}</b> has DISSOLVED — disappears completely. It is <b>soluble</b> in water.`;
+    } else if (s.sink) {
+      msg = `<b>${s.name}</b> doesn't dissolve — settles at the bottom. It is <b>insoluble</b>.`;
+    } else if (chosen === 'oil') {
+      msg = `<b>Oil</b> doesn't dissolve — it floats on top as a separate layer. <b>Insoluble</b>.`;
+    } else {
+      msg = `<b>${s.name}</b> doesn't dissolve — floats on the water surface. <b>Insoluble</b>.`;
+    }
+    document.getElementById('solObs').innerHTML = msg;
+    draw();
+  }
+  function reset() {
+    stirred = false;
+    draw();
+    document.getElementById('solObs').innerHTML = 'Pick a substance and click <b>Stir!</b> to mix it into water.';
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 320);
+    ctx.fillStyle = '#ecfeff';
+    ctx.fillRect(0, 0, 600, 320);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Solubility Lab: drop and stir', 200, 22);
+
+    // glass
+    const cx = 300;
+    ctx.fillStyle = 'rgba(96, 165, 250, 0.45)';
+    ctx.fillRect(cx - 70, 80, 140, 200);
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(cx - 75, 70); ctx.lineTo(cx - 70, 70);
+    ctx.lineTo(cx - 70, 280); ctx.lineTo(cx + 70, 280);
+    ctx.lineTo(cx + 70, 70); ctx.lineTo(cx + 75, 70);
+    ctx.stroke();
+
+    const s = subs[chosen];
+    if (stirred) {
+      if (s.soluble) {
+        // dispersed dots
+        ctx.fillStyle = s.color;
+        for (let i = 0; i < 60; i++) {
+          ctx.beginPath();
+          ctx.arc(cx - 65 + Math.random() * 130, 90 + Math.random() * 180, 1.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      } else if (s.sink) {
+        // settle at bottom
+        ctx.fillStyle = s.color;
+        ctx.fillRect(cx - 69, 250, 138, 30);
+      } else if (chosen === 'oil') {
+        // float on top
+        ctx.fillStyle = s.color;
+        ctx.fillRect(cx - 69, 80, 138, 18);
+      } else {
+        // float (sawdust)
+        ctx.fillStyle = s.color;
+        for (let i = 0; i < 20; i++) {
+          ctx.beginPath();
+          ctx.arc(cx - 60 + Math.random() * 120, 85 + Math.random() * 8, 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    } else {
+      // unstirred — a pile on top of water
+      ctx.fillStyle = s.color;
+      ctx.beginPath();
+      ctx.ellipse(cx, 90, 18, 8, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1;
+      ctx.stroke();
+      // label
+      ctx.fillStyle = '#1e293b';
+      ctx.font = 'bold 11px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(s.name, cx, 65);
+      ctx.textAlign = 'left';
+    }
+
+    // verdict label
+    ctx.fillStyle = '#1c1917';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.textAlign = 'center';
+    if (stirred) {
+      if (s.soluble) ctx.fillStyle = '#16a34a';
+      else ctx.fillStyle = '#dc2626';
+      ctx.fillText(s.soluble ? `✓ ${s.name} dissolved` : `✗ ${s.name} did NOT dissolve`, cx, 305);
+    } else {
+      ctx.fillText(`Substance: ${s.name}`, cx, 305);
+    }
+    ctx.textAlign = 'left';
+  }
+  draw();
+  return { stir, reset };
+})();
+
+/* ============================================================
+   BOUNCING BALL SIM
+   ============================================================ */
+const bounceSim = (() => {
+  const c = document.getElementById('bounceCanvas');
+  const ctx = c.getContext('2d');
+  const balls = [
+    { name: 'Tennis', color: '#a3e635', x: 100, y: 50, vy: 0, peak: 50, maxBounce: 0.65, currentMax: 50, bounces: 0 },
+    { name: 'Cricket', color: '#dc2626', x: 300, y: 50, vy: 0, peak: 50, maxBounce: 0.35, currentMax: 50, bounces: 0 },
+    { name: 'Hand exercise', color: '#a855f7', x: 500, y: 50, vy: 0, peak: 50, maxBounce: 0.12, currentMax: 50, bounces: 0 }
+  ];
+  let dropping = false;
+  let animId = null;
+  function reset() {
+    dropping = false;
+    balls.forEach((b, i) => {
+      b.x = 100 + i * 200;
+      b.y = 50;
+      b.vy = 0;
+      b.currentMax = 50;
+      b.bounces = 0;
+    });
+    if (animId) cancelAnimationFrame(animId);
+    animId = null;
+    document.getElementById('bounceObs').innerHTML = 'Click <b>Drop</b> to release tennis, cricket, and hand-exercise balls together.';
+    draw();
+  }
+  function drop() {
+    if (dropping) return;
+    dropping = true;
+    loop();
+  }
+  function loop() {
+    balls.forEach(b => {
+      b.vy += 0.3;
+      b.y += b.vy;
+      if (b.y > 270) {
+        b.y = 270;
+        b.vy = -b.vy * b.maxBounce;
+        b.bounces++;
+        if (Math.abs(b.vy) < 1) b.vy = 0;
+      }
+      b.currentMax = Math.min(b.currentMax, b.y);
+    });
+    draw();
+    if (balls.some(b => Math.abs(b.vy) > 0.5 || b.y < 270)) {
+      animId = requestAnimationFrame(loop);
+    } else {
+      document.getElementById('bounceObs').innerHTML = `Final bounce ranking: <b>Tennis 🥇</b> bounced highest (~65% of drop height), <b>Cricket 🥈</b> medium (~35%), <b>Hand exercise 🥉</b> barely bounced. Same size, different materials = very different behaviour!`;
+    }
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 320);
+    ctx.fillStyle = '#ecfeff';
+    ctx.fillRect(0, 0, 600, 320);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Sim 4: bouncing balls — same size, different materials', 100, 22);
+    // ground
+    ctx.fillStyle = '#78716c';
+    ctx.fillRect(0, 290, 600, 30);
+    // drop line
+    ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(0, 60); ctx.lineTo(600, 60);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#dc2626';
+    ctx.font = '10px sans-serif';
+    ctx.fillText('drop line (1 m)', 5, 55);
+    // balls
+    balls.forEach(b => {
+      ctx.fillStyle = b.color;
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, 18, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.fillStyle = '#1c1917';
+      ctx.font = 'bold 11px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(b.name, b.x, 315);
+      if (b.bounces > 0) ctx.fillText(`${b.bounces} bounce${b.bounces > 1 ? 's' : ''}`, b.x, 305);
+      ctx.textAlign = 'left';
+    });
+  }
+  draw();
+  return { drop, reset };
+})();
+
+/* ============================================================
+   MASS / BALANCE SIM
+   ============================================================ */
+const massSim = (() => {
+  const c = document.getElementById('massCanvas');
+  const ctx = c.getContext('2d');
+  const massMap = { water: 200, sand: 350, pebbles: 500 };
+  const colorMap = { water: '#60a5fa', sand: '#a16207', pebbles: '#78716c' };
+  const nameMap = { water: 'Water', sand: 'Sand', pebbles: 'Pebbles' };
+  let left = 'water', right = 'pebbles';
+  document.querySelectorAll('#massToggle button').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#massToggle button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      left = b.dataset.l;
+      update();
+    });
+  });
+  document.querySelectorAll('#massToggle2 button').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#massToggle2 button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      right = b.dataset.r;
+      update();
+    });
+  });
+  function update() {
+    const lm = massMap[left], rm = massMap[right];
+    let msg;
+    if (lm > rm) msg = `<b>${nameMap[left]}</b> (${lm} g) is HEAVIER than <b>${nameMap[right]}</b> (${rm} g). Left pan tips down.`;
+    else if (lm < rm) msg = `<b>${nameMap[right]}</b> (${rm} g) is HEAVIER than <b>${nameMap[left]}</b> (${lm} g). Right pan tips down.`;
+    else msg = `Same material on both pans (${lm} g each) — perfectly balanced.`;
+    document.getElementById('massObs').innerHTML = msg;
+    draw();
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 280);
+    ctx.fillStyle = '#ecfeff';
+    ctx.fillRect(0, 0, 600, 280);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Sim 5: balance — heavier side tips down', 170, 22);
+    const cx = 300, cy = 140;
+    const lm = massMap[left], rm = massMap[right];
+    const tilt = (rm - lm) / 800 * 0.5;
+    // base post
+    ctx.fillStyle = '#78716c';
+    ctx.fillRect(cx - 6, cy, 12, 100);
+    ctx.fillRect(cx - 40, 240, 80, 8);
+    // beam
+    const beamLen = 200;
+    const dx = Math.cos(tilt) * beamLen / 2;
+    const dy = Math.sin(tilt) * beamLen / 2;
+    const lx = cx - dx, ly = cy - dy;
+    const rx = cx + dx, ry = cy + dy;
+    ctx.strokeStyle = '#475569'; ctx.lineWidth = 5;
+    ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(rx, ry); ctx.stroke();
+    // pans (cups)
+    drawPan(lx, ly + 50, left);
+    drawPan(rx, ry + 50, right);
+    // string
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(lx, ly + 30); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(rx, ry); ctx.lineTo(rx, ry + 30); ctx.stroke();
+  }
+  function drawPan(x, y, kind) {
+    // pan
+    ctx.fillStyle = '#fef3c7';
+    ctx.fillRect(x - 35, y, 70, 35);
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5;
+    ctx.strokeRect(x - 35, y, 70, 35);
+    // contents
+    ctx.fillStyle = colorMap[kind];
+    if (kind === 'water') {
+      ctx.fillRect(x - 33, y + 5, 66, 28);
+    } else if (kind === 'sand') {
+      for (let i = 0; i < 30; i++) {
+        ctx.beginPath();
+        ctx.arc(x - 30 + Math.random() * 60, y + 8 + Math.random() * 20, 1.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    } else {
+      for (let i = 0; i < 8; i++) {
+        ctx.beginPath();
+        ctx.arc(x - 25 + Math.random() * 50, y + 10 + Math.random() * 18, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 0.5; ctx.stroke();
+      }
+    }
+    // label
+    ctx.fillStyle = '#1c1917';
+    ctx.font = 'bold 10px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(nameMap[kind] + ` (${massMap[kind]}g)`, x, y + 55);
+    ctx.textAlign = 'left';
+  }
+  update();
+  return {};
+})();
+
+/* ============================================================
+   EXP 1: Bouncing balls (Activity 6.4)
+   ============================================================ */
+const expBounce = (() => {
+  const c = document.getElementById('expBounceCanvas');
+  const ctx = c.getContext('2d');
+  let dropping = false;
+  let balls = [];
+  let animId = null;
+  function reset() {
+    dropping = false;
+    balls = [
+      { name: 'Tennis', color: '#a3e635', x: 100, y: 50, vy: 0, maxBounce: 0.65 },
+      { name: 'Cricket', color: '#dc2626', x: 300, y: 50, vy: 0, maxBounce: 0.35 },
+      { name: 'Hand exercise', color: '#a855f7', x: 500, y: 50, vy: 0, maxBounce: 0.12 }
+    ];
+    if (animId) cancelAnimationFrame(animId);
+    animId = null;
+    document.getElementById('expBounceStep').innerHTML = 'Click <b>Drop balls</b> to release.';
+    draw();
+  }
+  function drop() {
+    if (dropping) return;
+    dropping = true;
+    loop();
+  }
+  function loop() {
+    balls.forEach(b => {
+      b.vy += 0.3;
+      b.y += b.vy;
+      if (b.y > 270) {
+        b.y = 270;
+        b.vy = -b.vy * b.maxBounce;
+        if (Math.abs(b.vy) < 1) b.vy = 0;
+      }
+    });
+    draw();
+    if (balls.some(b => Math.abs(b.vy) > 0.5 || b.y < 270)) {
+      animId = requestAnimationFrame(loop);
+    } else {
+      document.getElementById('expBounceStep').innerHTML = '<b>Tennis bounces highest, cricket medium, hand-exercise lowest.</b> Different materials → very different bounciness!';
+    }
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 320);
+    ctx.fillStyle = '#ecfeff';
+    ctx.fillRect(0, 0, 600, 320);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Activity 6.4: tennis vs cricket vs hand-exercise balls', 120, 22);
+    ctx.fillStyle = '#78716c';
+    ctx.fillRect(0, 290, 600, 30);
+    ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(0, 60); ctx.lineTo(600, 60); ctx.stroke();
+    ctx.setLineDash([]);
+    balls.forEach(b => {
+      ctx.fillStyle = b.color;
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, 18, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.fillStyle = '#1c1917';
+      ctx.font = 'bold 11px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(b.name, b.x, 315);
+      ctx.textAlign = 'left';
+    });
+  }
+  reset();
+  return { drop, reset };
+})();
+
+/* ============================================================
+   EXP 2: Hardness (Activity 6.5)
+   ============================================================ */
+const expHard = (() => {
+  const c = document.getElementById('expHardCanvas');
+  const ctx = c.getContext('2d');
+  const objs = {
+    brick:    { name: 'Brick',          color: '#dc2626', hard: true, mat: 'baked clay' },
+    pillow:   { name: 'Pillow',         color: '#fef3c7', hard: false, mat: 'cotton' },
+    tumbler:  { name: 'Tumbler',        color: '#bae6fd', hard: true, mat: 'glass' },
+    table:    { name: 'Wooden table',   color: '#92400e', hard: true, mat: 'wood' },
+    sweater:  { name: 'Sweater',        color: '#a855f7', hard: false, mat: 'wool/cotton' },
+    bottle:   { name: 'Plastic bottle', color: '#60a5fa', hard: false, mat: 'plastic (soft)' }
+  };
+  let chosen = 'brick';
+  document.querySelectorAll('#hardToggle button').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#hardToggle button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      chosen = b.dataset.o;
+      update();
+    });
+  });
+  function update() {
+    const o = objs[chosen];
+    document.getElementById('expHardStep').innerHTML = `<b>${o.name}</b> (made of ${o.mat}): <b style="color: ${o.hard ? '#16a34a' : '#dc2626'}">${o.hard ? 'HARD ✓' : 'SOFT ✗'}</b>`;
+    draw();
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 280);
+    ctx.fillStyle = '#ecfeff';
+    ctx.fillRect(0, 0, 600, 280);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Activity 6.5: hard or soft?', 220, 22);
+    const o = objs[chosen];
+    const cx = 300;
+    // object
+    ctx.fillStyle = o.color;
+    if (o.hard) {
+      ctx.fillRect(cx - 50, 150, 100, 50);
+    } else {
+      // squishy oval
+      ctx.beginPath();
+      ctx.ellipse(cx, 175, 50, 25, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+    if (o.hard) ctx.strokeRect(cx - 50, 150, 100, 50);
+    else {
+      ctx.beginPath();
+      ctx.ellipse(cx, 175, 50, 25, 0, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    // finger pressing
+    ctx.fillStyle = '#fde68a';
+    ctx.beginPath(); ctx.arc(cx, 130, 14, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(cx, 90); ctx.lineTo(cx, 116);
+    ctx.stroke();
+    ctx.fillStyle = '#dc2626';
+    ctx.beginPath();
+    ctx.moveTo(cx, 116); ctx.lineTo(cx - 5, 108); ctx.lineTo(cx + 5, 108); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#1c1917';
+    ctx.font = 'bold 11px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(o.name, cx, 230);
+    ctx.fillText('(' + o.mat + ')', cx, 245);
+    ctx.fillStyle = o.hard ? '#16a34a' : '#dc2626';
+    ctx.font = 'bold 14px sans-serif';
+    ctx.fillText(o.hard ? '✓ HARD' : '✗ SOFT (dents in)', cx, 265);
+    ctx.textAlign = 'left';
+  }
+  update();
+  return {};
+})();
+
+/* ============================================================
+   EXP 3: Transparency (Activity 6.6)
+   ============================================================ */
+const expTrans = (() => {
+  const c = document.getElementById('expTransCanvas');
+  const ctx = c.getContext('2d');
+  const objs = {
+    glassTumbler:  { name: 'Glass tumbler',  cat: 'transparent' },
+    butterPaper:   { name: 'Butter paper',   cat: 'translucent' },
+    eraser:        { name: 'Eraser',         cat: 'opaque' },
+    frostedGlass:  { name: 'Frosted glass',  cat: 'translucent' },
+    woodenBoard:   { name: 'Wooden board',   cat: 'opaque' },
+    windowGlass:   { name: 'Window glass',   cat: 'transparent' }
+  };
+  let chosen = 'glassTumbler';
+  document.querySelectorAll('#transToggle button').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#transToggle button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      chosen = b.dataset.t;
+      update();
+    });
+  });
+  function update() {
+    const o = objs[chosen];
+    const label = o.cat === 'transparent' ? '🔵 TRANSPARENT — see clearly' : o.cat === 'translucent' ? '🟡 TRANSLUCENT — hazy / blurred' : '⚫ OPAQUE — can\'t see at all';
+    document.getElementById('expTransStep').innerHTML = `<b>${o.name}</b> → ${label}`;
+    draw();
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 260);
+    ctx.fillStyle = '#ecfeff';
+    ctx.fillRect(0, 0, 600, 260);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Activity 6.6: how much can you see through it?', 130, 22);
+    const o = objs[chosen];
+    const cx = 300;
+    // light source (sun behind)
+    ctx.fillStyle = '#fde047';
+    ctx.beginPath(); ctx.arc(120, 130, 30, 0, Math.PI * 2); ctx.fill();
+    // letter "A" behind
+    ctx.fillStyle = '#dc2626';
+    ctx.font = 'bold 60px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('A', 200, 150);
+    ctx.textAlign = 'left';
+    // object in front
+    if (o.cat === 'transparent') {
+      ctx.fillStyle = 'rgba(186, 230, 253, 0.3)';
+    } else if (o.cat === 'translucent') {
+      ctx.fillStyle = 'rgba(254, 243, 199, 0.85)';
+    } else {
+      ctx.fillStyle = '#92400e';
+    }
+    ctx.fillRect(280, 80, 80, 130);
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+    ctx.strokeRect(280, 80, 80, 130);
+    // What viewer sees (right side)
+    ctx.fillStyle = 'white';
+    ctx.fillRect(420, 90, 130, 110);
+    ctx.strokeStyle = '#1c1917'; ctx.strokeRect(420, 90, 130, 110);
+    if (o.cat === 'transparent') {
+      // sees clearly: yellow sun + A
+      ctx.fillStyle = '#fde047';
+      ctx.beginPath(); ctx.arc(450, 130, 15, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#dc2626';
+      ctx.font = 'bold 40px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('A', 500, 165);
+    } else if (o.cat === 'translucent') {
+      // hazy version
+      ctx.fillStyle = 'rgba(253, 224, 71, 0.5)';
+      ctx.beginPath(); ctx.arc(450, 130, 18, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = 'rgba(220, 38, 38, 0.3)';
+      ctx.font = 'bold 40px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('A', 500, 165);
+    } else {
+      // nothing — dark
+      ctx.fillStyle = '#1c1917';
+      ctx.fillRect(420, 90, 130, 110);
+      ctx.fillStyle = '#fef9c3';
+      ctx.font = 'bold 16px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('🌑', 485, 150);
+    }
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#1c1917';
+    ctx.font = '10px sans-serif';
+    ctx.fillText('What you see →', 425, 80);
+  }
+  update();
+  return {};
+})();
+
+/* ============================================================
+   EXP 4: Solubility (Activity 6.7)
+   ============================================================ */
+const expSol = (() => {
+  const c = document.getElementById('expSolCanvas');
+  const ctx = c.getContext('2d');
+  const order = [
+    { name: 'Sugar', color: '#f8fafc', soluble: true },
+    { name: 'Salt', color: '#e2e8f0', soluble: true },
+    { name: 'Chalk powder', color: '#f1f5f9', soluble: false, sink: true },
+    { name: 'Sand', color: '#a16207', soluble: false, sink: true },
+    { name: 'Sawdust', color: '#92400e', soluble: false, sink: false }
+  ];
+  let idx = -1;
+  function reset() {
+    idx = -1;
+    document.getElementById('expSolStep').innerHTML = 'Click to mix sugar, salt, chalk powder, sand, sawdust — one at a time.';
+    draw();
+  }
+  function next() {
+    idx = (idx + 1) % order.length;
+    const o = order[idx];
+    document.getElementById('expSolStep').innerHTML = `<b>${o.name}</b> in water: ${o.soluble ? '<b style="color:#16a34a">DISSOLVED ✓ (soluble)</b>' : '<b style="color:#dc2626">DID NOT DISSOLVE ✗ (insoluble)</b>' + (o.sink ? ' — settled at bottom' : ' — floats on top')}`;
+    draw();
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 280);
+    ctx.fillStyle = '#ecfeff';
+    ctx.fillRect(0, 0, 600, 280);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Activity 6.7: mix in water — soluble or not?', 150, 22);
+    // 5 small glasses
+    order.forEach((o, i) => {
+      const x = 80 + i * 110;
+      ctx.fillStyle = 'rgba(96, 165, 250, 0.4)';
+      ctx.fillRect(x - 30, 80, 60, 150);
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(x - 32, 70); ctx.lineTo(x - 30, 70);
+      ctx.lineTo(x - 30, 230); ctx.lineTo(x + 30, 230);
+      ctx.lineTo(x + 30, 70); ctx.lineTo(x + 32, 70);
+      ctx.stroke();
+
+      if (idx >= i) {
+        if (o.soluble) {
+          // dispersed
+          ctx.fillStyle = o.color;
+          for (let k = 0; k < 25; k++) {
+            ctx.beginPath();
+            ctx.arc(x - 25 + Math.random() * 50, 85 + Math.random() * 140, 1.2, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        } else if (o.sink) {
+          ctx.fillStyle = o.color;
+          ctx.fillRect(x - 29, 215, 58, 15);
+        } else {
+          // float
+          ctx.fillStyle = o.color;
+          for (let k = 0; k < 10; k++) {
+            ctx.beginPath();
+            ctx.arc(x - 25 + Math.random() * 50, 84 + Math.random() * 8, 2, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      } else if (idx === i - 1) {
+        // about to be added — show pile on top
+      }
+      ctx.fillStyle = '#1c1917';
+      ctx.font = 'bold 10px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(o.name, x, 250);
+      if (idx >= i) {
+        ctx.fillStyle = o.soluble ? '#16a34a' : '#dc2626';
+        ctx.font = 'bold 9px sans-serif';
+        ctx.fillText(o.soluble ? '✓ soluble' : '✗ no', x, 265);
+      }
+      ctx.textAlign = 'left';
+    });
+  }
+  draw();
+  return { next, reset };
+})();
+
+/* ============================================================
+   EXP 5: Mass (Activity 6.8)
+   ============================================================ */
+const expMass = (() => {
+  const c = document.getElementById('expMassCanvas');
+  const ctx = c.getContext('2d');
+  let weighed = false;
+  const items = [
+    { name: 'Water', g: 200, color: '#60a5fa' },
+    { name: 'Sand', g: 350, color: '#a16207' },
+    { name: 'Pebbles', g: 500, color: '#78716c' }
+  ];
+  function reset() {
+    weighed = false;
+    document.getElementById('expMassStep').innerHTML = 'Click to weigh A (water), B (sand), C (pebbles).';
+    draw();
+  }
+  function weigh() {
+    weighed = true;
+    document.getElementById('expMassStep').innerHTML = '<b>A = 200 g, B = 350 g, C = 500 g.</b> Same volume — but different masses! Pebbles are heaviest, water is lightest. The MATERIAL decides how much mass fills a given space.';
+    draw();
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 280);
+    ctx.fillStyle = '#ecfeff';
+    ctx.fillRect(0, 0, 600, 280);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Activity 6.8: same volume, different mass', 160, 22);
+    items.forEach((it, i) => {
+      const x = 110 + i * 190;
+      // paper cup
+      ctx.fillStyle = '#fef9c3';
+      ctx.beginPath();
+      ctx.moveTo(x - 40, 90);
+      ctx.lineTo(x - 50, 220);
+      ctx.lineTo(x + 50, 220);
+      ctx.lineTo(x + 40, 90);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+      ctx.stroke();
+      // content (half-fill, same volume in cup)
+      ctx.fillStyle = it.color;
+      ctx.fillRect(x - 42, 165, 84, 53);
+      // label
+      ctx.fillStyle = '#1c1917';
+      ctx.font = 'bold 12px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('ABC'[i], x, 250);
+      ctx.font = '11px sans-serif';
+      ctx.fillText(it.name, x, 265);
+      if (weighed) {
+        ctx.fillStyle = '#0e7490';
+        ctx.font = 'bold 12px sans-serif';
+        ctx.fillText(it.g + ' g', x, 80);
+      }
+      ctx.textAlign = 'left';
+    });
+  }
+  draw();
+  return { weigh, reset };
+})();
+
+/* ============================================================
+   COMICS
+   ============================================================ */
+function drawKid(ctx, x, y, color, label) {
+  ctx.fillStyle = '#fde68a';
+  ctx.beginPath(); ctx.arc(x, y - 18, 11, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1.5; ctx.stroke();
+  ctx.fillStyle = '#1e293b';
+  ctx.beginPath(); ctx.arc(x - 3, y - 20, 1.2, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(x + 3, y - 20, 1.2, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = color;
+  ctx.fillRect(x - 11, y - 7, 22, 28);
+  ctx.fillStyle = '#1e293b';
+  ctx.fillRect(x - 8, y + 21, 5, 12);
+  ctx.fillRect(x + 3, y + 21, 5, 12);
+  if (label) {
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 10px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(label, x, y + 48);
+    ctx.textAlign = 'left';
+  }
+}
+function bubble(ctx, x, y, text, w) {
+  const lines = text.split('\n');
+  const h = lines.length * 13 + 10;
+  ctx.fillStyle = 'white';
+  ctx.strokeStyle = '#1e293b';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  if (ctx.roundRect) ctx.roundRect(x, y, w, h, 6);
+  else ctx.rect(x, y, w, h);
+  ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 11px sans-serif';
+  lines.forEach((line, i) => ctx.fillText(line, x + 6, y + 14 + i * 13));
+}
+function makeComic(stripId, num, caption, drawFn) {
+  const strip = document.getElementById(stripId);
+  const p = document.createElement('div');
+  p.className = 'comic-panel';
+  const n = document.createElement('div');
+  n.className = 'comic-number'; n.textContent = num;
+  p.appendChild(n);
+  const cnv = document.createElement('canvas');
+  cnv.width = 280; cnv.height = 200;
+  p.appendChild(cnv);
+  const c = document.createElement('div');
+  c.className = 'comic-caption'; c.textContent = caption;
+  p.appendChild(c);
+  strip.appendChild(p);
+  drawFn(cnv.getContext('2d'));
+}
+
+/* Strip 1: classroom */
+makeComic('strip1', 1, 'First day after summer break. Ghulan and Sheeta walk into class with new notebooks and pens.', (ctx) => {
+  ctx.fillStyle = '#ecfeff'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 100, 140, '#0891b2', 'Ghulan');
+  drawKid(ctx, 180, 140, '#dc2626', 'Sheeta');
+  // notebooks
+  ctx.fillStyle = '#fef9c3';
+  ctx.fillRect(90, 130, 14, 18);
+  ctx.fillRect(170, 130, 14, 18);
+  ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1; ctx.strokeRect(90, 130, 14, 18);
+  ctx.strokeRect(170, 130, 14, 18);
+  bubble(ctx, 30, 30, 'Look!\nMy new\nnotebook!', 110);
+});
+makeComic('strip1', 2, 'Madam Vidya enters: "Look around. What is everything made of?"', (ctx) => {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 80, 130, '#16a34a', 'Madam Vidya');
+  // various objects on a table
+  ctx.fillStyle = '#92400e';
+  ctx.fillRect(150, 140, 30, 20);  // wood
+  ctx.fillStyle = '#475569';
+  ctx.fillRect(190, 140, 20, 20);  // metal
+  ctx.fillStyle = '#60a5fa';
+  ctx.fillRect(220, 140, 20, 20);  // glass
+  ctx.fillStyle = '#dc2626';
+  ctx.fillRect(250, 140, 20, 20);  // plastic
+  bubble(ctx, 110, 30, 'What\'s\neverything\nmade of?', 130);
+});
+makeComic('strip1', 3, '"Materials! Wood, metal, plastic, glass, cloth, paper..."', (ctx) => {
+  ctx.fillStyle = '#cffafe'; ctx.fillRect(0, 0, 280, 200);
+  // material grid
+  const mats = [
+    { c: '#92400e', n: 'Wood' },
+    { c: '#475569', n: 'Metal' },
+    { c: '#dc2626', n: 'Plastic' },
+    { c: '#60a5fa', n: 'Glass' },
+    { c: '#fef9c3', n: 'Paper' },
+    { c: '#a855f7', n: 'Cloth' }
+  ];
+  mats.forEach((m, i) => {
+    const x = 30 + (i % 3) * 80;
+    const y = 70 + Math.floor(i / 3) * 60;
+    ctx.fillStyle = m.c;
+    ctx.fillRect(x, y, 60, 40);
+    ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1.5;
+    ctx.strokeRect(x, y, 60, 40);
+    ctx.fillStyle = m.c === '#1e293b' ? 'white' : '#1e293b';
+    ctx.font = 'bold 10px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(m.n, x + 30, y + 25);
+    ctx.textAlign = 'left';
+  });
+});
+makeComic('strip1', 4, 'Madam Vidya: "Today we learn to GROUP materials by their properties — like shape, colour, shine, hardness."', (ctx) => {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#0e7490';
+  ctx.font = 'bold 14px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Group by:', 140, 50);
+  ctx.fillStyle = '#1e293b';
+  ctx.font = '12px sans-serif';
+  ['✨ Lustre (shine)', '💪 Hardness', '🔍 Transparency', '💧 Solubility', '⚖️ Mass / Volume'].forEach((t, i) => {
+    ctx.fillText(t, 140, 80 + i * 22);
+  });
+  ctx.textAlign = 'left';
+});
+
+/* Strip 2: balls */
+makeComic('strip2', 1, 'On the playground — three balls of the same size: tennis (green), cricket (red), hand exercise (purple).', (ctx) => {
+  ctx.fillStyle = '#dcfce7'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#a3e635';
+  ctx.beginPath(); ctx.arc(70, 130, 25, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1.5; ctx.stroke();
+  ctx.fillStyle = '#dc2626';
+  ctx.beginPath(); ctx.arc(140, 130, 25, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#a855f7';
+  ctx.beginPath(); ctx.arc(210, 130, 25, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 10px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Tennis', 70, 175);
+  ctx.fillText('Cricket', 140, 175);
+  ctx.fillText('Hand ex', 210, 175);
+  ctx.textAlign = 'left';
+});
+makeComic('strip2', 2, 'They drop them from the same height. Bounce times look different.', (ctx) => {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, 280, 200);
+  // drop line
+  ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 1;
+  ctx.setLineDash([3, 3]);
+  ctx.beginPath(); ctx.moveTo(0, 50); ctx.lineTo(280, 50); ctx.stroke();
+  ctx.setLineDash([]);
+  // balls in mid-bounce at different heights
+  ctx.fillStyle = '#a3e635';
+  ctx.beginPath(); ctx.arc(70, 80, 18, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1; ctx.stroke();
+  ctx.fillStyle = '#dc2626';
+  ctx.beginPath(); ctx.arc(140, 120, 18, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#a855f7';
+  ctx.beginPath(); ctx.arc(210, 150, 18, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#78716c';
+  ctx.fillRect(0, 170, 280, 30);
+});
+makeComic('strip2', 3, 'Tennis bounces HIGH. Cricket bounces a bit. Hand exercise — barely.', (ctx) => {
+  ctx.fillStyle = '#fff7ed'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 11px sans-serif';
+  ctx.fillText('Bounce ranking:', 20, 40);
+  // medals
+  ctx.font = '20px sans-serif';
+  ctx.fillText('🥇 Tennis', 30, 75);
+  ctx.fillText('🥈 Cricket', 30, 110);
+  ctx.fillText('🥉 Hand exercise', 30, 145);
+  ctx.font = 'bold 11px sans-serif';
+  ctx.fillStyle = '#0e7490';
+  ctx.fillText('Same size,', 30, 180);
+  ctx.fillText('different materials!', 130, 180);
+});
+makeComic('strip2', 4, '"That\'s why we use rubber for bouncy balls and cork-leather for cricket — different jobs need different materials!"', (ctx) => {
+  ctx.fillStyle = '#ecfeff'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 80, 130, '#16a34a', 'Teacher');
+  bubble(ctx, 130, 30, 'Material decides\nthe properties!\nProperties decide\nthe use!', 130);
+});
+
+/* Strip 3: hide and seek */
+makeComic('strip3', 1, 'Ghulan, Sheeta, Sara play hide and seek. Each hides behind something.', (ctx) => {
+  ctx.fillStyle = '#dcfce7'; ctx.fillRect(0, 0, 280, 200);
+  // brick wall (opaque)
+  ctx.fillStyle = '#dc2626';
+  ctx.fillRect(20, 70, 60, 130);
+  // tree (opaque)
+  ctx.fillStyle = '#92400e';
+  ctx.fillRect(115, 100, 14, 100);
+  ctx.fillStyle = '#16a34a';
+  ctx.beginPath(); ctx.arc(122, 90, 25, 0, Math.PI * 2); ctx.fill();
+  // frosted glass door
+  ctx.fillStyle = 'rgba(254, 243, 199, 0.85)';
+  ctx.fillRect(180, 70, 60, 130);
+  ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 2; ctx.strokeRect(180, 70, 60, 130);
+  // labels
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 10px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('brick wall', 50, 60);
+  ctx.fillText('tree', 122, 60);
+  ctx.fillText('frosted glass', 210, 60);
+  ctx.textAlign = 'left';
+});
+makeComic('strip3', 2, 'Ghulan: brick wall (opaque). Sheeta: tree (opaque). Sara: frosted glass (translucent — slight shadow visible!)', (ctx) => {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, 280, 200);
+  // window
+  ctx.fillStyle = 'rgba(186, 230, 253, 0.6)';
+  ctx.fillRect(80, 60, 120, 110);
+  ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 3;
+  ctx.strokeRect(80, 60, 120, 110);
+  ctx.beginPath();
+  ctx.moveTo(140, 60); ctx.lineTo(140, 170);
+  ctx.moveTo(80, 115); ctx.lineTo(200, 115);
+  ctx.stroke();
+  drawKid(ctx, 250, 140, '#0284c7', 'brother');
+  bubble(ctx, 20, 30, 'I can see them\nthrough the\nwindow!', 130);
+});
+makeComic('strip3', 3, '"Through CLEAR glass: I see clearly. Through FROSTED glass: I see Sara as a hazy shape. Through wood: I see NOTHING."', (ctx) => {
+  ctx.fillStyle = '#ecfeff'; ctx.fillRect(0, 0, 280, 200);
+  // 3 panels with progressively less visibility
+  ctx.fillStyle = 'rgba(186, 230, 253, 0.3)';
+  ctx.fillRect(20, 70, 70, 100);
+  ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+  ctx.strokeRect(20, 70, 70, 100);
+  drawKid(ctx, 55, 130, '#dc2626', '');
+  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 9px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('transparent', 55, 185);
+  // translucent
+  ctx.fillStyle = 'rgba(254, 243, 199, 0.85)';
+  ctx.fillRect(105, 70, 70, 100);
+  ctx.strokeStyle = '#1c1917'; ctx.strokeRect(105, 70, 70, 100);
+  ctx.fillStyle = 'rgba(220, 38, 38, 0.4)';
+  ctx.fillRect(125, 105, 30, 60);
+  ctx.fillStyle = '#1e293b'; ctx.fillText('translucent', 140, 185);
+  // opaque
+  ctx.fillStyle = '#92400e';
+  ctx.fillRect(190, 70, 70, 100);
+  ctx.strokeRect(190, 70, 70, 100);
+  ctx.fillStyle = '#1e293b'; ctx.fillText('opaque', 225, 185);
+  ctx.textAlign = 'left';
+});
+makeComic('strip3', 4, 'THREE NEW WORDS in your science vocab: transparent, translucent, opaque.', (ctx) => {
+  ctx.fillStyle = '#dcfce7'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#0e7490';
+  ctx.font = 'bold 14px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('🔵 Transparent — clear', 140, 60);
+  ctx.fillStyle = '#d97706';
+  ctx.fillText('🟡 Translucent — hazy', 140, 100);
+  ctx.fillStyle = '#475569';
+  ctx.fillText('⚫ Opaque — can\'t see', 140, 140);
+  ctx.textAlign = 'left';
+});
+
+/* Strip 4: sugar dissolving */
+makeComic('strip4', 1, 'Ghulan, sweating and tired, comes home from playing. Mother says: "Have some shikanji!"', (ctx) => {
+  ctx.fillStyle = '#fff7ed'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 80, 140, '#0891b2', 'Ghulan');
+  drawKid(ctx, 200, 140, '#dc2626', 'Mother');
+  // sweat
+  ctx.fillStyle = '#60a5fa';
+  ctx.beginPath(); ctx.arc(95, 110, 2, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(70, 115, 2, 0, Math.PI * 2); ctx.fill();
+  bubble(ctx, 30, 30, 'I\'m so\nthirsty!', 90);
+});
+makeComic('strip4', 2, 'Mother mixes sugar + salt + lemon in water. Ghulan watches the sugar VANISH.', (ctx) => {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, 280, 200);
+  // glass
+  ctx.fillStyle = 'rgba(186, 230, 253, 0.5)';
+  ctx.fillRect(110, 80, 60, 100);
+  ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(105, 70); ctx.lineTo(110, 70);
+  ctx.lineTo(110, 180); ctx.lineTo(170, 180);
+  ctx.lineTo(170, 70); ctx.lineTo(175, 70);
+  ctx.stroke();
+  // spoon stirring
+  ctx.strokeStyle = '#475569'; ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(140, 40); ctx.lineTo(140, 100);
+  ctx.stroke();
+  // sugar particles dispersing
+  ctx.fillStyle = '#f8fafc';
+  for (let i = 0; i < 15; i++) {
+    ctx.beginPath();
+    ctx.arc(115 + Math.random() * 50, 90 + Math.random() * 80, 1.5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  bubble(ctx, 20, 30, 'Where did\nthe SUGAR\ngo??', 110);
+});
+makeComic('strip4', 3, 'Mother: "It didn\'t vanish — it DISSOLVED! It\'s still there. Taste — it\'s sweet, right?"', (ctx) => {
+  ctx.fillStyle = '#dcfce7'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 80, 140, '#0891b2', 'Ghulan');
+  bubble(ctx, 130, 30, 'Wow — it tastes\nsweet but I see\nno sugar!', 140);
+  // glass with sweet labelled
+  ctx.fillStyle = 'rgba(186, 230, 253, 0.5)';
+  ctx.fillRect(180, 100, 40, 70);
+  ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1.5; ctx.strokeRect(180, 100, 40, 70);
+  ctx.fillStyle = '#16a34a';
+  ctx.font = 'bold 10px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Sweet!', 200, 95);
+  ctx.textAlign = 'left';
+});
+makeComic('strip4', 4, '"Sugar &amp; salt are SOLUBLE in water. Sand and chalk powder would NOT dissolve — they\'re insoluble."', (ctx) => {
+  ctx.fillStyle = '#ecfeff'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#16a34a';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('SOLUBLE ✓', 80, 40);
+  ctx.fillStyle = '#1e293b';
+  ctx.font = '12px sans-serif';
+  ctx.fillText('Sugar', 80, 65);
+  ctx.fillText('Salt', 80, 85);
+  ctx.fillText('Lemon juice', 80, 105);
+  ctx.fillStyle = '#dc2626';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.fillText('INSOLUBLE ✗', 200, 40);
+  ctx.fillStyle = '#1e293b';
+  ctx.font = '12px sans-serif';
+  ctx.fillText('Sand', 200, 65);
+  ctx.fillText('Chalk powder', 200, 85);
+  ctx.fillText('Sawdust', 200, 105);
+  ctx.textAlign = 'left';
+});
+
+/* Strip 5: bag on seat */
+makeComic('strip5', 1, '"Please sit down!" Madam Vidya tells the class. But — the kids can\'t sit.', (ctx) => {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 60, 130, '#16a34a', 'Madam V');
+  drawKid(ctx, 160, 140, '#0891b2', 'Ghulan');
+  // chairs with bags
+  ctx.fillStyle = '#92400e';
+  ctx.fillRect(140, 160, 40, 8);
+  // bag on chair
+  ctx.fillStyle = '#dc2626';
+  ctx.beginPath();
+  ctx.ellipse(160, 155, 18, 12, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5;
+  ctx.stroke();
+  bubble(ctx, 90, 30, 'No place!\nBags are\nin our seats!', 130);
+});
+makeComic('strip5', 2, 'Madam Vidya: "AH! The bag is occupying SPACE. That\'s called VOLUME."', (ctx) => {
+  ctx.fillStyle = '#ecfeff'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 80, 130, '#16a34a', 'Madam V');
+  bubble(ctx, 130, 30, 'Space occupied\nby something\n= VOLUME', 140);
+});
+makeComic('strip5', 3, '"And — does a bag have mass too? Yes! Anything with MASS + VOLUME = MATTER."', (ctx) => {
+  ctx.fillStyle = '#fff7ed'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#0e7490';
+  ctx.font = 'bold 14px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('MASS + VOLUME', 140, 50);
+  ctx.fillText('= MATTER', 140, 75);
+  ctx.fillStyle = '#1e293b';
+  ctx.font = '12px sans-serif';
+  ctx.fillText('Bag: yes!', 140, 110);
+  ctx.fillText('Water: yes!', 140, 125);
+  ctx.fillText('Air: yes!', 140, 140);
+  ctx.fillText('Even a tiny grain of sand: yes!', 140, 160);
+  ctx.textAlign = 'left';
+});
+makeComic('strip5', 4, '"All MATERIALS are types of MATTER. That\'s the big lesson of Chapter 6!" 🎉', (ctx) => {
+  ctx.fillStyle = '#dcfce7'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#0e7490';
+  ctx.font = 'bold 16px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('🎉 MATERIALS', 140, 60);
+  ctx.fillText('=', 140, 90);
+  ctx.fillText('Types of MATTER', 140, 120);
+  ctx.font = '11px sans-serif';
+  ctx.fillStyle = '#475569';
+  ctx.fillText('Every object has mass and volume!', 140, 160);
+  ctx.textAlign = 'left';
+});
+
+/* ============================================================
+   QUIZ
+   ============================================================ */
+const quizData = [
+  {
+    q: 'What is a material?',
+    options: [
+      'A type of mathematics',
+      'Any substance used to make an object',
+      'Only metals',
+      'Only natural things'
+    ],
+    correct: 1,
+    why: 'A material is anything used to make an object — paper, wood, cloth, glass, metal, plastic, clay…'
+  },
+  {
+    q: 'Materials that shine are said to have what property?',
+    options: ['Hardness', 'Lustre', 'Transparency', 'Volume'],
+    correct: 1,
+    why: 'Lustre = shine. Metals usually have lustre. Wood, paper, rubber don\'t.'
+  },
+  {
+    q: 'You can see clearly through this. What is it called?',
+    options: ['Opaque', 'Translucent', 'Transparent', 'Lustrous'],
+    correct: 2,
+    why: 'Transparent = see clearly. Glass, clean water, and air are transparent.'
+  },
+  {
+    q: 'Frosted glass and butter paper are examples of:',
+    options: ['Transparent', 'Translucent', 'Opaque', 'Lustrous'],
+    correct: 1,
+    why: 'Light passes through them but the image is blurry. That\'s translucent.'
+  },
+  {
+    q: 'Aluminium foil has lustre while an eraser does not. True or False?',
+    options: ['True', 'False'],
+    correct: 0,
+    why: 'True! Aluminium foil shines (lustrous metal). Eraser is rubber — non-lustrous.'
+  },
+  {
+    q: 'Sugar disappears in water; sawdust does not. What\'s the difference?',
+    options: [
+      'Sugar is invisible',
+      'Sugar is soluble in water, sawdust is insoluble',
+      'Sugar is heavier',
+      'They are the same'
+    ],
+    correct: 1,
+    why: 'Sugar dissolves (soluble). Sawdust does not (insoluble). Same with salt vs sand.'
+  },
+  {
+    q: 'Which of these is matter?',
+    options: ['Water', 'Sand', 'Air', 'All of the above'],
+    correct: 3,
+    why: 'Anything that has mass AND takes up space is matter. Water, sand, air — all are matter!'
+  },
+  {
+    q: 'Mass is measured in:',
+    options: ['Litres', 'Kilograms', 'Centimetres', 'Seconds'],
+    correct: 1,
+    why: 'Mass is measured in kilograms (kg) or grams (g). Volume is in litres (L) or mL.'
+  },
+  {
+    q: 'Three cups, same size: one with water, one with sand, one with pebbles. Which has the most mass?',
+    options: ['Water', 'Sand', 'Pebbles', 'All same'],
+    correct: 2,
+    why: 'Same volume, but pebbles pack more matter into the same space — most mass. Then sand. Water is least.'
+  },
+  {
+    q: 'Why is glass used for windows but not wood?',
+    options: [
+      'Glass is heavier',
+      'Glass is transparent — lets light in. Wood is opaque',
+      'Wood is more expensive',
+      'They could be swapped'
+    ],
+    correct: 1,
+    why: 'We pick materials by their properties! Windows need to let light in (transparent), doors need to block view (opaque).'
+  },
+  {
+    q: 'What is "terracotta"?',
+    options: ['A type of plant', 'Baked clay', 'A metal', 'A type of glass'],
+    correct: 1,
+    why: 'Terracotta = baked clay. Used for pottery for over 7000 years in India!'
+  },
+  {
+    q: 'Ayurveda describes materials using how many pairs of opposite properties (guṇa)?',
+    options: ['5', '10', '20', '100'],
+    correct: 1,
+    why: '10 PAIRS of opposites = 20 total properties (guṇa). Like guru-laghu (heavy-light), hima-uṣhna (cold-hot), etc.'
+  }
+];
+
+const quizContainer = document.getElementById('quiz-container');
+let answeredCount = 0, score = 0;
+quizData.forEach((q, idx) => {
+  const wrap = document.createElement('div');
+  wrap.className = 'quiz-question';
+  const qText = document.createElement('div');
+  qText.className = 'q-text';
+  qText.textContent = `Q${idx + 1}. ${q.q}`;
+  wrap.appendChild(qText);
+  q.options.forEach((opt, i) => {
+    const o = document.createElement('div');
+    o.className = 'quiz-option';
+    o.textContent = opt;
+    o.addEventListener('click', () => {
+      if (wrap.dataset.answered) return;
+      wrap.dataset.answered = 'true';
+      answeredCount++;
+      const fb = document.createElement('div');
+      fb.className = 'quiz-feedback show';
+      if (i === q.correct) {
+        o.classList.add('correct');
+        fb.classList.add('correct');
+        fb.innerHTML = `<b>✅ Yes!</b> ${q.why}`;
+        score++;
+      } else {
+        o.classList.add('wrong');
+        wrap.querySelectorAll('.quiz-option')[q.correct].classList.add('correct');
+        fb.classList.add('wrong');
+        fb.innerHTML = `<b>🤔 Not quite.</b> ${q.why}`;
+      }
+      wrap.appendChild(fb);
+      if (answeredCount === quizData.length) {
+        const s = document.getElementById('quiz-score');
+        s.style.display = 'block';
+        s.innerHTML = `Score: <b>${score} / ${quizData.length}</b><br>${score === quizData.length ? '🏆 Materials Master!' : score >= quizData.length * 0.7 ? '👏 Great work!' : '📚 Review and try again — you\'ll get it!'}`;
+      }
+    });
+    wrap.appendChild(o);
+  });
+  quizContainer.appendChild(wrap);
+});
+</script>
+
+<script src="smile-chapter-assessment.js"></script>
+</body>
+</html>

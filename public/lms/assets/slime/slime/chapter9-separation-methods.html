@@ -1,0 +1,3247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grade 6 — Chapter 9 — Methods of Separation in Everyday Life</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #fffbeb;
+    color: #1e293b;
+    line-height: 1.55;
+  }
+  header {
+    background: linear-gradient(135deg, #78350f 0%, #d97706 45%, #15803d 100%);
+    color: white;
+    padding: 36px 24px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  }
+  header h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+  header p { opacity: 0.95; font-size: 14px; }
+  nav.tabs {
+    display: flex; justify-content: center; gap: 4px;
+    background: white; padding: 8px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); flex-wrap: wrap;
+  }
+  nav.tabs button {
+    background: transparent; border: none;
+    padding: 10px 16px; font-size: 13px; font-weight: 600;
+    color: #475569; cursor: pointer; border-radius: 8px;
+    transition: all 0.2s;
+  }
+  nav.tabs button:hover { background: #fef3c7; color: #d97706; }
+  nav.tabs button.active { background: #d97706; color: white; }
+  nav.tabs button[data-tab="performance"] { background: #f3e8ff; color: #7e22ce; }
+  nav.tabs button[data-tab="performance"]:hover { background: #e9d5ff; }
+  nav.tabs button[data-tab="performance"].active { background: #7e22ce; color: white; }
+  main { max-width: 1100px; margin: 0 auto; padding: 24px; background: #fef9c3; min-height: 80vh; }
+  .tab-panel { display: none; animation: fadeIn 0.3s ease; }
+  .tab-panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  h2.section-title {
+    font-size: 22px; color: #d97706; margin-bottom: 16px;
+    padding-bottom: 8px; border-bottom: 2px solid #d97706;
+  }
+  h3.card-title { font-size: 18px; color: #1e293b; margin-bottom: 10px; }
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+  .card, .sim-card, .exp-card, .story-card, .lab-card {
+    background: white; border-radius: 12px; padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    margin-bottom: 16px; transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  .card p, .card li { font-size: 14px; color: #475569; margin-bottom: 6px; }
+  .card ul { margin-left: 18px; }
+  .badge {
+    display: inline-block; background: #fef3c7; color: #b45309;
+    font-size: 11px; font-weight: 600; padding: 3px 8px;
+    border-radius: 999px; margin-bottom: 8px;
+  }
+  .badge-green { background: #dcfce7; color: #15803d; }
+  .badge-blue { background: #dbeafe; color: #1d4ed8; }
+  .badge-purple { background: #f3e8ff; color: #7e22ce; }
+  canvas { display: block; background: #fef3c7; border-radius: 8px; margin: 12px 0; max-width: 100%; }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; align-items: center; }
+  button.btn {
+    background: #d97706; color: white; border: none;
+    padding: 8px 16px; font-size: 13px; font-weight: 600;
+    border-radius: 6px; cursor: pointer; transition: background 0.2s;
+  }
+  button.btn:hover { background: #b45309; }
+  button.btn.secondary { background: #64748b; }
+  button.btn.secondary:hover { background: #475569; }
+  button.btn.green { background: #15803d; }
+  button.btn.green:hover { background: #14532d; }
+  label { font-size: 13px; color: #475569; font-weight: 500; }
+  .result-box {
+    background: #fef3c7; border-left: 4px solid #d97706;
+    padding: 12px 16px; border-radius: 6px; margin-top: 12px; font-size: 14px;
+  }
+  .observation {
+    background: #fef3c7; border-left: 4px solid #f59e0b;
+    padding: 10px 14px; border-radius: 6px; margin-top: 10px; font-size: 13px;
+  }
+  .step-display {
+    background: #fef9c3; border: 1px solid #fde68a;
+    padding: 12px; border-radius: 6px; margin-top: 10px;
+    font-size: 13px; min-height: 50px;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+  th, td { padding: 7px 8px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+  th { background: #fef9c3; font-weight: 600; color: #475569; }
+  .key-fact {
+    background: #fef9c3; border-left: 3px solid #d97706;
+    padding: 8px 12px; margin: 8px 0; font-size: 13px; border-radius: 4px;
+  }
+  .toggle-group { display: inline-flex; background: #e2e8f0; padding: 3px; border-radius: 6px; flex-wrap: wrap; }
+  .toggle-group button {
+    background: transparent; border: none;
+    padding: 6px 12px; font-size: 12px; font-weight: 600;
+    color: #475569; cursor: pointer; border-radius: 4px;
+  }
+  .toggle-group button.active { background: white; color: #d97706; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  .lab-card {
+    border-left: 5px solid #d97706;
+    background: linear-gradient(to right, #fef3c7 0%, #ffffff 80px);
+  }
+  .lab-card.addon { border-left-color: #15803d; background: linear-gradient(to right, #f0fdf4 0%, #ffffff 80px); }
+  .lab-section {
+    margin-top: 12px; padding: 10px 14px;
+    background: #fef9c3; border-radius: 6px;
+    font-size: 13px;
+  }
+  .lab-section h4 { color: #d97706; font-size: 13px; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .lab-section.materials h4 { color: #b45309; }
+  .lab-section.procedure h4 { color: #15803d; }
+  .lab-section.safety { background: #fef2f2; }
+  .lab-section.safety h4 { color: #dc2626; }
+  .lab-section ol, .lab-section ul { margin-left: 18px; }
+  .lab-section li { margin-bottom: 4px; }
+  .difficulty {
+    display: inline-block; padding: 2px 10px;
+    border-radius: 999px; font-size: 11px; font-weight: 600;
+    margin-left: 8px;
+  }
+  .difficulty.easy   { background: #dcfce7; color: #16a34a; }
+  .difficulty.medium { background: #fef3c7; color: #d97706; }
+  .difficulty.hard   { background: #fee2e2; color: #dc2626; }
+  .comic-strip {
+    display: grid; gap: 12px; margin-top: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  .comic-panel {
+    background: #fffbeb; border: 3px solid #1e293b;
+    border-radius: 8px; overflow: hidden; position: relative;
+    box-shadow: 4px 4px 0 rgba(30,41,59,0.4);
+  }
+  .comic-panel canvas { background: #fefce8; border-radius: 0; margin: 0; width: 100%; display: block; }
+  .comic-caption {
+    background: #1e293b; color: #fef9c3;
+    padding: 10px 12px; font-size: 13px;
+    font-weight: 500; line-height: 1.4; font-family: Georgia, serif;
+  }
+  .comic-number {
+    position: absolute; top: 6px; left: 8px;
+    background: #d97706; color: white; font-weight: 800; font-size: 14px;
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid #1e293b; z-index: 5;
+  }
+  .story-intro {
+    background: linear-gradient(135deg, #fef3c7 0%, #dcfce7 100%);
+    border-left: 4px solid #d97706;
+    padding: 14px 18px; border-radius: 8px;
+    margin-bottom: 14px; font-size: 14px;
+    color: #78350f; font-style: italic;
+  }
+  .quiz-question {
+    background: white; border-radius: 12px;
+    padding: 20px; margin-bottom: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .quiz-question .q-text { font-weight: 600; margin-bottom: 12px; color: #1e293b; }
+  .quiz-option {
+    display: block; padding: 10px 14px; margin-bottom: 6px;
+    border: 2px solid #e2e8f0; border-radius: 8px;
+    cursor: pointer; font-size: 14px; transition: all 0.15s;
+  }
+  .quiz-option:hover { border-color: #d97706; background: #fef3c7; }
+  .quiz-option.correct { border-color: #16a34a; background: #f0fdf4; }
+  .quiz-option.wrong { border-color: #dc2626; background: #fef2f2; }
+  .quiz-feedback {
+    margin-top: 10px; padding: 10px; border-radius: 6px;
+    font-size: 13px; display: none;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: #f0fdf4; color: #166534; }
+  .quiz-feedback.wrong { background: #fef2f2; color: #991b1b; }
+  #quiz-score {
+    background: linear-gradient(135deg, #d97706 0%, #15803d 100%);
+    color: white; padding: 20px; border-radius: 12px;
+    text-align: center; margin-top: 16px;
+    font-size: 16px; font-weight: 600;
+  }
+  .quote-card {
+    background: linear-gradient(135deg, #fef3c7 0%, #dcfce7 100%);
+    border-radius: 14px;
+    padding: 22px 26px;
+    text-align: center;
+    margin: 14px 0;
+    border-left: 5px solid #d97706;
+  }
+  .quote-card .quote-text {
+    font-size: 16px; font-style: italic; color: #78350f;
+    font-family: Georgia, serif;
+    margin-bottom: 10px;
+  }
+  .quote-card .quote-author { font-weight: 600; color: #475569; font-size: 13px; }
+  /* 5E phase cards */
+  .five-intro {
+    background: linear-gradient(135deg, #fef3c7 0%, #dcfce7 100%);
+    border-left: 4px solid #d97706;
+    padding: 14px 18px; border-radius: 10px;
+    margin-bottom: 18px; font-size: 14px; color: #78350f;
+  }
+  .phase-card {
+    background: white; border-radius: 14px;
+    padding: 22px 24px; margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-left: 6px solid #d97706;
+  }
+  .phase-card.phase-engage    { border-left-color: #dc2626; background: linear-gradient(to right, #fef2f2 0%, #ffffff 80px); }
+  .phase-card.phase-explore   { border-left-color: #f59e0b; background: linear-gradient(to right, #fef3c7 0%, #ffffff 80px); }
+  .phase-card.phase-explain   { border-left-color: #0284c7; background: linear-gradient(to right, #eff6ff 0%, #ffffff 80px); }
+  .phase-card.phase-elaborate { border-left-color: #15803d; background: linear-gradient(to right, #f0fdf4 0%, #ffffff 80px); }
+  .phase-card.phase-evaluate  { border-left-color: #7e22ce; background: linear-gradient(to right, #faf5ff 0%, #ffffff 80px); }
+  .phase-header { display: flex; gap: 14px; align-items: center; margin-bottom: 12px; }
+  .phase-num {
+    background: #1e293b; color: white;
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 18px;
+    flex-shrink: 0;
+  }
+  .phase-card.phase-engage    .phase-num { background: #dc2626; }
+  .phase-card.phase-explore   .phase-num { background: #f59e0b; }
+  .phase-card.phase-explain   .phase-num { background: #0284c7; }
+  .phase-card.phase-elaborate .phase-num { background: #15803d; }
+  .phase-card.phase-evaluate  .phase-num { background: #7e22ce; }
+  .phase-header h3 { font-size: 18px; color: #1e293b; margin: 0; }
+  .phase-tagline { font-size: 12px; color: #64748b; margin: 2px 0 0; font-style: italic; }
+  .dialog-story {
+    background: #fffbeb; border-radius: 10px;
+    padding: 16px 18px; margin: 10px 0;
+    font-size: 14px; line-height: 1.7;
+    border: 1px solid #fde68a;
+  }
+  .dialog-story p { margin-bottom: 10px; }
+  .speaker { font-weight: 700; }
+  .speaker.malli { color: #db2777; }
+  .speaker.valli { color: #15803d; }
+  .speaker.nani  { color: #7e22ce; }
+  .narration { color: #475569; font-style: italic; font-size: 13px; }
+  .vocab-term {
+    background: #fde047; color: #713f12;
+    padding: 1px 6px; border-radius: 4px; font-weight: 700;
+  }
+  .vocab-summary {
+    background: #fef9c3; border-radius: 10px;
+    padding: 14px 18px; margin-top: 12px;
+    border-left: 4px solid #d97706;
+  }
+  .vocab-summary h4 { color: #b45309; font-size: 14px; margin-bottom: 8px; }
+  .vocab-chips {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px;
+  }
+  .vocab-chip {
+    background: white;
+    border: 2px solid #d97706;
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: #b45309;
+    font-weight: 600;
+  }
+  .exp-mini {
+    background: white; border-radius: 10px;
+    padding: 14px; margin: 8px 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    border-top: 3px solid #f59e0b;
+  }
+  .exp-mini h5 { color: #b45309; font-size: 14px; margin-bottom: 6px; }
+  .exp-mini p { font-size: 13px; color: #475569; margin-bottom: 4px; }
+  .kit-link {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    color: white; padding: 12px 20px;
+    border-radius: 10px; text-decoration: none;
+    font-weight: 600; font-size: 14px;
+    box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3);
+    transition: all 0.2s;
+    margin: 10px 0;
+  }
+  .kit-link:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(22, 163, 74, 0.4); }
+  .kit-link .kit-icon { font-size: 22px; }
+  .eval-quiz {
+    background: white; border-radius: 10px;
+    padding: 16px; margin-bottom: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .eval-quiz .eq-q { font-weight: 600; color: #1e293b; margin-bottom: 10px; }
+  .eval-quiz .eq-opt {
+    display: block; padding: 8px 12px; margin-bottom: 5px;
+    border: 2px solid #e2e8f0; border-radius: 8px;
+    cursor: pointer; font-size: 13px;
+  }
+  .eval-quiz .eq-opt:hover { border-color: #7e22ce; background: #faf5ff; }
+  .eval-quiz .eq-opt.correct { border-color: #15803d; background: #f0fdf4; }
+  .eval-quiz .eq-opt.wrong { border-color: #dc2626; background: #fef2f2; }
+  #pieResult {
+    display: none;
+    background: linear-gradient(135deg, #7e22ce 0%, #d97706 100%);
+    color: white; border-radius: 14px;
+    padding: 22px; margin-top: 14px;
+    text-align: center;
+  }
+  #pieResult.show { display: block; }
+  #pieResult h3 { color: white; font-size: 20px; margin-bottom: 8px; }
+  #pieResult canvas { background: transparent; margin: 12px auto; }
+  /* Performance Tab — Rubric */
+  .rubric-block { margin-top: 18px; }
+  .rubric-block h4 {
+    color: #7e22ce; font-size: 16px;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .student-info {
+    display: grid; grid-template-columns: 1fr 80px 130px;
+    gap: 10px; margin-bottom: 14px;
+    background: #faf5ff; padding: 12px;
+    border-radius: 10px; border: 1px solid #e9d5ff;
+  }
+  .student-info label {
+    display: block; font-size: 11px; color: #7e22ce;
+    font-weight: 700; margin-bottom: 2px; text-transform: uppercase;
+  }
+  .student-info input {
+    width: 100%; padding: 6px 10px;
+    border: 1px solid #c4b5fd; border-radius: 6px;
+    font-size: 14px; font-family: inherit;
+  }
+  .student-info input:focus { outline: none; border-color: #7e22ce; }
+  .rubric-table {
+    width: 100%; border-collapse: collapse;
+    background: white; border-radius: 10px;
+    overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    font-size: 12px; margin-bottom: 12px;
+  }
+  .rubric-table th, .rubric-table td {
+    padding: 8px 10px; border: 1px solid #e2e8f0;
+    text-align: left; vertical-align: top;
+  }
+  .rubric-table th {
+    background: #7e22ce; color: white;
+    text-align: center; font-weight: 700;
+  }
+  .rubric-table th:first-child { text-align: left; }
+  .rubric-table .rb-skill {
+    background: #faf5ff; font-weight: 600; color: #581c87;
+    width: 22%;
+  }
+  .rubric-table .rb-cell {
+    cursor: pointer; transition: all 0.15s;
+    color: #475569;
+  }
+  .rubric-table .rb-cell:hover { background: #f3e8ff; }
+  .rubric-table .rb-cell.selected {
+    background: #c4b5fd; color: #1e293b;
+    font-weight: 600;
+    box-shadow: inset 0 0 0 2px #7e22ce;
+  }
+  .rubric-summary {
+    background: #faf5ff; border-radius: 10px;
+    padding: 14px 18px; margin: 12px 0;
+    display: flex; justify-content: space-between;
+    align-items: center; flex-wrap: wrap; gap: 12px;
+  }
+  .rubric-summary .rs-score {
+    font-size: 28px; font-weight: 800; color: #7e22ce;
+  }
+  .rubric-summary .rs-band {
+    padding: 6px 14px; border-radius: 999px;
+    font-weight: 700; font-size: 13px;
+  }
+  .reflection {
+    width: 100%; min-height: 80px;
+    padding: 10px 14px; border-radius: 8px;
+    border: 1px solid #cbd5e1; font-family: inherit;
+    font-size: 13px; resize: vertical;
+    margin: 10px 0;
+  }
+  .reflection:focus { outline: none; border-color: #7e22ce; }
+  .print-btn-row {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    align-items: center; margin: 14px 0;
+    padding: 12px; background: #f8fafc;
+    border-radius: 10px;
+  }
+  .print-btn-row p { font-size: 12px; color: #64748b; margin: 0; flex: 1; }
+  .sig-row { display: none; }
+  footer { text-align: center; padding: 20px; color: #94a3b8; font-size: 12px; background: #0f172a; }
+  /* Print styles for Performance tab */
+  @media print {
+    body { background: white; color: black; }
+    header, nav.tabs, footer { display: none !important; }
+    main { background: white; max-width: 100%; padding: 0; }
+    .tab-panel { display: none !important; }
+    #performance { display: block !important; }
+    .phase-header .phase-tagline { color: #444 !important; }
+    .eval-quiz { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
+    .rubric-table { font-size: 10px; page-break-inside: avoid; }
+    .rubric-table th { background: #666 !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .rubric-table .rb-cell.selected { background: #ddd !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .print-btn-row { display: none !important; }
+    @page { size: A4; margin: 1.2cm; }
+    .student-info { border: 1px solid #999; background: white !important; }
+    .student-info input { border: none; border-bottom: 1px solid #999; border-radius: 0; }
+    .reflection { border: 1px solid #999; }
+    .sig-row { margin-top: 30px; display: flex !important; gap: 40px; }
+    .sig-line { flex: 1; border-top: 1px solid #999; padding-top: 4px; font-size: 11px; color: #666; text-align: center; }
+    .perf-header { background: white !important; color: black !important; border: 2px solid #7e22ce; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+  .perf-header {
+    background: linear-gradient(135deg, #7e22ce 0%, #d97706 100%);
+    color: white; border-radius: 14px;
+    padding: 24px; margin-bottom: 18px;
+    text-align: center;
+  }
+  .perf-header h3 { color: white; font-size: 22px; margin-bottom: 6px; }
+  .perf-header p { color: #f3e8ff; font-size: 14px; }
+</style>
+<link rel="stylesheet" href="smile-chapter-assessment.css">
+</head>
+<body>
+
+<header>
+  <h1>Methods of Separation in Everyday Life</h1>
+</header>
+
+<nav class="tabs">
+  <button type="button" onclick="event.stopImmediatePropagation(); window.location.href='index.html'; return false;" style="background:#fef3c7; color:#b45309; padding:10px 16px; font-size:13px; font-weight:600; border-radius:8px; border:none; cursor:pointer; font-family:inherit;">🏠 Home</button>
+  <button data-tab="concepts" class="active">Concepts</button>
+  <button data-tab="kwl" style="background:#fef3c7; color:#b45309;">📝 KWL Chart</button>
+  <button data-tab="fivee">5E Method 📚</button>
+  <button data-tab="story">Story &amp; Cartoons</button>
+  <button data-tab="simulations">Methods Lab 🧪</button>
+  <button data-tab="experiments">Virtual Experiments</button>
+  <button data-tab="lab">Lab Experiments</button>
+  <button data-tab="quiz">Quiz</button>
+  <button data-tab="performance">📋 Performance</button>
+</nav>
+
+<main>
+
+<!-- =================== CONCEPTS =================== -->
+<section id="concepts" class="tab-panel active">
+  <h2 class="section-title">Key Concepts</h2>
+
+  <div class="quote-card">
+    <div class="quote-text">"Just like winnowing makes the husk blow away while retaining the grains, similarly, sages let the virtues stay while discarding the vices."</div>
+    <div class="quote-author">— Kabir</div>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <span class="badge">Big Idea</span>
+      <h3 class="card-title">Why Separate?</h3>
+      <p>Two big reasons we separate things in mixtures:</p>
+      <ul>
+        <li><b>To remove something not useful</b> — stones from rice, dust from grain, mud from water</li>
+        <li><b>To separate two useful things</b> — butter from buttermilk, salt from seawater, oil from water</li>
+      </ul>
+      <div class="key-fact">A <b>mixture</b> = two or more substances mixed together. Each can be separated back!</div>
+    </div>
+
+    <div class="card">
+      <span class="badge">1️⃣ Handpicking</span>
+      <h3 class="card-title">Handpicking</h3>
+      <p>The simplest method — pick out unwanted bits with your fingers.</p>
+      <p><b>Use when:</b></p>
+      <ul>
+        <li>Particles differ in <b>size, colour, or shape</b></li>
+        <li>Unwanted things are in <b>small quantities</b></li>
+        <li>Easily seen and picked up</li>
+      </ul>
+      <p><b>Examples:</b> Picking stones from rice, black peppers from pulao, cherries from a fruit salad.</p>
+    </div>
+
+    <div class="card">
+      <span class="badge-green badge">2️⃣ Threshing</span>
+      <h3 class="card-title">Threshing</h3>
+      <p>Beating harvested stalks to <b>separate grains</b> from them.</p>
+      <p>Done by:</p>
+      <ul>
+        <li>Beating against a wooden log by hand</li>
+        <li>Trampling by oxen (traditional)</li>
+        <li>Modern threshing machines (combine threshing + winnowing)</li>
+      </ul>
+      <div class="key-fact">Farmers often sing folk songs while threshing — making heavy work feel lighter!</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-green badge">3️⃣ Winnowing</span>
+      <h3 class="card-title">Winnowing</h3>
+      <p>Separate <b>lighter components</b> from <b>heavier</b> ones using wind.</p>
+      <p>Traditional: a <b>soop</b> (bamboo tray) — toss the mixture in the wind. The husk blows away; the heavier grains fall straight down.</p>
+      <ul>
+        <li>Wheat grains vs husk</li>
+        <li>Peanut skins after rubbing</li>
+        <li>Chaff from any grain</li>
+      </ul>
+      <div class="key-fact">Won't work in a closed room — needs wind or a fan!</div>
+    </div>
+
+    <div class="card">
+      <span class="badge">4️⃣ Sieving</span>
+      <h3 class="card-title">Sieving</h3>
+      <p>Pass a mixture through a <b>sieve</b> (a screen with holes).</p>
+      <ul>
+        <li><b>Smaller particles</b> fall through</li>
+        <li><b>Bigger particles</b> stay on top</li>
+      </ul>
+      <p>Examples:</p>
+      <ul>
+        <li>Bran out of wheat flour (chakla-belan kitchen)</li>
+        <li>Pebbles out of sand (construction sites)</li>
+        <li>Tea-sieving (kitchen)</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <span class="badge-blue badge">5️⃣ Evaporation</span>
+      <h3 class="card-title">Evaporation</h3>
+      <p>To separate a <b>solid dissolved in a liquid</b>: let the liquid evaporate away.</p>
+      <p><b>Examples:</b></p>
+      <ul>
+        <li>🧂 <b>Salt from seawater</b> — shallow salt pits, sun evaporates water, salt left behind</li>
+        <li>White patches on dark clothes — sweat evaporates, leaves salt</li>
+        <li>Ayurvedic herbs dried in shade</li>
+      </ul>
+      <div class="key-fact">Sambhar Lake in Rajasthan is one of India's main inland salt sources!</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-blue badge">6️⃣ Sedimentation &amp; Decantation</span>
+      <h3 class="card-title">Let it Settle, then Pour</h3>
+      <p><b>Sedimentation</b>: heavier insoluble bits SINK to the bottom when liquid sits still.</p>
+      <p><b>Decantation</b>: gently <b>tilt and pour</b> the clear liquid out — leaving the sediment behind.</p>
+      <ul>
+        <li>Tea leaves settle at the bottom of a teapot</li>
+        <li>Washing rice / pulses — wash in water, decant</li>
+        <li>Muddy water settling overnight</li>
+      </ul>
+      <div class="key-fact">Not perfect — some particles always escape. Pair with filtration for clean water.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge">7️⃣ Filtration</span>
+      <h3 class="card-title">Filtration</h3>
+      <p>Pour the mixture through a <b>filter</b> (porous material). Liquid passes through; solids stay.</p>
+      <p>Filters in increasing fineness:</p>
+      <ul>
+        <li>Tea strainer (catches leaves)</li>
+        <li>Cloth (catches finer bits)</li>
+        <li>Filter paper (catches very fine particles)</li>
+        <li>Charcoal + sand layers (best for water purification)</li>
+      </ul>
+      <div class="key-fact">After filtration: solid left on filter = <b>residue</b>. Clear liquid that comes through = <b>filtrate</b>.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-green badge">8️⃣ Churning</span>
+      <h3 class="card-title">Churning</h3>
+      <p>Used to separate <b>butter from curd</b>. The traditional Indian <b>mathni</b> (wooden churner) is used.</p>
+      <p>How it works:</p>
+      <ul>
+        <li>Rapid stirring breaks the curd</li>
+        <li>Lighter butter floats to the top</li>
+        <li>Buttermilk (chhach) is left behind</li>
+      </ul>
+      <div class="key-fact">Modern version: electric blender / mixer-grinder does the same!</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-purple badge">9️⃣ Magnetic Separation</span>
+      <h3 class="card-title">Magnetic Separation</h3>
+      <p>Use a <b>magnet</b> to pull out iron (or other magnetic substances) from a mixture.</p>
+      <p><b>Examples:</b></p>
+      <ul>
+        <li>Iron nails from sawdust (carpenter's workshop)</li>
+        <li>Iron scrap from recyclable waste</li>
+        <li>Industries use giant electromagnets on cranes!</li>
+      </ul>
+      <div class="key-fact">Only works for <b>magnetic substances</b> — iron, nickel, cobalt. Aluminium &amp; copper aren't magnetic!</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-purple badge">India</span>
+      <h3 class="card-title">🇮🇳 Salt &amp; the Dandi March</h3>
+      <p>In 1930, Mahatma Gandhi led the <b>Dandi March (Namak Satyagrah)</b> — a 240-km walk to make salt by evaporating seawater.</p>
+      <p>Salt comes from:</p>
+      <ul>
+        <li>Sea coasts (Gujarat, Tamil Nadu)</li>
+        <li><b>Sambhar Lake, Rajasthan</b> (inland salt)</li>
+        <li>Rock salt mines</li>
+      </ul>
+      <div class="key-fact">Sabarmati Ashram in Ahmedabad is where the march began — a place of history and pride.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge-green badge">Pick the Right Method</span>
+      <h3 class="card-title">Choosing the Right Method</h3>
+      <p>Look at the mixture. Ask: <b>what's different</b> between the components?</p>
+      <table>
+        <tr><th>Difference</th><th>Method</th></tr>
+        <tr><td>Size / colour / shape (few)</td><td>Handpicking</td></tr>
+        <tr><td>Particle size</td><td>Sieving</td></tr>
+        <tr><td>Heavy vs light (using wind)</td><td>Winnowing</td></tr>
+        <tr><td>Solid in liquid (insoluble)</td><td>Sedimentation / Decantation / Filtration</td></tr>
+        <tr><td>Solid in liquid (dissolved)</td><td>Evaporation</td></tr>
+        <tr><td>Magnetic vs non-magnetic</td><td>Magnetic separation</td></tr>
+        <tr><td>Lighter than the rest (liquid)</td><td>Churning</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <span class="badge">Real-life</span>
+      <h3 class="card-title">Separation Around You</h3>
+      <p>Spot all the separations in one day:</p>
+      <ul>
+        <li>🍵 Morning chai — filtration</li>
+        <li>🥛 Curd → butter — churning</li>
+        <li>🍚 Stones from rice — handpicking</li>
+        <li>🏠 Sweeping dust — sieving / winnowing</li>
+        <li>🧂 Salt on your food — was once evaporated from seawater</li>
+        <li>♻️ Recycling scrap — magnetic separation</li>
+        <li>🐠 Fishing nets — filtration!</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- =================== 5E METHOD =================== -->
+<section id="fivee" class="tab-panel">
+  <h2 class="section-title">📚 The 5E Learning Path</h2>
+  <div class="five-intro">
+    The <b>5E Model</b> — Engage, Explore, Explain, Elaborate, Evaluate — is how scientists actually learn. Walk through Chapter 9 using all five steps below.
+  </div>
+
+  <!-- E1: ENGAGE -->
+  <div class="phase-card phase-engage">
+    <div class="phase-header">
+      <span class="phase-num">1</span>
+      <div>
+        <h3>🎯 ENGAGE</h3>
+        <p class="phase-tagline">Spark curiosity. Notice something interesting.</p>
+      </div>
+    </div>
+
+    <div class="dialog-story">
+      <p style="text-align: center; font-weight: 700; color: #b45309; font-size: 15px; margin-bottom: 14px;">
+        📖 A Saturday at Ahana's House — Swara, Ahana &amp; Amma
+      </p>
+
+      <p class="narration">A bright Saturday afternoon. Swara has come over to spend the day at her best friend Ahana's house. Ahana's amma is in the kitchen, preparing snacks. The two girls drop their bags and run inside.</p>
+
+      <p><span class="speaker malli">Swara:</span> Amma uncle namaste! Mm, something smells nice!</p>
+
+      <p><span class="speaker nani">Ahana's Amma:</span> Welcome, Swara! Come, sit. I'm making puris. Want to help?</p>
+
+      <p class="narration">Amma pours a katori of rice into a plate. The girls notice her fingers picking through it carefully.</p>
+
+      <p><span class="speaker valli">Ahana:</span> Amma, what are you taking out from the rice?</p>
+
+      <p><span class="speaker nani">Amma:</span> Little stones. They get mixed in during packaging — I need to remove them before cooking. This is the simplest <span class="vocab-term">method of separation</span> — when small unwanted bits look different from the rest, we just <span class="vocab-term">handpick</span> them out.</p>
+
+      <p><span class="speaker malli">Swara:</span> My amma does the same with pulses! And I always pick the black peppers out of pulao!</p>
+
+      <p><span class="speaker nani">Amma:</span> <i>(laughs)</i> Then you've been a separation scientist all along!</p>
+
+      <p class="narration">Amma pours wheat flour from a tin onto a flat sieve and shakes it gently. Fine flour falls through; bigger pieces stay on top.</p>
+
+      <p><span class="speaker valli">Ahana:</span> Why the shaking?</p>
+
+      <p><span class="speaker nani">Amma:</span> To take out bran — bigger bits that won't pass through the holes. <span class="vocab-term">Sieving</span> separates by <b>size</b>. Same as those big sieves at construction sites that separate pebbles from sand.</p>
+
+      <p class="narration">The doorbell rings. It's Swara's appa, dropping by on his way home from work.</p>
+
+      <p><span class="speaker malli">Swara's Appa:</span> Hello hello! I came to pick up Swara — but a cup of chai first?</p>
+
+      <p><span class="speaker nani">Amma:</span> Of course! I'll put the kettle on.</p>
+
+      <p class="narration">Amma boils water with tea leaves. After a few minutes, she lets it sit. The tea leaves slowly drift to the bottom of the pan.</p>
+
+      <p><span class="speaker valli">Ahana:</span> The leaves are settling, Amma!</p>
+
+      <p><span class="speaker nani">Amma:</span> Yes — that's called <span class="vocab-term">sedimentation</span>. The heavier insoluble bits sink down. Now watch — I'll pour gently so they stay in the pan.</p>
+
+      <p class="narration">She tilts the saucepan and pours the tea slowly into the cups. Most leaves stay back.</p>
+
+      <p><span class="speaker nani">Amma:</span> That careful pouring is <span class="vocab-term">decantation</span>. Some leaves still escape — so for a clean cup, I use a strainer.</p>
+
+      <p class="narration">She runs the tea once more through a tea strainer. Stray leaves are caught; clear tea drips through.</p>
+
+      <p><span class="speaker malli">Swara:</span> Ooh — the strainer worked! What's that called?</p>
+
+      <p><span class="speaker nani">Amma:</span> <span class="vocab-term">Filtration</span>! Pour through something with tiny holes — solid stays back, liquid comes through. Same way a fishing net catches fish but lets water through.</p>
+
+      <p><span class="speaker malli">Swara's Appa:</span> <i>(sipping)</i> And same way water filters at home make muddy water clean.</p>
+
+      <p class="narration">Amma opens the fridge and brings out yesterday's curd, sets a mathni in it, and starts churning. Soon — butter floats up; the leftover liquid is buttermilk.</p>
+
+      <p><span class="speaker valli">Ahana:</span> Look — the butter is FLOATING!</p>
+
+      <p><span class="speaker nani">Amma:</span> Lighter than the buttermilk! That's <span class="vocab-term">churning</span> — rotating breaks the curd into butter and chhach. Both are useful.</p>
+
+      <p><span class="speaker malli">Swara's Appa:</span> <i>(to the girls)</i> Speaking of useful stuff — last time I was at Swara's house, we showed Ahana's appa the salt we got from Sambhar Lake. Pure white salt — just evaporated from salty lake water.</p>
+
+      <p><span class="speaker nani">Amma:</span> Yes! That's <span class="vocab-term">evaporation</span> as a separation method. Salt is dissolved in water — evaporate the water and the salt is left behind. Same idea Mahatma Gandhi used at Dandi.</p>
+
+      <p class="narration">Just then, Ahana's appa walks in. He's been fixing a shelf — and accidentally dropped a few iron nails into the box of sawdust.</p>
+
+      <p><span class="speaker malli">Ahana's Appa:</span> Hi Swara! Hi Anand bhai! <i>(to Amma)</i> Where's the magnet from the fridge?</p>
+
+      <p class="narration">He brings the magnet over the pile of sawdust. The iron nails LEAP UP and stick to it. Sawdust stays.</p>
+
+      <p><span class="speaker valli">Ahana:</span> Whoaaa!</p>
+
+      <p><span class="speaker nani">Amma:</span> That's <span class="vocab-term">magnetic separation</span>. Iron is magnetic; sawdust isn't.</p>
+
+      <p><span class="speaker malli">Swara:</span> <i>(looking around the kitchen, amazed)</i> So today we saw handpicking, sieving, sedimentation, decantation, filtration, churning, evaporation, AND magnetic separation. All in one afternoon!</p>
+
+      <p><span class="speaker valli">Ahana:</span> And tomorrow when YOU visit OUR place, we'll find more!</p>
+
+      <p><span class="speaker nani">Amma:</span> <i>(smiling)</i> Every <span class="vocab-term">mixture</span> has a way to separate it. You just have to find what's different between the things — size, weight, magnetism, solubility — and pick the right method.</p>
+    </div>
+
+    <div class="vocab-summary">
+      <h4>📚 9 new science words you just met:</h4>
+      <div class="vocab-chips">
+        <span class="vocab-chip">handpicking</span>
+        <span class="vocab-chip">threshing</span>
+        <span class="vocab-chip">winnowing</span>
+        <span class="vocab-chip">sieving</span>
+        <span class="vocab-chip">evaporation</span>
+        <span class="vocab-chip">sedimentation</span>
+        <span class="vocab-chip">decantation</span>
+        <span class="vocab-chip">filtration</span>
+        <span class="vocab-chip">churning</span>
+        <span class="vocab-chip">magnetic separation</span>
+        <span class="vocab-chip">mixture</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- E2: EXPLORE -->
+  <div class="phase-card phase-explore">
+    <div class="phase-header">
+      <span class="phase-num">2</span>
+      <div>
+        <h3>🔬 EXPLORE</h3>
+        <p class="phase-tagline">Try them yourself. Hands-on.</p>
+      </div>
+    </div>
+
+    <p style="margin-bottom: 12px; color: #475569;">Pick any of these three experiments. Each shows you a key separation method.</p>
+
+    <div class="exp-mini">
+      <h5>🌾 Experiment 1: Peanut Winnowing (Activity 9.1)</h5>
+      <p><b>What you need:</b> A handful of roasted peanuts, your palms, a fan.</p>
+      <p><b>Do this:</b> Rub peanuts between your palms — the brown skin comes off. Then BLOW or use a fan. The light skin flies away; heavier peanuts stay.</p>
+      <p><b>What it teaches:</b> Wind separates light from heavy. <i>Concept: winnowing.</i></p>
+    </div>
+
+    <div class="exp-mini">
+      <h5>🧂 Experiment 2: Salt from Salt Water (Activity 9.3)</h5>
+      <p><b>What you need:</b> A small bowl, water, 2 spoons salt, a sunny spot OR a stove (with adult).</p>
+      <p><b>Do this:</b> Dissolve salt in water. Pour onto a black plate. Leave in sun for a day. See white patches forming as water evaporates — that\'s the salt!</p>
+      <p><b>What it teaches:</b> Evaporation pulls out the dissolved solid. <i>Concept: evaporation.</i></p>
+    </div>
+
+    <div class="exp-mini">
+      <h5>💧 Experiment 3: Filter Muddy Water (Activity 9.4)</h5>
+      <p><b>What you need:</b> Muddy water, a filter paper (or cloth, or coffee filter), a funnel, a glass.</p>
+      <p><b>Do this:</b> Make a cone from filter paper, place in funnel over glass, pour muddy water through. Clear water (filtrate) collects below. Mud stays on filter (residue).</p>
+      <p><b>What it teaches:</b> Filtration separates solid from liquid. <i>Concept: filtration.</i></p>
+    </div>
+
+    <p style="margin-top: 10px; font-size: 13px; color: #475569;">→ For full step-by-step procedures see the <b>Lab Experiments</b> tab.</p>
+  </div>
+
+  <!-- E3: EXPLAIN -->
+  <div class="phase-card phase-explain">
+    <div class="phase-header">
+      <span class="phase-num">3</span>
+      <div>
+        <h3>📖 EXPLAIN</h3>
+        <p class="phase-tagline">Put names &amp; connections to what you observed.</p>
+      </div>
+    </div>
+
+    <p style="margin-bottom: 10px; color: #475569;">All separation methods follow ONE rule: <b>find what\'s different between the things in the mixture, and use that difference</b>. Here\'s the big picture:</p>
+
+    <canvas id="conceptMapCanvas" width="600" height="460"></canvas>
+
+    <div class="result-box" style="margin-top: 10px;">
+      <b>Key insight:</b> Every method works because the things in the mixture have at least one DIFFERENCE — size, weight, magnetism, solubility, etc. Once you spot the difference, you can pick the right method.
+    </div>
+  </div>
+
+  <!-- E4: ELABORATE -->
+  <div class="phase-card phase-elaborate">
+    <div class="phase-header">
+      <span class="phase-num">4</span>
+      <div>
+        <h3>🌍 ELABORATE</h3>
+        <p class="phase-tagline">Apply what you learned to bigger, deeper questions.</p>
+      </div>
+    </div>
+
+    <p style="margin-bottom: 12px; color: #475569;">Want to go further? Open the procedure document from your kit for extended at-home experiments — make a water filter, harvest sea salt, build a winnowing tray.</p>
+
+    <a href="./kit-procedure-chapter9.pdf" target="_blank" class="kit-link">
+      <span class="kit-icon">📄</span>
+      <span>Open Kit Procedure Document — Chapter 9</span>
+      <span style="margin-left: 6px;">↗</span>
+    </a>
+
+    <p style="font-size: 12px; color: #64748b; margin-top: 6px;">
+      <i>Note: this link opens the procedure PDF from your science kit. If it doesn\'t open, replace the path with your kit\'s actual file location.</i>
+    </p>
+
+    <div style="margin-top: 16px;">
+      <b style="color: #15803d;">Take it further:</b>
+      <ul style="margin-left: 18px; margin-top: 6px; font-size: 13px; color: #475569;">
+        <li>Build a multi-layer water filter using charcoal, sand, gravel, cloth — clean muddy water.</li>
+        <li>Harvest your own sea salt: ask for ocean water (or saltwater), evaporate on a plate.</li>
+        <li>Visit a flour mill or a salt pan and see industrial separation at scale.</li>
+        <li>Find out: how do recycling plants use magnets to sort steel cans from aluminium?</li>
+        <li>Visit a kitchen during chai time — list every separation method you spot.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- E5: EVALUATE -->
+  <div class="phase-card phase-evaluate">
+    <div class="phase-header">
+      <span class="phase-num">5</span>
+      <div>
+        <h3>✓ EVALUATE</h3>
+        <p class="phase-tagline">Quick check — pie chart shows your score.</p>
+      </div>
+    </div>
+
+    <p style="margin-bottom: 10px; color: #475569;">Five quick questions. Click your answer. After all five, see your score as a pie chart!</p>
+
+    <div id="evalQuizContainer"></div>
+
+    <div id="pieResult">
+      <h3>Your Score</h3>
+      <canvas id="piechartCanvas" width="300" height="300"></canvas>
+      <div id="piechartLabel" style="font-size: 18px; font-weight: 700; margin-top: 10px;"></div>
+      <div id="piechartLegend" style="margin-top: 10px; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap;"></div>
+    </div>
+
+    <p style="margin-top: 14px; font-size: 13px; color: #475569;">
+      <b>For the full overall assessment</b> — including the detailed performance rubric, reflection, and PDF print — see the <b>📋 Performance</b> tab.
+    </p>
+  </div>
+</section>
+
+<!-- =================== STORY =================== -->
+<section id="story" class="tab-panel">
+  <h2 class="section-title">Story &amp; Cartoons</h2>
+
+  <div class="story-card">
+    <h3 class="card-title">Story 1: Bharat ki Yatra — A Trip Across India</h3>
+    <div class="story-intro">
+      Malli and Valli are off to visit relatives all across India for their summer holidays. From Haryana to Ahmedabad to Puducherry to Bhopal to Shillong — each stop teaches them a new method of separation.
+    </div>
+    <div class="comic-strip" id="strip1"></div>
+  </div>
+
+  <div class="story-card">
+    <h3 class="card-title">Story 2: The Wheat &amp; the Wind</h3>
+    <div class="story-intro">
+      Out in the Haryana fields, farmers beat wheat stalks against a log. Lighter husk vs heavier grain — but how to separate THEM? Watch the soop and the wind work magic.
+    </div>
+    <div class="comic-strip" id="strip2"></div>
+  </div>
+
+  <div class="story-card">
+    <h3 class="card-title">Story 3: The Story of Salt — Dandi to your Plate</h3>
+    <div class="story-intro">
+      At Sabarmati Ashram in Ahmedabad, Malli learns where salt comes from — and how a 240 km walk by Gandhi changed Indian history.
+    </div>
+    <div class="comic-strip" id="strip3"></div>
+  </div>
+
+  <div class="story-card">
+    <h3 class="card-title">Story 4: Tea at Dada\'s — Sedimentation &amp; Filtration</h3>
+    <div class="story-intro">
+      In Puducherry, Dada makes tea. Children watch tea leaves settle, get decanted, then strained. Three separation methods — in one cup of chai!
+    </div>
+    <div class="comic-strip" id="strip4"></div>
+  </div>
+
+  <div class="story-card">
+    <h3 class="card-title">Story 5: Magnets &amp; Mathni in the Final Stops</h3>
+    <div class="story-intro">
+      In Bhopal, a churn (mathni) separates butter from buttermilk. In Shillong, a magnet pulls iron nails out of sawdust. The Bharat Yatra ends with five very different separations.
+    </div>
+    <div class="comic-strip" id="strip5"></div>
+  </div>
+</section>
+
+<!-- =================== METHODS LAB =================== -->
+<section id="simulations" class="tab-panel">
+  <h2 class="section-title">🧪 Methods Lab</h2>
+
+  <div class="sim-card">
+    <h3 class="card-title">1. Mixture Sorter — Pick the Right Method!</h3>
+    <p>Real-life mixtures appear one by one. Choose which method you\'d use. Get instant feedback.</p>
+    <div class="controls">
+      <button class="btn" onclick="mixSim.next()">Next mixture</button>
+      <button class="btn secondary" onclick="mixSim.reset()">Reset</button>
+    </div>
+    <canvas id="mixCanvas" width="600" height="220"></canvas>
+    <div id="mixOptions" class="controls"></div>
+    <div class="result-box" id="mixResult">Click <b>Next mixture</b> to begin.</div>
+  </div>
+
+  <div class="sim-card">
+    <h3 class="card-title">2. Animated Winnowing</h3>
+    <p>Watch the wind separate heavy grains from light husk. Adjust wind speed!</p>
+    <div class="controls">
+      <label>Wind speed: <span id="windVal">5</span></label>
+      <input type="range" id="windSlider" min="0" max="10" step="1" value="5" oninput="winSim.update()" style="width: 220px;">
+      <button class="btn" onclick="winSim.toss()">Toss the soop</button>
+      <button class="btn secondary" onclick="winSim.reset()">Reset</button>
+    </div>
+    <canvas id="winCanvas" width="600" height="300"></canvas>
+    <div class="observation" id="winObs">Adjust wind. Then click <b>Toss</b>.</div>
+  </div>
+
+  <div class="sim-card">
+    <h3 class="card-title">3. Salt from Seawater — Evaporation in Action</h3>
+    <p>Watch water evaporate over time, leaving salt behind.</p>
+    <div class="controls">
+      <button class="btn" onclick="saltSim.start()">Start (10 days)</button>
+      <button class="btn secondary" onclick="saltSim.reset()">Reset</button>
+    </div>
+    <canvas id="saltCanvas" width="600" height="280"></canvas>
+    <div class="observation" id="saltObs">Click <b>Start</b> to evaporate.</div>
+  </div>
+
+  <div class="sim-card">
+    <h3 class="card-title">4. Magnet Sweep — Find the Iron!</h3>
+    <p>Mix iron nails with sawdust. Then sweep a magnet over to pull them out.</p>
+    <div class="controls">
+      <button class="btn green" onclick="magSim.sweep()">Sweep the magnet</button>
+      <button class="btn secondary" onclick="magSim.reset()">Reset</button>
+    </div>
+    <canvas id="magCanvas" width="600" height="280"></canvas>
+    <div class="observation" id="magObs">Click <b>Sweep</b> to pull iron nails out.</div>
+  </div>
+
+  <div class="sim-card">
+    <h3 class="card-title">5. Filter Muddy Water (Multi-Layer)</h3>
+    <p>Pour muddy water through a stack of filters: cloth → sand → charcoal. See the water get cleaner at each stage.</p>
+    <div class="controls">
+      <button class="btn" onclick="filtSim.pour()">Pour muddy water</button>
+      <button class="btn secondary" onclick="filtSim.reset()">Reset</button>
+    </div>
+    <canvas id="filtCanvas" width="600" height="320"></canvas>
+    <div class="observation" id="filtObs">Click <b>Pour</b> to start filtering.</div>
+  </div>
+</section>
+
+<!-- =================== VIRTUAL EXPERIMENTS =================== -->
+<section id="experiments" class="tab-panel">
+  <h2 class="section-title">Virtual Experiments</h2>
+
+  <div class="exp-card">
+    <h3 class="card-title">Activity 9.1 — Peanut Skin Winnowing</h3>
+    <p>Rub roasted peanuts, blow away the light skins.</p>
+    <canvas id="expPeanutCanvas" width="600" height="280"></canvas>
+    <div class="controls">
+      <button class="btn" onclick="expPeanut.next()">Next step</button>
+      <button class="btn secondary" onclick="expPeanut.reset()">Reset</button>
+    </div>
+    <div class="step-display" id="expPeanutStep">Click to walk through the experiment.</div>
+  </div>
+
+  <div class="exp-card">
+    <h3 class="card-title">Activity 9.2 — Salt-Water Art</h3>
+    <p>Spread salt water on black paper. Wait. See the patches of salt appear.</p>
+    <canvas id="expSaltArtCanvas" width="600" height="260"></canvas>
+    <div class="controls">
+      <button class="btn" onclick="expSaltArt.next()">Next step</button>
+      <button class="btn secondary" onclick="expSaltArt.reset()">Reset</button>
+    </div>
+    <div class="step-display" id="expSaltArtStep">Click to begin.</div>
+  </div>
+
+  <div class="exp-card">
+    <h3 class="card-title">Activity 9.3 — Get Salt Back by Heating</h3>
+    <p>Heat salt water in a china dish. Water evaporates, salt is left.</p>
+    <canvas id="expSaltHeatCanvas" width="600" height="280"></canvas>
+    <div class="controls">
+      <button class="btn" onclick="expSaltHeat.next()">Next step</button>
+      <button class="btn secondary" onclick="expSaltHeat.reset()">Reset</button>
+    </div>
+    <div class="step-display" id="expSaltHeatStep">Click to begin.</div>
+  </div>
+
+  <div class="exp-card">
+    <h3 class="card-title">Activity 9.4 — Filter Muddy Water</h3>
+    <p>Step by step: fold a filter, build a funnel, pour, watch.</p>
+    <canvas id="expFiltCanvas" width="600" height="300"></canvas>
+    <div class="controls">
+      <button class="btn" onclick="expFilt.next()">Next step</button>
+      <button class="btn secondary" onclick="expFilt.reset()">Reset</button>
+    </div>
+    <div class="step-display" id="expFiltStep">Click to begin.</div>
+  </div>
+
+  <div class="exp-card">
+    <h3 class="card-title">Activity 9.6 — Sort the Examples</h3>
+    <p>Drop each separation example into one of two baskets: "Remove what\'s not useful" OR "Separate two useful things". Click to cycle.</p>
+    <div id="sortContainer" style="margin: 12px 0;"></div>
+    <div class="controls">
+      <button class="btn green" onclick="expSort.autoSort()">Auto-sort &amp; explain</button>
+      <button class="btn secondary" onclick="expSort.reset()">Reset</button>
+    </div>
+    <div class="result-box" id="expSortResult">Click each example below to cycle through the two baskets.</div>
+  </div>
+</section>
+
+<!-- =================== LAB EXPERIMENTS =================== -->
+<section id="lab" class="tab-panel">
+  <h2 class="section-title">🧪 Lab Experiments — Try These at Home / In Class</h2>
+  <p style="margin-bottom: 18px; color: #475569; font-size: 14px;">
+    All textbook activities + bonus add-ons.
+    <span style="display:inline-block; margin-left:10px;"><span class="difficulty easy">Easy</span><span class="difficulty medium">Medium</span><span class="difficulty hard">Adult Help</span></span>
+  </p>
+
+  <h3 style="color: #d97706; font-size: 18px; margin: 20px 0 12px;">📘 From the Textbook</h3>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 9.1 — Peanut Skin Winnowing <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>A handful of roasted peanuts (with skins)</li>
+        <li>A plate</li>
+        <li>A small handheld fan (or just your breath)</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Take roasted peanuts in your palms. Rub gently — the brown skin loosens.</li>
+        <li>Put them on a plate.</li>
+        <li>BLOW gently (or use a fan). Watch what happens!</li>
+        <li>The light skin flies off; the heavier peanuts stay.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Same idea as farmers use for wheat. Wind separates light from heavy — <b>winnowing</b>.</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 9.2 — Salt Water Art on Black Paper <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>A small bowl, half-filled with water</li>
+        <li>2-3 teaspoons of salt</li>
+        <li>A piece of black / dark-coloured thick paper</li>
+        <li>A dropper (or a clean spoon)</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Dissolve salt in water by stirring.</li>
+        <li>Drop a few drops of the solution onto the black paper. Or use the spoon to "paint" any design.</li>
+        <li>Let it dry in the sun (1-2 hours) or open air.</li>
+        <li>Observe — white patches appear where the water dried!</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Water evaporates into the air — salt is left behind. That\'s how salt is harvested from seawater on a HUGE scale.</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 9.3 — Heating Salt Water <span class="difficulty hard">Adult Help</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Salt solution (from Activity 9.2)</li>
+        <li>China dish (or steel vessel)</li>
+        <li>Tripod stand with wire gauze</li>
+        <li>Spirit lamp / stove (adult only)</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Pour some salt solution into the china dish.</li>
+        <li>Adult heats the dish gently — water starts boiling away.</li>
+        <li>Keep heating until all water is gone.</li>
+        <li>Let dish cool. Look — white salt remains.</li>
+      </ol>
+    </div>
+    <div class="lab-section safety">
+      <h4>Safety</h4>
+      <p>Adult only handles the flame. Dish gets very hot — don\'t touch! Stand back.</p>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Evaporation can be sped up by heating. Industrial salt-makers in Gujarat use sun + wind. In a lab, we use heat.</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 9.4 — Filter Muddy Water <span class="difficulty medium">Medium</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>A jar of muddy water</li>
+        <li>A funnel</li>
+        <li>A round filter paper (or a coffee filter)</li>
+        <li>A clean glass or conical flask</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Fold the filter paper in half, then in half again (you have a quarter circle).</li>
+        <li>Open it as a cone (one side has 3 layers, the other 1).</li>
+        <li>Place the cone in the funnel; set funnel on the glass.</li>
+        <li>Pour muddy water gently into the cone.</li>
+        <li>Watch — mud (residue) stays on filter. Clear water (filtrate) collects below!</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Filter paper has tiny pores — water passes through, particles bigger than the pores cannot. Same idea used in industrial water treatment plants.</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 9.5 — Build a Low-Cost Water Filter <span class="difficulty medium">Medium</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Empty 1.5 L plastic bottle (cut in half)</li>
+        <li>Cotton balls</li>
+        <li>Coarse gravel</li>
+        <li>Sand</li>
+        <li>Charcoal (a few pieces, crushed)</li>
+        <li>Container to catch the filtered water</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Cut the bottle in half. Use the top half (mouth-down) as a funnel.</li>
+        <li>Stuff cotton at the bottom (in the neck).</li>
+        <li>Layer on top: crushed charcoal → sand → gravel.</li>
+        <li>Place over a container. Pour muddy/dirty water in. Watch each layer trap something.</li>
+        <li>The water that comes out is much clearer!</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Each layer filters something different. Charcoal even removes some smells &amp; chemicals. Multi-stage filtration — same principle in city water plants.</p>
+    </div>
+  </div>
+
+  <div class="lab-card">
+    <h3 class="card-title">Activity 9.6 — Sort the Separations (Game) <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Small paper slips (10 of them)</li>
+        <li>2 baskets / boxes</li>
+        <li>Pen</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Write each example on a slip:
+          <ul>
+            <li>Stones from pulses, Butter from curd, Chillies from poha, Watermelon seeds, Sawdust + iron nails, Marigolds in mixed flowers, Pebbles from sand, Coconut from rice flour, Oil from water, Salt from salt solution</li>
+          </ul>
+        </li>
+        <li>Label one basket "Remove what\'s NOT useful", other "Separate TWO useful things".</li>
+        <li>Sort each slip into the right basket.</li>
+        <li>Compare with friends — who got the most right?</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Helps you SEE the two reasons we separate. Both kinds happen in the kitchen every day!</p>
+    </div>
+  </div>
+
+  <h3 style="color: #15803d; font-size: 18px; margin: 30px 0 12px;">🎁 Bonus Add-Ons</h3>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 1 — Magnet through Sawdust <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Iron nails / iron filings / paper clips</li>
+        <li>Sawdust (or sand)</li>
+        <li>Magnet</li>
+        <li>Tray</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Mix nails and sawdust on the tray.</li>
+        <li>Move a magnet across — but a few cm above the mixture.</li>
+        <li>Watch the nails leap up to the magnet!</li>
+        <li>Sawdust stays behind. Now you have separated them.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Magnetic separation works on iron, nickel, cobalt. Aluminium and copper aren\'t magnetic — so you can\'t use this method for them.</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 2 — Iron in Cereal! <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Iron-fortified breakfast cereal</li>
+        <li>A strong magnet</li>
+        <li>Plastic zip bag</li>
+        <li>Water</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Put cereal + water in the zip bag. Mash to a paste.</li>
+        <li>Place the magnet on the outside of the bag. Drag slowly.</li>
+        <li>Look very closely — tiny black dots collect under the magnet. That\'s actual IRON!</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Cereals are fortified with iron powder for nutrition. Magnetic separation reveals it! Iron carries oxygen in your blood.</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 3 — Make Butter by Churning <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>1 cup of full-fat curd (yogurt)</li>
+        <li>A glass jar with a tight lid</li>
+        <li>Strong arm muscles!</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Pour curd into the jar. Seal lid TIGHTLY.</li>
+        <li>SHAKE the jar continuously for 10-15 minutes (take turns!).</li>
+        <li>Look inside — buttermilk + a clump of butter forms!</li>
+        <li>Strain to separate butter from buttermilk.</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Churning breaks up the curd. The lighter butter clumps up; chhach (buttermilk) is left behind. Same as Mami\'s mathni — just by shaking!</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 4 — Sea Salt at Home <span class="difficulty hard">Adult Help</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Saltwater from a salt-water beach OR table salt + water</li>
+        <li>Wide shallow plate</li>
+        <li>Sunny windowsill (or stove)</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Pour saltwater into the plate.</li>
+        <li>Leave in sunlight for 2-3 days (longer in cloudy weather).</li>
+        <li>Watch level drop daily. White salt crystals form at the bottom.</li>
+        <li>Scrape and collect with a dry spoon. That\'s your homemade sea salt!</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Same as commercial salt pans in Gujarat. Sun does all the work — slow but free.</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 5 — Recover Sugar from Sugar Water <span class="difficulty hard">Adult Help</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>Sugar solution (3 spoons sugar in ½ cup water)</li>
+        <li>Steel saucepan</li>
+        <li>Stove (adult only)</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Pour sugar solution into saucepan. Heat very gently.</li>
+        <li>Water boils off. Stir often as it thickens.</li>
+        <li>When mostly dry — turn off heat. Cool.</li>
+        <li>You\'re left with sugar crystals (slightly brown — caramelised).</li>
+      </ol>
+    </div>
+    <div class="lab-section safety">
+      <h4>Safety</h4>
+      <p>Hot sugar = dangerous! Adult only. Don\'t touch the pan or syrup.</p>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Same evaporation method — works for sugar too. Anything dissolved in water can be recovered this way.</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 6 — Sand vs Salt — Separate the Trickiest Mix <span class="difficulty medium">Medium</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>1 spoon salt + 1 spoon sand mixed in a bowl</li>
+        <li>Water</li>
+        <li>Filter paper + funnel</li>
+        <li>A heat-safe dish</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Add water to the mixture. Salt dissolves; sand doesn\'t.</li>
+        <li>Filter. Sand stays on filter. Saltwater passes through.</li>
+        <li>Evaporate the saltwater (sun or heat). Salt is left.</li>
+        <li>You\'ve now separated salt AND sand from the original mix!</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Tough mixtures need COMBINED methods. Filtration + Evaporation = both components recovered.</p>
+    </div>
+  </div>
+
+  <div class="lab-card addon">
+    <h3 class="card-title">Add-On 7 — Decantation: Oil &amp; Water <span class="difficulty easy">Easy</span></h3>
+    <div class="lab-section materials">
+      <h4>Materials Needed</h4>
+      <ul>
+        <li>A tall narrow glass</li>
+        <li>Water (½ cup)</li>
+        <li>Cooking oil (¼ cup)</li>
+      </ul>
+    </div>
+    <div class="lab-section procedure">
+      <h4>Procedure</h4>
+      <ol>
+        <li>Pour water in the glass. Add the oil.</li>
+        <li>Watch — oil floats on top (lighter, doesn\'t mix).</li>
+        <li>Carefully pour the OIL into another container.</li>
+        <li>You\'ve separated them!</li>
+      </ol>
+    </div>
+    <div class="lab-section">
+      <h4>What It Teaches</h4>
+      <p>Some liquids don\'t mix — they form layers. You can separate them by decanting (pouring carefully).</p>
+    </div>
+  </div>
+</section>
+
+<!-- =================== QUIZ =================== -->
+<section id="quiz" class="tab-panel">
+  <h2 class="section-title">Quick Quiz</h2>
+  <div id="quiz-container"></div>
+  <div id="quiz-score" style="display:none"></div>
+</section>
+
+<!-- =================== PERFORMANCE TAB =================== -->
+<section id="performance" class="tab-panel">
+  <h2 class="section-title">📋 Performance — Overall Assessment</h2>
+
+  <div class="perf-header">
+    <h3>Student Performance Report</h3>
+    <p>Chapter 9 · Methods of Separation in Everyday Life</p>
+  </div>
+
+  <div class="rubric-block">
+    <p style="font-size: 14px; color: #475569; margin-bottom: 10px;">
+      Complete this rubric to assess your overall mastery of the chapter. Fill in your details, click the level that best fits each skill, write your reflection — then click <b>Save as PDF / Print</b> to save your performance report.
+    </p>
+
+    <div class="student-info">
+      <div>
+        <label>Student Name</label>
+        <input type="text" id="studentName" placeholder="Your name" />
+      </div>
+      <div>
+        <label>Class</label>
+        <input type="text" id="studentClass" placeholder="6" />
+      </div>
+      <div>
+        <label>Date</label>
+        <input type="date" id="studentDate" />
+      </div>
+    </div>
+
+    <h4 style="color: #7e22ce; font-size: 16px; margin: 14px 0 8px;">📋 Assessment Rubric</h4>
+    <div style="overflow-x: auto;">
+      <table class="rubric-table" id="rubricTable">
+        <thead>
+          <tr>
+            <th>Skill / Criterion</th>
+            <th>1 — Beginning</th>
+            <th>2 — Developing</th>
+            <th>3 — Proficient</th>
+            <th>4 — Advanced</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-criterion="0">
+            <td class="rb-skill">Identifying separation methods by name</td>
+            <td class="rb-cell" data-level="1">Recognises 1-2 methods</td>
+            <td class="rb-cell" data-level="2">Recognises 4-5 methods</td>
+            <td class="rb-cell" data-level="3">Names all 9 methods correctly</td>
+            <td class="rb-cell" data-level="4">Names all methods + gives examples for each</td>
+          </tr>
+          <tr data-criterion="1">
+            <td class="rb-skill">Choosing the right method for a mixture</td>
+            <td class="rb-cell" data-level="1">Guesses; often wrong</td>
+            <td class="rb-cell" data-level="2">Correct for simple mixtures</td>
+            <td class="rb-cell" data-level="3">Correct for most mixtures with reasoning</td>
+            <td class="rb-cell" data-level="4">Explains WHICH property (size, weight, etc.) the method uses</td>
+          </tr>
+          <tr data-criterion="2">
+            <td class="rb-skill">Handpicking, sieving, winnowing (solid-solid)</td>
+            <td class="rb-cell" data-level="1">Confused between the three</td>
+            <td class="rb-cell" data-level="2">Knows 2 of them well</td>
+            <td class="rb-cell" data-level="3">All 3 correctly applied to examples</td>
+            <td class="rb-cell" data-level="4">Explains farm-scale &amp; kitchen-scale versions</td>
+          </tr>
+          <tr data-criterion="3">
+            <td class="rb-skill">Solid-from-liquid (sedimentation, decantation, filtration)</td>
+            <td class="rb-cell" data-level="1">Unsure of differences</td>
+            <td class="rb-cell" data-level="2">Knows filtration well</td>
+            <td class="rb-cell" data-level="3">All 3 understood with the tea/water examples</td>
+            <td class="rb-cell" data-level="4">Can design a multi-stage water filter</td>
+          </tr>
+          <tr data-criterion="4">
+            <td class="rb-skill">Evaporation as a separation method</td>
+            <td class="rb-cell" data-level="1">Doesn\'t link evaporation to separation</td>
+            <td class="rb-cell" data-level="2">Knows salt comes from seawater</td>
+            <td class="rb-cell" data-level="3">Explains how salt is obtained</td>
+            <td class="rb-cell" data-level="4">Connects to Dandi March / industrial salt pans</td>
+          </tr>
+          <tr data-criterion="5">
+            <td class="rb-skill">Churning &amp; Magnetic Separation</td>
+            <td class="rb-cell" data-level="1">New concept; unfamiliar</td>
+            <td class="rb-cell" data-level="2">Knows one of the two</td>
+            <td class="rb-cell" data-level="3">Knows both with kitchen examples</td>
+            <td class="rb-cell" data-level="4">Applies to recycling industries &amp; modern appliances</td>
+          </tr>
+          <tr data-criterion="6">
+            <td class="rb-skill">Performing experiments &amp; using vocabulary</td>
+            <td class="rb-cell" data-level="1">Uses everyday words only</td>
+            <td class="rb-cell" data-level="2">Uses 2-3 science terms</td>
+            <td class="rb-cell" data-level="3">Uses correct terms; performs activities with care</td>
+            <td class="rb-cell" data-level="4">Designs own experiments &amp; explains in full vocabulary</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rubric-summary">
+      <div>
+        <div style="font-size: 11px; color: #7e22ce; text-transform: uppercase; font-weight: 700;">Total Score</div>
+        <div><span class="rs-score" id="rubricTotal">0</span> <span style="color: #94a3b8; font-size: 16px;">/ 28</span></div>
+      </div>
+      <div>
+        <div style="font-size: 11px; color: #7e22ce; text-transform: uppercase; font-weight: 700;">Performance Band</div>
+        <span class="rs-band" id="rubricBand" style="background: #e2e8f0; color: #475569;">— Not yet scored —</span>
+      </div>
+      <div>
+        <div style="font-size: 11px; color: #7e22ce; text-transform: uppercase; font-weight: 700;">Average Level</div>
+        <div style="font-weight: 700; font-size: 18px; color: #581c87;" id="rubricAvg">—</div>
+      </div>
+    </div>
+
+    <div>
+      <label style="font-size: 12px; color: #7e22ce; font-weight: 700; text-transform: uppercase;">Student Reflection</label>
+      <textarea class="reflection" id="reflectionText" placeholder="What did I learn well? Which separation method was most interesting? What do I want to explore next?"></textarea>
+    </div>
+
+    <div>
+      <label style="font-size: 12px; color: #7e22ce; font-weight: 700; text-transform: uppercase;">Teacher / Parent Comments</label>
+      <textarea class="reflection" id="teacherComments" placeholder="Comments and feedback..."></textarea>
+    </div>
+
+    <!-- Signature lines (visible only when printing) -->
+    <div class="sig-row">
+      <div class="sig-line">Student signature</div>
+      <div class="sig-line">Teacher / Parent signature</div>
+    </div>
+
+    <div class="print-btn-row">
+      <p>Click below to save this complete performance report as a PDF or print it. Use your browser\'s "Save as PDF" option in the print dialog.</p>
+      <button class="btn" onclick="window.print()" style="background: #7e22ce;">🖨️ Save as PDF / Print</button>
+    </div>
+  </div>
+</section>
+
+<section id="kwl" class="tab-panel">
+  <style>@media (max-width: 800px) { #kwl-grid-cols { grid-template-columns: 1fr !important; } }</style>
+  <h2 style="font-size:22px; color:#b45309; margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid #b45309;">📝 KWL Chart</h2>
+  <div style="background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%); border-left:4px solid #b45309; padding:14px 18px; border-radius:10px; margin-bottom:18px; font-size:14px; color:#78350f;">Fill in what you <b>K</b>now, <b>W</b>ant to know, and <b>L</b>earned. Auto-saves. Use Print to save as PDF.</div>
+  <div id="kwl-grid-cols" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin:14px 0;">
+    <div style="background:white; border-radius:12px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.06); border-top:5px solid #0284c7;"><h4 style="font-size:15px; color:#0e7490; margin-bottom:4px;">🔵 K — What I Know</h4><div style="font-size:12px; color:#64748b; margin-bottom:10px; font-style:italic;">About separating mixtures.</div><textarea id="kwl-k" style="width:100%; min-height:200px; padding:10px 12px; border-radius:8px; border:1px solid #cbd5e1; font-family:inherit; font-size:13px; resize:vertical;" placeholder="• I have seen sieves and filters..."></textarea></div>
+    <div style="background:white; border-radius:12px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.06); border-top:5px solid #b45309;"><h4 style="font-size:15px; color:#b45309; margin-bottom:4px;">🟠 W — What I Want to Know</h4><div style="font-size:12px; color:#64748b; margin-bottom:10px; font-style:italic;">Your questions.</div><textarea id="kwl-w" style="width:100%; min-height:200px; padding:10px 12px; border-radius:8px; border:1px solid #cbd5e1; font-family:inherit; font-size:13px; resize:vertical;" placeholder="• How to get salt back from water?"></textarea></div>
+    <div style="background:white; border-radius:12px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.06); border-top:5px solid #15803d;"><h4 style="font-size:15px; color:#15803d; margin-bottom:4px;">🟢 L — What I Learned</h4><div style="font-size:12px; color:#64748b; margin-bottom:10px; font-style:italic;">After studying.</div><textarea id="kwl-l" style="width:100%; min-height:200px; padding:10px 12px; border-radius:8px; border:1px solid #cbd5e1; font-family:inherit; font-size:13px; resize:vertical;" placeholder="• Methods: handpicking, sieving, filtration..."></textarea></div>
+  </div>
+  <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:14px 0; padding:12px; background:#f8fafc; border-radius:10px;">
+    <p style="font-size:12px; color:#64748b; margin:0; flex:1;">Auto-saves to your browser.</p>
+    <button onclick="kwlSave()" style="background:#15803d; color:white; border:none; padding:8px 16px; font-size:13px; font-weight:600; border-radius:6px; cursor:pointer;">💾 Save</button>
+    <button onclick="kwlClear()" style="background:#64748b; color:white; border:none; padding:8px 16px; font-size:13px; font-weight:600; border-radius:6px; cursor:pointer;">Clear</button>
+    <button onclick="printKWL()" style="background:#b45309; color:white; border:none; padding:8px 16px; font-size:13px; font-weight:600; border-radius:6px; cursor:pointer;">🖨️ Print / Save as PDF</button>
+  </div>
+  <script>
+    (function(){
+      const KWL_KEY = 'kwl_ch9_grade6';
+      function kwlLoad(){ try { const s=JSON.parse(localStorage.getItem(KWL_KEY)||'{}'); if(s.k)document.getElementById('kwl-k').value=s.k; if(s.w)document.getElementById('kwl-w').value=s.w; if(s.l)document.getElementById('kwl-l').value=s.l; } catch(e){} }
+      window.kwlSave = function(){ localStorage.setItem(KWL_KEY, JSON.stringify({k:document.getElementById('kwl-k').value, w:document.getElementById('kwl-w').value, l:document.getElementById('kwl-l').value})); };
+      window.kwlClear = function(){ if(!confirm('Clear KWL chart?')) return; ['kwl-k','kwl-w','kwl-l'].forEach(id=>document.getElementById(id).value=''); localStorage.removeItem(KWL_KEY); };
+      window.printKWL = function(){ const k=document.getElementById('kwl-k').value, w=document.getElementById('kwl-w').value, l=document.getElementById('kwl-l').value; const esc=s=>(s||'').replace(/</g,'&lt;'); const win=window.open('','_blank'); win.document.write('<html><head><title>KWL Chart - Chapter 9</title><style>body{font-family:sans-serif;padding:20px;color:#1e293b;}h1{color:#b45309;border-bottom:2px solid #b45309;padding-bottom:8px;}.col{margin:14px 0;padding:14px;border:1px solid #ccc;border-radius:8px;page-break-inside:avoid;}.col h2{margin:0 0 6px;font-size:16px;}.col p{white-space:pre-wrap;font-size:13px;margin:0;min-height:60px;}@media print{@page{size:A4;margin:1.2cm;}}</style></head><body><h1>KWL Chart — Chapter 9 · Methods of Separation</h1><div class="col" style="border-top:4px solid #0284c7;"><h2 style="color:#0e7490;">K — What I Know</h2><p>'+esc(k)+'</p></div><div class="col" style="border-top:4px solid #b45309;"><h2 style="color:#b45309;">W — What I Want to Know</h2><p>'+esc(w)+'</p></div><div class="col" style="border-top:4px solid #15803d;"><h2 style="color:#15803d;">L — What I Learned</h2><p>'+esc(l)+'</p></div><scr'+'ipt>window.onload=function(){setTimeout(function(){window.print();},300);};</scr'+'ipt></body></html>'); win.document.close(); };
+      ['kwl-k','kwl-w','kwl-l'].forEach(id=>{const el=document.getElementById(id); if(el) el.addEventListener('input',()=>{clearTimeout(window._kt); window._kt=setTimeout(window.kwlSave,600);});});
+      kwlLoad();
+    })();
+  </script>
+</section>
+
+</main>
+
+
+<script>
+/* ============================================================
+   TABS
+   ============================================================ */
+document.querySelectorAll('nav.tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ============================================================
+   SIM 1: Mixture Sorter
+   ============================================================ */
+const mixSim = (() => {
+  const c = document.getElementById('mixCanvas');
+  const ctx = c.getContext('2d');
+  const mixtures = [
+    { name: 'Stones in rice grains', icon: '🍚', methods: ['handpicking'], why: 'Small stones differ in colour &amp; shape. Easy to pick out by hand.' },
+    { name: 'Wheat husk and grain (in field)', icon: '🌾', methods: ['winnowing'], why: 'Husk is light, grain is heavy. Wind separates them.' },
+    { name: 'Bran in wheat flour', icon: '🥖', methods: ['sieving'], why: 'Bran particles are bigger than flour. Sieve catches them.' },
+    { name: 'Salt dissolved in water', icon: '🧂', methods: ['evaporation'], why: 'Salt is dissolved. Evaporate water — salt left behind.' },
+    { name: 'Mud particles in water', icon: '💧', methods: ['filtration', 'sedimentation'], why: 'Mud is insoluble. Filter or let it settle &amp; decant.' },
+    { name: 'Iron nails in sawdust', icon: '🔩', methods: ['magnetic'], why: 'Iron is magnetic, sawdust is not. Magnet does the job.' },
+    { name: 'Tea leaves in tea', icon: '🍵', methods: ['filtration'], why: 'Tea leaves are insoluble bits — use a strainer (filter).' },
+    { name: 'Butter from curd', icon: '🧈', methods: ['churning'], why: 'Churning the curd separates lighter butter to the top.' },
+    { name: 'Large pebbles from sand', icon: '🪨', methods: ['sieving'], why: 'Big pebbles vs small sand. Sieve catches pebbles.' },
+    { name: 'Black peppercorns in pulao', icon: '🍛', methods: ['handpicking'], why: 'Pepper is a different colour. Easy to pick out.' }
+  ];
+  const allMethods = ['handpicking', 'threshing', 'winnowing', 'sieving', 'evaporation', 'sedimentation', 'decantation', 'filtration', 'churning', 'magnetic'];
+  const methodNames = {
+    handpicking: 'Handpicking', threshing: 'Threshing', winnowing: 'Winnowing', sieving: 'Sieving',
+    evaporation: 'Evaporation', sedimentation: 'Sedimentation', decantation: 'Decantation',
+    filtration: 'Filtration', churning: 'Churning', magnetic: 'Magnetic separation'
+  };
+
+  let idx = -1;
+  let score = 0, tries = 0;
+
+  function reset() {
+    idx = -1;
+    score = 0; tries = 0;
+    document.getElementById('mixResult').innerHTML = 'Click <b>Next mixture</b> to begin.';
+    document.getElementById('mixOptions').innerHTML = '';
+    draw(null);
+  }
+  function next() {
+    idx = (idx + 1) % mixtures.length;
+    const m = mixtures[idx];
+    // build options (always include the correct one + 3 random others)
+    const correct = m.methods[0];
+    const wrong = allMethods.filter(x => !m.methods.includes(x)).sort(() => Math.random() - 0.5).slice(0, 3);
+    const options = [...m.methods.slice(0, 1), ...wrong].sort(() => Math.random() - 0.5);
+    const optBox = document.getElementById('mixOptions');
+    optBox.innerHTML = '';
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'btn';
+      btn.textContent = methodNames[opt];
+      btn.style.background = '#fef3c7';
+      btn.style.color = '#7c2d12';
+      btn.addEventListener('click', () => choose(opt, btn));
+      optBox.appendChild(btn);
+    });
+    document.getElementById('mixResult').innerHTML = `<b>Mixture:</b> ${m.name}<br><b>Which method would you use?</b> Click an option above.`;
+    draw(m);
+  }
+  function choose(opt, btn) {
+    const m = mixtures[idx];
+    tries++;
+    if (m.methods.includes(opt)) {
+      btn.style.background = '#dcfce7';
+      btn.style.color = '#15803d';
+      score++;
+      document.getElementById('mixResult').innerHTML = `✅ <b>Correct!</b> ${m.why}<br><br>Score: <b>${score}/${tries}</b>. Click <b>Next mixture</b>.`;
+    } else {
+      btn.style.background = '#fee2e2';
+      btn.style.color = '#b91c1c';
+      document.getElementById('mixResult').innerHTML = `❌ Not quite. The best method is <b>${methodNames[m.methods[0]]}</b>. ${m.why}<br><br>Score: <b>${score}/${tries}</b>. Click <b>Next mixture</b>.`;
+    }
+    // disable all option buttons
+    document.querySelectorAll('#mixOptions .btn').forEach(b => b.disabled = true);
+  }
+  function draw(m) {
+    ctx.clearRect(0, 0, 600, 220);
+    ctx.fillStyle = '#fef3c7';
+    ctx.fillRect(0, 0, 600, 220);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Sim 1: Mixture Sorter', 220, 22);
+    if (!m) {
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '14px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Click "Next mixture" to start.', 300, 110);
+      ctx.textAlign = 'left';
+      return;
+    }
+    // Big emoji + name
+    ctx.font = '80px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(m.icon, 300, 115);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 16px sans-serif';
+    ctx.fillText(m.name, 300, 180);
+    ctx.textAlign = 'left';
+  }
+  reset();
+  return { next, reset };
+})();
+
+/* ============================================================
+   SIM 2: Winnowing
+   ============================================================ */
+const winSim = (() => {
+  const c = document.getElementById('winCanvas');
+  const ctx = c.getContext('2d');
+  let wind = 5;
+  let particles = [];
+  let animId = null;
+  function update() {
+    wind = +document.getElementById('windSlider').value;
+    document.getElementById('windVal').textContent = wind;
+  }
+  function reset() {
+    particles = [];
+    if (animId) cancelAnimationFrame(animId);
+    animId = null;
+    document.getElementById('winObs').innerHTML = 'Adjust wind. Then click <b>Toss</b>.';
+    draw();
+  }
+  function toss() {
+    particles = [];
+    // grains (heavy)
+    for (let i = 0; i < 30; i++) {
+      particles.push({
+        type: 'grain', x: 280 + Math.random() * 40, y: 100, vx: 0, vy: -2 - Math.random(),
+        size: 4, color: '#d97706', mass: 'heavy'
+      });
+    }
+    // husk (light)
+    for (let i = 0; i < 40; i++) {
+      particles.push({
+        type: 'husk', x: 280 + Math.random() * 40, y: 100, vx: 0, vy: -2 - Math.random(),
+        size: 3, color: '#fef3c7', mass: 'light'
+      });
+    }
+    if (!animId) loop();
+  }
+  function loop() {
+    particles.forEach(p => {
+      // gravity
+      p.vy += 0.18;
+      // wind affects light more
+      if (p.mass === 'light') p.vx += wind * 0.08 + (Math.random() - 0.5) * 0.1;
+      else p.vx += wind * 0.01;
+      p.x += p.vx; p.y += p.vy;
+    });
+    // clean up off-screen
+    particles = particles.filter(p => p.y < 290);
+    draw();
+    // count what landed where
+    let grainsHere = 0, huskHere = 0, grainsAway = 0, huskAway = 0;
+    particles.forEach(p => { });
+    if (particles.length > 0) animId = requestAnimationFrame(loop);
+    else {
+      animId = null;
+      document.getElementById('winObs').innerHTML = `<b>Result with wind ${wind}:</b> ${wind > 3 ? 'Light husk blew to the right; heavier grains fell straight down. Good separation!' : 'Not enough wind — both stayed together. Try wind 5 or more.'}`;
+    }
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 300);
+    ctx.fillStyle = '#fef3c7';
+    ctx.fillRect(0, 0, 600, 300);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Sim 2: Winnowing — wind separates light from heavy', 100, 22);
+    // ground
+    ctx.fillStyle = '#a16207';
+    ctx.fillRect(0, 290, 600, 10);
+    // soop (bamboo tray)
+    ctx.fillStyle = '#92400e';
+    ctx.beginPath();
+    ctx.moveTo(260, 100);
+    ctx.quadraticCurveTo(300, 140, 340, 100);
+    ctx.lineTo(330, 95);
+    ctx.quadraticCurveTo(300, 125, 270, 95);
+    ctx.closePath();
+    ctx.fill();
+    // wind arrow
+    if (wind > 0) {
+      ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 2 + wind * 0.3;
+      for (let i = 0; i < 3; i++) {
+        ctx.beginPath();
+        ctx.moveTo(20, 50 + i * 30); ctx.lineTo(20 + wind * 10, 50 + i * 30);
+        ctx.stroke();
+        ctx.fillStyle = '#0284c7';
+        ctx.beginPath();
+        ctx.moveTo(20 + wind * 10, 50 + i * 30);
+        ctx.lineTo(20 + wind * 10 - 5, 50 + i * 30 - 4);
+        ctx.lineTo(20 + wind * 10 - 5, 50 + i * 30 + 4);
+        ctx.closePath();
+        ctx.fill();
+      }
+    }
+    // particles
+    particles.forEach(p => {
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 0.5;
+      ctx.stroke();
+    });
+    // labels
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 11px sans-serif';
+    ctx.fillText('Wind →', 20, 35);
+    ctx.fillText('Soop', 290, 90);
+  }
+  reset();
+  return { toss, reset, update };
+})();
+
+/* ============================================================
+   SIM 3: Salt from seawater
+   ============================================================ */
+const saltSim = (() => {
+  const c = document.getElementById('saltCanvas');
+  const ctx = c.getContext('2d');
+  let t = 0; let running = false; let animId = null;
+  function reset() { t = 0; running = false; if (animId) cancelAnimationFrame(animId); animId = null; document.getElementById('saltObs').innerHTML = 'Click <b>Start</b> to evaporate.'; draw(); }
+  function start() { if (running) return; running = true; loop(); }
+  function loop() {
+    t = Math.min(100, t + 0.5);
+    const day = (t / 10).toFixed(0);
+    if (t < 100) {
+      document.getElementById('saltObs').innerHTML = `Day <b>${day}</b>: water level dropping. Salt becoming concentrated.`;
+      animId = requestAnimationFrame(loop);
+    } else {
+      document.getElementById('saltObs').innerHTML = '<b>Day 10:</b> All water evaporated! Pure salt crystals left in the pan. Ready to harvest!';
+    }
+    draw();
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 280);
+    // sky
+    ctx.fillStyle = '#bae6fd';
+    ctx.fillRect(0, 0, 600, 100);
+    // sun
+    ctx.fillStyle = '#fde047';
+    ctx.beginPath(); ctx.arc(80, 50, 25, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#fde047'; ctx.lineWidth = 2;
+    for (let a = 0; a < Math.PI * 2; a += Math.PI / 6) {
+      ctx.beginPath();
+      ctx.moveTo(80 + Math.cos(a) * 30, 50 + Math.sin(a) * 30);
+      ctx.lineTo(80 + Math.cos(a) * 40, 50 + Math.sin(a) * 40);
+      ctx.stroke();
+    }
+    // ground
+    ctx.fillStyle = '#a16207';
+    ctx.fillRect(0, 100, 600, 180);
+    // salt pit (shallow)
+    ctx.fillStyle = '#78350f';
+    ctx.fillRect(150, 180, 300, 70);
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+    ctx.strokeRect(150, 180, 300, 70);
+    // water level decreasing
+    const waterH = (1 - t / 100) * 60;
+    if (waterH > 1) {
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.65)';
+      ctx.fillRect(152, 248 - waterH, 296, waterH);
+    }
+    // salt crystals at bottom (grow over time)
+    if (t > 30) {
+      ctx.fillStyle = 'white';
+      for (let i = 0; i < t * 1.5; i++) {
+        ctx.beginPath();
+        ctx.arc(155 + Math.random() * 290, 245 - Math.random() * 5, 1 + Math.random(), 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    // vapor rising
+    if (running && t < 100) {
+      ctx.fillStyle = 'rgba(248, 250, 252, 0.6)';
+      for (let i = 0; i < 6; i++) {
+        ctx.beginPath();
+        ctx.arc(180 + i * 50, 170 - Math.random() * 40, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Sim 3: salt from seawater (evaporation)', 160, 22);
+    ctx.font = 'bold 11px sans-serif';
+    ctx.fillStyle = '#1c1917';
+    ctx.fillText('Shallow salt pit', 240, 270);
+  }
+  draw();
+  return { start, reset };
+})();
+
+/* ============================================================
+   SIM 4: Magnetic sweep
+   ============================================================ */
+const magSim = (() => {
+  const c = document.getElementById('magCanvas');
+  const ctx = c.getContext('2d');
+  let nails = []; let dust = [];
+  let magnetX = 50; let swept = false;
+  let animId = null;
+  function reset() {
+    nails = []; dust = []; magnetX = 50; swept = false;
+    if (animId) cancelAnimationFrame(animId); animId = null;
+    // 12 nails
+    for (let i = 0; i < 12; i++) {
+      nails.push({ x: 100 + Math.random() * 400, y: 180 + Math.random() * 40, picked: false });
+    }
+    // 60 sawdust bits
+    for (let i = 0; i < 80; i++) {
+      dust.push({ x: 100 + Math.random() * 400, y: 180 + Math.random() * 50 });
+    }
+    document.getElementById('magObs').innerHTML = 'Click <b>Sweep</b> to pull iron nails out.';
+    draw();
+  }
+  function sweep() {
+    if (swept) return;
+    swept = true;
+    magnetX = 50;
+    loop();
+  }
+  function loop() {
+    magnetX += 4;
+    nails.forEach(n => {
+      if (!n.picked && Math.abs(magnetX - n.x) < 50) {
+        n.picked = true;
+        n.attachedX = magnetX - n.x;
+      }
+      if (n.picked) {
+        n.x = magnetX - (n.attachedX || 0);
+        n.y = 80;
+      }
+    });
+    draw();
+    if (magnetX < 560) animId = requestAnimationFrame(loop);
+    else {
+      const picked = nails.filter(n => n.picked).length;
+      document.getElementById('magObs').innerHTML = `<b>${picked} of ${nails.length} nails</b> picked up by the magnet! Sawdust stayed behind. <b>Magnetic separation works!</b>`;
+    }
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 280);
+    ctx.fillStyle = '#fef3c7';
+    ctx.fillRect(0, 0, 600, 280);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Sim 4: magnetic separation', 200, 22);
+    // tray
+    ctx.fillStyle = '#a16207';
+    ctx.fillRect(90, 220, 420, 8);
+    // sawdust
+    ctx.fillStyle = '#92400e';
+    dust.forEach(d => {
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, 1.5, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    // nails
+    nails.forEach(n => {
+      ctx.fillStyle = '#475569';
+      ctx.fillRect(n.x - 1, n.y, 2, 12);
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, 2.5, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    // magnet
+    ctx.fillStyle = '#dc2626';
+    ctx.fillRect(magnetX - 25, 50, 25, 30);
+    ctx.fillStyle = '#3b82f6';
+    ctx.fillRect(magnetX, 50, 25, 30);
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('N', magnetX - 13, 70);
+    ctx.fillText('S', magnetX + 13, 70);
+    ctx.textAlign = 'left';
+  }
+  reset();
+  return { sweep, reset };
+})();
+
+/* ============================================================
+   SIM 5: Filter
+   ============================================================ */
+const filtSim = (() => {
+  const c = document.getElementById('filtCanvas');
+  const ctx = c.getContext('2d');
+  let t = 0; let running = false; let animId = null;
+  function reset() { t = 0; running = false; if (animId) cancelAnimationFrame(animId); animId = null; document.getElementById('filtObs').innerHTML = 'Click <b>Pour</b> to start filtering.'; draw(); }
+  function pour() { if (running) return; running = true; loop(); }
+  function loop() {
+    t = Math.min(100, t + 0.6);
+    if (t < 30) document.getElementById('filtObs').innerHTML = `Pouring through <b>cloth filter</b> (catches large mud chunks)...`;
+    else if (t < 60) document.getElementById('filtObs').innerHTML = `Through <b>sand layer</b> (catches medium particles)...`;
+    else if (t < 90) document.getElementById('filtObs').innerHTML = `Through <b>charcoal</b> (catches fine particles + odours)...`;
+    else document.getElementById('filtObs').innerHTML = `<b>Done!</b> Clear water in the container below. Each layer trapped different sized particles.`;
+    draw();
+    if (t < 100) animId = requestAnimationFrame(loop);
+  }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 320);
+    ctx.fillStyle = '#fef3c7';
+    ctx.fillRect(0, 0, 600, 320);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Sim 5: multi-layer water filter', 180, 22);
+    const cx = 300;
+    // bottle (inverted) as funnel
+    ctx.fillStyle = 'rgba(186, 230, 253, 0.4)';
+    ctx.beginPath();
+    ctx.moveTo(cx - 70, 80); ctx.lineTo(cx + 70, 80);
+    ctx.lineTo(cx + 70, 220); ctx.lineTo(cx + 20, 240); ctx.lineTo(cx + 20, 260);
+    ctx.lineTo(cx - 20, 260); ctx.lineTo(cx - 20, 240); ctx.lineTo(cx - 70, 220);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2; ctx.stroke();
+    // muddy water on top
+    if (t < 30) {
+      ctx.fillStyle = 'rgba(120, 53, 15, 0.6)';
+      ctx.fillRect(cx - 68, 85, 136, 30);
+    } else {
+      ctx.fillStyle = 'rgba(120, 53, 15, 0.3)';
+      ctx.fillRect(cx - 68, 90 + t * 0.3, 136, 8);
+    }
+    // layers inside
+    // gravel top
+    ctx.fillStyle = '#a8a29e';
+    ctx.fillRect(cx - 65, 115, 130, 30);
+    // sand
+    ctx.fillStyle = '#fbbf24';
+    ctx.fillRect(cx - 65, 145, 130, 30);
+    // charcoal
+    ctx.fillStyle = '#1c1917';
+    ctx.fillRect(cx - 65, 175, 130, 30);
+    // cotton
+    ctx.fillStyle = '#f1f5f9';
+    ctx.fillRect(cx - 65, 205, 130, 15);
+    // labels
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 9px sans-serif';
+    ctx.fillText('gravel', cx + 75, 135);
+    ctx.fillText('sand', cx + 75, 165);
+    ctx.fillStyle = 'white';
+    ctx.fillText('charcoal', cx - 55, 192);
+    ctx.fillStyle = '#1e293b';
+    ctx.fillText('cotton', cx + 75, 215);
+    // drips
+    if (running) {
+      ctx.fillStyle = `rgba(56, 189, 248, ${Math.min(0.8, t / 50)})`;
+      for (let i = 0; i < 3; i++) {
+        ctx.beginPath();
+        ctx.arc(cx, 270 + i * 8, 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    // collection container
+    ctx.fillStyle = 'rgba(186, 230, 253, 0.7)';
+    ctx.fillRect(cx - 60, 290, 120, 25);
+    ctx.strokeStyle = '#1c1917'; ctx.strokeRect(cx - 60, 290, 120, 25);
+    // clear water fill
+    if (t > 20) {
+      ctx.fillStyle = `rgba(56, 189, 248, ${Math.min(0.7, t / 80)})`;
+      const fillH = Math.min(20, (t - 20) / 80 * 22);
+      ctx.fillRect(cx - 59, 314 - fillH, 118, fillH);
+    }
+  }
+  draw();
+  return { pour, reset };
+})();
+
+/* ============================================================
+   EXPERIMENTS
+   ============================================================ */
+const expPeanut = (() => {
+  const c = document.getElementById('expPeanutCanvas');
+  const ctx = c.getContext('2d');
+  const steps = [
+    'Step 1: Take roasted peanuts in your palm (with skins on).',
+    'Step 2: Rub them between your palms. The brown skin falls off!',
+    'Step 3: Pour onto a plate. Now you have peanuts + light skins.',
+    'Step 4: Blow gently (or use a fan). The light skin flies away.',
+    'Step 5: Heavier peanuts stay behind. That\'s winnowing!'
+  ];
+  let s = -1;
+  function reset() { s = -1; document.getElementById('expPeanutStep').innerHTML = 'Click to walk through.'; draw(); }
+  function next() { s = Math.min(steps.length - 1, s + 1); document.getElementById('expPeanutStep').innerHTML = steps[s]; draw(); }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 280);
+    ctx.fillStyle = '#fef3c7';
+    ctx.fillRect(0, 0, 600, 280);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Activity 9.1: peanut winnowing', 200, 22);
+    const cx = 300;
+    // plate
+    if (s >= 2) {
+      ctx.fillStyle = '#cbd5e1';
+      ctx.beginPath();
+      ctx.ellipse(cx, 200, 100, 18, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#1c1917'; ctx.strokeRect;
+      ctx.stroke();
+    }
+    // peanuts (brown ovals)
+    if (s >= 0) {
+      ctx.fillStyle = '#92400e';
+      for (let i = 0; i < 10; i++) {
+        const x = cx - 70 + i * 14 + (s === 0 ? 0 : 0);
+        ctx.beginPath();
+        ctx.ellipse(x, s >= 2 ? 195 : 130 + Math.sin(i) * 3, 8, 5, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    // peeled peanuts (lighter)
+    if (s >= 1) {
+      ctx.fillStyle = '#fbbf24';
+      for (let i = 0; i < 10; i++) {
+        const x = cx - 50 + i * 12;
+        ctx.beginPath();
+        ctx.ellipse(x, s >= 2 ? 198 : 145 + Math.sin(i + 2) * 3, 6, 4, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    // skins blowing away (step 3+)
+    if (s >= 3) {
+      ctx.fillStyle = '#a16207';
+      const blow = (s - 2) * 0.5;
+      for (let i = 0; i < 15; i++) {
+        ctx.beginPath();
+        ctx.arc(cx + 80 + i * 25 * blow + Math.random() * 30, 130 + Math.random() * 60 - blow * 20, 1.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      // wind arrow
+      ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(40, 130); ctx.lineTo(120, 130);
+      ctx.stroke();
+      ctx.fillStyle = '#0284c7';
+      ctx.beginPath();
+      ctx.moveTo(120, 130); ctx.lineTo(110, 124); ctx.lineTo(110, 136); ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = '#1e293b';
+      ctx.font = 'bold 11px sans-serif';
+      ctx.fillText('WIND →', 50, 120);
+    }
+  }
+  draw();
+  return { next, reset };
+})();
+
+const expSaltArt = (() => {
+  const c = document.getElementById('expSaltArtCanvas');
+  const ctx = c.getContext('2d');
+  const steps = [
+    'Step 1: Mix 2 tsp salt in water. Stir until dissolved.',
+    'Step 2: Drop drops on dark/black paper. Create any shape!',
+    'Step 3: Let it dry in air or sun (1-2 hours).',
+    'Step 4: Look — white patches form where water dried. That\'s the SALT!',
+    'Result: The water evaporated. Salt stayed. Evaporation separated them.'
+  ];
+  let s = -1;
+  function reset() { s = -1; document.getElementById('expSaltArtStep').innerHTML = 'Click to begin.'; draw(); }
+  function next() { s = Math.min(steps.length - 1, s + 1); document.getElementById('expSaltArtStep').innerHTML = steps[s]; draw(); }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 260);
+    ctx.fillStyle = '#fef3c7';
+    ctx.fillRect(0, 0, 600, 260);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Activity 9.2: salt-water art', 220, 22);
+    // black paper
+    ctx.fillStyle = '#1c1917';
+    ctx.fillRect(180, 70, 240, 160);
+    // salt water drops (step 1-2)
+    if (s >= 1 && s <= 2) {
+      ctx.fillStyle = 'rgba(186, 230, 253, 0.7)';
+      [200, 240, 290, 340, 380].forEach((x, i) => {
+        ctx.beginPath();
+        ctx.arc(x, 130 + Math.sin(i) * 15, 14, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+    // dried salt (step 3+)
+    if (s >= 3) {
+      ctx.fillStyle = 'white';
+      [200, 240, 290, 340, 380].forEach((x, i) => {
+        const y = 130 + Math.sin(i) * 15;
+        // ring of salt crystals
+        for (let k = 0; k < 20; k++) {
+          ctx.beginPath();
+          ctx.arc(x + Math.cos(k) * 12 + (Math.random() - 0.5) * 3, y + Math.sin(k) * 12 + (Math.random() - 0.5) * 3, 1, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+    }
+  }
+  draw();
+  return { next, reset };
+})();
+
+const expSaltHeat = (() => {
+  const c = document.getElementById('expSaltHeatCanvas');
+  const ctx = c.getContext('2d');
+  const steps = [
+    'Step 1: Pour salt solution into a china dish.',
+    'Step 2: Place on a tripod with wire gauze. Light the spirit lamp.',
+    'Step 3: Water heats up and starts to boil away.',
+    'Step 4: Keep heating. Water level drops.',
+    'Step 5: All water evaporated. White salt remains in the dish!'
+  ];
+  let s = -1;
+  function reset() { s = -1; document.getElementById('expSaltHeatStep').innerHTML = 'Click to begin.'; draw(); }
+  function next() { s = Math.min(steps.length - 1, s + 1); document.getElementById('expSaltHeatStep').innerHTML = steps[s]; draw(); }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 280);
+    ctx.fillStyle = '#fef3c7';
+    ctx.fillRect(0, 0, 600, 280);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Activity 9.3: heat salt water — get salt back', 130, 22);
+    const cx = 300;
+    // tripod (step 2+)
+    if (s >= 1) {
+      ctx.strokeStyle = '#475569'; ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(cx - 60, 150); ctx.lineTo(cx - 80, 240); ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(cx + 60, 150); ctx.lineTo(cx + 80, 240); ctx.stroke();
+      // wire gauze
+      ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 1;
+      for (let i = 0; i < 5; i++) {
+        ctx.beginPath();
+        ctx.moveTo(cx - 60, 150 + i * 2); ctx.lineTo(cx + 60, 150 + i * 2);
+        ctx.stroke();
+      }
+    }
+    // china dish
+    if (s >= 0) {
+      ctx.fillStyle = 'white';
+      ctx.beginPath();
+      ctx.ellipse(cx, 130, 60, 15, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.ellipse(cx, 145, 60, 12, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5; ctx.stroke();
+      // salt solution inside
+      const waterFrac = Math.max(0, 1 - (s - 1) / 3);
+      if (s < 5 && waterFrac > 0) {
+        ctx.fillStyle = 'rgba(186, 230, 253, 0.7)';
+        ctx.beginPath();
+        ctx.ellipse(cx, 130, 55, 10 * waterFrac, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      // salt residue (step 4+)
+      if (s >= 4) {
+        ctx.fillStyle = 'white';
+        for (let i = 0; i < 30; i++) {
+          ctx.beginPath();
+          ctx.arc(cx - 50 + Math.random() * 100, 132 + Math.random() * 4, 1.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.fillStyle = '#1e293b';
+        ctx.font = 'bold 11px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('🧂 SALT!', cx, 100);
+        ctx.textAlign = 'left';
+      }
+    }
+    // flame (step 2+)
+    if (s >= 1 && s < 5) {
+      ctx.fillStyle = '#fbbf24';
+      ctx.beginPath();
+      ctx.moveTo(cx - 10, 220);
+      ctx.lineTo(cx, 175);
+      ctx.lineTo(cx + 10, 220);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = '#ea580c';
+      ctx.beginPath();
+      ctx.moveTo(cx - 5, 220);
+      ctx.lineTo(cx, 185);
+      ctx.lineTo(cx + 5, 220);
+      ctx.closePath();
+      ctx.fill();
+      // spirit lamp base
+      ctx.fillStyle = '#1c1917';
+      ctx.fillRect(cx - 15, 220, 30, 30);
+    }
+    // vapor (step 3-4)
+    if (s >= 2 && s < 5) {
+      ctx.fillStyle = 'rgba(248, 250, 252, 0.7)';
+      for (let i = 0; i < 5; i++) {
+        ctx.beginPath();
+        ctx.arc(cx - 20 + i * 10, 100 - Math.random() * 30, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+  }
+  draw();
+  return { next, reset };
+})();
+
+const expFilt = (() => {
+  const c = document.getElementById('expFiltCanvas');
+  const ctx = c.getContext('2d');
+  const steps = [
+    'Step 1: Take a circular filter paper.',
+    'Step 2: Fold it in half.',
+    'Step 3: Fold again — quarter circle.',
+    'Step 4: Open as a cone (3 layers on one side).',
+    'Step 5: Place cone in funnel, funnel on a flask.',
+    'Step 6: Pour muddy water slowly into the cone.',
+    'Step 7: Mud stays on filter (residue). Clear water below (filtrate)!'
+  ];
+  let s = -1;
+  function reset() { s = -1; document.getElementById('expFiltStep').innerHTML = 'Click to begin.'; draw(); }
+  function next() { s = Math.min(steps.length - 1, s + 1); document.getElementById('expFiltStep').innerHTML = steps[s]; draw(); }
+  function draw() {
+    ctx.clearRect(0, 0, 600, 300);
+    ctx.fillStyle = '#fef3c7';
+    ctx.fillRect(0, 0, 600, 300);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Activity 9.4: filter muddy water', 200, 22);
+    const cx = 300;
+    if (s === 0) {
+      // circle filter paper
+      ctx.fillStyle = 'white';
+      ctx.beginPath();
+      ctx.arc(cx, 150, 60, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2; ctx.stroke();
+    } else if (s === 1) {
+      // half-fold (semicircle)
+      ctx.fillStyle = 'white';
+      ctx.beginPath();
+      ctx.arc(cx, 150, 60, Math.PI, Math.PI * 2);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2; ctx.stroke();
+    } else if (s === 2) {
+      // quarter
+      ctx.fillStyle = 'white';
+      ctx.beginPath();
+      ctx.moveTo(cx, 150);
+      ctx.arc(cx, 150, 60, Math.PI, Math.PI * 1.5);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2; ctx.stroke();
+    } else if (s === 3) {
+      // cone
+      ctx.fillStyle = 'white';
+      ctx.beginPath();
+      ctx.moveTo(cx - 50, 100); ctx.lineTo(cx + 50, 100);
+      ctx.lineTo(cx, 200); ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2; ctx.stroke();
+    } else if (s >= 4) {
+      // funnel
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(cx - 60, 90); ctx.lineTo(cx - 5, 200);
+      ctx.lineTo(cx - 5, 240); ctx.lineTo(cx + 5, 240);
+      ctx.lineTo(cx + 5, 200); ctx.lineTo(cx + 60, 90);
+      ctx.stroke();
+      // filter paper inside
+      ctx.fillStyle = 'white';
+      ctx.beginPath();
+      ctx.moveTo(cx - 50, 100); ctx.lineTo(cx + 50, 100);
+      ctx.lineTo(cx, 200); ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = '#1c1917'; ctx.stroke();
+      // flask
+      ctx.fillStyle = 'rgba(186, 230, 253, 0.4)';
+      ctx.beginPath();
+      ctx.moveTo(cx - 60, 280); ctx.lineTo(cx - 40, 250); ctx.lineTo(cx - 8, 250);
+      ctx.lineTo(cx - 8, 240); ctx.lineTo(cx + 8, 240); ctx.lineTo(cx + 8, 250);
+      ctx.lineTo(cx + 40, 250); ctx.lineTo(cx + 60, 280);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5; ctx.stroke();
+      // muddy water (step 5+)
+      if (s >= 5) {
+        ctx.fillStyle = 'rgba(120, 53, 15, 0.7)';
+        ctx.beginPath();
+        ctx.moveTo(cx - 45, 110); ctx.lineTo(cx + 45, 110);
+        ctx.lineTo(cx, 190); ctx.closePath();
+        ctx.fill();
+      }
+      // residue (step 6+)
+      if (s >= 6) {
+        ctx.fillStyle = '#78350f';
+        ctx.beginPath();
+        ctx.moveTo(cx - 50, 100); ctx.lineTo(cx + 50, 100);
+        ctx.lineTo(cx - 20, 175); ctx.lineTo(cx + 20, 175);
+        ctx.closePath();
+        ctx.fill();
+        // clear water in flask
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.7)';
+        ctx.fillRect(cx - 55, 265, 110, 12);
+        // drips
+        ctx.fillStyle = '#0284c7';
+        for (let i = 0; i < 3; i++) {
+          ctx.beginPath();
+          ctx.arc(cx, 245 + i * 8, 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.fillStyle = '#16a34a';
+        ctx.font = 'bold 11px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Clear water!', cx, 295);
+        ctx.textAlign = 'left';
+      }
+    }
+  }
+  draw();
+  return { next, reset };
+})();
+
+const expSort = (() => {
+  const items = [
+    { text: 'Stones from pulses', cat: 'remove', why: 'Stones are not useful — handpicking removes them.' },
+    { text: 'Butter from curd', cat: 'separate', why: 'Both butter AND buttermilk are useful — churning separates two useful things.' },
+    { text: 'Chillies from poha', cat: 'remove', why: 'Chillies are too spicy for kids — handpicking removes them.' },
+    { text: 'Seeds from watermelon', cat: 'remove', why: 'Seeds are not eaten in the fruit — picked out.' },
+    { text: 'Sawdust + iron nails', cat: 'separate', why: 'Both are useful — magnetic separation gives back both.' },
+    { text: 'Marigold flowers from mixed pile', cat: 'separate', why: 'Picking what you want (marigold) — both kinds of flowers may be useful.' },
+    { text: 'Pebbles from sand', cat: 'separate', why: 'Both useful at construction sites — sieving separates them.' },
+    { text: 'Coconut from rice flour', cat: 'remove', why: 'Removing the unwanted coconut — useful flour stays.' },
+    { text: 'Oil from water', cat: 'separate', why: 'Both useful — decantation separates them.' },
+    { text: 'Salt from salt solution', cat: 'separate', why: 'Both salt (useful) and water — evaporation recovers salt.' }
+  ];
+  const state = items.map(i => ({ ...i, placed: null }));
+  const container = document.getElementById('sortContainer');
+  function render() {
+    container.innerHTML = '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">' +
+      '<div style="background: #fee2e2; border: 2px dashed #dc2626; border-radius: 10px; padding: 12px; min-height: 80px;"><h4 style="color: #b91c1c; font-size: 13px; margin-bottom: 8px;">🚫 Remove what\'s NOT useful</h4><div id="bin-remove"></div></div>' +
+      '<div style="background: #dcfce7; border: 2px dashed #16a34a; border-radius: 10px; padding: 12px; min-height: 80px;"><h4 style="color: #15803d; font-size: 13px; margin-bottom: 8px;">✓ Separate TWO useful things</h4><div id="bin-separate"></div></div>' +
+      '</div><div style="margin-top: 12px; padding: 10px; background: #fef9c3; border-radius: 8px;"><div id="bin-bank" style="display: flex; flex-wrap: wrap; gap: 6px;"></div></div>';
+
+    const bank = document.getElementById('bin-bank');
+    const remove = document.getElementById('bin-remove');
+    const separate = document.getElementById('bin-separate');
+
+    state.forEach((it, i) => {
+      const chip = document.createElement('span');
+      chip.style.cssText = 'background: white; border: 2px solid #94a3b8; border-radius: 999px; padding: 5px 10px; font-size: 12px; margin: 3px; cursor: pointer; display: inline-block; transition: all 0.15s;';
+      chip.textContent = it.text;
+      if (it.placed === 'remove') { chip.style.background = '#fee2e2'; chip.style.borderColor = '#dc2626'; }
+      else if (it.placed === 'separate') { chip.style.background = '#dcfce7'; chip.style.borderColor = '#16a34a'; }
+      chip.addEventListener('click', () => {
+        const next = { null: 'remove', remove: 'separate', separate: null };
+        it.placed = next[it.placed === null ? 'null' : it.placed];
+        render();
+      });
+      (it.placed === 'remove' ? remove : it.placed === 'separate' ? separate : bank).appendChild(chip);
+    });
+  }
+  function autoSort() {
+    state.forEach(it => it.placed = it.cat);
+    render();
+    document.getElementById('expSortResult').innerHTML = '<b>Auto-sorted!</b><br><br>' +
+      state.map(it => `<b>${it.text}</b> → ${it.cat === 'remove' ? 'REMOVE' : 'SEPARATE BOTH'}: ${it.why}`).join('<br>');
+  }
+  function reset() {
+    state.forEach(it => it.placed = null);
+    render();
+    document.getElementById('expSortResult').innerHTML = 'Click each chip to cycle through the two baskets.';
+  }
+  render();
+  return { autoSort, reset };
+})();
+
+/* ============================================================
+   5E — CONCEPT MAP
+   ============================================================ */
+(function () {
+  const c = document.getElementById('conceptMapCanvas');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#eff6ff';
+  ctx.fillRect(0, 0, 600, 460);
+
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 14px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Concept Map — Choose the Method by the Difference', 300, 24);
+
+  // central node: "What's DIFFERENT?"
+  const cx = 300, cy = 230;
+  ctx.fillStyle = '#fde68a';
+  ctx.beginPath();
+  ctx.arc(cx, cy, 50, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = '#d97706'; ctx.lineWidth = 3;
+  ctx.stroke();
+  ctx.fillStyle = '#1c1917';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.fillText("What's", cx, cy - 4);
+  ctx.fillText('DIFFERENT?', cx, cy + 12);
+
+  // 6 surrounding nodes (methods grouped by difference)
+  const methods = [
+    { angle: -Math.PI / 2, dist: 160, label: 'SIZE', sub: 'Sieving / Handpicking', color: '#dbeafe', stroke: '#2563eb' },
+    { angle: -Math.PI / 6, dist: 160, label: 'WEIGHT', sub: 'Winnowing', color: '#fef3c7', stroke: '#d97706' },
+    { angle: Math.PI / 6,  dist: 160, label: 'MAGNETIC', sub: 'Magnetic separation', color: '#fce7f3', stroke: '#db2777' },
+    { angle: Math.PI / 2,  dist: 160, label: 'SOLUBILITY', sub: 'Evaporation', color: '#dcfce7', stroke: '#15803d' },
+    { angle: 5 * Math.PI / 6, dist: 160, label: 'INSOLUBLE in liquid', sub: 'Filtration / Decantation', color: '#cffafe', stroke: '#0891b2' },
+    { angle: -5 * Math.PI / 6, dist: 160, label: 'DENSITY', sub: 'Churning', color: '#f3e8ff', stroke: '#7e22ce' }
+  ];
+
+  methods.forEach(m => {
+    const x = cx + Math.cos(m.angle) * m.dist;
+    const y = cy + Math.sin(m.angle) * m.dist;
+    // line from center
+    ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(cx + Math.cos(m.angle) * 50, cy + Math.sin(m.angle) * 50);
+    ctx.lineTo(x - Math.cos(m.angle) * 55, y - Math.sin(m.angle) * 35);
+    ctx.stroke();
+    // node
+    ctx.fillStyle = m.color;
+    ctx.beginPath();
+    ctx.roundRect ? ctx.roundRect(x - 70, y - 28, 140, 56, 12) : ctx.rect(x - 70, y - 28, 140, 56);
+    ctx.fill();
+    ctx.strokeStyle = m.stroke; ctx.lineWidth = 2.5;
+    ctx.stroke();
+    // label
+    ctx.fillStyle = m.stroke;
+    ctx.font = 'bold 11px sans-serif';
+    ctx.fillText(m.label, x, y - 6);
+    ctx.fillStyle = '#1c1917';
+    ctx.font = '10px sans-serif';
+    ctx.fillText(m.sub, x, y + 10);
+  });
+
+  ctx.textAlign = 'left';
+})();
+
+/* ============================================================
+   5E — EVALUATE QUIZ + PIE CHART
+   ============================================================ */
+(function () {
+  const evalData = [
+    {
+      q: 'Which method would you use to separate stones from rice?',
+      options: ['Filtration', 'Handpicking', 'Magnetic separation', 'Evaporation'],
+      correct: 1
+    },
+    {
+      q: 'Husk is light, grain is heavy. Best method to separate?',
+      options: ['Sieving', 'Winnowing', 'Decantation', 'Churning'],
+      correct: 1
+    },
+    {
+      q: 'Salt is dissolved in water. How do you get the salt back?',
+      options: ['Filtration', 'Sedimentation', 'Evaporation', 'Sieving'],
+      correct: 2
+    },
+    {
+      q: 'Iron nails accidentally fall into sawdust. Quick method:',
+      options: ['Handpicking by hand', 'Magnetic separation', 'Filtration', 'Winnowing'],
+      correct: 1
+    },
+    {
+      q: 'You want to remove mud from water. Best method:',
+      options: ['Evaporation', 'Churning', 'Filtration', 'Magnetic separation'],
+      correct: 2
+    }
+  ];
+
+  const container = document.getElementById('evalQuizContainer');
+  if (!container) return;
+  let eAnswered = 0, eScore = 0;
+
+  evalData.forEach((q, idx) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'eval-quiz';
+    const qText = document.createElement('div');
+    qText.className = 'eq-q';
+    qText.textContent = `Q${idx + 1}. ${q.q}`;
+    wrap.appendChild(qText);
+    q.options.forEach((opt, i) => {
+      const o = document.createElement('div');
+      o.className = 'eq-opt';
+      o.textContent = opt;
+      o.addEventListener('click', () => {
+        if (wrap.dataset.done) return;
+        wrap.dataset.done = 'true';
+        eAnswered++;
+        if (i === q.correct) { o.classList.add('correct'); eScore++; }
+        else { o.classList.add('wrong'); wrap.querySelectorAll('.eq-opt')[q.correct].classList.add('correct'); }
+        if (eAnswered === evalData.length) drawPie(eScore, evalData.length - eScore);
+      });
+      wrap.appendChild(o);
+    });
+    container.appendChild(wrap);
+  });
+
+  function drawPie(correct, wrong) {
+    const pieBox = document.getElementById('pieResult');
+    pieBox.classList.add('show');
+    const c = document.getElementById('piechartCanvas');
+    const ctx = c.getContext('2d');
+    ctx.clearRect(0, 0, 300, 300);
+    const total = correct + wrong;
+    const cx = 150, cy = 150, r = 110;
+    if (total === 0) return;
+    let startAngle = -Math.PI / 2;
+    const segments = [
+      { value: correct, color: '#22c55e', label: 'Correct' },
+      { value: wrong,   color: '#dc2626', label: 'Wrong' }
+    ];
+    segments.forEach(seg => {
+      if (seg.value === 0) return;
+      const slice = (seg.value / total) * Math.PI * 2;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, r, startAngle, startAngle + slice);
+      ctx.closePath();
+      ctx.fillStyle = seg.color;
+      ctx.fill();
+      ctx.strokeStyle = 'white'; ctx.lineWidth = 3;
+      ctx.stroke();
+      const midAngle = startAngle + slice / 2;
+      const lx = cx + Math.cos(midAngle) * r * 0.6;
+      const ly = cy + Math.sin(midAngle) * r * 0.6;
+      ctx.fillStyle = 'white';
+      ctx.font = 'bold 22px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(seg.value, lx, ly + 8);
+      startAngle += slice;
+    });
+    ctx.beginPath();
+    ctx.arc(cx, cy, 50, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.fill();
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 20px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText((correct / total * 100).toFixed(0) + '%', cx, cy + 7);
+    ctx.textAlign = 'left';
+    let msg;
+    if (correct === total) msg = '🏆 Perfect! Master of separation!';
+    else if (correct >= total * 0.6) msg = '👏 Strong work!';
+    else msg = '📚 Re-read and try again!';
+    document.getElementById('piechartLabel').textContent = `${correct} of ${total} correct · ${msg}`;
+    document.getElementById('piechartLegend').innerHTML =
+      `<span style="display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:14px; height:14px; background:#22c55e; border-radius:3px;"></span>Correct (${correct})</span>` +
+      `<span style="display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:14px; height:14px; background:#dc2626; border-radius:3px;"></span>Wrong (${wrong})</span>`;
+  }
+})();
+
+/* ============================================================
+   PERFORMANCE TAB — RUBRIC
+   ============================================================ */
+(function () {
+  const table = document.getElementById('rubricTable');
+  if (!table) return;
+  const totalCriteria = table.querySelectorAll('tbody tr').length;
+  const maxScore = totalCriteria * 4;
+  const denomEl = document.querySelector('.rubric-summary span[style*="color: #94a3b8"]');
+  if (denomEl) denomEl.textContent = '/ ' + maxScore;
+  table.addEventListener('click', (e) => {
+    const cell = e.target.closest('.rb-cell');
+    if (!cell) return;
+    const row = cell.parentElement;
+    row.querySelectorAll('.rb-cell').forEach(c => c.classList.remove('selected'));
+    cell.classList.add('selected');
+    recalc();
+  });
+  function recalc() {
+    let total = 0, answered = 0;
+    table.querySelectorAll('tbody tr').forEach(row => {
+      const sel = row.querySelector('.rb-cell.selected');
+      if (sel) { total += parseInt(sel.dataset.level); answered++; }
+    });
+    document.getElementById('rubricTotal').textContent = total;
+    const avg = answered > 0 ? (total / answered).toFixed(1) : '—';
+    document.getElementById('rubricAvg').textContent = answered > 0 ? avg + ' / 4' : '—';
+    const band = document.getElementById('rubricBand');
+    if (answered === 0) {
+      band.textContent = '— Not yet scored —';
+      band.style.background = '#e2e8f0'; band.style.color = '#475569';
+    } else if (answered < totalCriteria) {
+      band.textContent = `In progress (${answered}/${totalCriteria} skills)`;
+      band.style.background = '#fef3c7'; band.style.color = '#a16207';
+    } else {
+      const a = total / totalCriteria;
+      let label, bg, fg;
+      if (a >= 3.5) { label = '🏆 Advanced'; bg = '#dcfce7'; fg = '#15803d'; }
+      else if (a >= 2.5) { label = '👍 Proficient'; bg = '#dbeafe'; fg = '#1e40af'; }
+      else if (a >= 1.5) { label = '📚 Developing'; bg = '#fef3c7'; fg = '#a16207'; }
+      else { label = '🌱 Beginning'; bg = '#fee2e2'; fg = '#b91c1c'; }
+      band.textContent = label; band.style.background = bg; band.style.color = fg;
+    }
+  }
+  const dateInput = document.getElementById('studentDate');
+  if (dateInput) dateInput.valueAsDate = new Date();
+})();
+
+/* ============================================================
+   COMICS
+   ============================================================ */
+function drawKid(ctx, x, y, color, label) {
+  ctx.fillStyle = '#fde68a';
+  ctx.beginPath(); ctx.arc(x, y - 18, 11, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1.5; ctx.stroke();
+  ctx.fillStyle = '#1e293b';
+  ctx.beginPath(); ctx.arc(x - 3, y - 20, 1.2, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(x + 3, y - 20, 1.2, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = color;
+  ctx.fillRect(x - 11, y - 7, 22, 28);
+  ctx.fillStyle = '#1e293b';
+  ctx.fillRect(x - 8, y + 21, 5, 12);
+  ctx.fillRect(x + 3, y + 21, 5, 12);
+  if (label) {
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 10px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(label, x, y + 48);
+    ctx.textAlign = 'left';
+  }
+}
+function bubble(ctx, x, y, text, w) {
+  const lines = text.split('\n');
+  const h = lines.length * 13 + 10;
+  ctx.fillStyle = 'white';
+  ctx.strokeStyle = '#1e293b';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  if (ctx.roundRect) ctx.roundRect(x, y, w, h, 6);
+  else ctx.rect(x, y, w, h);
+  ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 11px sans-serif';
+  lines.forEach((line, i) => ctx.fillText(line, x + 6, y + 14 + i * 13));
+}
+function makeComic(stripId, num, caption, drawFn) {
+  const strip = document.getElementById(stripId);
+  const p = document.createElement('div');
+  p.className = 'comic-panel';
+  const n = document.createElement('div');
+  n.className = 'comic-number'; n.textContent = num;
+  p.appendChild(n);
+  const cnv = document.createElement('canvas');
+  cnv.width = 280; cnv.height = 200;
+  p.appendChild(cnv);
+  const c = document.createElement('div');
+  c.className = 'comic-caption'; c.textContent = caption;
+  p.appendChild(c);
+  strip.appendChild(p);
+  drawFn(cnv.getContext('2d'));
+}
+
+makeComic('strip1', 1, 'Summer vacation begins! Malli and Valli pack their bags for a trip across India.', (ctx) => {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 80, 140, '#db2777', 'Malli');
+  drawKid(ctx, 170, 140, '#15803d', 'Valli');
+  // suitcase
+  ctx.fillStyle = '#92400e';
+  ctx.fillRect(220, 160, 50, 30);
+  ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+  ctx.strokeRect(220, 160, 50, 30);
+});
+makeComic('strip1', 2, 'STOP 1: Haryana. Nani\'s house. Mounds of grains in the courtyard. Many methods of separation at work!', (ctx) => {
+  ctx.fillStyle = '#fef3c7'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#a16207';
+  ctx.beginPath();
+  ctx.ellipse(80, 120, 40, 15, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(180, 120, 40, 15, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 11px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Haryana', 140, 60);
+  ctx.fillText('grains everywhere', 140, 175);
+  ctx.textAlign = 'left';
+});
+makeComic('strip1', 3, 'STOP 2: Ahmedabad. Sabarmati Ashram. The story of salt and the Dandi March.', (ctx) => {
+  ctx.fillStyle = '#dbeafe'; ctx.fillRect(0, 0, 280, 200);
+  // Indian flag colors stripes
+  ctx.fillStyle = '#ff9933'; ctx.fillRect(70, 70, 140, 30);
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(70, 100, 140, 30);
+  ctx.fillStyle = '#138808'; ctx.fillRect(70, 130, 140, 30);
+  ctx.fillStyle = '#000080';
+  ctx.beginPath(); ctx.arc(140, 115, 10, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 11px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Dandi March', 140, 175);
+  ctx.textAlign = 'left';
+});
+makeComic('strip1', 4, 'STOP 3: Puducherry. Tea time at Dada\'s. STOP 4: Bhopal. Mathni. STOP 5: Shillong. Magnets!', (ctx) => {
+  ctx.fillStyle = '#ecfeff'; ctx.fillRect(0, 0, 280, 200);
+  ctx.font = '40px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('🍵', 60, 100);
+  ctx.fillText('🥛', 140, 100);
+  ctx.fillText('🧲', 220, 100);
+  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 10px sans-serif';
+  ctx.fillText('Filter', 60, 130);
+  ctx.fillText('Churn', 140, 130);
+  ctx.fillText('Magnet', 220, 130);
+  ctx.fillText('Bharat Yatra ki Yaadgar!', 140, 175);
+  ctx.textAlign = 'left';
+});
+
+makeComic('strip2', 1, 'Farmers beat wheat stalks against a wooden log. Grains fall out. That\'s THRESHING.', (ctx) => {
+  ctx.fillStyle = '#fef3c7'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 80, 140, '#15803d', 'Farmer');
+  // stalks
+  ctx.fillStyle = '#92400e';
+  for (let i = 0; i < 6; i++) {
+    ctx.fillRect(180 + i * 10, 100, 3, 60);
+  }
+  // grains falling
+  ctx.fillStyle = '#fbbf24';
+  for (let i = 0; i < 10; i++) {
+    ctx.beginPath();
+    ctx.arc(180 + Math.random() * 70, 170 + Math.random() * 10, 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 11px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('THRESHING', 140, 30);
+  ctx.textAlign = 'left';
+});
+makeComic('strip2', 2, 'After threshing — grains + light husk are mixed. Use the SOOP and the WIND!', (ctx) => {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, 280, 200);
+  // soop
+  ctx.fillStyle = '#92400e';
+  ctx.beginPath();
+  ctx.moveTo(110, 100); ctx.quadraticCurveTo(140, 130, 170, 100);
+  ctx.lineTo(165, 95); ctx.quadraticCurveTo(140, 120, 115, 95);
+  ctx.closePath();
+  ctx.fill();
+  // grain + husk
+  ctx.fillStyle = '#fbbf24';
+  for (let i = 0; i < 8; i++) {
+    ctx.beginPath();
+    ctx.arc(120 + i * 5, 115, 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 11px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('SOOP', 140, 80);
+  ctx.fillText('(bamboo tray)', 140, 160);
+  ctx.textAlign = 'left';
+});
+makeComic('strip2', 3, 'The farmer tosses the mix up. Wind blows. Light husk flies away. Heavy grain falls straight down!', (ctx) => {
+  ctx.fillStyle = '#fef3c7'; ctx.fillRect(0, 0, 280, 200);
+  // wind arrow
+  ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(10, 60); ctx.lineTo(60, 60);
+  ctx.stroke();
+  ctx.fillStyle = '#0284c7';
+  ctx.beginPath();
+  ctx.moveTo(60, 60); ctx.lineTo(50, 54); ctx.lineTo(50, 66); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 11px sans-serif';
+  ctx.fillText('WIND →', 12, 50);
+  // husk flying
+  ctx.fillStyle = '#fef3c7';
+  for (let i = 0; i < 20; i++) {
+    ctx.beginPath();
+    ctx.arc(150 + i * 5, 80 + Math.random() * 20, 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  // grains falling
+  ctx.fillStyle = '#fbbf24';
+  for (let i = 0; i < 12; i++) {
+    ctx.beginPath();
+    ctx.arc(130 + Math.random() * 30, 130 + Math.random() * 30, 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  // ground line
+  ctx.strokeStyle = '#a16207'; ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(0, 175); ctx.lineTo(280, 175);
+  ctx.stroke();
+});
+makeComic('strip2', 4, 'WINNOWING done! Light husk has flown away. Pure grain is left in a pile. Ready for the kitchen!', (ctx) => {
+  ctx.fillStyle = '#dcfce7'; ctx.fillRect(0, 0, 280, 200);
+  // grain pile
+  ctx.fillStyle = '#fbbf24';
+  ctx.beginPath();
+  ctx.ellipse(140, 130, 80, 25, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 14px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Pure grain ✓', 140, 60);
+  ctx.font = '11px sans-serif';
+  ctx.fillText('Ready to be ground into flour', 140, 170);
+  ctx.textAlign = 'left';
+});
+
+makeComic('strip3', 1, 'At Sabarmati Ashram. "Where does salt come from?" asks Malli.', (ctx) => {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 80, 140, '#db2777', 'Malli');
+  drawKid(ctx, 180, 140, '#15803d', 'Ghanshyam');
+  bubble(ctx, 20, 30, 'Where does\nsalt come\nfrom?', 110);
+});
+makeComic('strip3', 2, '"From the sea! Pour seawater into shallow pits. Sun evaporates water. Pure salt stays."', (ctx) => {
+  ctx.fillStyle = '#bae6fd'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#fde047';
+  ctx.beginPath(); ctx.arc(50, 50, 20, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = '#a16207';
+  ctx.fillRect(0, 120, 280, 80);
+  // salt pit
+  ctx.fillStyle = '#78350f';
+  ctx.fillRect(60, 130, 160, 30);
+  ctx.fillStyle = 'rgba(56, 189, 248, 0.6)';
+  ctx.fillRect(62, 135, 156, 18);
+  // vapor
+  ctx.fillStyle = 'rgba(248, 250, 252, 0.7)';
+  for (let i = 0; i < 6; i++) {
+    ctx.beginPath();
+    ctx.arc(80 + i * 25, 105 - Math.random() * 10, 4, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 11px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Salt pit', 140, 175);
+  ctx.textAlign = 'left';
+});
+makeComic('strip3', 3, '"Gandhi-ji walked 240 km from here to Dandi beach — to make salt by evaporating seawater. The Dandi March!"', (ctx) => {
+  ctx.fillStyle = '#fef3c7'; ctx.fillRect(0, 0, 280, 200);
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('1930 — DANDI MARCH', 140, 50);
+  ctx.font = 'bold 11px sans-serif';
+  ctx.fillText('240 km walk', 140, 75);
+  // simple footprints
+  ctx.font = '14px sans-serif';
+  ctx.fillText('👣 👣 👣 👣 👣 👣', 140, 110);
+  ctx.fillText('Sabarmati → Dandi', 140, 145);
+  ctx.fillText('Then made salt from seawater', 140, 170);
+  ctx.textAlign = 'left';
+});
+makeComic('strip3', 4, 'Today\'s salt — same method, just at industrial scale. Sambhar Lake in Rajasthan is another big source.', (ctx) => {
+  ctx.fillStyle = '#dcfce7'; ctx.fillRect(0, 0, 280, 200);
+  ctx.font = '50px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('🧂', 100, 110);
+  ctx.fillText('🌊', 180, 110);
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 11px sans-serif';
+  ctx.fillText('Salt', 100, 140);
+  ctx.fillText('Sea', 180, 140);
+  ctx.fillText('All salt = once dissolved in seawater!', 140, 175);
+  ctx.textAlign = 'left';
+});
+
+makeComic('strip4', 1, 'In Puducherry, Dada makes tea. The leaves swirl in the boiling water.', (ctx) => {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 80, 140, '#7e22ce', 'Dada');
+  // saucepan with tea
+  ctx.fillStyle = '#92400e';
+  ctx.fillRect(160, 130, 80, 40);
+  ctx.fillStyle = '#a16207';
+  ctx.fillRect(165, 125, 70, 8);
+  // leaves
+  ctx.fillStyle = '#15803d';
+  for (let i = 0; i < 8; i++) {
+    ctx.beginPath();
+    ctx.arc(170 + Math.random() * 60, 138 + Math.random() * 25, 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  // steam
+  ctx.fillStyle = 'rgba(248, 250, 252, 0.7)';
+  for (let i = 0; i < 4; i++) {
+    ctx.beginPath();
+    ctx.arc(180 + i * 15, 100 - Math.random() * 20, 4, 0, Math.PI * 2);
+    ctx.fill();
+  }
+});
+makeComic('strip4', 2, '"How do you remove the tea leaves?" "First — let them SETTLE. That\'s sedimentation."', (ctx) => {
+  ctx.fillStyle = '#fef3c7'; ctx.fillRect(0, 0, 280, 200);
+  // saucepan
+  ctx.fillStyle = '#92400e';
+  ctx.fillRect(80, 90, 120, 80);
+  ctx.fillStyle = '#a16207';
+  ctx.fillRect(85, 100, 110, 60);
+  // tea (settled with leaves at bottom)
+  ctx.fillStyle = '#15803d';
+  for (let i = 0; i < 12; i++) {
+    ctx.beginPath();
+    ctx.arc(95 + Math.random() * 90, 155 + Math.random() * 4, 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 11px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Settled tea leaves ↓', 140, 60);
+  ctx.fillText('SEDIMENTATION', 140, 195);
+  ctx.textAlign = 'left';
+});
+makeComic('strip4', 3, '"Now tilt and pour the tea — leaves stay back. That\'s DECANTATION."', (ctx) => {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, 280, 200);
+  // tilted pan
+  ctx.save();
+  ctx.translate(100, 130);
+  ctx.rotate(-0.4);
+  ctx.fillStyle = '#92400e';
+  ctx.fillRect(-40, -30, 80, 50);
+  ctx.fillStyle = '#a16207';
+  ctx.fillRect(-35, -25, 70, 40);
+  ctx.restore();
+  // pouring stream
+  ctx.strokeStyle = '#a16207'; ctx.lineWidth = 6; ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(140, 120); ctx.lineTo(180, 160);
+  ctx.stroke();
+  // cup
+  ctx.fillStyle = '#cbd5e1';
+  ctx.fillRect(170, 160, 60, 35);
+  ctx.fillStyle = '#a16207';
+  ctx.fillRect(173, 163, 54, 30);
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 11px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('DECANTATION', 140, 30);
+  ctx.textAlign = 'left';
+});
+makeComic('strip4', 4, '"But for clean tea — use a STRAINER. That\'s FILTRATION." Three methods, one cup of chai!', (ctx) => {
+  ctx.fillStyle = '#dcfce7'; ctx.fillRect(0, 0, 280, 200);
+  // strainer
+  ctx.fillStyle = '#cbd5e1';
+  ctx.beginPath();
+  ctx.ellipse(140, 100, 50, 12, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 2;
+  ctx.stroke();
+  // mesh
+  ctx.strokeStyle = '#475569'; ctx.lineWidth = 1;
+  for (let i = -45; i < 45; i += 5) {
+    ctx.beginPath();
+    ctx.moveTo(140 + i, 95); ctx.lineTo(140 + i, 105);
+    ctx.stroke();
+  }
+  // leaves on strainer
+  ctx.fillStyle = '#15803d';
+  for (let i = 0; i < 6; i++) {
+    ctx.beginPath();
+    ctx.arc(115 + i * 10, 99, 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  // tea below
+  ctx.fillStyle = '#a16207';
+  ctx.fillRect(110, 130, 60, 50);
+  ctx.fillStyle = '#1e293b'; ctx.font = 'bold 11px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('FILTRATION', 140, 60);
+  ctx.fillText('Clear tea ✓', 140, 195);
+  ctx.textAlign = 'left';
+});
+
+makeComic('strip5', 1, 'In Bhopal at Maasi\'s house — a painting of a lady churning curd with a mathni.', (ctx) => {
+  ctx.fillStyle = '#fef3c7'; ctx.fillRect(0, 0, 280, 200);
+  drawKid(ctx, 80, 140, '#7e22ce', 'Maasi');
+  // mathni rope and stick
+  ctx.strokeStyle = '#92400e'; ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.moveTo(180, 60); ctx.lineTo(180, 170);
+  ctx.stroke();
+  // matka
+  ctx.fillStyle = '#a16207';
+  ctx.beginPath();
+  ctx.ellipse(180, 150, 30, 35, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = '#1c1917'; ctx.lineWidth = 1.5;
+  ctx.stroke();
+});
+makeComic('strip5', 2, 'Churning! Butter floats up. Buttermilk left behind. Both useful!', (ctx) => {
+  ctx.fillStyle = '#fef9c3'; ctx.fillRect(0, 0, 280, 200);
+  // pot with butter on top
+  ctx.fillStyle = '#a16207';
+  ctx.fillRect(80, 110, 120, 70);
+  ctx.fillStyle = '#f1f5f9';
+  ctx.fillRect(85, 115, 110, 60);
+  // butter floating
+  ctx.fillStyle = '#fef9c3';
+  ctx.beginPath();
+  ctx.ellipse(140, 125, 40, 8, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = '#a16207'; ctx.lineWidth = 1.5; ctx.stroke();
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 11px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Butter (lighter) ↑', 140, 60);
+  ctx.fillText('Buttermilk (heavier) ↓', 140, 200);
+  ctx.textAlign = 'left';
+});
+makeComic('strip5', 3, 'In Shillong: carpenter drops iron nails in sawdust. Pulls out a MAGNET!', (ctx) => {
+  ctx.fillStyle = '#fef3c7'; ctx.fillRect(0, 0, 280, 200);
+  // sawdust pile
+  ctx.fillStyle = '#92400e';
+  ctx.beginPath();
+  ctx.ellipse(140, 160, 90, 15, 0, 0, Math.PI * 2);
+  ctx.fill();
+  // nails
+  ctx.fillStyle = '#475569';
+  for (let i = 0; i < 8; i++) {
+    ctx.fillRect(90 + i * 14, 155, 1.5, 8);
+  }
+  // magnet
+  ctx.fillStyle = '#dc2626';
+  ctx.fillRect(115, 60, 25, 30);
+  ctx.fillStyle = '#3b82f6';
+  ctx.fillRect(140, 60, 25, 30);
+  ctx.fillStyle = 'white';
+  ctx.font = 'bold 12px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('N', 127, 80);
+  ctx.fillText('S', 152, 80);
+  ctx.textAlign = 'left';
+});
+makeComic('strip5', 4, 'Iron flies up to the magnet! Sawdust stays. Magnetic separation — clean and fast!', (ctx) => {
+  ctx.fillStyle = '#dcfce7'; ctx.fillRect(0, 0, 280, 200);
+  // magnet up high with nails attached
+  ctx.fillStyle = '#dc2626';
+  ctx.fillRect(115, 50, 25, 30);
+  ctx.fillStyle = '#3b82f6';
+  ctx.fillRect(140, 50, 25, 30);
+  // nails dangling
+  ctx.fillStyle = '#475569';
+  for (let i = 0; i < 6; i++) {
+    ctx.fillRect(120 + i * 8, 80, 1.5, 15);
+  }
+  // sawdust untouched below
+  ctx.fillStyle = '#92400e';
+  ctx.beginPath();
+  ctx.ellipse(140, 170, 80, 12, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#15803d';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('MAGNETIC', 140, 130);
+  ctx.fillText('SEPARATION ✓', 140, 150);
+  ctx.textAlign = 'left';
+});
+
+/* ============================================================
+   MAIN QUIZ
+   ============================================================ */
+const quizData = [
+  {
+    q: 'Which method is used to separate small stones from rice?',
+    options: ['Sieving', 'Winnowing', 'Handpicking', 'Filtration'],
+    correct: 2,
+    why: 'Small stones differ in colour &amp; shape from rice — handpicking is convenient when quantities are small.'
+  },
+  {
+    q: 'A soop (bamboo tray) and wind are used for which method?',
+    options: ['Filtration', 'Winnowing', 'Sedimentation', 'Magnetic separation'],
+    correct: 1,
+    why: 'Winnowing! Light husk blows away in the wind; heavy grains fall straight down.'
+  },
+  {
+    q: 'Bran is separated from wheat flour using:',
+    options: ['Sieving', 'Filtration', 'Decantation', 'Evaporation'],
+    correct: 0,
+    why: 'Bran particles are larger than flour. Pass through a sieve — flour goes through, bran stays.'
+  },
+  {
+    q: 'How is common salt obtained from seawater?',
+    options: ['Filtration', 'Magnetic separation', 'Evaporation', 'Sieving'],
+    correct: 2,
+    why: 'Seawater is poured in shallow pits, sun evaporates the water, salt is left behind.'
+  },
+  {
+    q: 'Tea leaves are separated from tea using:',
+    options: ['Strainer (filtration)', 'Magnet', 'Sieve', 'Wind'],
+    correct: 0,
+    why: 'A strainer is a filter — small holes let tea pass; leaves stay.'
+  },
+  {
+    q: 'What is the residue and filtrate in filtration?',
+    options: [
+      'Residue = liquid that passes; Filtrate = solid left',
+      'Residue = solid left on filter; Filtrate = clear liquid that passes through',
+      'They are the same',
+      'Both are solid'
+    ],
+    correct: 1,
+    why: 'Residue stays ON the filter (solid). Filtrate is the clear liquid that flows through.'
+  },
+  {
+    q: 'Iron nails accidentally fall into sawdust. Quick separation:',
+    options: ['Sieve', 'Wind', 'Magnet', 'Water'],
+    correct: 2,
+    why: 'Iron is magnetic. A magnet picks the nails out cleanly. Sawdust stays.'
+  },
+  {
+    q: 'A mathni (churner) is used to separate:',
+    options: ['Salt from water', 'Butter from curd', 'Iron from sawdust', 'Stones from rice'],
+    correct: 1,
+    why: 'Churning the curd — butter (lighter) floats to the top; buttermilk left behind.'
+  },
+  {
+    q: 'Sedimentation + decantation are typically followed by:',
+    options: ['Evaporation', 'Filtration (for completeness)', 'Threshing', 'Winnowing'],
+    correct: 1,
+    why: 'Decantation alone leaves some particles — filtering after gives cleaner results.'
+  },
+  {
+    q: 'Threshing means:',
+    options: [
+      'Drying the grains',
+      'Beating stalks to separate grains',
+      'Pouring water on grains',
+      'Sieving the grains'
+    ],
+    correct: 1,
+    why: 'Threshing = striking the harvested wheat / paddy stalks to free the grains from them.'
+  }
+];
+
+const quizContainer = document.getElementById('quiz-container');
+let answeredCount = 0, score = 0;
+quizData.forEach((q, idx) => {
+  const wrap = document.createElement('div');
+  wrap.className = 'quiz-question';
+  const qText = document.createElement('div');
+  qText.className = 'q-text';
+  qText.textContent = `Q${idx + 1}. ${q.q}`;
+  wrap.appendChild(qText);
+  q.options.forEach((opt, i) => {
+    const o = document.createElement('div');
+    o.className = 'quiz-option';
+    o.textContent = opt;
+    o.addEventListener('click', () => {
+      if (wrap.dataset.answered) return;
+      wrap.dataset.answered = 'true';
+      answeredCount++;
+      const fb = document.createElement('div');
+      fb.className = 'quiz-feedback show';
+      if (i === q.correct) {
+        o.classList.add('correct'); fb.classList.add('correct');
+        fb.innerHTML = `<b>✅ Yes!</b> ${q.why}`;
+        score++;
+      } else {
+        o.classList.add('wrong');
+        wrap.querySelectorAll('.quiz-option')[q.correct].classList.add('correct');
+        fb.classList.add('wrong');
+        fb.innerHTML = `<b>🤔 Not quite.</b> ${q.why}`;
+      }
+      wrap.appendChild(fb);
+      if (answeredCount === quizData.length) {
+        const s = document.getElementById('quiz-score');
+        s.style.display = 'block';
+        s.innerHTML = `Score: <b>${score} / ${quizData.length}</b><br>${score === quizData.length ? '🏆 Separation Master!' : score >= quizData.length * 0.7 ? '👏 Great work!' : '📚 Re-read and try again!'}`;
+      }
+    });
+    wrap.appendChild(o);
+  });
+  quizContainer.appendChild(wrap);
+});
+</script>
+
+<script src="smile-chapter-assessment.js"></script>
+</body>
+</html>
