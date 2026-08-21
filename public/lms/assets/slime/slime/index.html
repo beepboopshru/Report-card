@@ -139,6 +139,7 @@
     .hero h2 { font-size: 20px; }
   }
 </style>
+<link rel="stylesheet" href="smile-grade-report.css">
 </head>
 <body>
 
@@ -159,6 +160,7 @@
     <p>You'll learn to ask questions like a scientist, measure like an engineer, and observe nature with the eyes of a curious traveller. Each chapter blends activities, real-world examples, and thoughtful exercises so that science becomes something you do — not just something you read.</p>
     <p>Use the table of contents below to jump straight to any chapter, or browse the cards to discover what each one is about. Happy exploring!</p>
     <div class="emoji-row">🔍 🌿 🧪 🌌 ⚙️</div>
+    <a class="grade-report-entry" href="#gradeReport">View Overall Grade Report</a>
   </section>
 
   <h2 class="section-title">📑 Table of Contents</h2>
@@ -268,11 +270,59 @@
 
   </div>
 
+  <section class="grade-report-shell" id="gradeReport">
+    <div class="grade-report-heading">
+      <div>
+        <span class="grade-report-kicker">Grade 6 Science</span>
+        <h2>Overall Learning Report &amp; Skills Rubric</h2>
+        <p>Review progress across all 12 chapters and record the learner's science skills.</p>
+      </div>
+      <div class="grade-report-actions">
+        <button type="button" class="grade-report-button secondary" data-refresh-report>Refresh Report</button>
+        <button type="button" class="grade-report-button" data-print-report>Print / Save PDF</button>
+      </div>
+    </div>
+
+    <div class="student-report-fields" aria-label="Student details">
+      <label>Student Name<input type="text" data-student-name placeholder="Enter student name"></label>
+      <label>Student ID<input type="text" data-student-id placeholder="Enter student ID"></label>
+      <label>School<input type="text" data-student-school placeholder="Enter school name"></label>
+    </div>
+
+    <div class="grade-report-summary" data-report-summary></div>
+    <div class="grade-report-table-wrap" data-chapter-report></div>
+
+    <section class="overall-rubric">
+      <div class="rubric-intro">
+        <div>
+          <span class="grade-report-kicker">Teacher Evaluation</span>
+          <h3>Overall Science Skills Rubric</h3>
+          <p>Rate the evidence demonstrated across classroom activities and all completed chapters.</p>
+        </div>
+        <div class="rubric-total" data-rubric-total>Not rated</div>
+      </div>
+      <div class="rubric-scale" aria-label="Rubric level guide">
+        <span><b>1</b> Emerging</span><span><b>2</b> Developing</span>
+        <span><b>3</b> Proficient</span><span><b>4</b> Advanced</span>
+      </div>
+      <div data-rubric-dimensions></div>
+      <label class="rubric-notes">Teacher Comments
+        <textarea data-rubric-notes placeholder="Record strengths, evidence, support required, and next steps."></textarea>
+      </label>
+      <div class="grade-report-actions rubric-save-actions">
+        <button type="button" class="grade-report-button" data-save-rubric>Save Overall Rubric</button>
+        <span class="rubric-save-status" data-rubric-status aria-live="polite"></span>
+      </div>
+    </section>
+  </section>
+
 </main>
 
 <footer>
   📘 Grade 6 Science — Curiosity • Interactive Textbook Home Page
 </footer>
+
+<script src="smile-grade-report.js"></script>
 
 </body>
 </html>

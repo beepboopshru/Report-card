@@ -1,0 +1,189 @@
+.grade-report-shell {
+  margin-top: 34px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  box-shadow: 0 12px 34px rgba(15, 23, 42, 0.1);
+  overflow: hidden;
+}
+
+.grade-report-entry {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: #1d4ed8;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.grade-report-entry:hover { background: #173b67; color: #ffffff; }
+
+.grade-report-heading,
+.rubric-intro {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.grade-report-heading {
+  padding: 28px;
+  color: #ffffff;
+  background: linear-gradient(120deg, #173b67, #2563eb 62%, #b78600);
+}
+
+.grade-report-heading h2,
+.rubric-intro h3 {
+  margin: 4px 0 7px;
+  letter-spacing: 0;
+}
+
+.grade-report-heading p,
+.rubric-intro p {
+  margin: 0;
+}
+
+.grade-report-kicker {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.grade-report-actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.grade-report-button {
+  border: 0;
+  border-radius: 8px;
+  padding: 11px 15px;
+  background: #2563eb;
+  color: #ffffff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.grade-report-button:hover { background: #1d4ed8; }
+.grade-report-button.secondary { background: #ffffff; color: #173b67; }
+
+.student-report-fields {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  padding: 24px 28px 0;
+}
+
+.student-report-fields label,
+.rubric-notes {
+  color: #334155;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.student-report-fields input,
+.rubric-notes textarea {
+  width: 100%;
+  margin-top: 6px;
+  padding: 11px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #172033;
+  font: inherit;
+}
+
+.grade-report-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+  padding: 24px 28px;
+}
+
+.grade-report-stat {
+  min-height: 108px;
+  padding: 16px;
+  border: 1px solid #dbe4ee;
+  border-top: 4px solid #2563eb;
+  border-radius: 9px;
+  background: #f8fafc;
+}
+
+.grade-report-stat span { display: block; color: #64748b; font-size: 12px; font-weight: 700; }
+.grade-report-stat strong { display: block; margin-top: 5px; color: #172033; font-size: 25px; }
+.grade-report-stat small { display: block; margin-top: 3px; color: #64748b; }
+.grade-report-stat.gain { border-top-color: #16a34a; }
+.grade-report-stat.pending { border-top-color: #f59e0b; }
+
+.grade-report-table-wrap { padding: 0 28px 28px; overflow-x: auto; }
+.grade-report-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.grade-report-table th,
+.grade-report-table td { padding: 11px 10px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+.grade-report-table th { background: #eff6ff; color: #173b67; font-size: 12px; }
+.grade-report-table td.number { font-weight: 800; color: #2563eb; }
+.report-status { display: inline-block; padding: 4px 8px; border-radius: 999px; font-size: 11px; font-weight: 800; }
+.report-status.complete { background: #dcfce7; color: #166534; }
+.report-status.in-progress { background: #fef3c7; color: #92400e; }
+.report-status.not-started { background: #e2e8f0; color: #475569; }
+
+.overall-rubric { border-top: 8px solid #eff6ff; padding: 28px; }
+.rubric-intro h3 { color: #173b67; font-size: 23px; }
+.rubric-intro p { color: #64748b; font-size: 14px; }
+.rubric-total { min-width: 150px; padding: 13px 16px; border: 1px solid #bfdbfe; border-radius: 8px; background: #eff6ff; color: #1d4ed8; text-align: center; font-weight: 800; }
+.rubric-scale { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 20px 0; }
+.rubric-scale span { padding: 9px; border-radius: 8px; background: #f1f5f9; color: #475569; font-size: 12px; text-align: center; }
+.rubric-scale b { color: #1d4ed8; }
+.overall-rubric-row { display: grid; grid-template-columns: minmax(190px, 1fr) minmax(320px, 1.7fr); gap: 18px; padding: 17px 0; border-top: 1px solid #e2e8f0; }
+.overall-rubric-row h4 { margin: 0 0 5px; color: #172033; font-size: 15px; }
+.overall-rubric-row p { margin: 0; color: #64748b; font-size: 12px; }
+.rubric-rating-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+.rubric-rating-options button { min-height: 48px; border: 1px solid #cbd5e1; border-radius: 8px; background: #ffffff; color: #334155; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; }
+.rubric-rating-options button.selected { border-color: #2563eb; background: #dbeafe; color: #1d4ed8; box-shadow: inset 0 0 0 1px #2563eb; }
+.rubric-notes { display: block; margin-top: 18px; }
+.rubric-notes textarea { min-height: 105px; resize: vertical; }
+.rubric-save-actions { margin-top: 14px; }
+.rubric-save-status { color: #166534; font-size: 13px; font-weight: 700; }
+
+@media (max-width: 760px) {
+  .grade-report-heading,
+  .rubric-intro { flex-direction: column; }
+  .student-report-fields,
+  .grade-report-summary { grid-template-columns: 1fr 1fr; }
+  .overall-rubric-row { grid-template-columns: 1fr; }
+  .rubric-rating-options,
+  .rubric-scale { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 480px) {
+  .student-report-fields,
+  .grade-report-summary { grid-template-columns: 1fr; }
+  .grade-report-heading,
+  .student-report-fields,
+  .grade-report-summary,
+  .grade-report-table-wrap,
+  .overall-rubric { padding-left: 18px; padding-right: 18px; }
+}
+
+@media print {
+  body { background: #ffffff; }
+  body > header,
+  body > main > .hero,
+  body > main > .section-title,
+  body > main > .toc,
+  body > main > .chapters-grid,
+  body > footer,
+  .grade-report-actions { display: none !important; }
+  main { max-width: none; padding: 0; }
+  .grade-report-shell { margin: 0; border: 0; box-shadow: none; }
+  .grade-report-heading { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .overall-rubric-row { break-inside: avoid; }
+}
