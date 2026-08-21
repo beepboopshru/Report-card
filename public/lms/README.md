@@ -42,7 +42,10 @@ Local patches (keep when re-vendoring):
    `convex/lib/lmsCatalog.ts`. It has 12 chapters rather than robotics
    sessions/5E groups, so it is assigned with a single course checkbox. Its
    chapter assessment/rubric state and printable overall report are handled by
-   the `smile-chapter-assessment.*` and `smile-grade-report.*` assets.
+   the `smile-chapter-assessment.*` and `smile-grade-report.*` assets. Chapter
+   question-paper packets are downloaded as PDFs with their teacher rubrics;
+   the locally vendored `jspdf.umd.min.js` (jsPDF 4.2.1, MIT license) generates
+   those files without a CDN dependency.
 
 To update content: re-run the sparse clone of the upstream repo, copy
 `index.html css/ js/ pages/` over this directory, and re-apply the patches above.

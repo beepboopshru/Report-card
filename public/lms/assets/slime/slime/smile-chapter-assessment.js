@@ -333,16 +333,215 @@
     URL.revokeObjectURL(url);
   };
 
+  let pdfLibraryPromise;
+  const loadPdfLibrary = () => {
+    if (window.jspdf?.jsPDF) return Promise.resolve(window.jspdf.jsPDF);
+    if (pdfLibraryPromise) return pdfLibraryPromise;
+    pdfLibraryPromise = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "jspdf.umd.min.js";
+      script.onload = () =>
+        window.jspdf?.jsPDF
+          ? resolve(window.jspdf.jsPDF)
+          : reject(new Error("jsPDF did not initialize"));
+      script.onerror = () => reject(new Error("Unable to load the PDF library"));
+      document.head.appendChild(script);
+    });
+    return pdfLibraryPromise;
+  };
+
+  const pdfText = (value) =>
+    String(value)
+      .replaceAll("–", "-")
+      .replaceAll("—", "-")
+      .replaceAll("’", "'")
+      .replaceAll("“", '"')
+      .replaceAll("”", '"')
+      .replaceAll("·", "-");
+
+  const downloadAssessmentPdf = async (button) => {
+    const originalLabel = button.textContent;
+    button.disabled = true;
+    button.textContent = "Creating PDF...";
+    try {
+      const JsPdf = await loadPdfLibrary();
+      const pdf = new JsPdf({ orientation: "portrait", unit: "mm", format: "a4" });
+      const pageWidth = 210;
+      const pageHeight = 297;
+      const margin = 14;
+      const contentWidth = pageWidth - margin * 2;
+      let y = margin;
+
+      const addPage = () => {
+        pdf.addPage();
+        y = margin;
+      };
+      const ensureSpace = (height) => {
+        if (y + height > pageHeight - 16) addPage();
+      };
+      const writeWrapped = (text, x, maxWidth, lineHeight = 4.6) => {
+        const lines = pdf.splitTextToSize(pdfText(text), maxWidth);
+        pdf.text(lines, x, y);
+        y += lines.length * lineHeight;
+      };
+
+      pdf.setFillColor(23, 59, 103);
+      pdf.roundedRect(margin, y, contentWidth, 30, 3, 3, "F");
+      pdf.setTextColor(255, 255, 255);
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(9);
+      pdf.text("GRADE 6 SCIENCE - QUESTION PAPER", margin + 6, y + 8);
+      pdf.setFontSize(17);
+      const titleLines = pdf.splitTextToSize(
+        pdfText(`Chapter ${chapterNumber}: ${chapterTitle}`),
+        contentWidth - 12,
+      );
+      pdf.text(titleLines, margin + 6, y + 17);
+      y += 37;
+
+      pdf.setTextColor(23, 32, 51);
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(10);
+      pdf.text("Student Name: ______________________________", margin, y);
+      pdf.text("Student ID: __________________", 117, y);
+      y += 8;
+      pdf.text("Date: __________________", margin, y);
+      pdf.text(`Score: ______ / ${questions.length}`, 117, y);
+      y += 9;
+      pdf.setFillColor(239, 246, 255);
+      pdf.setDrawColor(147, 197, 253);
+      pdf.roundedRect(margin, y - 4, contentWidth, 12, 2, 2, "FD");
+      pdf.setFontSize(9);
+      pdf.text(
+        "Instructions: Circle one answer for every question. Each question carries 1 mark.",
+        margin + 4,
+        y + 3,
+      );
+      y += 14;
+
+      questions.forEach((item, questionIndex) => {
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(10.5);
+        const questionLines = pdf.splitTextToSize(
+          pdfText(`${questionIndex + 1}. ${item.question}`),
+          contentWidth - 6,
+        );
+        const optionLines = item.options.flatMap((option, optionIndex) =>
+          pdf.splitTextToSize(
+            `${String.fromCharCode(65 + optionIndex)}. ${pdfText(option)}`,
+            contentWidth - 14,
+          ),
+        );
+        const blockHeight = questionLines.length * 4.8 + optionLines.length * 4.2 + 8;
+        ensureSpace(blockHeight);
+        pdf.setFillColor(248, 250, 252);
+        pdf.setDrawColor(216, 226, 238);
+        pdf.roundedRect(margin, y - 4, contentWidth, blockHeight, 2, 2, "FD");
+        pdf.text(questionLines, margin + 4, y + 1);
+        y += questionLines.length * 4.8 + 2;
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(9.5);
+        item.options.forEach((option, optionIndex) => {
+          writeWrapped(
+            `${String.fromCharCode(65 + optionIndex)}. ${option}`,
+            margin + 8,
+            contentWidth - 14,
+            4.2,
+          );
+        });
+        y += 5;
+      });
+
+      addPage();
+      pdf.setFillColor(254, 243, 199);
+      pdf.setDrawColor(214, 169, 0);
+      pdf.roundedRect(margin, y, contentWidth, 25, 3, 3, "FD");
+      pdf.setTextColor(124, 83, 0);
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(16);
+      pdf.text("Teacher Science Skills Rubric", margin + 6, y + 9);
+      pdf.setFontSize(9);
+      pdf.text(pdfText(`Chapter ${chapterNumber}: ${chapterTitle}`), margin + 6, y + 17);
+      y += 33;
+      pdf.setTextColor(23, 32, 51);
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(9);
+      pdf.text("Student Name: ______________________________", margin, y);
+      pdf.text("Date: __________________", 133, y);
+      y += 10;
+
+      rubricDimensions.forEach(([name, description], dimensionIndex) => {
+        const descriptionLines = pdf.splitTextToSize(pdfText(description), 92);
+        const rowHeight = Math.max(25, descriptionLines.length * 4 + 12);
+        ensureSpace(rowHeight + 3);
+        pdf.setDrawColor(185, 198, 214);
+        pdf.setFillColor(dimensionIndex % 2 ? 250 : 245, 248, 252);
+        pdf.roundedRect(margin, y, contentWidth, rowHeight, 2, 2, "FD");
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(10);
+        pdf.text(pdfText(name), margin + 4, y + 7);
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(8);
+        pdf.text(descriptionLines, margin + 4, y + 13);
+        rubricLabels.forEach((label, labelIndex) => {
+          const x = 111 + labelIndex * 21;
+          pdf.rect(x, y + 6, 5, 5);
+          pdf.setFontSize(6.8);
+          pdf.text(`${labelIndex + 1} ${label}`, x - 5, y + 17, {
+            align: "center",
+            maxWidth: 20,
+          });
+        });
+        y += rowHeight + 3;
+      });
+
+      ensureSpace(45);
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(9);
+      pdf.text("Teacher Comments", margin, y + 3);
+      pdf.setDrawColor(148, 163, 184);
+      pdf.rect(margin, y + 7, contentWidth, 25);
+      y += 43;
+      pdf.line(margin, y, margin + 70, y);
+      pdf.line(pageWidth - margin - 55, y, pageWidth - margin, y);
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(8);
+      pdf.text("Teacher Signature", margin + 24, y + 5, { align: "center" });
+      pdf.text("Date", pageWidth - margin - 27, y + 5, { align: "center" });
+
+      const totalPages = pdf.getNumberOfPages();
+      for (let page = 1; page <= totalPages; page += 1) {
+        pdf.setPage(page);
+        pdf.setTextColor(100, 116, 139);
+        pdf.setFontSize(7.5);
+        pdf.text(
+          `Grade 6 Science - Chapter ${chapterNumber} - Page ${page} of ${totalPages}`,
+          pageWidth / 2,
+          pageHeight - 7,
+          { align: "center" },
+        );
+      }
+
+      pdf.save(`grade-6-chapter-${chapterNumber}-question-paper-and-rubric.pdf`);
+    } catch (error) {
+      console.error(error);
+      alert("The PDF could not be created. Please reload the chapter and try again.");
+    } finally {
+      button.disabled = false;
+      button.textContent = originalLabel;
+    }
+  };
+
   const questionPaperButton = document.createElement("button");
   questionPaperButton.type = "button";
   questionPaperButton.className = "smile-question-paper-button";
-  questionPaperButton.textContent = "Download Question Paper";
+  questionPaperButton.textContent = "Download Question Paper + Rubric (PDF)";
   questionPaperButton.setAttribute(
     "aria-label",
-    `Download the Chapter ${chapterNumber} question paper`,
+    `Download the Chapter ${chapterNumber} question paper and rubric as PDF`,
   );
   questionPaperButton.addEventListener("click", () =>
-    downloadAssessmentPaper(false),
+    downloadAssessmentPdf(questionPaperButton),
   );
 
   const renderChapterRubric = () => {
@@ -381,7 +580,7 @@
       </label>
       <div class="smile-rubric-actions">
         <button type="button" class="smile-rubric-save" data-save-chapter-rubric>Save Chapter Rubric</button>
-        <button type="button" class="smile-rubric-download" data-download-assessment>Download Assessment + Rubric</button>
+        <button type="button" class="smile-rubric-download" data-download-assessment>Download Assessment + Rubric PDF</button>
         <span data-chapter-rubric-status aria-live="polite"></span>
       </div>`;
 
@@ -424,9 +623,10 @@
       }));
       status.textContent = `Saved · ${average.toFixed(2)}/4 (${rubricLevel(average)})`;
     });
-    rubric
-      .querySelector("[data-download-assessment]")
-      .addEventListener("click", () => downloadAssessmentPaper(true));
+    const rubricDownloadButton = rubric.querySelector("[data-download-assessment]");
+    rubricDownloadButton.addEventListener("click", () =>
+      downloadAssessmentPdf(rubricDownloadButton),
+    );
 
     const learningReport = document.querySelector("#smileLearningReport");
     (learningReport || quizScore).insertAdjacentElement("afterend", rubric);
