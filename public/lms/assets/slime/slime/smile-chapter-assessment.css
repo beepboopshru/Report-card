@@ -204,6 +204,27 @@ body.smile-assessment-locked {
   font-weight: 800;
 }
 
+.smile-question-paper-button {
+  position: fixed;
+  right: 18px;
+  bottom: 70px;
+  z-index: 900;
+  border: 1px solid var(--smile-blue);
+  border-radius: 999px;
+  padding: 11px 16px;
+  background: #fff;
+  color: var(--smile-blue-dark);
+  box-shadow: 0 8px 24px rgba(15, 35, 68, 0.2);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.smile-question-paper-button:hover {
+  background: #eaf3ff;
+}
+
 .smile-learning-report {
   margin-top: 18px;
   padding: 20px;
@@ -340,11 +361,17 @@ body.smile-assessment-locked {
     right: 10px;
     bottom: 10px;
   }
+
+  .smile-question-paper-button {
+    right: 10px;
+    bottom: 60px;
+  }
 }
 
 @media print {
   .smile-assessment-overlay,
-  .smile-status-button {
+  .smile-status-button,
+  .smile-question-paper-button {
     display: none !important;
   }
 }

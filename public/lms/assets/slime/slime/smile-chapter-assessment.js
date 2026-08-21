@@ -221,7 +221,7 @@
     return "Emerging";
   };
 
-  const downloadAssessmentPaper = () => {
+  const downloadAssessmentPaper = (includeRubric = true) => {
     const questionPaper = questions.map((item, questionIndex) => `<section class="paper-question">
       <h3>${questionIndex + 1}. ${escapeHtml(item.question)}</h3>
       <div class="paper-options">${item.options.map((option, optionIndex) => `<div><span>${String.fromCharCode(65 + optionIndex)}.</span> ${escapeHtml(option)}</div>`).join("")}</div>
@@ -299,7 +299,7 @@
     ${questionPaper}
     <div class="print-note">Print the complete packet double-sided when possible. The teacher rubric begins on a separate page.</div>
   </main>
-  <section class="paper-page rubric-page">
+  ${includeRubric ? `<section class="paper-page rubric-page">
     <div class="paper-label">Teacher Evaluation Sheet</div>
     <h2>Teacher Science Skills Rubric</h2>
     <p>Chapter ${chapterNumber}: ${escapeHtml(chapterTitle)}</p>
@@ -317,19 +317,33 @@
     <div class="comments"><strong>Teacher Comments</strong></div>
     <div class="signatures"><div class="signature">Teacher Signature</div><div class="signature">Date</div></div>
     <div class="print-note">Attach this teacher evaluation sheet to the student's completed chapter assessment.</div>
-  </section>
+  </section>` : ""}
 </body>
 </html>`;
     const blob = new Blob([documentHtml], { type: "text/html;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `grade-6-chapter-${chapterNumber}-assessment-and-rubric.html`;
+    link.download = includeRubric
+      ? `grade-6-chapter-${chapterNumber}-assessment-and-rubric.html`
+      : `grade-6-chapter-${chapterNumber}-question-paper.html`;
     document.body.appendChild(link);
     link.click();
     link.remove();
     URL.revokeObjectURL(url);
   };
+
+  const questionPaperButton = document.createElement("button");
+  questionPaperButton.type = "button";
+  questionPaperButton.className = "smile-question-paper-button";
+  questionPaperButton.textContent = "Download Question Paper";
+  questionPaperButton.setAttribute(
+    "aria-label",
+    `Download the Chapter ${chapterNumber} question paper`,
+  );
+  questionPaperButton.addEventListener("click", () =>
+    downloadAssessmentPaper(false),
+  );
 
   const renderChapterRubric = () => {
     const quizScore = document.querySelector("#quiz-score");
@@ -410,7 +424,9 @@
       }));
       status.textContent = `Saved · ${average.toFixed(2)}/4 (${rubricLevel(average)})`;
     });
-    rubric.querySelector("[data-download-assessment]").addEventListener("click", downloadAssessmentPaper);
+    rubric
+      .querySelector("[data-download-assessment]")
+      .addEventListener("click", () => downloadAssessmentPaper(true));
 
     const learningReport = document.querySelector("#smileLearningReport");
     (learningReport || quizScore).insertAdjacentElement("afterend", rubric);
@@ -447,6 +463,7 @@
     }).observe(quizScore, { childList: true, subtree: true, characterData: true });
   }
 
+  document.body.appendChild(questionPaperButton);
   document.body.appendChild(statusButton);
   updateStatusButton();
   renderLearningReport();
