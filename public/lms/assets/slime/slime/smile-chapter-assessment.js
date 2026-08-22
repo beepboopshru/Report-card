@@ -76,6 +76,30 @@
     overlay.querySelector("[data-start-learning]").focus();
   };
 
+  const showPreTestIntro = () => {
+    overlay.innerHTML = `<div class="smile-assessment-dialog">
+      <header class="smile-assessment-header">
+        <p class="smile-assessment-kicker">Grade 6 Science · Chapter ${chapterNumber}</p>
+        <h2 id="smileAssessmentTitle">Chapter Assessment</h2>
+        <p>${escapeHtml(chapterTitle)}</p>
+      </header>
+      <div class="smile-assessment-body smile-assessment-intro">
+        <h3>Before taking the test</h3>
+        <p>Download the printable question paper and attached teacher rubric now, or begin the online pre-test.</p>
+        <div class="smile-intro-actions">
+          <button type="button" class="smile-assessment-btn secondary" data-download-question-paper>Download Question Paper + Rubric (PDF)</button>
+          <button type="button" class="smile-assessment-btn" data-begin-pretest>Begin Pre-Test</button>
+        </div>
+      </div>
+    </div>`;
+    const downloadButton = overlay.querySelector("[data-download-question-paper]");
+    downloadButton.addEventListener("click", () =>
+      downloadAssessmentPdf(downloadButton),
+    );
+    overlay.querySelector("[data-begin-pretest]").addEventListener("click", startPreTest);
+    downloadButton.focus();
+  };
+
   const startPreTest = () => {
     const answers = Array(questions.length).fill(null);
     let current = 0;
@@ -532,18 +556,6 @@
     }
   };
 
-  const questionPaperButton = document.createElement("button");
-  questionPaperButton.type = "button";
-  questionPaperButton.className = "smile-question-paper-button";
-  questionPaperButton.textContent = "Download Question Paper + Rubric (PDF)";
-  questionPaperButton.setAttribute(
-    "aria-label",
-    `Download the Chapter ${chapterNumber} question paper and rubric as PDF`,
-  );
-  questionPaperButton.addEventListener("click", () =>
-    downloadAssessmentPdf(questionPaperButton),
-  );
-
   const renderChapterRubric = () => {
     const quizScore = document.querySelector("#quiz-score");
     if (!quizScore || document.querySelector("#smileChapterRubric")) return;
@@ -663,7 +675,6 @@
     }).observe(quizScore, { childList: true, subtree: true, characterData: true });
   }
 
-  document.body.appendChild(questionPaperButton);
   document.body.appendChild(statusButton);
   updateStatusButton();
   renderLearningReport();
@@ -672,6 +683,6 @@
   if (!record.preCompletedAt || record.preTotal !== questions.length) {
     document.body.classList.add("smile-assessment-locked");
     document.body.appendChild(overlay);
-    startPreTest();
+    showPreTestIntro();
   }
 }());
