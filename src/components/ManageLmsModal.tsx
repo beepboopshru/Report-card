@@ -1,3 +1,4 @@
+import { errorMessage } from "../lib/errors";
 import { useState } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
@@ -35,7 +36,7 @@ export default function ManageLmsModal({
       await setTeacherLevels({ teacherProfileId, levels: value });
       onClose();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Saving failed");
+      setError(errorMessage(err, "Saving failed"));
       setBusy(false);
     }
   }

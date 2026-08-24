@@ -4,7 +4,7 @@ import {
   internalQuery,
   type ActionCtx,
 } from "./_generated/server";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { internal } from "./_generated/api";
 import {
   createAccount,
@@ -286,7 +286,7 @@ export const getClassForApproval = internalQuery({
   handler: async (ctx, { classId }) => {
     await requireAdmin(ctx);
     const cls = await ctx.db.get(classId);
-    if (!cls) throw new Error("Class not found");
+    if (!cls) throw new ConvexError("Class not found");
     const students = await ctx.db
       .query("students")
       .withIndex("by_class", (q) => q.eq("classId", classId))
@@ -356,7 +356,7 @@ export const resetClassPassword = action({
       userId: Id<"users">;
     }[] = await ctx.runQuery(internal.enrollment.getClassAccounts, { classId });
     if (accounts.length === 0) {
-      throw new Error("No student logins in this class yet");
+      throw new ConvexError("No student logins in this class yet");
     }
     const password = generatePassword();
     for (const a of accounts) {
@@ -423,10 +423,10 @@ export const getStudentForReset = internalQuery({
   returns: v.object({ username: v.string(), userId: v.id("users") }),
   handler: async (ctx, { studentId }) => {
     const student = await ctx.db.get(studentId);
-    if (!student) throw new Error("Student not found");
+    if (!student) throw new ConvexError("Student not found");
     await requireOwnsClass(ctx, student.classId);
     if (!student.username || !student.userId) {
-      throw new Error("Student has no login account yet");
+      throw new ConvexError("Student has no login account yet");
     }
     return { username: student.username, userId: student.userId };
   },
@@ -437,7 +437,7 @@ export const storeInitialPassword = internalMutation({
   returns: v.null(),
   handler: async (ctx, { studentId, initialPassword }) => {
     const student = await ctx.db.get(studentId);
-    if (!student) throw new Error("Student not found");
+    if (!student) throw new ConvexError("Student not found");
     await requireOwnsClass(ctx, student.classId);
     await ctx.db.patch(studentId, { initialPassword });
     return null;

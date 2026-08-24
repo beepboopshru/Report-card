@@ -5,7 +5,7 @@ import {
   mutation,
   query,
 } from "./_generated/server";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { internal } from "./_generated/api";
 import type { Id } from "./_generated/dataModel";
 import {
@@ -22,7 +22,7 @@ function resolvePassword(chosen: string | undefined): string {
   if (chosen === undefined) return generatePassword();
   const password = chosen.trim();
   if (password.length < 8) {
-    throw new Error("Password must be at least 8 characters");
+    throw new ConvexError("Password must be at least 8 characters");
   }
   return password;
 }
@@ -46,12 +46,12 @@ export const createTeacher = action({
     const username = normalizeUsername(args.username);
     assertValidUsername(username);
     const displayName = args.displayName.trim();
-    if (displayName.length === 0) throw new Error("Display name is required");
+    if (displayName.length === 0) throw new ConvexError("Display name is required");
 
     const taken = await ctx.runQuery(internal.admin.findProfileByUsername, {
       username,
     });
-    if (taken) throw new Error("Username already taken");
+    if (taken) throw new ConvexError("Username already taken");
 
     const password = resolvePassword(args.password);
     const created = await createAccount(ctx, {
@@ -139,7 +139,7 @@ export const resetTeacherPassword = action({
       profileId: args.profileId,
     });
     if (target.role !== "teacher") {
-      throw new Error("Admin password reset must be done from the dashboard");
+      throw new ConvexError("Admin password reset must be done from the dashboard");
     }
     const password = resolvePassword(args.password);
     await modifyAccountCredentials(ctx, {
@@ -177,7 +177,7 @@ export const renameTeacherLogin = mutation({
     await requireAdmin(ctx);
     const target = await ctx.db.get(args.profileId);
     if (!target || target.role !== "teacher") {
-      throw new Error("Not a school/teacher account");
+      throw new ConvexError("Not a school/teacher account");
     }
     const username = normalizeUsername(args.username);
     assertValidUsername(username);
@@ -186,14 +186,14 @@ export const renameTeacherLogin = mutation({
       .query("profiles")
       .withIndex("by_username", (q) => q.eq("username", username))
       .unique();
-    if (taken) throw new Error("Username already taken");
+    if (taken) throw new ConvexError("Username already taken");
     const account = await ctx.db
       .query("authAccounts")
       .withIndex("providerAndAccountId", (q) =>
         q.eq("provider", "password").eq("providerAccountId", target.username),
       )
       .unique();
-    if (!account) throw new Error("Login account not found");
+    if (!account) throw new ConvexError("Login account not found");
     await ctx.db.patch(account._id, { providerAccountId: username });
     await ctx.db.patch(target.userId, { email: username });
     await ctx.db.patch(args.profileId, { username });
@@ -213,7 +213,7 @@ export const convertToFullAccount = mutation({
     await requireAdmin(ctx);
     const target = await ctx.db.get(profileId);
     if (!target || target.role !== "teacher" || target.lmsOnly !== true) {
-      throw new Error("Not a single-user (LMS only) account");
+      throw new ConvexError("Not a single-user (LMS only) account");
     }
     await ctx.db.patch(profileId, { lmsOnly: undefined });
     return null;
@@ -264,7 +264,7 @@ export const getProfileForReset = internalQuery({
   }),
   handler: async (ctx, { profileId }) => {
     const p = await ctx.db.get(profileId);
-    if (!p) throw new Error("Profile not found");
+    if (!p) throw new ConvexError("Profile not found");
     return { role: p.role, username: p.username, userId: p.userId };
   },
 });
@@ -289,10 +289,10 @@ export const patchTeacherDisabled = internalMutation({
   returns: v.id("users"),
   handler: async (ctx, { profileId, disabled }) => {
     const caller = await requireAdmin(ctx);
-    if (caller._id === profileId) throw new Error("Cannot disable yourself");
+    if (caller._id === profileId) throw new ConvexError("Cannot disable yourself");
     const target = await ctx.db.get(profileId);
-    if (!target) throw new Error("Profile not found");
-    if (target.role === "admin") throw new Error("Cannot disable an admin");
+    if (!target) throw new ConvexError("Profile not found");
+    if (target.role === "admin") throw new ConvexError("Cannot disable an admin");
     await ctx.db.patch(profileId, { disabled: disabled || undefined });
     return target.userId;
   },

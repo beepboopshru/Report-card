@@ -1,3 +1,4 @@
+import { errorMessage } from "../lib/errors";
 import { useState } from "react";
 import { useConvex, useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
@@ -50,7 +51,7 @@ export default function AdminGrades() {
       const blob = await buildWorkbookBlob(data);
       downloadBlob(blob, `${sanitizeFilename(data.className)}_grades.xlsx`);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Export failed");
+      setError(errorMessage(e, "Export failed"));
     } finally {
       setExporting(false);
     }
@@ -71,7 +72,7 @@ export default function AdminGrades() {
       const result = await convex.query(api.scores.validateImport, { grid: parsed });
       setPreview(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not read this file");
+      setError(errorMessage(err, "Could not read this file"));
     } finally {
       setBusy(false);
     }
@@ -88,7 +89,7 @@ export default function AdminGrades() {
       setGrid(null);
       setFileName("");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Import failed");
+      setError(errorMessage(err, "Import failed"));
     } finally {
       setBusy(false);
     }

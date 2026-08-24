@@ -1,3 +1,4 @@
+import { errorMessage } from "../lib/errors";
 import { useState } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -32,7 +33,7 @@ export default function SignIn() {
     try {
       assertValidUsername(normalized);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Invalid username.");
+      setError(errorMessage(err, "Invalid username."));
       setBusy(false);
       return;
     }
@@ -46,7 +47,7 @@ export default function SignIn() {
     } catch (err: unknown) {
       // Convex Auth surfaces bad credentials as an opaque server error
       // (InvalidAccountId / InvalidSecret) — never show that raw text.
-      const msg = err instanceof Error ? err.message : "";
+      const msg = errorMessage(err, "");
       setError(
         /InvalidAccountId|InvalidSecret|Server Error|Uncaught/i.test(msg)
           ? "Incorrect username or password."

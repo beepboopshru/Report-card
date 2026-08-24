@@ -4,7 +4,7 @@ import {
   internalMutation,
   internalQuery,
 } from "./_generated/server";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { internal } from "./_generated/api";
 import { createAccount } from "@convex-dev/auth/server";
 import { normalizeUsername, assertValidUsername } from "./lib/username";
@@ -35,7 +35,7 @@ export const createFirstAdmin = action({
       {},
     );
     if (adminExists) {
-      throw new Error(
+      throw new ConvexError(
         "An admin already exists. Use the admin dashboard to provision new users.",
       );
     }
@@ -43,12 +43,12 @@ export const createFirstAdmin = action({
     const username = normalizeUsername(args.username);
     assertValidUsername(username);
     const displayName = args.displayName.trim();
-    if (displayName.length === 0) throw new Error("Display name is required");
+    if (displayName.length === 0) throw new ConvexError("Display name is required");
 
     const taken = await ctx.runQuery(internal.bootstrap.findProfileByUsername, {
       username,
     });
-    if (taken) throw new Error("Username already taken");
+    if (taken) throw new ConvexError("Username already taken");
 
     const password = generatePassword();
     const created = await createAccount(ctx, {
@@ -92,13 +92,13 @@ export const createAdminFromCli = internalAction({
     const username = normalizeUsername(args.username);
     assertValidUsername(username);
     const displayName = args.displayName.trim();
-    if (displayName.length === 0) throw new Error("Display name is required");
+    if (displayName.length === 0) throw new ConvexError("Display name is required");
 
     const taken: Id<"profiles"> | null = await ctx.runQuery(
       internal.bootstrap.findProfileByUsername,
       { username },
     );
-    if (taken) throw new Error("Username already taken");
+    if (taken) throw new ConvexError("Username already taken");
 
     const password = generatePassword();
     const created = await createAccount(ctx, {

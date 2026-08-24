@@ -1,6 +1,6 @@
 import { mutation, query } from "./_generated/server";
 import type { QueryCtx, MutationCtx } from "./_generated/server";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import type { Id } from "./_generated/dataModel";
 import { requireOwnsClass, requireAdmin } from "./lib/access";
 import {
@@ -16,7 +16,7 @@ async function assertScoringAllowed(
   kitId: Id<"kits">,
 ) {
   const student = await ctx.db.get(studentId);
-  if (!student) throw new Error("Student not found");
+  if (!student) throw new ConvexError("Student not found");
   const { profile } = await requireOwnsClass(ctx, student.classId);
   const link = await ctx.db
     .query("classKits")
@@ -24,7 +24,7 @@ async function assertScoringAllowed(
       q.eq("classId", student.classId).eq("kitId", kitId),
     )
     .unique();
-  if (!link) throw new Error("Kit not in this class's curriculum");
+  if (!link) throw new ConvexError("Kit not in this class's curriculum");
   if (profile.role !== "admin") {
     const assigned = await ctx.db
       .query("assignments")
@@ -32,7 +32,7 @@ async function assertScoringAllowed(
         q.eq("teacherProfileId", profile._id).eq("kitId", kitId),
       )
       .unique();
-    if (!assigned) throw new Error("Kit not assigned to you");
+    if (!assigned) throw new ConvexError("Kit not assigned to you");
   }
   return profile;
 }
@@ -60,7 +60,7 @@ export const upsert = mutation({
   handler: async (ctx, args) => {
     const profile = await assertScoringAllowed(ctx, args.studentId, args.kitId);
     for (const [k, val] of Object.entries(args.criterionScores)) {
-      if (![1, 2, 3, 4].includes(val)) throw new Error(`Score for ${k} must be 1-4`);
+      if (![1, 2, 3, 4].includes(val)) throw new ConvexError(`Score for ${k} must be 1-4`);
     }
     const existing = await ctx.db
       .query("scores")
@@ -244,7 +244,7 @@ export const exportClassGrades = query({
   handler: async (ctx, { classId }) => {
     await requireAdmin(ctx);
     const cls = await ctx.db.get(classId);
-    if (!cls) throw new Error("Class not found");
+    if (!cls) throw new ConvexError("Class not found");
 
     const students = await ctx.db
       .query("students")
@@ -313,20 +313,20 @@ export const exportClassGrades = query({
 // runs the pure planner. Shared by validateImport and applyImport.
 async function planFromGrid(ctx: QueryCtx | MutationCtx, grid: Grid) {
   const target = readGridTarget(grid);
-  if ("error" in target) throw new Error(target.error);
+  if ("error" in target) throw new ConvexError(target.error);
   const classId = target.classId as Id<"classes">;
   const kitId = target.kitId as Id<"kits">;
 
   const cls = await ctx.db.get(classId);
-  if (!cls) throw new Error("Class not found");
+  if (!cls) throw new ConvexError("Class not found");
   const kit = await ctx.db.get(kitId);
-  if (!kit) throw new Error("Kit not found");
+  if (!kit) throw new ConvexError("Kit not found");
 
   const link = await ctx.db
     .query("classKits")
     .withIndex("by_class_and_kit", (q) => q.eq("classId", classId).eq("kitId", kitId))
     .unique();
-  if (!link) throw new Error("This kit is not in the class's curriculum — add it first.");
+  if (!link) throw new ConvexError("This kit is not in the class's curriculum — add it first.");
 
   const rubric = await ctx.db
     .query("rubrics")

@@ -1,5 +1,5 @@
 import { mutation, query } from "./_generated/server";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { requireTeacher } from "./lib/access";
 
 const sectionValidator = v.object({
@@ -71,13 +71,13 @@ export const save = mutation({
       ["timings", "School timings"],
     ];
     for (const [key, label] of required) {
-      if (!details[key]) throw new Error(`${label} is required`);
+      if (!details[key]) throw new ConvexError(`${label} is required`);
     }
     if (
       !Number.isInteger(details.studentsRegistered) ||
       details.studentsRegistered < 1
     ) {
-      throw new Error("Number of students registered must be a positive number");
+      throw new ConvexError("Number of students registered must be a positive number");
     }
     const existing = await ctx.db
       .query("schoolDetails")

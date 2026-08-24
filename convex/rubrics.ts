@@ -1,5 +1,5 @@
 import { mutation, query } from "./_generated/server";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { requireAdmin, requireProfile } from "./lib/access";
 
 export const getForKit = query({
@@ -30,7 +30,7 @@ export const update = mutation({
   },
   handler: async (ctx, { kitId, criteria }) => {
     await requireAdmin(ctx);
-    if (criteria.length !== 6) throw new Error("Rubric must have exactly 6 criteria");
+    if (criteria.length !== 6) throw new ConvexError("Rubric must have exactly 6 criteria");
     const existing = await ctx.db
       .query("rubrics")
       .withIndex("by_kit", (q) => q.eq("kitId", kitId))

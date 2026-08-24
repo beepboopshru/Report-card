@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { parseCsv } from "./csv";
+import { parseCsv, toCsv } from "./csv";
 
 describe("parseCsv", () => {
   it("parses simple rows", () => {
@@ -43,5 +43,15 @@ describe("parseCsv", () => {
       ["a", "b"],
       ["c", "d"],
     ]);
+  });
+});
+
+describe("toCsv", () => {
+  it("round-trips cells containing commas, quotes, and newlines", () => {
+    const rows = [
+      ["Account", "Username", "Password"],
+      ['St. Mary\'s, "Main" Branch', "abps_sidhi", 'p"a,ss\nword'],
+    ];
+    expect(parseCsv(toCsv(rows))).toEqual(rows);
   });
 });

@@ -1,3 +1,4 @@
+import { errorMessage } from "../lib/errors";
 import { useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
@@ -41,7 +42,7 @@ export default function SchoolSetupForm() {
         timings: timings.trim(),
       });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not save");
+      setError(errorMessage(err, "Could not save"));
       setSaving(false);
     }
   }

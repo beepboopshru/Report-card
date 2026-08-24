@@ -1,5 +1,5 @@
 import { mutation, query } from "./_generated/server";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { requireOwnsClass, requireProfile } from "./lib/access";
 
 export const listForClass = query({
@@ -30,7 +30,7 @@ export const add = mutation({
           q.eq("teacherProfileId", profile._id).eq("kitId", kitId),
         )
         .unique();
-      if (!assigned) throw new Error("This kit is not assigned to you");
+      if (!assigned) throw new ConvexError("This kit is not assigned to you");
     }
 
     const existing = await ctx.db

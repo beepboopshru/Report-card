@@ -1,5 +1,5 @@
 import { mutation, query } from "./_generated/server";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { requireOwnsClass } from "./lib/access";
 
 export const listForClass = query({
@@ -61,7 +61,7 @@ export const bulkCreate = mutation({
   returns: v.object({ added: v.number(), skipped: v.number() }),
   handler: async (ctx, { classId, rows }) => {
     await requireOwnsClass(ctx, classId);
-    if (rows.length > 200) throw new Error("Too many rows (max 200)");
+    if (rows.length > 200) throw new ConvexError("Too many rows (max 200)");
     const existing = await ctx.db
       .query("students")
       .withIndex("by_class", (q) => q.eq("classId", classId))
@@ -96,7 +96,7 @@ export const update = mutation({
   args: { studentId: v.id("students"), name: v.string(), rollNo: v.optional(v.string()) },
   handler: async (ctx, { studentId, name, rollNo }) => {
     const student = await ctx.db.get(studentId);
-    if (!student) throw new Error("Student not found");
+    if (!student) throw new ConvexError("Student not found");
     await requireOwnsClass(ctx, student.classId);
     await ctx.db.patch(studentId, { name, rollNo });
   },

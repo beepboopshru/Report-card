@@ -1,5 +1,5 @@
 import { mutation, query } from "./_generated/server";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { requireOwnsClass, requireTeacher, requireAdmin } from "./lib/access";
 import { LMS_LEVEL_BY_ID } from "./lib/lmsCatalog";
 
@@ -88,13 +88,13 @@ export const submitForApproval = mutation({
   returns: v.null(),
   handler: async (ctx, { classId }) => {
     const { cls } = await requireOwnsClass(ctx, classId);
-    if (cls.status === "approved") throw new Error("Class already approved");
+    if (cls.status === "approved") throw new ConvexError("Class already approved");
     const students = await ctx.db
       .query("students")
       .withIndex("by_class", (q) => q.eq("classId", classId))
       .collect();
     if (students.length === 0) {
-      throw new Error("Add students before submitting for approval");
+      throw new ConvexError("Add students before submitting for approval");
     }
     await ctx.db.patch(classId, { status: "submitted" });
     return null;
@@ -126,13 +126,13 @@ export const register = mutation({
   returns: v.id("classes"),
   handler: async (ctx, args) => {
     const profile = await requireTeacher(ctx);
-    if (profile.lmsOnly) throw new Error("This account has LMS access only");
+    if (profile.lmsOnly) throw new ConvexError("This account has LMS access only");
     const name = args.name.trim();
-    if (!name) throw new Error("Class name is required");
+    if (!name) throw new ConvexError("Class name is required");
     if (args.students.length === 0) {
-      throw new Error("Add at least one student before submitting");
+      throw new ConvexError("Add at least one student before submitting");
     }
-    if (args.students.length > 200) throw new Error("Too many students (max 200)");
+    if (args.students.length > 200) throw new ConvexError("Too many students (max 200)");
     const classId = await ctx.db.insert("classes", {
       teacherProfileId: profile._id,
       name,
@@ -159,7 +159,7 @@ export const create = mutation({
   args: { name: v.string(), academicYear: v.string() },
   handler: async (ctx, args) => {
     const profile = await requireTeacher(ctx);
-    if (profile.lmsOnly) throw new Error("This account has LMS access only");
+    if (profile.lmsOnly) throw new ConvexError("This account has LMS access only");
     return await ctx.db.insert("classes", { ...args, teacherProfileId: profile._id });
   },
 });

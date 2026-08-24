@@ -4,7 +4,7 @@ import {
   type MutationCtx,
   type QueryCtx,
 } from "./_generated/server";
-import { v, type Infer } from "convex/values";
+import { ConvexError, v, type Infer } from "convex/values";
 import type { Id } from "./_generated/dataModel";
 import { requireAdmin, requireOwnsClass, requireProfile } from "./lib/access";
 import {
@@ -32,7 +32,7 @@ export const setClassLevels = mutation({
   handler: async (ctx, { classId, levels }) => {
     await requireAdmin(ctx);
     const cls = await ctx.db.get(classId);
-    if (!cls) throw new Error("Class not found");
+    if (!cls) throw new ConvexError("Class not found");
     const allowed = await ctx.db
       .query("teacherLevels")
       .withIndex("by_teacher", (q) =>
@@ -45,13 +45,13 @@ export const setClassLevels = mutation({
     const seen = new Set<string>();
     const rows = levels.flatMap(({ levelId, grades }) => {
       const level = LMS_LEVEL_BY_ID.get(levelId);
-      if (!level) throw new Error(`Unknown LMS level: ${levelId}`);
-      if (seen.has(levelId)) throw new Error(`Duplicate LMS level: ${levelId}`);
+      if (!level) throw new ConvexError(`Unknown LMS level: ${levelId}`);
+      if (seen.has(levelId)) throw new ConvexError(`Duplicate LMS level: ${levelId}`);
       seen.add(levelId);
       const chosen = new Set(grades);
       const valid = level.grades.filter((g) => chosen.has(g));
       if (valid.length === 0) {
-        throw new Error(`Pick at least one class for ${levelId}`);
+        throw new ConvexError(`Pick at least one class for ${levelId}`);
       }
       const allowedGrades = allowedByLevel.get(levelId);
       const kept = valid.filter((g) => allowedGrades?.has(g));
@@ -253,34 +253,34 @@ function normalizeTeacherLevels(
   const seen = new Set<string>();
   return levels.map(({ levelId, grades, sessions, gradeNames }) => {
     const level = LMS_LEVEL_BY_ID.get(levelId);
-    if (!level) throw new Error(`Unknown LMS level: ${levelId}`);
-    if (seen.has(levelId)) throw new Error(`Duplicate LMS level: ${levelId}`);
+    if (!level) throw new ConvexError(`Unknown LMS level: ${levelId}`);
+    if (seen.has(levelId)) throw new ConvexError(`Duplicate LMS level: ${levelId}`);
     seen.add(levelId);
     const chosen = new Set(grades);
     const validGrades = level.grades.filter((g) => chosen.has(g));
     if (validGrades.length === 0) {
-      throw new Error(`Pick at least one class for ${levelId}`);
+      throw new ConvexError(`Pick at least one class for ${levelId}`);
     }
     let validSessions: TeacherLevelAssignment["sessions"];
     if (sessions && sessions.length > 0) {
       const seenSessions = new Set<string>();
       validSessions = sessions.map((s) => {
         if (!validGrades.includes(s.grade)) {
-          throw new Error(`Session picked for unselected class ${s.grade}`);
+          throw new ConvexError(`Session picked for unselected class ${s.grade}`);
         }
         if (!levelSessions(level).includes(s.session)) {
-          throw new Error(`Unknown session: ${s.session}`);
+          throw new ConvexError(`Unknown session: ${s.session}`);
         }
         const key = `${s.grade}-${s.session}`;
         if (seenSessions.has(key)) {
-          throw new Error(`Duplicate session pick: ${key}`);
+          throw new ConvexError(`Duplicate session pick: ${key}`);
         }
         seenSessions.add(key);
         const groups = PHASE_GROUPS.map((g) => g.id).filter((id) =>
           s.groups.includes(id),
         );
         if (groups.length === 0) {
-          throw new Error("Pick at least one 5E group per selected session");
+          throw new ConvexError("Pick at least one 5E group per selected session");
         }
         return { grade: s.grade, session: s.session, groups };
       });
@@ -291,7 +291,7 @@ function normalizeTeacherLevels(
         .map(([g, name]) => [g, name.trim()] as const)
         .filter(([g, name]) => validGrades.includes(g) && name.length > 0);
       if (kept.some(([, name]) => name.length > 60)) {
-        throw new Error("Display name too long (60 characters max)");
+        throw new ConvexError("Display name too long (60 characters max)");
       }
       if (kept.length) validNames = Object.fromEntries(kept);
     }
@@ -332,7 +332,7 @@ export const setTeacherLevels = mutation({
     await requireAdmin(ctx);
     const target = await ctx.db.get(teacherProfileId);
     if (!target || target.role !== "teacher") {
-      throw new Error("Not a school/teacher account");
+      throw new ConvexError("Not a school/teacher account");
     }
     await replaceTeacherLevelRows(ctx, teacherProfileId, levels);
     return null;
@@ -445,10 +445,10 @@ export const recordQuizResult = mutation({
   handler: async (ctx, args) => {
     const profile = await requireProfile(ctx);
     if (profile.role !== "student" || !profile.studentId) {
-      throw new Error("Only students can submit quiz results");
+      throw new ConvexError("Only students can submit quiz results");
     }
     const student = await ctx.db.get(profile.studentId);
-    if (!student) throw new Error("Student record missing");
+    if (!student) throw new ConvexError("Student record missing");
 
     const nums = [
       args.score,
@@ -459,17 +459,17 @@ export const recordQuizResult = mutation({
       args.codeMax,
     ];
     if (nums.some((n) => !Number.isFinite(n) || n < 0 || n > 1000)) {
-      throw new Error("Invalid quiz result");
+      throw new ConvexError("Invalid quiz result");
     }
-    if (args.score > args.total) throw new Error("Invalid quiz result");
+    if (args.score > args.total) throw new ConvexError("Invalid quiz result");
     const keyPart = /^[0-9]{1,2}$/;
     // Year 2 program quizzes report the pseudo-year "year2" so their keys
     // can't collide with Level 1 (both have Classes 6 and 7).
     if (!keyPart.test(args.year) && args.year !== YEAR2_LEVEL_ID) {
-      throw new Error("Invalid session key");
+      throw new ConvexError("Invalid session key");
     }
     if (![args.grade, args.session].every((p) => keyPart.test(p))) {
-      throw new Error("Invalid session key");
+      throw new ConvexError("Invalid session key");
     }
 
     const sessionKey = `${args.year}-${args.grade}-${args.session}`;
@@ -480,7 +480,7 @@ export const recordQuizResult = mutation({
       )
       .unique();
 
-    if (existing) throw new Error("Test already submitted");
+    if (existing) throw new ConvexError("Test already submitted");
     await ctx.db.insert("lmsScores", {
       studentId: profile.studentId,
       classId: student.classId,

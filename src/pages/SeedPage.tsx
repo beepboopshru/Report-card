@@ -1,3 +1,4 @@
+import { errorMessage } from "../lib/errors";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useState } from "react";
@@ -20,7 +21,7 @@ export default function SeedPage() {
         `Inserted ${r.kitsInserted} kits (${r.kitsSkipped} skipped), ${r.rubricsInserted} rubrics (${r.rubricsSkipped} skipped).`,
       );
     } catch (e: unknown) {
-      setResult(`Error: ${e instanceof Error ? e.message : String(e)}`);
+      setResult(`Error: ${errorMessage(e, String(e))}`);
     } finally {
       setBusy(false);
     }

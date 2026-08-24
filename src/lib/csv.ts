@@ -64,3 +64,11 @@ export function parseCsv(text: string): string[][] {
   if (field !== "" || row.length > 0) endRow();
   return rows;
 }
+
+// The matching writer. Quotes every cell so commas, quotes, and newlines in
+// names or passwords survive the round trip; CRLF terminators keep Excel happy.
+export function toCsv(rows: (string | number)[][]): string {
+  return rows
+    .map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(","))
+    .join("\r\n");
+}

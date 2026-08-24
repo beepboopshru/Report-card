@@ -1,3 +1,4 @@
+import { errorMessage } from "../lib/errors";
 // src/pages/TeacherDashboard.tsx
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
@@ -95,7 +96,7 @@ function RegisterClassDialog({ onClose }: { onClose: () => void }) {
         "Class submitted for approval. It will appear on your Classes page — with every student's login — once an admin approves it. Check \"Pending requests\" for its status.",
       );
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not submit");
+      setError(errorMessage(err, "Could not submit"));
       setSubmitting(false);
     }
   }

@@ -1,3 +1,4 @@
+import { errorMessage } from "../lib/errors";
 import { useState } from "react";
 import { X, RefreshCw } from "lucide-react";
 import { useAction } from "convex/react";
@@ -51,7 +52,7 @@ export default function CreateTeacherModal({ onClose, onCreated }: Props) {
       });
       onCreated(creds);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Create failed");
+      setError(errorMessage(err, "Create failed"));
     } finally {
       setBusy(false);
     }

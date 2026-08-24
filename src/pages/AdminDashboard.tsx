@@ -1,3 +1,4 @@
+import { errorMessage } from "../lib/errors";
 // src/pages/AdminDashboard.tsx
 // One admin page: accounts (schools/teachers/single-users), their logins,
 // and their classes — merged from the old Logins and Classes pages.
@@ -15,6 +16,7 @@ import {
   RotateCcw,
   FileText,
   Users,
+  Download,
 } from "lucide-react";
 import PageHeader from "../components/PageHeader";
 import EmptyState from "../components/EmptyState";
@@ -26,7 +28,11 @@ import { Input } from "../components/ui/Input";
 import CreateTeacherModal from "../components/CreateTeacherModal";
 import CredentialsModal from "../components/CredentialsModal";
 import ManageLmsModal from "../components/ManageLmsModal";
-import { LMS_LEVELS } from "../../convex/lib/lmsCatalog";
+import AssignClassLmsModal from "../components/AssignClassLmsModal";
+import { LMS_LEVEL_BY_ID } from "../../convex/lib/lmsCatalog";
+import { gradesLabel } from "../lib/lmsAssignmentDiff";
+import { downloadBlob } from "../lib/buildReportZip";
+import { toCsv } from "../lib/csv";
 
 type RecreateResult = {
   className: string;
@@ -79,6 +85,7 @@ export default function AdminDashboard() {
     profileId: Id<"profiles">;
     name: string;
   } | null>(null);
+  const [classLmsFor, setClassLmsFor] = useState<Id<"classes"> | null>(null);
   const [creating, setCreating] = useState(false);
   const [createdCreds, setCreatedCreds] = useState<{
     username: string;
@@ -151,6 +158,38 @@ export default function AdminDashboard() {
 
   const kitsAccount = accounts.find((l) => l.profileId === kitsFor);
 
+  // Credential sheet for whatever the filters currently show.
+  function onDownloadLogins() {
+    const csv = toCsv([
+      [
+        "Account",
+        "Username",
+        "Password",
+        "Type",
+        "Status",
+        "Classes",
+        "Students",
+      ],
+      ...accounts.map((l) => {
+        const cls = classesByProfile.get(l.profileId) ?? [];
+        return [
+          l.displayName,
+          l.username,
+          l.password ?? "",
+          l.lmsOnly ? "Single user" : "School / teacher",
+          l.disabled ? "Disabled" : "Active",
+          cls.length,
+          cls.reduce((n, c) => n + c.studentCount, 0),
+        ];
+      }),
+    ]);
+    // BOM so Excel reads it as UTF-8.
+    downloadBlob(
+      new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8" }),
+      "school_teacher_logins.csv",
+    );
+  }
+
   async function onEditUsername(profileId: Id<"profiles">, current: string) {
     const typed = prompt(
       `New username for @${current}.\n` +
@@ -164,7 +203,7 @@ export default function AdminDashboard() {
     try {
       await renameLogin({ profileId, username: typed });
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Username change failed");
+      alert(errorMessage(err, "Username change failed"));
     } finally {
       setBusyId(null);
     }
@@ -181,7 +220,7 @@ export default function AdminDashboard() {
     try {
       await resetPassword({ profileId, password: typed.trim() || undefined });
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Password change failed");
+      alert(errorMessage(err, "Password change failed"));
     } finally {
       setBusyId(null);
     }
@@ -201,7 +240,7 @@ export default function AdminDashboard() {
     try {
       await convertToFullAccount({ profileId });
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Conversion failed");
+      alert(errorMessage(err, "Conversion failed"));
     } finally {
       setBusyId(null);
     }
@@ -218,7 +257,7 @@ export default function AdminDashboard() {
     try {
       await setDisabled({ profileId, disabled: nextDisabled });
     } catch (err) {
-      alert(err instanceof Error ? err.message : `${verb} failed`);
+      alert(errorMessage(err, `${verb} failed`));
     } finally {
       setBusyId(null);
     }
@@ -247,7 +286,7 @@ export default function AdminDashboard() {
           : `Created ${created} student login${created === 1 ? "" : "s"}. The teacher can now download them from the class page.`,
       );
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Approval failed");
+      alert(errorMessage(err, "Approval failed"));
     } finally {
       setBusyId(null);
     }
@@ -268,7 +307,7 @@ export default function AdminDashboard() {
     try {
       await deleteClass({ classId });
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Deletion failed");
+      alert(errorMessage(err, "Deletion failed"));
     } finally {
       setBusyId(null);
     }
@@ -281,7 +320,7 @@ export default function AdminDashboard() {
     try {
       await setRemovalRequested({ classId, requested: false });
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Denying the request failed");
+      alert(errorMessage(err, "Denying the request failed"));
     } finally {
       setBusyId(null);
     }
@@ -304,7 +343,7 @@ export default function AdminDashboard() {
         `Set shared password for ${updated} student${updated === 1 ? "" : "s"}:\n\n${password}`,
       );
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Password reset failed");
+      alert(errorMessage(err, "Password reset failed"));
     } finally {
       setBusyId(null);
     }
@@ -324,7 +363,7 @@ export default function AdminDashboard() {
         `Recreated ${created} login${created === 1 ? "" : "s"}. New shared password:\n\n${password}\n\nThe teacher can re-download the credential sheet from the class page.`,
       );
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Recreating logins failed");
+      alert(errorMessage(err, "Recreating logins failed"));
     } finally {
       setBusyId(null);
     }
@@ -345,44 +384,10 @@ export default function AdminDashboard() {
     try {
       setRecreateResults(await recreateAllLogins({}));
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Recreating logins failed");
+      alert(errorMessage(err, "Recreating logins failed"));
     } finally {
       setRecreatingAll(false);
     }
-  }
-
-  type LevelAssignment = { levelId: string; grades: string[] };
-
-  async function toggleLevel(
-    classId: Id<"classes">,
-    current: LevelAssignment[],
-    level: (typeof LMS_LEVELS)[number],
-    allowedGrades: string[],
-  ) {
-    // Checking a level assigns all its allowed classes; uncheck individual
-    // ones below.
-    const next = current.some((l) => l.levelId === level.id)
-      ? current.filter((l) => l.levelId !== level.id)
-      : [...current, { levelId: level.id, grades: allowedGrades }];
-    await setClassLevels({ classId, levels: next });
-  }
-
-  async function toggleGrade(
-    classId: Id<"classes">,
-    current: LevelAssignment[],
-    level: (typeof LMS_LEVELS)[number],
-    grade: string,
-  ) {
-    const entry = current.find((l) => l.levelId === level.id);
-    if (!entry) return;
-    const grades = entry.grades.includes(grade)
-      ? entry.grades.filter((g) => g !== grade)
-      : level.grades.filter((g) => entry.grades.includes(g) || g === grade);
-    // Unchecking the last class unassigns the level.
-    const next = grades.length
-      ? current.map((l) => (l.levelId === level.id ? { ...l, grades } : l))
-      : current.filter((l) => l.levelId !== level.id);
-    await setClassLevels({ classId, levels: next });
   }
 
   return (
@@ -401,6 +406,14 @@ export default function AdminDashboard() {
             <Link to="/admin/grades">
               <Button variant="secondary">Grade sheets</Button>
             </Link>
+            <Button
+              variant="secondary"
+              disabled={accounts.length === 0}
+              onClick={onDownloadLogins}
+            >
+              <Download className="w-4 h-4" />
+              Download logins
+            </Button>
             <Button onClick={() => setCreating(true)}>
               <Plus className="w-4 h-4" />
               Create account
@@ -682,81 +695,32 @@ export default function AdminDashboard() {
                           </div>
 
                           <div className="mt-4 flex flex-wrap items-start justify-between gap-3">
-                            <fieldset className="space-y-2">
-                              <legend className="sr-only">
-                                LMS levels for {c.name}
-                              </legend>
+                            <div className="space-y-1">
                               <span className="text-xs uppercase tracking-wide text-ink-subtle font-semibold">
                                 LMS
                               </span>
-                              {!accountAllowed?.size ? (
-                                <p className="text-xs text-ink-muted">
-                                  Give this account LMS courses via "Manage
-                                  LMS" first.
-                                </p>
-                              ) : (
-                                LMS_LEVELS.filter((level) =>
-                                  accountAllowed.has(level.id),
-                                ).map((level) => {
-                                  const allowedGrades = accountAllowed.get(
-                                    level.id,
-                                  )!;
-                                  const assigned = c.lmsLevels.find(
-                                    (lv) => lv.levelId === level.id,
-                                  );
-                                  return (
-                                    <div key={level.id}>
-                                      <label className="inline-flex items-center gap-1.5 text-sm cursor-pointer">
-                                        <input
-                                          type="checkbox"
-                                          checked={!!assigned}
-                                          onChange={() =>
-                                            toggleLevel(
-                                              c._id,
-                                              c.lmsLevels,
-                                              level,
-                                              allowedGrades,
-                                            )
-                                          }
-                                        />
-                                        {level.name}
-                                      </label>
-                                      {/* BLIX's single pseudo-grade "all" needs no per-class row */}
-                                      {assigned && level.grades.length > 1 && (
-                                        <div className="ml-6 mt-1 flex flex-wrap gap-x-4 gap-y-1">
-                                          {level.grades
-                                            .filter((grade) =>
-                                              allowedGrades.includes(grade),
-                                            )
-                                            .map((grade) => (
-                                              <label
-                                                key={grade}
-                                                className="inline-flex items-center gap-1.5 text-xs text-ink-muted cursor-pointer"
-                                              >
-                                                <input
-                                                  type="checkbox"
-                                                  checked={assigned.grades.includes(
-                                                    grade,
-                                                  )}
-                                                  onChange={() =>
-                                                    toggleGrade(
-                                                      c._id,
-                                                      c.lmsLevels,
-                                                      level,
-                                                      grade,
-                                                    )
-                                                  }
-                                                />
-                                                Class {grade}
-                                              </label>
-                                            ))}
-                                        </div>
-                                      )}
-                                    </div>
-                                  );
-                                })
+                              <p className="text-sm text-ink-muted">
+                                {!accountAllowed?.size
+                                  ? 'Give this account LMS courses via "Manage LMS" first.'
+                                  : c.lmsLevels.length === 0
+                                    ? "No courses assigned."
+                                    : c.lmsLevels
+                                        .map(
+                                          (lv) =>
+                                            `${LMS_LEVEL_BY_ID.get(lv.levelId)?.name ?? lv.levelId} (${gradesLabel(lv.grades)})`,
+                                        )
+                                        .join(" · ")}
+                              </p>
+                              {!!accountAllowed?.size && (
+                                <Button
+                                  size="sm"
+                                  variant="secondary"
+                                  onClick={() => setClassLmsFor(c._id)}
+                                >
+                                  Assign LMS
+                                </Button>
                               )}
-                            </fieldset>
+                            </div>
                             <div className="flex flex-wrap gap-2">
                               {c.accountCount > 0 && (
                                 <>
@@ -991,6 +955,25 @@ export default function AdminDashboard() {
           onClose={() => setLmsFor(null)}
         />
       )}
+      {classLmsFor &&
+        (() => {
+          const cls = (classes ?? []).find((c) => c._id === classLmsFor);
+          if (!cls) return null;
+          return (
+            <AssignClassLmsModal
+              className={cls.name}
+              current={cls.lmsLevels}
+              allowed={
+                allowedByProfile.get(cls.teacherProfileId) ??
+                new Map<string, string[]>()
+              }
+              onSave={async (levels) => {
+                await setClassLevels({ classId: cls._id, levels });
+              }}
+              onClose={() => setClassLmsFor(null)}
+            />
+          );
+        })()}
       {creating && (
         <CreateTeacherModal
           onClose={() => setCreating(false)}
