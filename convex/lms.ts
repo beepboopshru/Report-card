@@ -8,11 +8,28 @@ import { ConvexError, v, type Infer } from "convex/values";
 import type { Id } from "./_generated/dataModel";
 import { requireAdmin, requireOwnsClass, requireProfile } from "./lib/access";
 import {
+  DEFAULT_LMS_LANGUAGES,
   levelSessions,
   LMS_LEVEL_BY_ID,
   PHASE_GROUPS,
   YEAR2_LEVEL_ID,
+  type LmsLanguageId,
 } from "./lib/lmsCatalog";
+
+export const lmsLanguageValidator = v.union(
+  v.literal("en"),
+  v.literal("hi"),
+);
+const lmsLanguagesValidator = v.array(lmsLanguageValidator);
+
+/** English is mandatory; supported optional languages are de-duplicated. */
+export function normalizeLmsLanguages(
+  languages?: readonly LmsLanguageId[],
+): LmsLanguageId[] {
+  return languages?.includes("hi")
+    ? [...DEFAULT_LMS_LANGUAGES, "hi"]
+    : [...DEFAULT_LMS_LANGUAGES];
+}
 
 /**
  * Admin assigns which LMS levels a class can see, and which LMS classes
@@ -326,15 +343,23 @@ export const setTeacherLevels = mutation({
   args: {
     teacherProfileId: v.id("profiles"),
     levels: v.array(teacherLevelValidator),
+    // Optional for compatibility with already-open admin clients. New clients
+    // always send the selection, and the normalizer guarantees English.
+    languages: v.optional(lmsLanguagesValidator),
   },
   returns: v.null(),
-  handler: async (ctx, { teacherProfileId, levels }) => {
+  handler: async (ctx, { teacherProfileId, levels, languages }) => {
     await requireAdmin(ctx);
     const target = await ctx.db.get(teacherProfileId);
     if (!target || target.role !== "teacher") {
       throw new ConvexError("Not a school/teacher account");
     }
     await replaceTeacherLevelRows(ctx, teacherProfileId, levels);
+    if (languages !== undefined) {
+      await ctx.db.patch(teacherProfileId, {
+        lmsLanguages: normalizeLmsLanguages(languages),
+      });
+    }
     return null;
   },
 });
@@ -402,6 +427,20 @@ export const forTeacherProfile = query({
   },
 });
 
+/** Admin view of the languages assigned to a school or single-user account. */
+export const languagesForTeacherProfile = query({
+  args: { teacherProfileId: v.id("profiles") },
+  returns: lmsLanguagesValidator,
+  handler: async (ctx, { teacherProfileId }) => {
+    await requireAdmin(ctx);
+    const target = await ctx.db.get(teacherProfileId);
+    if (!target || target.role !== "teacher") {
+      throw new Error("Not a school/teacher account");
+    }
+    return normalizeLmsLanguages(target.lmsLanguages);
+  },
+});
+
 /** Teacher view: LMS courses assigned to the school account itself. */
 export const mySchoolLms = query({
   args: {},
@@ -419,6 +458,17 @@ export const mySchoolLms = query({
       sessions: r.sessions,
       gradeNames: r.gradeNames,
     }));
+  },
+});
+
+/** Languages available when this teacher or single-user opens LMS content. */
+export const myLmsLanguages = query({
+  args: {},
+  returns: lmsLanguagesValidator,
+  handler: async (ctx) => {
+    const profile = await requireProfile(ctx);
+    if (profile.role === "student") return [...DEFAULT_LMS_LANGUAGES];
+    return normalizeLmsLanguages(profile.lmsLanguages);
   },
 });
 
@@ -579,6 +629,7 @@ export const myLms = query({
     v.object({
       studentName: v.string(),
       className: v.string(),
+      languages: lmsLanguagesValidator,
       levels: v.array(
         v.object({
           levelId: v.string(),
@@ -596,6 +647,7 @@ export const myLms = query({
     if (!student) return null;
     const cls = await ctx.db.get(student.classId);
     if (!cls) return null;
+    const teacher = await ctx.db.get(cls.teacherProfileId);
     const rows = await ctx.db
       .query("classLevels")
       .withIndex("by_class", (q) => q.eq("classId", student.classId))
@@ -604,6 +656,7 @@ export const myLms = query({
     return {
       studentName: student.name,
       className: cls.name,
+      languages: normalizeLmsLanguages(teacher?.lmsLanguages),
       levels: rows.map((r) => {
         const grades =
           r.grades ?? LMS_LEVEL_BY_ID.get(r.levelId)?.grades ?? [];

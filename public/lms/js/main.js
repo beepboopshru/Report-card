@@ -10,6 +10,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const grade = params.get("grade") || "4";
     const session = params.get("session") || "1";
     const mode = params.get("mode") || "";
+    // patched: the report-card app assigns LMS languages per school/single-user
+    // account. English is mandatory; Hindi is exposed only when "hi" is in
+    // ?languages=. Persist globally so internal LMS links can omit the param.
+    const languagesStoreKey = "su-lms-allowed-languages";
+    const languagesParam = params.get("languages");
+    if (languagesParam !== null) {
+        try { sessionStorage.setItem(languagesStoreKey, languagesParam); } catch (e) { /* storage unavailable */ }
+    }
+    const allowedLanguages = () => {
+        let stored = null;
+        try { stored = sessionStorage.getItem(languagesStoreKey); } catch (e) { /* storage unavailable */ }
+        // No assignment filter means a direct standalone LMS visit and keeps
+        // the original English/Hindi behavior.
+        const raw = stored !== null ? stored : languagesParam;
+        return raw === null ? ["en", "hi"] : raw.split(",").filter(Boolean);
+    };
+    const hindiAllowed = allowedLanguages().includes("hi");
     // patched: Year 2 program lessons carry no ?year= param; their quiz keys
     // use the "year2" pseudo-year so they can't collide with Level 1 (both
     // programs have Classes 6 and 7).
@@ -243,6 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
     const readPhaseLanguage = (phase) => {
+        if (!hindiAllowed) return "en";
         try {
             return localStorage.getItem(`lms-phase-language-${phase}`) === "hi" ? "hi" : "en";
         } catch (error) {
@@ -845,7 +863,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const phaseFooter = nextPhase
             ? `<div class="all5e-next-row"><button type="button" class="download-btn" data-next-e="${nextPhase}"><span>${uiText(language, "next")}: ${uiText(language, nextPhase)}</span>${iconMarkup("arrow-right")}</button></div>`
             : `<div class="all5e-next-row"><a class="download-btn secondary-download" href="../index.html?panel=sessionSelect&year=${year}&grade=${grade}">${iconMarkup("circle-check")}<span>${uiText(language, "finishSession")}</span></a></div>`;
-        const languageControl = translatablePhases.has(phase)
+        const languageControl = translatablePhases.has(phase) && hindiAllowed
             ? `<button type="button" class="language-toggle" data-language-toggle="${phase}" aria-label="${uiText(language, "switchLanguage")}" title="${uiText(language, "switchLanguage")}">${iconMarkup("languages")}<span>${uiText(language, "languageButton")}</span></button>`
             : "";
         const header = `<div class="phase-header">
@@ -1525,7 +1543,7 @@ void loop() {
         if (!languageButton) return;
 
         const phase = languageButton.dataset.languageToggle;
-        if (!translatablePhases.has(phase)) return;
+        if (!hindiAllowed || !translatablePhases.has(phase)) return;
         const card = document.querySelector(`[data-all5e-phase="${phase}"]`);
         if (!card) return;
 

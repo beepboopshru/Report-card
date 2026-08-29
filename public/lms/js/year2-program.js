@@ -22,6 +22,7 @@
   store("su-lms-allowed-grades-year2", params.get("grades"));
   store("su-lms-allowed-sessions-year2", params.get("sessions"));
   store("su-lms-grade-names-year2", params.get("gradeNames"));
+  store("su-lms-allowed-languages", params.get("languages"));
   if (params.get("grades") !== null) store("su-lms-allowed-years", "year2");
   const read = (key) => {
     try { return sessionStorage.getItem(key); } catch (e) { return null; }

@@ -17,6 +17,11 @@ export default defineSchema({
     disabled: v.optional(v.boolean()),
     // Single-user account: no classes/approval workflow, LMS access only.
     lmsOnly: v.optional(v.boolean()),
+    // LMS languages assigned by the admin. English is always present; Hindi
+    // is optional. Missing on legacy accounts and interpreted as English.
+    lmsLanguages: v.optional(
+      v.array(v.union(v.literal("en"), v.literal("hi"))),
+    ),
     // ponytail: plaintext by design, same as students.initialPassword —
     // admins view/share logins from /admin/logins. Only exposed via
     // admin-gated functions; editing the password overwrites it.

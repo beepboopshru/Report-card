@@ -46,6 +46,11 @@ Local patches (keep when re-vendoring):
    question-paper packets are downloaded as PDFs with their teacher rubrics;
    the locally vendored `jspdf.umd.min.js` (jsPDF 4.2.1, MIT license) generates
    those files without a CDN dependency.
+9. Account language assignment: `js/main.js` reads a `?languages=en,hi`
+   filter, persists it while navigating inside the LMS, and exposes the Hindi
+   phase toggle only when `hi` was assigned. `js/year2-program.js` persists the
+   same filter before opening Year 2 lessons. Direct standalone LMS visits
+   without the filter keep the original English/Hindi behavior.
 
 To update content: re-run the sparse clone of the upstream repo, copy
 `index.html css/ js/ pages/` over this directory, and re-apply the patches above.

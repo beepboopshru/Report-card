@@ -36,6 +36,33 @@ describe("lmsLevelPath", () => {
     );
   });
 
+  it("passes the account's assigned languages to translated lessons", () => {
+    expect(
+      lmsLevelPath(
+        LMS_LEVELS[0],
+        ["4"],
+        undefined,
+        undefined,
+        ["en"],
+      ),
+    ).toBe(
+      "/lms/index.html?panel=sessionSelect&year=1&grade=4&grades=4&years=1&sessions=&gradeNames=&languages=en",
+    );
+
+    const year2 = LMS_LEVELS.find((level) => level.id === "year2")!;
+    expect(
+      lmsLevelPath(
+        year2,
+        ["6"],
+        undefined,
+        undefined,
+        ["en", "hi"],
+      ),
+    ).toBe(
+      "/lms/pages/year2.html?grades=6&sessions=&gradeNames=&grade=6&languages=en,hi",
+    );
+  });
+
   it("links Year 2 to its own page with the assignment filters", () => {
     const year2 = LMS_LEVELS.find((l) => l.id === "year2")!;
     expect(lmsLevelPath(year2)).toBe(

@@ -6,6 +6,7 @@ import { api } from "../../convex/_generated/api";
 import { Card, CardBody } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
 import {
+  DEFAULT_LMS_LANGUAGES,
   gradesLabel,
   LMS_LEVELS,
   lmsLevelPath,
@@ -122,6 +123,7 @@ export default function StudentLms() {
             openLevel.grades,
             openLevel.sessions,
             openLevel.gradeNames,
+            lms?.languages ?? DEFAULT_LMS_LANGUAGES,
           )}
           title={openLevel.level.name}
           onLoad={pushScores}

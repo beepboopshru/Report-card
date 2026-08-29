@@ -16,7 +16,12 @@ import {
 import { normalizeUsername, assertValidUsername } from "./lib/username";
 import { generatePassword } from "./lib/passwordGen";
 import { requireAdmin } from "./lib/access";
-import { replaceTeacherLevelRows, teacherLevelValidator } from "./lms";
+import {
+  lmsLanguageValidator,
+  normalizeLmsLanguages,
+  replaceTeacherLevelRows,
+  teacherLevelValidator,
+} from "./lms";
 
 function resolvePassword(chosen: string | undefined): string {
   if (chosen === undefined) return generatePassword();
@@ -38,6 +43,8 @@ export const createTeacher = action({
     // LMS courses assigned during initial setup. Later edits from the logins
     // page (lms.setTeacherLevels) are limited to single-user accounts.
     lms: v.optional(v.array(teacherLevelValidator)),
+    // English is mandatory; Hindi can be enabled as an additional language.
+    lmsLanguages: v.optional(v.array(lmsLanguageValidator)),
   },
   returns: v.object({ username: v.string(), password: v.string() }),
   handler: async (ctx, args) => {
@@ -69,6 +76,7 @@ export const createTeacher = action({
       lmsOnly: args.lmsOnly,
       initialPassword: password,
       lms: args.lms,
+      lmsLanguages: args.lmsLanguages,
     });
 
     return { username, password };
@@ -104,6 +112,7 @@ export const insertTeacherProfile = internalMutation({
     lmsOnly: v.optional(v.boolean()),
     initialPassword: v.string(),
     lms: v.optional(v.array(teacherLevelValidator)),
+    lmsLanguages: v.optional(v.array(lmsLanguageValidator)),
   },
   returns: v.id("profiles"),
   handler: async (ctx, args) => {
@@ -113,6 +122,7 @@ export const insertTeacherProfile = internalMutation({
       displayName: args.displayName,
       role: "teacher",
       lmsOnly: args.lmsOnly || undefined,
+      lmsLanguages: normalizeLmsLanguages(args.lmsLanguages),
       initialPassword: args.initialPassword,
     });
     if (args.lms && args.lms.length > 0) {

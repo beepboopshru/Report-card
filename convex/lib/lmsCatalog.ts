@@ -16,6 +16,13 @@ export interface LmsLevel {
   kitNumber: number;
 }
 
+export const LMS_LANGUAGES = [
+  { id: "en", label: "English", nativeLabel: "English" },
+  { id: "hi", label: "Hindi", nativeLabel: "हिन्दी" },
+] as const;
+export type LmsLanguageId = (typeof LMS_LANGUAGES)[number]["id"];
+export const DEFAULT_LMS_LANGUAGES: LmsLanguageId[] = ["en"];
+
 export const LMS_LEVELS: LmsLevel[] = [
   {
     id: "level1",
@@ -133,7 +140,14 @@ export function lmsLevelPath(
   grades: string[] = level.grades,
   sessions?: SessionPick[],
   gradeNames?: Record<string, string>,
+  languages?: LmsLanguageId[],
 ): string {
+  // Entry pages persist this filter in sessionStorage so it survives links
+  // inside the vendored LMS. English-only accounts therefore never receive
+  // the Hindi toggle; direct standalone LMS visits keep the legacy behavior.
+  const languagesParam = languages?.length
+    ? `&languages=${languages.join(",")}`
+    : "";
   if (level.id === SCIENCE6_LEVEL_ID) {
     return "/lms/assets/slime/slime/index.html";
   }
@@ -155,7 +169,7 @@ export function lmsLevelPath(
         ? encodeURIComponent(JSON.stringify(gradeNames))
         : "";
     const gradeParam = grades.length === 1 ? `&grade=${grades[0]}` : "";
-    return `/lms/pages/year2.html?grades=${grades.join(",")}&sessions=${sessionsParam}&gradeNames=${namesParam}${gradeParam}`;
+    return `/lms/pages/year2.html?grades=${grades.join(",")}&sessions=${sessionsParam}&gradeNames=${namesParam}${gradeParam}${languagesParam}`;
   }
   // `years` locks the LMS to this level: backing out to its level picker
   // can't reach other levels. Each course card opens one level.
@@ -173,9 +187,9 @@ export function lmsLevelPath(
       : ""
   }`;
   if (grades.length === 1) {
-    return `/lms/index.html?panel=sessionSelect&year=${level.year}&grade=${grades[0]}${gradesParam}${sessionsParam}${namesParam}`;
+    return `/lms/index.html?panel=sessionSelect&year=${level.year}&grade=${grades[0]}${gradesParam}${sessionsParam}${namesParam}${languagesParam}`;
   }
-  return `/lms/index.html?panel=classSelect&year=${level.year}${gradesParam}${sessionsParam}${namesParam}`;
+  return `/lms/index.html?panel=classSelect&year=${level.year}${gradesParam}${sessionsParam}${namesParam}${languagesParam}`;
 }
 
 /** "1-4-3" → "Level 1 · Class 4 · Session 3" (session 0 is the intro session). */

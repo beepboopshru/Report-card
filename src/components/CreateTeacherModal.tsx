@@ -14,6 +14,11 @@ import { generatePassword } from "../../convex/lib/passwordGen";
 import CourseAssignmentPicker, {
   type LevelAssignment,
 } from "./CourseAssignmentPicker";
+import LanguageAssignmentPicker from "./LanguageAssignmentPicker";
+import {
+  DEFAULT_LMS_LANGUAGES,
+  type LmsLanguageId,
+} from "../../convex/lib/lmsCatalog";
 
 interface Props {
   onClose: () => void;
@@ -27,6 +32,9 @@ export default function CreateTeacherModal({ onClose, onCreated }: Props) {
   const [password, setPassword] = useState(() => generatePassword());
   const [lmsOnly, setLmsOnly] = useState(false);
   const [lms, setLms] = useState<LevelAssignment[]>([]);
+  const [lmsLanguages, setLmsLanguages] = useState<LmsLanguageId[]>(() => [
+    ...DEFAULT_LMS_LANGUAGES,
+  ]);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -49,6 +57,7 @@ export default function CreateTeacherModal({ onClose, onCreated }: Props) {
         password: password.trim(),
         lmsOnly: lmsOnly || undefined,
         lms: lms.length ? lms : undefined,
+        lmsLanguages,
       });
       onCreated(creds);
     } catch (err) {
@@ -169,6 +178,17 @@ export default function CreateTeacherModal({ onClose, onCreated }: Props) {
                   <RefreshCw className="w-4 h-4" />
                 </Button>
               </div>
+            )}
+          </FormField>
+          <FormField
+            label="Languages"
+            hint="English is always included. Add Hindi to enable translated content in supported LMS lessons."
+          >
+            {() => (
+              <LanguageAssignmentPicker
+                value={lmsLanguages}
+                onChange={setLmsLanguages}
+              />
             )}
           </FormField>
           <FormField

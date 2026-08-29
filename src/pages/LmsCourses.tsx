@@ -8,9 +8,11 @@ import { Button } from "../components/ui/Button";
 import { useCurrentProfile } from "../lib/useCurrentProfile";
 import {
   gradesLabel,
+  LMS_LANGUAGES,
   LMS_LEVELS,
   LMS_LEVEL_BY_ID,
   lmsLevelPath,
+  type LmsLanguageId,
   type LmsLevel,
   type SessionPick,
 } from "../../convex/lib/lmsCatalog";
@@ -22,6 +24,10 @@ export default function LmsCourses() {
   // Courses assigned to the school/teacher account itself (admin sets these
   // when creating the account, with per-session 5E selection).
   const schoolLms = useQuery(api.lms.mySchoolLms, isAdmin ? "skip" : {});
+  const myLanguages = useQuery(
+    api.lms.myLmsLanguages,
+    isAdmin ? "skip" : {},
+  );
   const myClasses = useQuery(
     api.lms.myClassLms,
     isAdmin || lmsOnly ? "skip" : {},
@@ -32,6 +38,9 @@ export default function LmsCourses() {
     sessions?: SessionPick[];
     gradeNames?: Record<string, string>;
   } | null>(null);
+  const launchLanguages: LmsLanguageId[] = isAdmin
+    ? LMS_LANGUAGES.map((language) => language.id)
+    : (myLanguages ?? []);
 
   if (open) {
     return (
@@ -53,6 +62,7 @@ export default function LmsCourses() {
             open.grades,
             open.sessions,
             open.gradeNames,
+            launchLanguages,
           )}
           title={open.level.name}
           className="w-full h-[75vh] rounded-lg border border-line bg-surface"
@@ -105,7 +115,11 @@ export default function LmsCourses() {
     );
   }
 
-  if (schoolLms === undefined || (!lmsOnly && myClasses === undefined)) {
+  if (
+    schoolLms === undefined ||
+    myLanguages === undefined ||
+    (!lmsOnly && myClasses === undefined)
+  ) {
     return (
       <>
         <PageHeader title="LMS" description="Courses assigned to you." />
