@@ -18,11 +18,10 @@
             title: "STEM - Think, Create, Innovate",
             lead: "STEM connects Science, Technology, Engineering, and Mathematics into one practical way of learning. Students ask questions, explore ideas, build solutions, test them, and improve.",
             images: [
-              [`${imageRoot}/stem/stem-01.png`, "What parts of Science, Technology, Engineering, and Mathematics can you identify in this image?"],
-              [`${imageRoot}/stem/stem-02.png`, "Which real-life problem could this STEM idea help solve?"],
-              [`${imageRoot}/stem/stem-03.png`, "What would you build, test, and improve if this was your project?"],
-              [`${imageRoot}/stem/stem-04.png`, "How are science, technology, engineering, and mathematics working together here?"],
-              [`${imageRoot}/stem/stem-05.png`, "What hands-on activity would help you understand this idea better?"]
+              [`${imageRoot}/stem/stem-05.png`, "Find one example each of Science, Technology, Engineering, and Mathematics in your daily life."],
+              [`${imageRoot}/stem/stem-04.png`, "What might students observe, design, build, and test in a STEM class?"],
+              [`${imageRoot}/stem/stem-01.png`, "How can a STEM Innovation Lab help turn a question into a working solution?"],
+              [`${imageRoot}/stem/stem-03.png`, "Choose one real-life problem. What could you create, test, and improve to solve it?"]
             ],
             sections: [
               ["What does STEM mean?", "Science helps us discover how the world works. Technology helps us use tools to solve problems. Engineering helps us design and build solutions. Mathematics helps us use logic, numbers, patterns, and data."],
@@ -59,7 +58,7 @@
             type: "pdf",
             file: "Features-of-LMS-modules-1.pdf",
             title: "Features of LMS Modules",
-            src: `${pdfRoot}/intro to robotics/3.5 E's/Features-of-LMS-modules-1.pdf`
+            src: `${pdfRoot}/intro to robotics/3.5 E's/Features-of-LMS-modules-1-web.pdf`
           }
         ]
       },
@@ -107,8 +106,8 @@
             type: "pdf-group",
             title: "Arduino Installation Guide",
             files: [
-              ["Arduino-IDE-Installation.pdf", `${pdfRoot}/mastering arduino ide/3.arduino installation guide/Arduino-IDE-Installation.pdf`],
-              ["Driver-Installation-Guide.pdf", `${pdfRoot}/mastering arduino ide/3.arduino installation guide/Driver-Installation-Guide.pdf`]
+              ["Arduino IDE Installation", `${pdfRoot}/mastering arduino ide/3.arduino installation guide/Arduino-IDE-Installation.pdf`],
+              ["Board Driver Installation", `${pdfRoot}/mastering arduino ide/3.arduino installation guide/Driver-Installation-Guide.pdf`]
             ]
           },
           {
@@ -137,8 +136,8 @@
             type: "pdf-group",
             title: "How to Resolve Errors",
             files: [
-              ["Driver-Installation-Guide (1).pdf", `${pdfRoot}/mastering arduino ide/7.how to resolve errors/Driver-Installation-Guide (1).pdf`],
-              ["Robotics-Errors-1.pdf", `${pdfRoot}/mastering arduino ide/7.how to resolve errors/Robotics-Errors-1.pdf`]
+              ["Driver Troubleshooting", `${pdfRoot}/mastering arduino ide/7.how to resolve errors/Driver-Installation-Guide (1).pdf`],
+              ["Robotics Error Guide", `${pdfRoot}/mastering arduino ide/7.how to resolve errors/Robotics-Errors-1.pdf`]
             ]
           }
         ]
@@ -152,7 +151,7 @@
             level: "1",
             file: "level1 .pdf",
             title: "Level 1 Creative Automation Material List",
-            src: "assets/material/level1 .pdf"
+            src: "assets/material/level-1-material-list-web.pdf"
           },
           {
             folder: "1.Level 2 Material List",
@@ -160,7 +159,7 @@
             level: "2",
             file: "level 2.pdf",
             title: "Level 2 Sensational Sensors Material List",
-            src: "assets/material/level 2.pdf"
+            src: "assets/material/level-2-material-list-web.pdf"
           },
           {
             folder: "2.Know How to Use Our Board",
@@ -194,13 +193,11 @@
 
   const slugify = (value) => String(value).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
-  const renderPdf = (title, src) => `<article class="common-file-card pdf-source-card">
-      <div class="common-file-header"><span>PDF</span><strong>${escapeHtml(title)}</strong></div>
+  const renderPdf = (title, src, className = "") => `<article class="common-file-card pdf-source-card ${className}">
       <iframe class="embedded-pdf" src="${assetPrefix}${src}#view=FitH" title="${escapeHtml(title)}" loading="lazy"></iframe>
   </article>`;
 
   const renderDoc = (item) => `<article class="common-file-card doc-source-card">
-      <div class="common-file-header"><span>DOCX</span><strong>${escapeHtml(item.file)}</strong></div>
       <h2>${escapeHtml(item.title)}</h2>
       <p class="lead-text">${escapeHtml(item.lead)}</p>
       ${item.images?.length ? `<div class="common-image-flow">${item.images.map((entry, index) => {
@@ -216,9 +213,19 @@
       </div>
   </article>`;
 
+  const renderPdfGroup = (item) => {
+    const groupId = slugify(`${item.title}-${item.files.map(([title]) => title).join("-")}`);
+    return `<div class="common-pdf-group" data-common-pdf-group="${groupId}">
+        <div class="common-pdf-tabs" role="tablist" aria-label="${escapeHtml(item.title)} documents">
+            ${item.files.map(([title], index) => `<button type="button" class="common-pdf-tab${index === 0 ? " active" : ""}" role="tab" aria-selected="${index === 0}" data-common-pdf-tab="${index}">${escapeHtml(title)}</button>`).join("")}
+        </div>
+        ${item.files.map(([title, src], index) => renderPdf(title, src, `common-pdf-panel${index === 0 ? " active" : ""}`)).join("")}
+    </div>`;
+  };
+
   const renderItem = (item) => {
     if (item.type === "pdf") return renderPdf(item.file, item.src);
-    if (item.type === "pdf-group") return item.files.map(([title, src]) => renderPdf(title, src)).join("");
+    if (item.type === "pdf-group") return renderPdfGroup(item);
     return renderDoc(item);
   };
 
@@ -244,6 +251,12 @@
     }
     if (!root || !data) return;
 
+    const backHref = `../index.html?panel=sessionSelect&year=${encodeURIComponent(selectedYear)}&grade=${encodeURIComponent(selectedGrade)}`;
+    const headerBack = document.querySelector("[data-header-back-to-sessions]");
+    if (headerBack) headerBack.href = backHref;
+    const headerLabel = document.querySelector("[data-all5e-label]");
+    if (headerLabel) headerLabel.textContent = `Introduction Session | Class ${selectedGrade}`;
+
     document.title = data.topic;
     const visibleFolders = visibleFoldersForLevel(data, selectedYear);
     const navItems = visibleFolders.flatMap((folder, folderIndex) => folder.items.map((item, itemIndex) => ({
@@ -261,7 +274,7 @@
                 <p class="phase-label">Generic Common Session</p>
                 <h1>${escapeHtml(data.topic)}</h1>
                 <div class="all5e-hero-actions">
-                    <a class="back-btn" href="../index.html?panel=sessionSelect&year=${escapeHtml(selectedYear)}&grade=${escapeHtml(selectedGrade)}">Back to Sessions</a>
+                    <a class="back-btn" href="${backHref}">Back to Sessions</a>
                 </div>
         </div>
     </section>
@@ -328,6 +341,23 @@
     });
     folderOptions.forEach((option) => {
       option.addEventListener("click", () => showFolder(option.dataset.commonFolder));
+    });
+
+    root.querySelectorAll("[data-common-pdf-group]").forEach((group) => {
+      const tabs = group.querySelectorAll("[data-common-pdf-tab]");
+      const panels = group.querySelectorAll(".common-pdf-panel");
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          const selectedIndex = tab.dataset.commonPdfTab;
+          tabs.forEach((item) => {
+            const active = item.dataset.commonPdfTab === selectedIndex;
+            item.classList.toggle("active", active);
+            item.setAttribute("aria-selected", String(active));
+          });
+          panels.forEach((panel, index) => panel.classList.toggle("active", String(index) === selectedIndex));
+          group.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      });
     });
   });
 }());

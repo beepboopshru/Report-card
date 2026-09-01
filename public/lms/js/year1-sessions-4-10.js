@@ -66,11 +66,6 @@ Object.assign(window.LMS_CONTENT, {
       ],
       "pages": [
         [
-          "assets/images/pdf/class-4/session-4/explore-c4-s4-page-01.jpg",
-          "Curiosity Kickoff",
-          "Smart Switching and Door Sensor Automation source PDF introduction page."
-        ],
-        [
           "assets/images/pdf/class-4/session-4/explore-c4-s4-page-02.jpg",
           "Curiosity Kickoff",
           "Smart Switching and Door Sensor Automation source PDF introduction page."
@@ -423,11 +418,6 @@ Object.assign(window.LMS_CONTENT, {
         ]
       ],
       "pages": [
-        [
-          "assets/images/pdf/class-5/session-4/explore-c5-s4-page-01.jpg",
-          "Curiosity Kickoff",
-          "Smart Switching and Door Sensor Automation source PDF introduction page."
-        ],
         [
           "assets/images/pdf/class-5/session-4/explore-c5-s4-page-02.jpg",
           "Curiosity Kickoff",
@@ -782,11 +772,6 @@ Object.assign(window.LMS_CONTENT, {
       ],
       "pages": [
         [
-          "assets/images/pdf/class-6/session-4/explore-c6-s4-page-01.jpg",
-          "Curiosity Kickoff",
-          "Smart Switching and Door Sensor Automation source PDF introduction page."
-        ],
-        [
           "assets/images/pdf/class-6/session-4/explore-c6-s4-page-02.jpg",
           "Curiosity Kickoff",
           "Smart Switching and Door Sensor Automation source PDF introduction page."
@@ -1134,11 +1119,6 @@ Object.assign(window.LMS_CONTENT, {
         ]
       ],
       "pages": [
-        [
-          "assets/images/pdf/class-7/session-4/explore-c7-s4-page-01.jpg",
-          "Curiosity Kickoff",
-          "Smart Switching and Door Sensor Automation source PDF introduction page."
-        ],
         [
           "assets/images/pdf/class-7/session-4/explore-c7-s4-page-02.jpg",
           "Curiosity Kickoff",

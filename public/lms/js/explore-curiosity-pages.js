@@ -8,7 +8,10 @@
       if (!lesson || !lesson.explore || !Array.isArray(lesson.explore.pages)) return;
 
       const src = `assets/images/pdf/class-${grade}/session-${session}/explore-c${grade}-s${session}-page-02-curiosity.jpg`;
-      const alreadyAdded = lesson.explore.pages.some((page) => page[0] === src);
+      const alreadyAdded = lesson.explore.pages.some((page) => {
+        const existingSrc = String(page[0] || "");
+        return existingSrc === src || existingSrc.endsWith("/explore-page-02-curiosity.jpg");
+      });
       if (alreadyAdded) return;
 
       lesson.explore.pages.unshift([

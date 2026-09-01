@@ -5,6 +5,10 @@
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
 
+  const formatCode = (value) => typeof window.formatArduinoCode === "function"
+    ? window.formatArduinoCode(value)
+    : String(value ?? "");
+
   const icon = (name) => `<i data-lucide="${name}" aria-hidden="true"></i>`;
 
   const media = (src, alt) => `<div class="media-stage pdf-media-stage is-loading">
@@ -16,7 +20,7 @@
     <h3>${escapeHtml(title)}</h3>
     <div class="code-copy-wrap">
       <button type="button" class="copy-code-btn">${icon("copy")}<span data-button-label>Copy Code</span></button>
-      <pre><code>${escapeHtml(code)}</code></pre>
+      <pre><code>${escapeHtml(formatCode(code))}</code></pre>
     </div>
   </article>`;
 
@@ -183,7 +187,7 @@ void setup() {
   }[grade]);
 
   const renderChallengeCode = (source) => {
-    const tokens = source.split(/(\[\[[^\]]+\]\])/g);
+    const tokens = formatCode(source).split(/(\[\[[^\]]+\]\])/g);
     let blankIndex = 0;
     return tokens.map((token) => {
       const match = token.match(/^\[\[(.+)\]\]$/);
@@ -328,6 +332,7 @@ void setup() {
     const back = document.querySelector("[data-back-to-sessions]");
     const contentCard = document.querySelector("#all5eContent");
     const phaseNav = document.querySelector(".all5e-layout > .common-dialogue-nav");
+    const fullscreenFrame = document.querySelector(".all5e-layout") || contentCard;
     const elaborateButton = phaseNav?.querySelector('[data-phase="elaborate"]');
     const elaborateCard = contentCard?.querySelector('[data-all5e-phase="elaborate"]');
     const phaseOrder = ["engage", "explore", "explain", "evaluate"];
@@ -411,14 +416,28 @@ void setup() {
     const enterFullscreen = document.querySelector("#enter5eFullscreen");
     const exitFullscreen = document.querySelector("#exit5eFullscreen");
     enterFullscreen?.addEventListener("click", async () => {
-      if (!document.fullscreenElement && contentCard.requestFullscreen) await contentCard.requestFullscreen();
-      contentCard.classList.add("fullscreen-mode");
+      try {
+        if (!document.fullscreenElement && fullscreenFrame.requestFullscreen) await fullscreenFrame.requestFullscreen();
+      } catch (_error) {
+        // Embedded course platforms may block native fullscreen.
+      }
+      fullscreenFrame.classList.add("fullscreen-mode");
+      document.body.classList.add("lesson-fullscreen-active");
     });
     exitFullscreen?.addEventListener("click", async () => {
-      if (document.fullscreenElement && document.exitFullscreen) await document.exitFullscreen();
-      contentCard.classList.remove("fullscreen-mode");
+      try {
+        if (document.fullscreenElement && document.exitFullscreen) await document.exitFullscreen();
+      } catch (_error) {
+        // Always clear the CSS viewport fallback below.
+      }
+      fullscreenFrame.classList.remove("fullscreen-mode");
+      document.body.classList.remove("lesson-fullscreen-active");
     });
-    document.addEventListener("fullscreenchange", () => contentCard.classList.toggle("fullscreen-mode", document.fullscreenElement === contentCard));
+    document.addEventListener("fullscreenchange", () => {
+      const active = document.fullscreenElement === fullscreenFrame;
+      fullscreenFrame.classList.toggle("fullscreen-mode", active);
+      document.body.classList.toggle("lesson-fullscreen-active", active);
+    });
 
     // patched: report-card app 5E group picks (persisted by pages/year2.html
     // under the "year2" pseudo-year) hide phases not assigned to this session.

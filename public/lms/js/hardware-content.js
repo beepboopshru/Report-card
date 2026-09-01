@@ -193,7 +193,7 @@
   };
 
   const sessionMap = {
-    "1": ["led", "dipLed", "buzzer", "pushSwitch"],
+    "1": ["led", "buzzer", "pushSwitch"],
     "2": ["led", "buzzer", "rockerSwitch", "pushSwitch"],
     "3": ["rgbLed", "pushSwitch", "buzzer", "potentiometer"],
     "4": ["limitSwitch", "toggleSwitch", "led", "buzzer"],

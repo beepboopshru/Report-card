@@ -124,6 +124,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const allowed = allowedPhasesFor(year, grade, session);
         return !allowed || allowed.includes(phase);
     };
+    const headerBackToSessions = document.querySelector("[data-header-back-to-sessions]");
+    if (headerBackToSessions && currentPage === "all-5e") {
+        headerBackToSessions.href = `../index.html?panel=sessionSelect&year=${encodeURIComponent(year)}&grade=${encodeURIComponent(grade)}`;
+    }
     const yearClasses = {
         "1": [
             ["4", "Class 4", "Beginner"],
@@ -474,6 +478,10 @@ document.addEventListener("DOMContentLoaded", () => {
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;");
 
+    const formatCode = (value) => typeof window.formatArduinoCode === "function"
+        ? window.formatArduinoCode(value)
+        : String(value ?? "");
+
     const iconMarkup = (name) => `<i data-lucide="${name}" aria-hidden="true"></i>`;
 
     const refreshIcons = () => {
@@ -544,6 +552,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const phaseButtons = document.querySelectorAll("[data-phase]");
         const phaseCards = document.querySelectorAll("[data-all5e-phase]");
         const contentCard = document.querySelector("#all5eContent");
+        const fullscreenFrame = document.querySelector(".all5e-layout") || contentCard;
         const phaseNav = document.querySelector(".all5e-layout > .common-dialogue-nav");
         const enterFullscreen = document.querySelector("#enter5eFullscreen");
         const exitFullscreen = document.querySelector("#exit5eFullscreen");
@@ -617,23 +626,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
         showPhase("engage", true);
 
-        if (enterFullscreen && contentCard) {
+        if (enterFullscreen && fullscreenFrame) {
             enterFullscreen.addEventListener("click", async () => {
                 if (document.fullscreenElement) return;
-                if (contentCard.requestFullscreen) await contentCard.requestFullscreen();
-                contentCard.classList.add("fullscreen-mode");
+                try {
+                    if (fullscreenFrame.requestFullscreen) await fullscreenFrame.requestFullscreen();
+                } catch (_error) {
+                    // Embedded LMS hosts may reject native fullscreen; CSS mode remains available.
+                }
+                fullscreenFrame.classList.add("fullscreen-mode");
+                document.body.classList.add("lesson-fullscreen-active");
             });
         }
 
-        if (exitFullscreen && contentCard) {
+        if (exitFullscreen && fullscreenFrame) {
             exitFullscreen.addEventListener("click", async () => {
-                if (document.fullscreenElement && document.exitFullscreen) await document.exitFullscreen();
-                contentCard.classList.remove("fullscreen-mode");
+                try {
+                    if (document.fullscreenElement && document.exitFullscreen) await document.exitFullscreen();
+                } catch (_error) {
+                    // Always clear the CSS fallback even if the browser rejects the request.
+                }
+                fullscreenFrame.classList.remove("fullscreen-mode");
+                document.body.classList.remove("lesson-fullscreen-active");
             });
         }
 
         document.addEventListener("fullscreenchange", () => {
-            if (contentCard) contentCard.classList.toggle("fullscreen-mode", document.fullscreenElement === contentCard);
+            if (fullscreenFrame) {
+                const active = document.fullscreenElement === fullscreenFrame;
+                fullscreenFrame.classList.toggle("fullscreen-mode", active);
+                document.body.classList.toggle("lesson-fullscreen-active", active);
+            }
         });
     };
 
@@ -695,7 +718,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const renderTemplates = (codes = {}) => Object.entries(codes)
-        .map(([id, code]) => `<template id="${id}">${escapeHtml(code)}</template>`)
+        .map(([id, code]) => `<template id="${id}">${escapeHtml(formatCode(code))}</template>`)
         .join("");
 
     const renderGallery = (pages = []) => `<div class="pdf-showcase elaborate-pages scroll-gallery">${pages.map(pageCard).join("")}</div>`;
@@ -790,12 +813,26 @@ document.addEventListener("DOMContentLoaded", () => {
         .replace(/\s+/g, "")
         .toUpperCase();
 
+    const arrangeAssessmentQuestions = (questions = []) => {
+        const seed = `${year}-${grade}-${session}`.split("").reduce((total, character) => total + character.charCodeAt(0), 0);
+        return questions.map((question, index) => {
+            const options = Array.isArray(question[1]) ? [...question[1]] : [];
+            const correctIndex = Number(question[2]);
+            if (options.length < 2 || !Number.isInteger(correctIndex) || correctIndex < 0 || correctIndex >= options.length) return question;
+            const shift = (seed + index) % options.length;
+            const arrangedOptions = options.slice(shift).concat(options.slice(0, shift));
+            const arrangedCorrectIndex = (correctIndex - shift + options.length) % options.length;
+            return [question[0], arrangedOptions, arrangedCorrectIndex];
+        });
+    };
+
     const renderInteractiveCodeChallenge = (challengeCode = "", answers = [], language = "en") => {
-        const escapedParts = challengeCode.split(/_{4,}/).map(escapeHtml);
+        const formattedChallenge = formatCode(challengeCode);
+        const escapedParts = formattedChallenge.split(/_{4,}/).map(escapeHtml);
         if (escapedParts.length === 1) {
             return `<div class="code-entry-panel" data-code-challenge="full">
                 <label for="fullCodeAnswer">${uiText(language, "typeCorrectedCode")}</label>
-                <textarea id="fullCodeAnswer" class="code-textarea" data-full-code-answer rows="10" spellcheck="false">${escapeHtml(challengeCode)}</textarea>
+                <textarea id="fullCodeAnswer" class="code-textarea" data-full-code-answer rows="10" spellcheck="false">${escapeHtml(formattedChallenge)}</textarea>
             </div>`;
         }
 
@@ -884,7 +921,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     ${data.triggers.map((item, index) => `<article class="trigger-card${item[0] ? "" : " no-image"}">
                         ${item[0] ? loadingImage(`${assetPrefix}${item[0]}`, tr(item[1]), "trigger-media-stage") : ""}
                         <div>
-                            <h2>${index + 1}. ${tr(item[1])}</h2>
+                            <h2>${data.triggers.length > 1 ? `${index + 1}. ` : ""}${tr(item[1])}</h2>
                             <p><strong>${uiText(language, "triggerQuestion")}</strong> ${tr(item[2])}</p>
                             <p>${tr(item[3])}</p>
                         </div>
@@ -930,7 +967,7 @@ document.addEventListener("DOMContentLoaded", () => {
             card.innerHTML = `${header}
                 <article class="code-focus">
                     <h2>${uiText(language, "code")}</h2>
-                    <div class="code-copy-wrap"><button type="button" class="copy-code-btn">${iconMarkup("copy")}<span data-button-label>${uiText(language, "copyCode")}</span></button><pre><code>${escapeHtml(data.code)}</code></pre></div>
+                    <div class="code-copy-wrap"><button type="button" class="copy-code-btn">${iconMarkup("copy")}<span data-button-label>${uiText(language, "copyCode")}</span></button><pre><code>${escapeHtml(formatCode(data.code))}</code></pre></div>
                 </article>
                 <div class="explain-steps">${data.steps.map((step, index) => `<article><h3>${index + 1}. ${tr(step[0])}</h3><p>${tr(step[1])}</p></article>`).join("")}</div>
                 ${hardwareSection}${phaseFooter}`;
@@ -949,7 +986,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (phase === "evaluate") {
             card.className = `${card.classList.contains("active") ? "active " : ""}phase-card evaluate all5e-section`;
-            const questions = lessonData.evaluate?.questions || [];
+            const questions = arrangeAssessmentQuestions(lessonData.evaluate?.questions || []);
             const challenge = lessonData.evaluate?.challenge || "Complete the missing parts based on this session.";
             const challengeCode = lessonData.evaluate?.challengeCode || `const int ledPin = ____;
 
@@ -1042,7 +1079,7 @@ void loop() {
                     ${data.triggers.map((item, index) => `<article class="trigger-card${item[0] ? "" : " no-image"}">
                         ${item[0] ? loadingImage(`${assetPrefix}${item[0]}`, item[1], "trigger-media-stage") : ""}
                         <div>
-                            <h2>${index + 1}. ${item[1]}</h2>
+                            <h2>${data.triggers.length > 1 ? `${index + 1}. ` : ""}${item[1]}</h2>
                             <p><strong>Trigger Question:</strong> ${item[2]}</p>
                             <p>${item[3]}</p>
                         </div>
@@ -1094,7 +1131,7 @@ void loop() {
             card.innerHTML = `${header}
                 <article class="code-focus">
                     <h2>Code</h2>
-                    <div class="code-copy-wrap"><button type="button" class="copy-code-btn">${iconMarkup("copy")}<span data-button-label>Copy Code</span></button><pre><code>${escapeHtml(data.code)}</code></pre></div>
+                    <div class="code-copy-wrap"><button type="button" class="copy-code-btn">${iconMarkup("copy")}<span data-button-label>Copy Code</span></button><pre><code>${escapeHtml(formatCode(data.code))}</code></pre></div>
                 </article>
                 <div class="explain-steps">${data.steps.map((step, index) => `<article><h3>${index + 1}. ${step[0]}</h3><p>${step[1]}</p></article>`).join("")}</div>
                 ${hardwareSection}`;
@@ -1113,7 +1150,7 @@ void loop() {
 
         if (currentPage === "evaluate") {
             card.className = "phase-card evaluate";
-            const questions = lessonData.evaluate?.questions || [];
+            const questions = arrangeAssessmentQuestions(lessonData.evaluate?.questions || []);
             const challenge = lessonData.evaluate?.challenge || "Complete the missing parts based on this session.";
             const challengeCode = lessonData.evaluate?.challengeCode || `const int ledPin = ____;
 

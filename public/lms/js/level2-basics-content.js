@@ -238,6 +238,10 @@ void loop() {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
 
+  const formatCode = (value) => typeof window.formatArduinoCode === "function"
+    ? window.formatArduinoCode(value)
+    : String(value ?? "");
+
   const icon = (name) => `<i data-lucide="${name}" aria-hidden="true"></i>`;
 
   const media = (src, alt) => `<div class="media-stage pdf-media-stage is-loading">
@@ -269,7 +273,7 @@ void loop() {
       <div><h3>Arduino Code Files</h3><p>Download the Level 1 source code used in this Explore topic.</p></div>
       <div class="download-actions">${section.downloads.map(([href, label, type]) => `<a class="download-btn ${type === "secondary" ? "secondary-download" : ""}" href="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/${href}" download>${icon("download")}<span>${escapeHtml(label)}</span></a>`).join("")}</div>
     </section>
-    <div class="basics-code-grid">${section.codes.map(([id, title, sourceCode]) => `<article class="code-focus"><h3>${escapeHtml(title)}</h3><div class="code-copy-wrap"><button type="button" class="copy-code-btn">${icon("copy")}<span data-button-label>Copy Code</span></button><pre><code>${escapeHtml(sourceCode)}</code></pre></div><template id="${id}">${escapeHtml(sourceCode)}</template></article>`).join("")}</div>
+    <div class="basics-code-grid">${section.codes.map(([id, title, sourceCode]) => `<article class="code-focus"><h3>${escapeHtml(title)}</h3><div class="code-copy-wrap"><button type="button" class="copy-code-btn">${icon("copy")}<span data-button-label>Copy Code</span></button><pre><code>${escapeHtml(formatCode(sourceCode))}</code></pre></div><template id="${id}">${escapeHtml(formatCode(sourceCode))}</template></article>`).join("")}</div>
     <div class="all5e-next-row">${next ? `<button type="button" class="download-btn" data-next-basics="${next.id}"><span>Next: ${escapeHtml(next.label)}</span>${icon("arrow-right")}</button>` : `<a class="download-btn secondary-download" href="../index.html?panel=sessionSelect&year=2&grade={grade}">${icon("circle-check")}<span>Finish Basics Session</span></a>`}</div>
   </section>`;
 

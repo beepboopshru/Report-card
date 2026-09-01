@@ -5,6 +5,9 @@ Static site vendored from https://github.com/Prem-things/SU_LMS_ROBOTICS
 images, PDFs, Arduino sketches, zips (~260 MB) — stays in the upstream repo and
 is served from jsDelivr (`cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/`).
 
+Last synced from upstream commit `a58dbe0` (lesson navigation, curriculum
+content, assessment integrity, Arduino formatting, and UI polish).
+
 Local patches (keep when re-vendoring):
 
 1. `js/main.js` + `js/common-introduction-content.js`: `assetPrefix` points at

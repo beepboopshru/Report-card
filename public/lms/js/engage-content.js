@@ -112,8 +112,8 @@
       ["Desk Lamp", "How does a desk lamp turn light ON when the circuit is complete?", "A desk lamp is a real light-output example. The circuit allows current to reach the lamp, just like Arduino sends an output to an LED."],
       ["Night Lamp", "Why can a small night lamp glow in a dark room?", "A tiny LED can give useful light when it receives power in the correct direction."],
       ["Toy Blinking Light", "How does a toy make a light blink again and again?", "The toy circuit repeats ON, WAIT, OFF, WAIT, which is the same idea as loop() and delay()."],
-      ["Bicycle Safety Light", "Why do bicycle lights blink instead of staying ON?", "Blinking catches attention quickly and makes the rider easier to notice."],
-      ["Power Indicator", "Why do devices use small indicator LEDs?", "A small LED shows whether a device is ON, charging, or active."]
+      ["Safety Alarm Light", "Why does a safety alarm use a bright blinking light?", "A repeated flash catches attention quickly, even in a noisy place."],
+      ["Pedestrian Signal", "How does a pedestrian signal use light to show stop and go?", "Illuminated symbols change in a controlled sequence so people know when it is safe to cross."]
     ]],
     "5-1": ["Manual LED Output", [
       ["Room Switch", "How does a wall switch control a room light?", "The switch opens or closes the electrical path, just like the rocker switch controls the class output."],
@@ -194,6 +194,16 @@
     ]]
   };
 
+  const photoOverrides = {
+    "4-1": [
+      "assets/images/real/class-4/session-1/web/desk-lamp.jpg",
+      "assets/images/real/class-4/session-1/web/night-light.jpg",
+      "assets/images/real/class-4/session-1/web/toy-light.jpg",
+      "assets/images/real/class-4/session-1/web/alarm-light.jpg",
+      "assets/images/real/class-4/session-1/web/traffic-light.jpg"
+    ]
+  };
+
   Object.entries(realExamples).forEach(([key, [leadTopic, cards]]) => {
     const lesson = window.LMS_CONTENT[key];
     if (!lesson || !lesson.engage) return;
@@ -201,7 +211,7 @@
     lesson.engage.title = "Real-Life Curiosity Kickoff";
     lesson.engage.lead = `Start with these real-life examples of ${leadTopic}. Each example connects directly to the code and circuit students will build.`;
     lesson.engage.triggers = cards.map(([title, question, description], index) => [
-      "",
+      photoOverrides[key]?.[index] || `assets/images/engage-real/class-${grade}/session-${session}/engage-real-${String(index + 1).padStart(2, "0")}.png`,
       title,
       question,
       description

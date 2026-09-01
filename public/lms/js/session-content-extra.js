@@ -66,7 +66,7 @@ Object.assign(window.LMS_CONTENT, {
       ],
       "pages": [
         [
-          "assets/images/pdf/class-4/session-2/explore-c4-s2-page-03.jpg",
+          "assets/images/pdf/class-4/session-2/explore-c4-s2-page-03-web.jpg",
           "Project Setup",
           "Blink LED with Delay 3 Patterns source PDF page."
         ],
@@ -165,26 +165,26 @@ Object.assign(window.LMS_CONTENT, {
             ],
             [
               "assets/images/pdf/class-4/session-2/elaborate-c4-s2-page-08.jpg",
+              "Completed Police Light Build",
+              "Completed Police Light Pattern from the Elaborate PDF."
+            ],
+            [
+              "assets/images/pdf/class-4/session-2/elaborate-c4-s2-page-09.jpg",
               "Code File Page",
-              "Code File Page from the Elaborate PDF.",
+              "Police Light Pattern code from the Elaborate PDF.",
               "c4s2-elaborate-project1-code"
             ]
           ],
           "working": "Police Light Pattern shows how Blink LED with Delay 3 Patterns becomes a physical model. Students upload the code, power the circuit, and observe the light, sound, or color response on the template."
         },
         {
-          "title": "Project 2: Multi-Light Alert Build",
+          "title": "Project 2: Ambulance Buzzer Alert",
           "download": [
             "assets/downloads/class-4/session-2/elaborate/c4-session2-project2-code.zip",
             "Project 2 ZIP",
             "secondary"
           ],
           "pages": [
-            [
-              "assets/images/pdf/class-4/session-2/elaborate-c4-s2-page-09.jpg",
-              "Connection and Setup",
-              "Connection and Setup from the Elaborate PDF."
-            ],
             [
               "assets/images/pdf/class-4/session-2/elaborate-c4-s2-page-10.jpg",
               "Build Step",
@@ -202,12 +202,12 @@ Object.assign(window.LMS_CONTENT, {
               "c4s2-elaborate-project2-code"
             ]
           ],
-          "working": "Multi-Light Alert Build extends the same class concept with a second build. Students compare what changed in the wiring, output behavior, and code pattern."
+          "working": "The Ambulance Buzzer Alert repeatedly switches the buzzer on and off at D5. The 200 millisecond pauses create a clear warning beep pattern."
         }
       ],
       "codes": {
-        "c4s2-elaborate-project1-code": "const int ledPin = 5;\n\nvoid setup() {\n  pinMode(ledPin, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(ledPin, HIGH);\n  delay(200);\n  digitalWrite(ledPin, LOW);\n  delay(200);\n  digitalWrite(ledPin, HIGH);\n  delay(500);\n  digitalWrite(ledPin, LOW);\n  delay(500);\n  digitalWrite(ledPin, HIGH);\n  delay(1000);\n  digitalWrite(ledPin, LOW);\n  delay(1000);\n}",
-        "c4s2-elaborate-project2-code": "const int ledPin = 5;\n\nvoid setup() {\n  pinMode(ledPin, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(ledPin, HIGH);\n  delay(150);\n  digitalWrite(ledPin, LOW);\n  delay(150);\n  digitalWrite(ledPin, HIGH);\n  delay(400);\n  digitalWrite(ledPin, LOW);\n  delay(400);\n  digitalWrite(ledPin, HIGH);\n  delay(900);\n  digitalWrite(ledPin, LOW);\n  delay(900);\n}"
+        "c4s2-elaborate-project1-code": "void setup() {\n  pinMode(5, OUTPUT); // redled\n  pinMode(6, OUTPUT); // blue led\n}\n\nvoid loop() {\n  digitalWrite(5, HIGH);\n  digitalWrite(6, LOW);\n  delay(200);\n  digitalWrite(5, LOW);\n  digitalWrite(6, HIGH);\n  delay(200);\n}",
+        "c4s2-elaborate-project2-code": "void setup() {\n  pinMode(5, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(5, HIGH);\n  delay(200);\n  digitalWrite(5, LOW);\n  delay(200);\n}"
       }
     },
     "evaluate": {
@@ -1195,14 +1195,9 @@ Object.assign(window.LMS_CONTENT, {
           ],
           "pages": [
             [
-              "assets/images/pdf/class-7/session-2/elaborate-c7-s2-page-29.jpg",
+              "assets/images/pdf/class-7/session-2/elaborate-c7-s2-page-30.jpg",
               "Connection and Setup",
               "Connection and Setup from the Elaborate PDF."
-            ],
-            [
-              "assets/images/pdf/class-7/session-2/elaborate-c7-s2-page-30.jpg",
-              "Build Step",
-              "Build Step from the Elaborate PDF."
             ],
             [
               "assets/images/pdf/class-7/session-2/elaborate-c7-s2-page-31.jpg",
@@ -1211,8 +1206,19 @@ Object.assign(window.LMS_CONTENT, {
             ],
             [
               "assets/images/pdf/class-7/session-2/elaborate-c7-s2-page-32.jpg",
+              "Completed Converter LED Pattern",
+              "Completed Converter LED Pattern from the Elaborate PDF."
+            ],
+            [
+              "assets/images/pdf/class-7/session-2/elaborate-c7-s2-page-33.jpg",
               "Code File Page",
-              "Code File Page from the Elaborate PDF.",
+              "Converter LED Pattern code from the Elaborate PDF.",
+              "c7s2-elaborate-project1-code"
+            ],
+            [
+              "assets/images/pdf/class-7/session-2/elaborate-c7-s2-page-34.jpg",
+              "Code File Page Continued",
+              "Converter LED Pattern code continued from the Elaborate PDF.",
               "c7s2-elaborate-project1-code"
             ]
           ],
@@ -1227,19 +1233,9 @@ Object.assign(window.LMS_CONTENT, {
           ],
           "pages": [
             [
-              "assets/images/pdf/class-7/session-2/elaborate-c7-s2-page-33.jpg",
+              "assets/images/pdf/class-7/session-2/elaborate-c7-s2-page-35.jpg",
               "Connection and Setup",
               "Connection and Setup from the Elaborate PDF."
-            ],
-            [
-              "assets/images/pdf/class-7/session-2/elaborate-c7-s2-page-34.jpg",
-              "Build Step",
-              "Build Step from the Elaborate PDF."
-            ],
-            [
-              "assets/images/pdf/class-7/session-2/elaborate-c7-s2-page-35.jpg",
-              "Build Step",
-              "Build Step from the Elaborate PDF."
             ],
             [
               "assets/images/pdf/class-7/session-2/elaborate-c7-s2-page-36.jpg",
@@ -1248,18 +1244,19 @@ Object.assign(window.LMS_CONTENT, {
             ],
             [
               "assets/images/pdf/class-7/session-2/elaborate-c7-s2-page-37.jpg",
-              "Build Step",
-              "Build Step from the Elaborate PDF."
+              "Completed DIP LED Template",
+              "Completed DIP LED Template from the Elaborate PDF."
             ],
             [
               "assets/images/pdf/class-7/session-2/elaborate-c7-s2-page-38.jpg",
-              "Build Step",
-              "Build Step from the Elaborate PDF."
+              "Code File Page",
+              "DIP LED Template code from the Elaborate PDF.",
+              "c7s2-elaborate-project2-code"
             ],
             [
               "assets/images/pdf/class-7/session-2/elaborate-c7-s2-page-39.jpg",
-              "Code File Page",
-              "Code File Page from the Elaborate PDF.",
+              "Code File Page Continued",
+              "DIP LED Template code continued from the Elaborate PDF.",
               "c7s2-elaborate-project2-code"
             ]
           ],
@@ -1267,8 +1264,8 @@ Object.assign(window.LMS_CONTENT, {
         }
       ],
       "codes": {
-        "c7s2-elaborate-project1-code": "const int led1 = 4;\nconst int led2 = 6;\nconst int led3 = 7;\n\nvoid setup() {\n  pinMode(led1, OUTPUT);\n  pinMode(led2, OUTPUT);\n  pinMode(led3, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(led1, HIGH);\n  digitalWrite(led2, HIGH);\n  digitalWrite(led3, HIGH);\n  delay(500);\n  digitalWrite(led1, LOW);\n  delay(300);\n  digitalWrite(led2, LOW);\n  delay(300);\n  digitalWrite(led3, LOW);\n  delay(500);\n}",
-        "c7s2-elaborate-project2-code": "const int led1 = 4;\nconst int led2 = 5;\nconst int led3 = 6;\nconst int led4 = 7;\n\nvoid setup() {\n  pinMode(led1, OUTPUT);\n  pinMode(led2, OUTPUT);\n  pinMode(led3, OUTPUT);\n  pinMode(led4, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(led1, HIGH);\n  digitalWrite(led2, HIGH);\n  digitalWrite(led3, HIGH);\n  digitalWrite(led4, HIGH);\n  delay(500);\n  digitalWrite(led1, LOW);\n  delay(300);\n  digitalWrite(led2, LOW);\n  delay(300);\n  digitalWrite(led3, LOW);\n  delay(300);\n  digitalWrite(led4, LOW);\n  delay(500);\n}"
+        "c7s2-elaborate-project1-code": "const int dipLed1 = 4;\nconst int dipLed2 = 5;\nconst int dipLed3 = 6;\nconst int dipLed4 = 7;\n\nvoid setup() {\n  pinMode(dipLed1, OUTPUT);\n  pinMode(dipLed2, OUTPUT);\n  pinMode(dipLed3, OUTPUT);\n  pinMode(dipLed4, OUTPUT);\n}\n\nvoid loop() {\n  // All 4 LEDs ON together\n  digitalWrite(dipLed1, HIGH);\n  digitalWrite(dipLed2, HIGH);\n  digitalWrite(dipLed3, HIGH);\n  digitalWrite(dipLed4, HIGH);\n  delay(500);\n\n  // OFF one by one\n  digitalWrite(dipLed1, LOW);\n  delay(300);\n  digitalWrite(dipLed2, LOW);\n  delay(300);\n  digitalWrite(dipLed3, LOW);\n  delay(300);\n  digitalWrite(dipLed4, LOW);\n  delay(500);\n}",
+        "c7s2-elaborate-project2-code": "#define LED1 D5\n#define LED2 D6\n#define LED3 D7\n\nvoid setup() {\n  pinMode(LED1, OUTPUT);\n  pinMode(LED2, OUTPUT);\n  pinMode(LED3, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(LED1, HIGH);\n  digitalWrite(LED2, LOW);\n  digitalWrite(LED3, HIGH);\n  delay(300);\n\n  digitalWrite(LED1, LOW);\n  digitalWrite(LED2, HIGH);\n  digitalWrite(LED3, LOW);\n  delay(300);\n\n  digitalWrite(LED1, HIGH);\n  digitalWrite(LED2, HIGH);\n  digitalWrite(LED3, HIGH);\n  delay(200);\n\n  digitalWrite(LED1, LOW);\n  digitalWrite(LED2, LOW);\n  digitalWrite(LED3, LOW);\n  delay(200);\n}"
       }
     },
     "evaluate": {
@@ -1578,8 +1575,13 @@ Object.assign(window.LMS_CONTENT, {
             ],
             [
               "assets/images/pdf/class-4/session-3/elaborate-c4-s3-page-08.jpg",
+              "Completed Shadow Light Build",
+              "Completed Shadow Light Model from the Elaborate PDF."
+            ],
+            [
+              "assets/images/pdf/class-4/session-3/elaborate-c4-s3-page-09.jpg",
               "Code File Page",
-              "Code File Page from the Elaborate PDF.",
+              "Shadow Light Model code from the Elaborate PDF.",
               "c4s3-elaborate-project1-code"
             ]
           ],
@@ -1587,7 +1589,7 @@ Object.assign(window.LMS_CONTENT, {
         }
       ],
       "codes": {
-        "c4s3-elaborate-project1-code": "const int switchPin = 2;\nconst int ledPin = 5;\n\nvoid setup() {\n  pinMode(switchPin, INPUT_PULLUP);\n  pinMode(ledPin, OUTPUT);\n}\n\nvoid loop() {\n  if (digitalRead(switchPin) == LOW) {\n    digitalWrite(ledPin, HIGH);\n  } else {\n    digitalWrite(ledPin, LOW);\n  }\n}"
+        "c4s3-elaborate-project1-code": "void setup()\n{\n  pinMode(5, OUTPUT):\n}\n\nvoid loop()\n{\n  digitalWrite(5, HIGH);\n}"
       }
     },
     "evaluate": {
@@ -1876,14 +1878,9 @@ Object.assign(window.LMS_CONTENT, {
           ],
           "pages": [
             [
-              "assets/images/pdf/class-5/session-3/elaborate-c5-s3-page-09.jpg",
+              "assets/images/pdf/class-5/session-3/elaborate-c5-s3-page-10.jpg",
               "Connection and Setup",
               "Connection and Setup from the Elaborate PDF."
-            ],
-            [
-              "assets/images/pdf/class-5/session-3/elaborate-c5-s3-page-10.jpg",
-              "Build Step",
-              "Build Step from the Elaborate PDF."
             ],
             [
               "assets/images/pdf/class-5/session-3/elaborate-c5-s3-page-11.jpg",
@@ -1897,8 +1894,19 @@ Object.assign(window.LMS_CONTENT, {
             ],
             [
               "assets/images/pdf/class-5/session-3/elaborate-c5-s3-page-13.jpg",
+              "Completed RGB Model",
+              "Completed Push Button RGB Model from the Elaborate PDF."
+            ],
+            [
+              "assets/images/pdf/class-5/session-3/elaborate-c5-s3-page-14.jpg",
               "Code File Page",
-              "Code File Page from the Elaborate PDF.",
+              "Push Button RGB Model code from the Elaborate PDF.",
+              "c5s3-elaborate-project1-code"
+            ],
+            [
+              "assets/images/pdf/class-5/session-3/elaborate-c5-s3-page-15.jpg",
+              "Code File Page Continued",
+              "Push Button RGB Model code continued from the Elaborate PDF.",
               "c5s3-elaborate-project1-code"
             ]
           ],
@@ -1906,7 +1914,7 @@ Object.assign(window.LMS_CONTENT, {
         }
       ],
       "codes": {
-        "c5s3-elaborate-project1-code": "const int switchPin = 3;\nconst int buzzerPin = 6;\n\nvoid setup() {\n  pinMode(switchPin, INPUT_PULLUP);\n  pinMode(buzzerPin, OUTPUT);\n}\n\nvoid loop() {\n  if (digitalRead(switchPin) == LOW) {\n    digitalWrite(buzzerPin, HIGH);\n  } else {\n    digitalWrite(buzzerPin, LOW);\n  }\n}"
+        "c5s3-elaborate-project1-code": "const int pushSwitch = 5;\nconst int buzzer = 6;\nconst int rgbRed = 10;\nconst int rgbGreen = 12;\nconst int rgbBlue = 13;\n\nvoid setup() {\n  pinMode(pushSwitch, INPUT_PULLUP);\n  pinMode(buzzer, OUTPUT);\n  pinMode(11, OUTPUT);\n  pinMode(rgbRed, OUTPUT);\n  pinMode(rgbGreen, OUTPUT);\n  pinMode(rgbBlue, OUTPUT);\n  digitalWrite(11, HIGH); // D11 HIGH forever\n}\n\nvoid loop() {\n  int switchState = digitalRead(pushSwitch);\n  if (switchState == LOW) {\n    // Switch pressed\n    // Red + buzzer ON\n    digitalWrite(rgbRed, HIGH);\n    digitalWrite(rgbGreen, LOW);\n    digitalWrite(rgbBlue, LOW);\n    digitalWrite(buzzer, HIGH);\n    delay(500);\n\n    // Green + buzzer OFF\n    digitalWrite(rgbRed, LOW);\n    digitalWrite(rgbGreen, HIGH);\n    digitalWrite(rgbBlue, LOW);\n    digitalWrite(buzzer, LOW);\n    delay(500);\n\n    // Blue + buzzer ON\n    digitalWrite(rgbRed, LOW);\n    digitalWrite(rgbGreen, LOW);\n    digitalWrite(rgbBlue, HIGH);\n    digitalWrite(buzzer, HIGH);\n    delay(500);\n  } else {\n    // Switch not pressed\n    digitalWrite(rgbRed, LOW);\n    digitalWrite(rgbGreen, LOW);\n    digitalWrite(rgbBlue, LOW);\n    digitalWrite(buzzer, LOW);\n  }\n}"
       }
     },
     "evaluate": {
@@ -2206,19 +2214,9 @@ Object.assign(window.LMS_CONTENT, {
           ],
           "pages": [
             [
-              "assets/images/pdf/class-6/session-3/elaborate-c6-s3-page-14.jpg",
+              "assets/images/pdf/class-6/session-3/elaborate-c6-s3-page-16.jpg",
               "Connection and Setup",
               "Connection and Setup from the Elaborate PDF."
-            ],
-            [
-              "assets/images/pdf/class-6/session-3/elaborate-c6-s3-page-15.jpg",
-              "Build Step",
-              "Build Step from the Elaborate PDF."
-            ],
-            [
-              "assets/images/pdf/class-6/session-3/elaborate-c6-s3-page-16.jpg",
-              "Build Step",
-              "Build Step from the Elaborate PDF."
             ],
             [
               "assets/images/pdf/class-6/session-3/elaborate-c6-s3-page-17.jpg",
@@ -2232,9 +2230,8 @@ Object.assign(window.LMS_CONTENT, {
             ],
             [
               "assets/images/pdf/class-6/session-3/elaborate-c6-s3-page-19.jpg",
-              "Code File Page",
-              "Code File Page from the Elaborate PDF.",
-              "c6s3-elaborate-project1-code"
+              "Completed Joker RGB Model",
+              "Completed Joker RGB Model from the Elaborate PDF."
             ]
           ],
           "working": "Joker RGB Model shows how RGB Control by Push Button becomes a physical model. Students upload the code, power the circuit, and observe the light, sound, or color response on the template."
@@ -2249,8 +2246,19 @@ Object.assign(window.LMS_CONTENT, {
           "pages": [
             [
               "assets/images/pdf/class-6/session-3/elaborate-c6-s3-page-20.jpg",
+              "Parrot Template Swap",
+              "Replace the Joker template with the Parrot template as shown in the Elaborate PDF."
+            ],
+            [
+              "assets/images/pdf/class-6/session-3/elaborate-c6-s3-page-21.jpg",
               "Code File Page",
-              "Code File Page from the Elaborate PDF.",
+              "RGB template code from the Elaborate PDF.",
+              "c6s3-elaborate-project2-code"
+            ],
+            [
+              "assets/images/pdf/class-6/session-3/elaborate-c6-s3-page-22.jpg",
+              "Code File Page Continued",
+              "RGB template code continued from the Elaborate PDF.",
               "c6s3-elaborate-project2-code"
             ]
           ],
@@ -2258,8 +2266,8 @@ Object.assign(window.LMS_CONTENT, {
         }
       ],
       "codes": {
-        "c6s3-elaborate-project1-code": "const int pushSwitch = 5;\nconst int rgbRed = 10;\nconst int rgbGreen = 12;\nconst int rgbBlue = 13;\n\nvoid setup() {\n  pinMode(pushSwitch, INPUT_PULLUP);\n  pinMode(rgbRed, OUTPUT);\n  pinMode(rgbGreen, OUTPUT);\n  pinMode(rgbBlue, OUTPUT);\n}\n\nvoid loop() {\n  int switchState = digitalRead(pushSwitch);\n  if (switchState == LOW) {\n    digitalWrite(rgbRed, HIGH);\n    digitalWrite(rgbGreen, LOW);\n    digitalWrite(rgbBlue, LOW);\n    delay(500);\n    digitalWrite(rgbRed, LOW);\n    digitalWrite(rgbGreen, HIGH);\n    digitalWrite(rgbBlue, LOW);\n    delay(500);\n    digitalWrite(rgbRed, LOW);\n    digitalWrite(rgbGreen, LOW);\n    digitalWrite(rgbBlue, HIGH);\n    delay(500);\n  } else {\n    digitalWrite(rgbRed, LOW);\n    digitalWrite(rgbGreen, LOW);\n    digitalWrite(rgbBlue, LOW);\n  }\n}",
-        "c6s3-elaborate-project2-code": "const int pushSwitch = 2;\nconst int rgbRed = 10;\nconst int rgbGreen = 12;\nconst int rgbBlue = 13;\n\nvoid setup() {\n  pinMode(pushSwitch, INPUT_PULLUP);\n  pinMode(rgbRed, OUTPUT);\n  pinMode(rgbGreen, OUTPUT);\n  pinMode(rgbBlue, OUTPUT);\n}\n\nvoid loop() {\n  int switchState = digitalRead(pushSwitch);\n  if (switchState == LOW) {\n    digitalWrite(rgbRed, HIGH);\n    digitalWrite(rgbGreen, LOW);\n    digitalWrite(rgbBlue, LOW);\n    delay(500);\n    digitalWrite(rgbRed, LOW);\n    digitalWrite(rgbGreen, HIGH);\n    digitalWrite(rgbBlue, LOW);\n    delay(500);\n    digitalWrite(rgbRed, LOW);\n    digitalWrite(rgbGreen, LOW);\n    digitalWrite(rgbBlue, HIGH);\n    delay(500);\n  } else {\n    digitalWrite(rgbRed, LOW);\n    digitalWrite(rgbGreen, LOW);\n    digitalWrite(rgbBlue, LOW);\n  }\n}"
+        "c6s3-elaborate-project1-code": "const int pushSwitch = 5;\nconst int buzzer = 6;\nconst int rgbRed = 10;\nconst int rgbGreen = 12;\nconst int rgbBlue = 13;\n\nvoid setup() {\n  pinMode(pushSwitch, INPUT_PULLUP);\n  pinMode(buzzer, OUTPUT);\n  pinMode(11, OUTPUT);\n  pinMode(rgbRed, OUTPUT);\n  pinMode(rgbGreen, OUTPUT);\n  pinMode(rgbBlue, OUTPUT);\n  digitalWrite(11, HIGH); // D11 HIGH forever\n}\n\nvoid loop() {\n  int switchState = digitalRead(pushSwitch);\n  if (switchState == LOW) {\n    // Switch pressed\n    // Red + buzzer ON\n    digitalWrite(rgbRed, HIGH);\n    digitalWrite(rgbGreen, LOW);\n    digitalWrite(rgbBlue, LOW);\n    digitalWrite(buzzer, HIGH);\n    delay(500);\n\n    // Green + buzzer OFF\n    digitalWrite(rgbRed, LOW);\n    digitalWrite(rgbGreen, HIGH);\n    digitalWrite(rgbBlue, LOW);\n    digitalWrite(buzzer, LOW);\n    delay(500);\n\n    // Blue + buzzer ON\n    digitalWrite(rgbRed, LOW);\n    digitalWrite(rgbGreen, LOW);\n    digitalWrite(rgbBlue, HIGH);\n    digitalWrite(buzzer, HIGH);\n    delay(500);\n  } else {\n    // Switch not pressed\n    digitalWrite(rgbRed, LOW);\n    digitalWrite(rgbGreen, LOW);\n    digitalWrite(rgbBlue, LOW);\n    digitalWrite(buzzer, LOW);\n  }\n}",
+        "c6s3-elaborate-project2-code": "const int pushSwitch = 5;\nconst int buzzer = 6;\nconst int rgbRed = 10;\nconst int rgbGreen = 12;\nconst int rgbBlue = 13;\n\nvoid setup() {\n  pinMode(pushSwitch, INPUT_PULLUP);\n  pinMode(buzzer, OUTPUT);\n  pinMode(11, OUTPUT);\n  pinMode(rgbRed, OUTPUT);\n  pinMode(rgbGreen, OUTPUT);\n  pinMode(rgbBlue, OUTPUT);\n  digitalWrite(11, HIGH); // D11 HIGH forever\n}\n\nvoid loop() {\n  int switchState = digitalRead(pushSwitch);\n  if (switchState == LOW) {\n    // Switch pressed\n    // Red + buzzer ON\n    digitalWrite(rgbRed, HIGH);\n    digitalWrite(rgbGreen, LOW);\n    digitalWrite(rgbBlue, LOW);\n    digitalWrite(buzzer, HIGH);\n    delay(500);\n\n    // Green + buzzer OFF\n    digitalWrite(rgbRed, LOW);\n    digitalWrite(rgbGreen, HIGH);\n    digitalWrite(rgbBlue, LOW);\n    digitalWrite(buzzer, LOW);\n    delay(500);\n\n    // Blue + buzzer ON\n    digitalWrite(rgbRed, LOW);\n    digitalWrite(rgbGreen, LOW);\n    digitalWrite(rgbBlue, HIGH);\n    digitalWrite(buzzer, HIGH);\n    delay(500);\n  } else {\n    // Switch not pressed\n    digitalWrite(rgbRed, LOW);\n    digitalWrite(rgbGreen, LOW);\n    digitalWrite(rgbBlue, LOW);\n    digitalWrite(buzzer, LOW);\n  }\n}"
       }
     },
     "evaluate": {
