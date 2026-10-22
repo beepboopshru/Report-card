@@ -30,7 +30,8 @@ const sessionLabel = (s: string) => (s === "0" ? "Intro" : s);
 // ponytail: BLIX has one pseudo-grade "all", no 5E phases; a stored pick with
 // groups ["core"] just means "this session is on".
 const isBlix = (level: LmsLevel) => level.id === BLIX_LEVEL_ID;
-const isStandalone = (level: LmsLevel) => level.id === SCIENCE6_LEVEL_ID;
+const isStandalone = (level: LmsLevel) =>
+  level.id === SCIENCE6_LEVEL_ID || !!level.pdfPath;
 const sessionsOf = levelSessions;
 const groupsOf = (level: LmsLevel) =>
   isBlix(level) ? ["core"] : PHASE_GROUPS.map((g) => g.id as string);
