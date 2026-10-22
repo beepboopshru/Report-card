@@ -1,0 +1,74 @@
+﻿{
+    "5-1":  {
+                "Topic":  "Manual LED Output",
+                "Cards":  [
+
+                          ]
+            },
+    "7-2":  {
+                "Topic":  "Advanced LED Patterns",
+                "Cards":  [
+
+                          ]
+            },
+    "4-1":  {
+                "Topic":  "Single LED Blink",
+                "Cards":  [
+
+                          ]
+            },
+    "4-2":  {
+                "Topic":  "3 Blink Delay Patterns",
+                "Cards":  [
+
+                          ]
+            },
+    "5-3":  {
+                "Topic":  "Push Button Buzzer",
+                "Cards":  [
+
+                          ]
+            },
+    "6-1":  {
+                "Topic":  "Three LED Sequence",
+                "Cards":  [
+
+                          ]
+            },
+    "6-3":  {
+                "Topic":  "RGB Push Button",
+                "Cards":  [
+
+                          ]
+            },
+    "7-1":  {
+                "Topic":  "Buzzer System Logic",
+                "Cards":  [
+
+                          ]
+            },
+    "7-3":  {
+                "Topic":  "Dimmer and Tones",
+                "Cards":  [
+
+                          ]
+            },
+    "6-2":  {
+                "Topic":  "Buzzer Beep System",
+                "Cards":  [
+
+                          ]
+            },
+    "4-3":  {
+                "Topic":  "Push Button LED",
+                "Cards":  [
+
+                          ]
+            },
+    "5-2":  {
+                "Topic":  "4 Blink Delay Patterns",
+                "Cards":  [
+
+                          ]
+            }
+}

@@ -13,7 +13,7 @@
 
   const media = (src, alt) => `<div class="media-stage pdf-media-stage is-loading">
     <div class="media-loader" role="status" aria-live="polite"><span class="media-spinner" aria-hidden="true"></span><span data-media-status>Loading image</span></div>
-    <img src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async">
+    <img src="../${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async">
   </div>`;
 
   const codeBlock = (title, code, extraClass = "") => `<article class="code-focus dependency-code-focus ${extraClass}">
@@ -96,8 +96,8 @@
       ${codeBlock("Exact Arduino Code", project.code)}
     </div>
     <div class="dependency-download-row">
-      <a class="download-btn" href="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/${escapeHtml(project.download)}" download>${icon("download")}<span>Download Code ZIP</span></a>
-      <a class="download-btn secondary-download" href="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/${escapeHtml(project.ino)}" download>${icon("file-code-2")}<span>Download INO</span></a>
+      <a class="download-btn" href="../${escapeHtml(project.download)}" download>${icon("download")}<span>Download Code ZIP</span></a>
+      <a class="download-btn secondary-download" href="../${escapeHtml(project.ino)}" download>${icon("file-code-2")}<span>Download INO</span></a>
     </div>
   </section>`;
 
@@ -342,7 +342,7 @@ void setup() {
     document.title = isYear2Session ? `Year 2 | Class ${grade} | Session ${session.number}` : `Level 2 | Class ${grade} | Dependencies`;
     if (label) label.textContent = isYear2Session ? `Year 2 Robotics | Class ${grade}` : `Level 2 Dependencies | Class ${grade}`;
     if (cover) {
-      cover.src = `https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/${projects[0].circuit}`;
+      cover.src = `../${projects[0].circuit}`;
       cover.alt = isYear2Session ? `Year 2 Class ${grade} Session ${session.number} circuit cover` : `Class ${grade} Level 2 Dependencies cover`;
     }
     if (sessionText) sessionText.textContent = isYear2Session ? `Year 2 | Class ${grade} | Session ${session.number}` : `Level 2 Dependencies | Class ${grade}`;
@@ -383,9 +383,7 @@ void setup() {
     };
 
     const showPhase = (phase, immediate = false) => {
-      // patched: also ignore phases whose cards were removed by the
-      // report-card app's 5E group picks (see the sessionStorage block below).
-      if (!phaseOrder.includes(phase) || !phaseCards[phase] || !phaseCards[phase].isConnected) return;
+      if (!phaseOrder.includes(phase)) return;
       activePhase = phase;
       phaseNav.querySelectorAll("[data-phase]").forEach((button) => {
         const isActive = button.dataset.phase === phase;
@@ -439,28 +437,6 @@ void setup() {
       document.body.classList.toggle("lesson-fullscreen-active", active);
     });
 
-    // patched: report-card app 5E group picks (persisted by pages/year2.html
-    // under the "year2" pseudo-year) hide phases not assigned to this session.
-    // "core" = engage/explore/explain, "extend" = evaluate (no elaborate here).
-    (() => {
-      let picks = null;
-      try { picks = JSON.parse(sessionStorage.getItem("su-lms-allowed-sessions-year2") || "null"); } catch (e) { return; }
-      if (!Array.isArray(picks)) return;
-      const gradePicks = picks.filter((row) => row && String(row.grade) === grade);
-      if (!gradePicks.length) return; // grade unrestricted
-      const row = gradePicks.find((r) => String(r.session) === String(session.number));
-      const groups = (row && row.groups) || [];
-      const allowed = [];
-      if (groups.includes("core")) allowed.push("engage", "explore", "explain");
-      if (groups.includes("extend")) allowed.push("evaluate");
-      if (!allowed.length) return; // unassigned sessions are bounced by main.js
-      phaseOrder.forEach((phase) => {
-        if (allowed.includes(phase)) return;
-        phaseNav?.querySelector(`[data-phase="${phase}"]`)?.remove();
-        phaseCards[phase]?.remove();
-      });
-      if (!allowed.includes(activePhase)) activePhase = allowed[0];
-    })();
     showTopic(activeTopic);
     showPhase(activePhase, true);
     if (window.lucide && typeof window.lucide.createIcons === "function") window.lucide.createIcons();

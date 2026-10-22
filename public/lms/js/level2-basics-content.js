@@ -246,7 +246,7 @@ void loop() {
 
   const media = (src, alt) => `<div class="media-stage pdf-media-stage is-loading">
     <div class="media-loader" role="status" aria-live="polite"><span class="media-spinner" aria-hidden="true"></span><span data-media-status>Loading image</span></div>
-    <img src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/${src}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async">
+    <img src="../${src}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async">
   </div>`;
 
   const renderPage = ([src, title, caption, codeId]) => `<article class="pdf-frame${codeId ? "" : " feature-page"}">
@@ -271,7 +271,7 @@ void loop() {
     </section>
     <section class="download-panel basics-download-panel">
       <div><h3>Arduino Code Files</h3><p>Download the Level 1 source code used in this Explore topic.</p></div>
-      <div class="download-actions">${section.downloads.map(([href, label, type]) => `<a class="download-btn ${type === "secondary" ? "secondary-download" : ""}" href="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/${href}" download>${icon("download")}<span>${escapeHtml(label)}</span></a>`).join("")}</div>
+      <div class="download-actions">${section.downloads.map(([href, label, type]) => `<a class="download-btn ${type === "secondary" ? "secondary-download" : ""}" href="../${href}" download>${icon("download")}<span>${escapeHtml(label)}</span></a>`).join("")}</div>
     </section>
     <div class="basics-code-grid">${section.codes.map(([id, title, sourceCode]) => `<article class="code-focus"><h3>${escapeHtml(title)}</h3><div class="code-copy-wrap"><button type="button" class="copy-code-btn">${icon("copy")}<span data-button-label>Copy Code</span></button><pre><code>${escapeHtml(formatCode(sourceCode))}</code></pre></div><template id="${id}">${escapeHtml(formatCode(sourceCode))}</template></article>`).join("")}</div>
     <div class="all5e-next-row">${next ? `<button type="button" class="download-btn" data-next-basics="${next.id}"><span>Next: ${escapeHtml(next.label)}</span>${icon("arrow-right")}</button>` : `<a class="download-btn secondary-download" href="../index.html?panel=sessionSelect&year=2&grade={grade}">${icon("circle-check")}<span>Finish Basics Session</span></a>`}</div>
@@ -296,7 +296,7 @@ void loop() {
     document.title = `Level 2 | Class ${selectedGrade} | ${data.session}`;
     main.classList.add("basics-session-page");
     main.innerHTML = `<section class="common-hero basics-hero">
-      <img src="https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/${data.cover}" alt="${escapeHtml(data.session)} cover">
+      <img src="../${data.cover}" alt="${escapeHtml(data.session)} cover">
       <div><p class="phase-label">Level 2 Sensational Sensors | Class ${escapeHtml(selectedGrade)}</p><h1>${escapeHtml(data.topic)}</h1><div class="all5e-hero-actions"><a class="back-btn icon-button-label" href="../index.html?panel=sessionSelect&year=${escapeHtml(selectedYear)}&grade=${escapeHtml(selectedGrade)}">${icon("arrow-left")}<span>Back to Sessions</span></a></div></div>
     </section>
     <div class="common-layout basics-layout">

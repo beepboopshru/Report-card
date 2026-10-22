@@ -1,0 +1,377 @@
+<!doctype html><html><head><meta charset="utf-8"><style>@page{size:A4;margin:18mm 16mm}body{font-family:Calibri,Arial;color:#17324d;font-size:10.5pt}h1{color:#0b4f6c;font-size:26pt}h2{color:#0b4f6c;font-size:18pt;border-bottom:2px solid #2f9db5;page-break-before:always}h3{color:#146b7e;font-size:14pt;margin-top:16pt}.cover{height:245mm;text-align:center;padding-top:80mm}.sub{font-size:15pt;color:#58717d}.note{background:#edf7f8;border-left:5px solid #2f9db5;padding:10pt}.pins{background:#f1f5f7;border:1px solid #ccd8df;padding:7pt}pre{font-family:Consolas,'Courier New';font-size:7.3pt;line-height:1.12;background:#f8fafb;border:1px solid #cad5dc;border-left:5px solid #1d8aa5;padding:8pt;white-space:pre-wrap;word-wrap:break-word;color:#102a43}.project{page-break-inside:avoid}</style></head><body><div class="cover"><h1>Arduino Code Handbook</h1><p class="sub">Grades 6-9 - Y3 Explore Curriculum</p><p>52 Arduino UNO sketches</p><p>Revised: Interface/Circuit components applied; all LED strips use 30 LEDs.</p></div><h2>Using this handbook</h2><div class="note"><b>Component rule:</b> Each sketch includes only components named in its Interface/Circuit row. Pin Info is used only for pin assignment. BO motors and pumps use the 2-wheel-drive motor driver.</div><ul><li>Install libraries named in each sketch.</li><li>LCD address is 0x27; adjust after an I2C scan if required.</li><li>Calibrate sensor thresholds and use a common ground.</li></ul><h2>Grade 6</h2><div class="project"><h3>Session 1: RGB LED Strip</h3><p class="pins"><b>Components:</b> RGB LED strip (30 LEDs), push switch<br><b>Pin assignment:</b> LED strip D2; push switch D5</p><pre>// Session 1 - Grade 6: RGB strip
+// Arduino UNO
+
+#include &lt;Adafruit_NeoPixel.h&gt;
+const byte STRIP_PIN=2,BUTTON_PIN=5,LED_COUNT=30;Adafruit_NeoPixel strip(LED_COUNT,STRIP_PIN,NEO_GRB+NEO_KHZ800);
+byte mode=0;bool last=HIGH;unsigned long db=0;
+void show(){const uint32_t c[]={strip.Color(0,0,0),strip.Color(255,0,0),strip.Color(0,255,0),strip.Color(0,0,255),strip.Color(255,120,0),strip.Color(150,0,255),strip.Color(0,180,180),strip.Color(255,255,255)};strip.fill(c[mode]);strip.show();}
+void setup(){pinMode(BUTTON_PIN,INPUT_PULLUP);strip.begin();strip.clear();show();}
+void loop(){bool b=digitalRead(BUTTON_PIN);if(last&amp;&amp; !b&amp;&amp;millis()-db&gt;180){mode=(mode+1)%2;db=millis();show();}last=b;}</pre></div><div class="project"><h3>Session 2: Vibration Alert</h3><p class="pins"><b>Components:</b> Vibration sensor, speaker<br><b>Pin assignment:</b> vibration D2; speaker D5</p><pre>// Session 2 - Grade 6: Vibration alert
+// Arduino UNO
+
+const byte SENSOR=2,BUZZER=5;
+void setup(){pinMode(SENSOR,INPUT);pinMode(BUZZER,OUTPUT);}
+void loop(){bool hit=digitalRead(SENSOR);if(hit)tone(BUZZER,900);else noTone(BUZZER);}</pre></div><div class="project"><h3>Session 3: LCD Mode Selector</h3><p class="pins"><b>Components:</b> LCD, push switch<br><b>Pin assignment:</b> button D5; LCD A4/A5</p><pre>// Session 3 - Grade 6: LCD selector
+// Arduino UNO
+
+#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+LiquidCrystal_I2C lcd(0x27,16,2);const byte BTN=5;byte mode=0;bool last=HIGH;unsigned long db=0;
+void show(){const char* names[]={&quot;OFF&quot;,&quot;SELECT 1&quot;,&quot;WARNING&quot;,&quot;ALERT&quot;};lcd.clear();lcd.print(&quot;Mode:&quot;);lcd.setCursor(0,1);lcd.print(names[mode]);}
+void setup(){pinMode(BTN,INPUT_PULLUP);lcd.init();lcd.backlight();show();}
+void loop(){bool b=digitalRead(BTN);if(last&amp;&amp;!b&amp;&amp;millis()-db&gt;180){mode=(mode+1)%2;db=millis();show();}last=b;}</pre></div><div class="project"><h3>Session 4: Ultrasonic Distance System</h3><p class="pins"><b>Components:</b> Ultrasonic sensor, LCD<br><b>Pin assignment:</b> ultrasonic D8/D9; LCD A4/A5</p><pre>// Session 4 - Grade 6: Distance monitor
+// Arduino UNO
+
+#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+
+LiquidCrystal_I2C lcd(0x27,16,2);const byte TRIG=8,ECHO=9;
+float cm(){digitalWrite(TRIG,0);delayMicroseconds(2);digitalWrite(TRIG,1);delayMicroseconds(10);digitalWrite(TRIG,0);unsigned long u=pulseIn(ECHO,HIGH,30000);return u?u*.0343/2:999;}
+void setup(){pinMode(TRIG,OUTPUT);pinMode(ECHO,INPUT);lcd.init();lcd.backlight();}
+void loop(){float d=cm();bool near=d&lt;20;lcd.setCursor(0,0);lcd.print(&quot;Distance: &quot;);lcd.print((int)d);lcd.print(&quot; cm &quot;);lcd.setCursor(0,1);lcd.print(near?&quot;OBJECT NEAR     &quot;:&quot;AREA CLEAR      &quot;);delay(200);}</pre></div><div class="project"><h3>Session 6: BO Motor</h3><p class="pins"><b>Components:</b> BO motor, 2-wheel-drive motor driver, push switch<br><b>Pin assignment:</b> driver MA inputs D10/D11; push switch D5</p><pre>// Session 6 - Grade 6: BO motor via 2WD driver
+// Arduino UNO
+
+// Load on driver output MA; D10/D11 connect to MA control inputs.
+const byte MA1=10,MA2=11,BTN=5;
+void setup(){pinMode(MA1,OUTPUT);pinMode(MA2,OUTPUT);pinMode(BTN,INPUT_PULLUP);digitalWrite(MA1,0);digitalWrite(MA2,0);}
+bool on=0,last=1;unsigned long db=0;void loop(){bool b=digitalRead(BTN);if(last&amp;&amp;!b&amp;&amp;millis()-db&gt;180){on=!on;db=millis();digitalWrite(MA1,on);digitalWrite(MA2,0);}last=b;}</pre></div><div class="project"><h3>Session 6: Submersible Pump</h3><p class="pins"><b>Components:</b> Submersible pump, 2-wheel-drive motor driver, push switch<br><b>Pin assignment:</b> driver MA inputs D10/D11; push switch D5</p><pre>// Session 6 - Grade 6: Pump via 2WD driver
+// Arduino UNO
+
+// Load on driver output MA; D10/D11 connect to MA control inputs.
+const byte MA1=10,MA2=11,BTN=5;
+void setup(){pinMode(MA1,OUTPUT);pinMode(MA2,OUTPUT);pinMode(BTN,INPUT_PULLUP);digitalWrite(MA1,0);digitalWrite(MA2,0);}
+bool on=0,last=1;unsigned long db=0;void loop(){bool b=digitalRead(BTN);if(last&amp;&amp;!b&amp;&amp;millis()-db&gt;180){on=!on;db=millis();digitalWrite(MA1,on);digitalWrite(MA2,0);}last=b;}</pre></div><div class="project"><h3>Session 7: Rain Response</h3><p class="pins"><b>Components:</b> Rain sensor, servo motor<br><b>Pin assignment:</b> rain D2; servo D3</p><pre>// Session 7 - Grade 6: Rain response
+// Arduino UNO
+
+#include &lt;Servo.h&gt;
+const byte RAIN=2,SERVO_PIN=3,BUZZER=5;Servo cover;
+void setup(){pinMode(RAIN,INPUT);pinMode(BUZZER,OUTPUT);cover.attach(SERVO_PIN);cover.write(0);}
+void loop(){bool wet=digitalRead(RAIN)==LOW;cover.write(wet?90:0);delay(200);}</pre></div><div class="project"><h3>Session 7: Soil-Moisture Irrigation</h3><p class="pins"><b>Components:</b> Moisture sensor, pump, 2-wheel-drive motor driver<br><b>Pin assignment:</b> moisture digital D2; pump driver MA D10/D11</p><pre>// Session 7 - Grade 6: Irrigation via 2WD driver
+// Arduino UNO
+
+// Pump on motor-driver output MA; D10/D11 are MA control inputs.
+const byte SOIL=2,MA1=10,MA2=11;
+void setup(){pinMode(SOIL,INPUT);pinMode(MA1,OUTPUT);pinMode(MA2,OUTPUT);Serial.begin(9600);}
+void loop(){bool dry=digitalRead(SOIL)==HIGH;digitalWrite(MA1,dry);digitalWrite(MA2,LOW);Serial.println(dry?&quot;DRY&quot;:&quot;MOIST&quot;);delay(500);}</pre></div><div class="project"><h3>Session 8: Temperature and Humidity</h3><p class="pins"><b>Components:</b> DHT11, speaker<br><b>Pin assignment:</b> DHT11 D2; speaker D5</p><pre>// Session 8 - Grade 6: Climate controller
+// Arduino UNO
+
+#include &lt;DHT.h&gt;
+
+#define DHTTYPE DHT11
+const byte DHT_PIN=2,BUZZER=5;const float LIMIT=30;DHT dht(DHT_PIN,DHTTYPE);
+void setup(){pinMode(BUZZER,OUTPUT);dht.begin();}
+void loop(){float h=dht.readHumidity(),t=dht.readTemperature();if(isnan(t)||isnan(h))return;bool hot=t&gt;=LIMIT;if(hot)tone(BUZZER,1200,180);delay(1000);}</pre></div><div class="project"><h3>Session 9: Flame Detection</h3><p class="pins"><b>Components:</b> Flame sensor, speaker<br><b>Pin assignment:</b> flame D3; speaker D5</p><pre>// Session 9 - Grade 6: Flame warning
+// Arduino UNO
+
+
+const byte SENSOR=3,BUZZER=5;
+
+void setup(){pinMode(SENSOR,INPUT);pinMode(BUZZER,OUTPUT);}
+void loop(){bool danger=digitalRead(SENSOR)==LOW;if(danger)tone(BUZZER,1400,180);else noTone(BUZZER);delay(200);}</pre></div><div class="project"><h3>Session 9: Smoke Detection</h3><p class="pins"><b>Components:</b> MQ2 smoke sensor, speaker<br><b>Pin assignment:</b> MQ2 A0; speaker D5</p><pre>// Session 9 - Grade 6: Smoke warning
+// Arduino UNO
+
+
+const byte SENSOR=A0,BUZZER=5;
+
+void setup(){pinMode(SENSOR,INPUT);pinMode(BUZZER,OUTPUT);}
+void loop(){bool danger=analogRead(SENSOR)&gt;400;if(danger)tone(BUZZER,1400,180);else noTone(BUZZER);delay(200);}</pre></div><div class="project"><h3>Session 11: IR Remote Automation</h3><p class="pins"><b>Components:</b> IR remote and receiver, 1 Watt LED<br><b>Pin assignment:</b> IR receiver D2; LED D7</p><pre>// Session 11 - Grade 6: IR control
+// Arduino UNO
+
+#include &lt;IRremote.hpp&gt;
+
+const byte IR_PIN=2,LED_PIN=7;
+
+void setup(){IrReceiver.begin(IR_PIN);pinMode(LED_PIN,OUTPUT);}
+void loop(){if(!IrReceiver.decode())return;byte c=IrReceiver.decodedIRData.command;IrReceiver.resume();if(c==0x45)digitalWrite(LED_PIN,!digitalRead(LED_PIN));}</pre></div><div class="project"><h3>Session 12: Bluetooth Automation</h3><p class="pins"><b>Components:</b> HM-10 Bluetooth module, 1 Watt LED<br><b>Pin assignment:</b> HM-10 D8/D9; LED D7</p><pre>// Session 12 - Grade 6: HM-10 automation
+// Arduino UNO
+
+#include &lt;SoftwareSerial.h&gt;
+
+SoftwareSerial hm10(8,9);const byte LED=7;
+void setLoad(bool on){digitalWrite(LED,on);}
+void setup(){pinMode(LED,OUTPUT);hm10.begin(9600);setLoad(false);}
+void loop(){if(hm10.available()){char c=hm10.read();if(c==&#x27;1&#x27;||c==&#x27;A&#x27;)setLoad(true);if(c==&#x27;0&#x27;||c==&#x27;B&#x27;)setLoad(false);}}</pre></div><h2>Grade 7</h2><div class="project"><h3>Session 1: RGB LED Strip</h3><p class="pins"><b>Components:</b> RGB LED strip (30 LEDs), push switch<br><b>Pin assignment:</b> LED strip D2; push switch D5</p><pre>// Session 1 - Grade 7: RGB strip
+// Arduino UNO
+
+#include &lt;Adafruit_NeoPixel.h&gt;
+const byte STRIP_PIN=2,BUTTON_PIN=5,LED_COUNT=30;Adafruit_NeoPixel strip(LED_COUNT,STRIP_PIN,NEO_GRB+NEO_KHZ800);
+byte mode=0;bool last=HIGH;unsigned long db=0;
+void show(){const uint32_t c[]={strip.Color(0,0,0),strip.Color(255,0,0),strip.Color(0,255,0),strip.Color(0,0,255),strip.Color(255,120,0),strip.Color(150,0,255),strip.Color(0,180,180),strip.Color(255,255,255)};strip.fill(c[mode]);strip.show();}
+void setup(){pinMode(BUTTON_PIN,INPUT_PULLUP);strip.begin();strip.clear();show();}
+void loop(){bool b=digitalRead(BUTTON_PIN);if(last&amp;&amp; !b&amp;&amp;millis()-db&gt;180){mode=(mode+1)%5;db=millis();show();}last=b;}</pre></div><div class="project"><h3>Session 2: Vibration Alert</h3><p class="pins"><b>Components:</b> Vibration sensor, speaker<br><b>Pin assignment:</b> vibration D2; speaker D5</p><pre>// Session 2 - Grade 7: Vibration alert
+// Arduino UNO
+
+const byte SENSOR=2,BUZZER=5;
+void setup(){pinMode(SENSOR,INPUT);pinMode(BUZZER,OUTPUT);}
+void loop(){bool hit=digitalRead(SENSOR);if(hit)tone(BUZZER,1300);else noTone(BUZZER);}</pre></div><div class="project"><h3>Session 3: LCD Mode Selector</h3><p class="pins"><b>Components:</b> LCD, push switch<br><b>Pin assignment:</b> button D5; LCD A4/A5</p><pre>// Session 3 - Grade 7: LCD selector
+// Arduino UNO
+
+#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+LiquidCrystal_I2C lcd(0x27,16,2);const byte BTN=5;byte mode=0;bool last=HIGH;unsigned long db=0;
+void show(){const char* names[]={&quot;OFF&quot;,&quot;SELECT 1&quot;,&quot;WARNING&quot;,&quot;ALERT&quot;};lcd.clear();lcd.print(&quot;Mode:&quot;);lcd.setCursor(0,1);lcd.print(names[mode]);}
+void setup(){pinMode(BTN,INPUT_PULLUP);lcd.init();lcd.backlight();show();}
+void loop(){bool b=digitalRead(BTN);if(last&amp;&amp;!b&amp;&amp;millis()-db&gt;180){mode=(mode+1)%3;db=millis();show();}last=b;}</pre></div><div class="project"><h3>Session 4: Ultrasonic Distance System</h3><p class="pins"><b>Components:</b> Ultrasonic sensor, LCD<br><b>Pin assignment:</b> ultrasonic D8/D9; LCD A4/A5</p><pre>// Session 4 - Grade 7: Distance monitor
+// Arduino UNO
+
+#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+
+LiquidCrystal_I2C lcd(0x27,16,2);const byte TRIG=8,ECHO=9;
+float cm(){digitalWrite(TRIG,0);delayMicroseconds(2);digitalWrite(TRIG,1);delayMicroseconds(10);digitalWrite(TRIG,0);unsigned long u=pulseIn(ECHO,HIGH,30000);return u?u*.0343/2:999;}
+void setup(){pinMode(TRIG,OUTPUT);pinMode(ECHO,INPUT);lcd.init();lcd.backlight();}
+void loop(){float d=cm();bool near=d&lt;20;lcd.setCursor(0,0);lcd.print(&quot;Distance: &quot;);lcd.print((int)d);lcd.print(&quot; cm &quot;);lcd.setCursor(0,1);lcd.print(near?&quot;OBJECT NEAR     &quot;:&quot;AREA CLEAR      &quot;);delay(200);}</pre></div><div class="project"><h3>Session 6: BO Motor</h3><p class="pins"><b>Components:</b> BO motor, 2-wheel-drive motor driver, push switch<br><b>Pin assignment:</b> driver MA inputs D10/D11; push switch D5</p><pre>// Session 6 - Grade 7: BO motor via 2WD driver
+// Arduino UNO
+
+// Load on driver output MA; D10/D11 connect to MA control inputs.
+const byte MA1=10,MA2=11,BTN=5;
+void setup(){pinMode(MA1,OUTPUT);pinMode(MA2,OUTPUT);pinMode(BTN,INPUT_PULLUP);digitalWrite(MA1,0);digitalWrite(MA2,0);}
+bool on=0,last=1;unsigned long db=0;void loop(){bool b=digitalRead(BTN);if(last&amp;&amp;!b&amp;&amp;millis()-db&gt;180){on=!on;db=millis();digitalWrite(MA1,on);digitalWrite(MA2,0);}last=b;}</pre></div><div class="project"><h3>Session 6: Submersible Pump</h3><p class="pins"><b>Components:</b> Submersible pump, 2-wheel-drive motor driver, push switch<br><b>Pin assignment:</b> driver MA inputs D10/D11; push switch D5</p><pre>// Session 6 - Grade 7: Pump via 2WD driver
+// Arduino UNO
+
+// Load on driver output MA; D10/D11 connect to MA control inputs.
+const byte MA1=10,MA2=11,BTN=5;
+void setup(){pinMode(MA1,OUTPUT);pinMode(MA2,OUTPUT);pinMode(BTN,INPUT_PULLUP);digitalWrite(MA1,0);digitalWrite(MA2,0);}
+bool on=0,last=1;unsigned long db=0;void loop(){bool b=digitalRead(BTN);if(last&amp;&amp;!b&amp;&amp;millis()-db&gt;180){on=!on;db=millis();digitalWrite(MA1,on);digitalWrite(MA2,0);}last=b;}</pre></div><div class="project"><h3>Session 7: Rain Response</h3><p class="pins"><b>Components:</b> Rain sensor, servo motor, speaker<br><b>Pin assignment:</b> rain D2; servo D3; speaker D5</p><pre>// Session 7 - Grade 7: Rain response
+// Arduino UNO
+
+#include &lt;Servo.h&gt;
+const byte RAIN=2,SERVO_PIN=3,BUZZER=5;Servo cover;
+void setup(){pinMode(RAIN,INPUT);pinMode(BUZZER,OUTPUT);cover.attach(SERVO_PIN);cover.write(0);}
+void loop(){bool wet=digitalRead(RAIN)==LOW;cover.write(wet?90:0);if(wet)tone(BUZZER,1200,150);else noTone(BUZZER);delay(200);}</pre></div><div class="project"><h3>Session 7: Soil-Moisture Irrigation</h3><p class="pins"><b>Components:</b> Moisture sensor, pump, 2-wheel-drive motor driver<br><b>Pin assignment:</b> moisture digital D2; pump driver MA D10/D11</p><pre>// Session 7 - Grade 7: Irrigation via 2WD driver
+// Arduino UNO
+
+// Pump on motor-driver output MA; D10/D11 are MA control inputs.
+const byte SOIL=2,MA1=10,MA2=11;
+void setup(){pinMode(SOIL,INPUT);pinMode(MA1,OUTPUT);pinMode(MA2,OUTPUT);Serial.begin(9600);}
+void loop(){bool dry=digitalRead(SOIL)==HIGH;digitalWrite(MA1,dry);digitalWrite(MA2,LOW);Serial.println(dry?&quot;DRY&quot;:&quot;MOIST&quot;);delay(500);}</pre></div><div class="project"><h3>Session 8: Temperature and Humidity</h3><p class="pins"><b>Components:</b> DHT11, speaker, LCD<br><b>Pin assignment:</b> DHT11 D2; speaker D5; LCD A4/A5</p><pre>// Session 8 - Grade 7: Climate controller
+// Arduino UNO
+
+#include &lt;DHT.h&gt;
+#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+LiquidCrystal_I2C lcd(0x27,16,2);
+#define DHTTYPE DHT11
+const byte DHT_PIN=2,BUZZER=5;const float LIMIT=30;DHT dht(DHT_PIN,DHTTYPE);
+void setup(){pinMode(BUZZER,OUTPUT);dht.begin();lcd.init();lcd.backlight();}
+void loop(){float h=dht.readHumidity(),t=dht.readTemperature();if(isnan(t)||isnan(h))return;bool hot=t&gt;=LIMIT;lcd.setCursor(0,0);lcd.print(&quot;Temp: &quot;);lcd.print(t,1);lcd.print(&quot; C  &quot;);lcd.setCursor(0,1);lcd.print(&quot;Humidity: &quot;);lcd.print(h,0);lcd.print(&quot;% &quot;);if(hot)tone(BUZZER,1200,180);delay(1000);}</pre></div><div class="project"><h3>Session 9: Flame Detection</h3><p class="pins"><b>Components:</b> Flame sensor, speaker, 1 Watt LED<br><b>Pin assignment:</b> flame D3; speaker D5; LED D7</p><pre>// Session 9 - Grade 7: Flame warning
+// Arduino UNO
+
+
+const byte SENSOR=3,BUZZER=5,LED=7;
+
+void setup(){pinMode(SENSOR,INPUT);pinMode(BUZZER,OUTPUT);pinMode(LED,OUTPUT);}
+void loop(){bool danger=digitalRead(SENSOR)==LOW;digitalWrite(LED,danger);if(danger)tone(BUZZER,1400,180);else noTone(BUZZER);delay(200);}</pre></div><div class="project"><h3>Session 9: Smoke Detection</h3><p class="pins"><b>Components:</b> MQ2 smoke sensor, speaker, LED strip (30 LEDs)<br><b>Pin assignment:</b> MQ2 A0; speaker D5; strip D2</p><pre>// Session 9 - Grade 7: Smoke warning
+// Arduino UNO
+
+#include &lt;Adafruit_NeoPixel.h&gt;
+const byte SENSOR=A0,BUZZER=5,STRIP_PIN=2;
+Adafruit_NeoPixel strip(30,STRIP_PIN,NEO_GRB+NEO_KHZ800);
+void setup(){pinMode(SENSOR,INPUT);pinMode(BUZZER,OUTPUT);strip.begin();strip.clear();strip.show();}
+void loop(){bool danger=analogRead(SENSOR)&gt;400;strip.fill(danger?strip.Color(255,0,0):strip.Color(0,80,0));strip.show();if(danger)tone(BUZZER,1400,180);else noTone(BUZZER);delay(200);}</pre></div><div class="project"><h3>Session 11: IR Remote Automation</h3><p class="pins"><b>Components:</b> IR remote and receiver, LED strip (30 LEDs)<br><b>Pin assignment:</b> IR receiver D2; strip D3</p><pre>// Session 11 - Grade 7: IR control
+// Arduino UNO
+
+#include &lt;IRremote.hpp&gt;
+#include &lt;Adafruit_NeoPixel.h&gt;
+const byte IR_PIN=2,STRIP_PIN=3;
+Adafruit_NeoPixel strip(30,STRIP_PIN,NEO_GRB+NEO_KHZ800);
+void setup(){IrReceiver.begin(IR_PIN);strip.begin();strip.clear();strip.show();}
+void loop(){if(!IrReceiver.decode())return;byte c=IrReceiver.decodedIRData.command;IrReceiver.resume();if(c==0x45){strip.fill(strip.Color(255,255,255));strip.show();}if(c==0x46){strip.fill(strip.Color(0,0,255));strip.show();}if(c==0x47){strip.clear();strip.show();}}</pre></div><div class="project"><h3>Session 12: Bluetooth Automation</h3><p class="pins"><b>Components:</b> HM-10 Bluetooth module, 1 Watt LED<br><b>Pin assignment:</b> HM-10 D8/D9; LED D7</p><pre>// Session 12 - Grade 7: HM-10 automation
+// Arduino UNO
+
+#include &lt;SoftwareSerial.h&gt;
+
+SoftwareSerial hm10(8,9);const byte LED=7;
+void setLoad(bool on){digitalWrite(LED,on);}
+void setup(){pinMode(LED,OUTPUT);hm10.begin(9600);setLoad(false);}
+void loop(){if(hm10.available()){char c=hm10.read();if(c==&#x27;1&#x27;||c==&#x27;A&#x27;)setLoad(true);if(c==&#x27;0&#x27;||c==&#x27;B&#x27;)setLoad(false);}}</pre></div><h2>Grade 8</h2><div class="project"><h3>Session 1: RGB LED Strip</h3><p class="pins"><b>Components:</b> RGB LED strip (30 LEDs), push switch<br><b>Pin assignment:</b> LED strip D2; push switch D5</p><pre>// Session 1 - Grade 8: RGB strip
+// Arduino UNO
+
+#include &lt;Adafruit_NeoPixel.h&gt;
+const byte STRIP_PIN=2,BUTTON_PIN=5,LED_COUNT=30;Adafruit_NeoPixel strip(LED_COUNT,STRIP_PIN,NEO_GRB+NEO_KHZ800);
+byte mode=0;bool last=HIGH;unsigned long db=0;
+void show(){const uint32_t c[]={strip.Color(0,0,0),strip.Color(255,0,0),strip.Color(0,255,0),strip.Color(0,0,255),strip.Color(255,120,0),strip.Color(150,0,255),strip.Color(0,180,180),strip.Color(255,255,255)};strip.fill(c[mode]);strip.show();}
+void setup(){pinMode(BUTTON_PIN,INPUT_PULLUP);strip.begin();strip.clear();show();}
+void loop(){bool b=digitalRead(BUTTON_PIN);if(last&amp;&amp; !b&amp;&amp;millis()-db&gt;180){mode=(mode+1)%7;db=millis();show();}last=b;}</pre></div><div class="project"><h3>Session 2: Vibration Alert</h3><p class="pins"><b>Components:</b> Vibration sensor, speaker, 1 Watt LEDs<br><b>Pin assignment:</b> vibration D2; speaker D5; LEDs D6/D7</p><pre>// Session 2 - Grade 8: Vibration alert
+// Arduino UNO
+
+const byte SENSOR=2,BUZZER=5,RED_LED=6,GREEN_LED=7;
+void setup(){pinMode(SENSOR,INPUT);pinMode(BUZZER,OUTPUT);pinMode(RED_LED,OUTPUT);pinMode(GREEN_LED,OUTPUT);}
+void loop(){bool hit=digitalRead(SENSOR);digitalWrite(RED_LED,hit);digitalWrite(GREEN_LED,LOW);if(hit)tone(BUZZER,1300);else noTone(BUZZER);}</pre></div><div class="project"><h3>Session 3: LCD Mode Selector</h3><p class="pins"><b>Components:</b> LCD, push switch, speaker<br><b>Pin assignment:</b> button D5; LCD A4/A5; speaker D6</p><pre>// Session 3 - Grade 8: LCD selector
+// Arduino UNO
+
+#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+LiquidCrystal_I2C lcd(0x27,16,2);const byte BTN=5,BUZZER=6;byte mode=0;bool last=HIGH;unsigned long db=0;
+void show(){const char* names[]={&quot;OFF&quot;,&quot;SELECT 1&quot;,&quot;WARNING&quot;,&quot;ALERT&quot;};lcd.clear();lcd.print(&quot;Mode:&quot;);lcd.setCursor(0,1);lcd.print(names[mode]);if(mode&gt;1)tone(BUZZER,1000,100);}
+void setup(){pinMode(BTN,INPUT_PULLUP);pinMode(BUZZER,OUTPUT);lcd.init();lcd.backlight();show();}
+void loop(){bool b=digitalRead(BTN);if(last&amp;&amp;!b&amp;&amp;millis()-db&gt;180){mode=(mode+1)%4;db=millis();show();}last=b;}</pre></div><div class="project"><h3>Session 4: Ultrasonic Distance System</h3><p class="pins"><b>Components:</b> Ultrasonic sensor, LCD, servo motor<br><b>Pin assignment:</b> ultrasonic D8/D9; LCD A4/A5; servo D3</p><pre>// Session 4 - Grade 8: Distance monitor
+// Arduino UNO
+
+#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+#include &lt;Servo.h&gt;
+LiquidCrystal_I2C lcd(0x27,16,2);const byte TRIG=8,ECHO=9,SERVO_PIN=3;Servo gate;
+float cm(){digitalWrite(TRIG,0);delayMicroseconds(2);digitalWrite(TRIG,1);delayMicroseconds(10);digitalWrite(TRIG,0);unsigned long u=pulseIn(ECHO,HIGH,30000);return u?u*.0343/2:999;}
+void setup(){pinMode(TRIG,OUTPUT);pinMode(ECHO,INPUT);lcd.init();lcd.backlight();gate.attach(SERVO_PIN);gate.write(0);}
+void loop(){float d=cm();bool near=d&lt;20;lcd.setCursor(0,0);lcd.print(&quot;Distance: &quot;);lcd.print((int)d);lcd.print(&quot; cm &quot;);lcd.setCursor(0,1);lcd.print(near?&quot;OBJECT NEAR     &quot;:&quot;AREA CLEAR      &quot;);gate.write(near?90:0);delay(200);}</pre></div><div class="project"><h3>Session 6: BO Motor</h3><p class="pins"><b>Components:</b> BO motor, 2-wheel-drive motor driver, push switch<br><b>Pin assignment:</b> driver MA inputs D10/D11; push switch D5</p><pre>// Session 6 - Grade 8: BO motor via 2WD driver
+// Arduino UNO
+
+// Load on driver output MA; D10/D11 connect to MA control inputs.
+const byte MA1=10,MA2=11,BTN=5;
+void setup(){pinMode(MA1,OUTPUT);pinMode(MA2,OUTPUT);pinMode(BTN,INPUT_PULLUP);digitalWrite(MA1,0);digitalWrite(MA2,0);}
+byte state=0;bool last=1;unsigned long db=0;void loop(){bool b=digitalRead(BTN);if(last&amp;&amp;!b&amp;&amp;millis()-db&gt;180){state=(state+1)%3;db=millis();digitalWrite(MA1,state==1);digitalWrite(MA2,state==2);}last=b;}</pre></div><div class="project"><h3>Session 6: Submersible Pump</h3><p class="pins"><b>Components:</b> Submersible pump, 2-wheel-drive motor driver, push switch<br><b>Pin assignment:</b> driver MA inputs D10/D11; push switch D5</p><pre>// Session 6 - Grade 8: Pump via 2WD driver
+// Arduino UNO
+
+// Load on driver output MA; D10/D11 connect to MA control inputs.
+const byte MA1=10,MA2=11,BTN=5;
+void setup(){pinMode(MA1,OUTPUT);pinMode(MA2,OUTPUT);pinMode(BTN,INPUT_PULLUP);digitalWrite(MA1,0);digitalWrite(MA2,0);}
+bool on=0,last=1;unsigned long db=0;void loop(){bool b=digitalRead(BTN);if(last&amp;&amp;!b&amp;&amp;millis()-db&gt;180){on=!on;db=millis();digitalWrite(MA1,on);digitalWrite(MA2,0);}last=b;}</pre></div><div class="project"><h3>Session 7: Rain Response</h3><p class="pins"><b>Components:</b> Rain sensor, servo motor, speaker<br><b>Pin assignment:</b> rain D2; servo D3; speaker D5</p><pre>// Session 7 - Grade 8: Rain response
+// Arduino UNO
+
+#include &lt;Servo.h&gt;
+const byte RAIN=2,SERVO_PIN=3,BUZZER=5;Servo cover;
+void setup(){pinMode(RAIN,INPUT);pinMode(BUZZER,OUTPUT);cover.attach(SERVO_PIN);cover.write(0);}
+void loop(){bool wet=digitalRead(RAIN)==LOW;cover.write(wet?90:0);if(wet)tone(BUZZER,1200,150);else noTone(BUZZER);delay(200);}</pre></div><div class="project"><h3>Session 7: Soil-Moisture Irrigation</h3><p class="pins"><b>Components:</b> Moisture sensor, pump, 2-wheel-drive motor driver, 1 Watt LED<br><b>Pin assignment:</b> moisture digital D2; pump driver MA D10/D11; LED D5</p><pre>// Session 7 - Grade 8: Irrigation via 2WD driver
+// Arduino UNO
+
+// Pump on motor-driver output MA; D10/D11 are MA control inputs.
+const byte SOIL=2,MA1=10,MA2=11,LED=5;
+void setup(){pinMode(SOIL,INPUT);pinMode(MA1,OUTPUT);pinMode(MA2,OUTPUT);pinMode(LED,OUTPUT);Serial.begin(9600);}
+void loop(){bool dry=digitalRead(SOIL)==HIGH;digitalWrite(MA1,dry);digitalWrite(MA2,LOW);digitalWrite(LED,dry);Serial.println(dry?&quot;DRY&quot;:&quot;MOIST&quot;);delay(500);}</pre></div><div class="project"><h3>Session 8: Temperature and Humidity</h3><p class="pins"><b>Components:</b> DHT11, speaker, LCD, CD motor<br><b>Pin assignment:</b> DHT11 D2; speaker D5; LCD A4/A5; motor/relay control D6</p><pre>// Session 8 - Grade 8: Climate controller
+// Arduino UNO
+
+#include &lt;DHT.h&gt;
+#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+LiquidCrystal_I2C lcd(0x27,16,2);
+#define DHTTYPE DHT11
+const byte DHT_PIN=2,BUZZER=5,MOTOR_CONTROL=6;const float LIMIT=30;DHT dht(DHT_PIN,DHTTYPE);
+void setup(){pinMode(BUZZER,OUTPUT);pinMode(MOTOR_CONTROL,OUTPUT);dht.begin();lcd.init();lcd.backlight();}
+void loop(){float h=dht.readHumidity(),t=dht.readTemperature();if(isnan(t)||isnan(h))return;bool hot=t&gt;=LIMIT;lcd.setCursor(0,0);lcd.print(&quot;Temp: &quot;);lcd.print(t,1);lcd.print(&quot; C  &quot;);lcd.setCursor(0,1);lcd.print(&quot;Humidity: &quot;);lcd.print(h,0);lcd.print(&quot;% &quot;);digitalWrite(MOTOR_CONTROL,hot);if(hot)tone(BUZZER,1200,180);delay(1000);}</pre></div><div class="project"><h3>Session 9: Flame Detection</h3><p class="pins"><b>Components:</b> Flame sensor, speaker, CD motor, 1 Watt LED<br><b>Pin assignment:</b> flame D3; speaker D5; CD motor D6; LED D7</p><pre>// Session 9 - Grade 8: Flame warning
+// Arduino UNO
+
+
+const byte SENSOR=3,BUZZER=5,MOTOR_CONTROL=6,LED=7;
+
+void setup(){pinMode(SENSOR,INPUT);pinMode(BUZZER,OUTPUT);pinMode(MOTOR_CONTROL,OUTPUT);pinMode(LED,OUTPUT);}
+void loop(){bool danger=digitalRead(SENSOR)==LOW;digitalWrite(MOTOR_CONTROL,danger);digitalWrite(LED,danger);if(danger)tone(BUZZER,1400,180);else noTone(BUZZER);delay(200);}</pre></div><div class="project"><h3>Session 9: Smoke Detection</h3><p class="pins"><b>Components:</b> MQ2 smoke sensor, speaker, LED strip (30 LEDs), CD motor, 1 Watt LED<br><b>Pin assignment:</b> MQ2 A0; speaker D5; strip D2; CD motor D6; LED D7</p><pre>// Session 9 - Grade 8: Smoke warning
+// Arduino UNO
+
+#include &lt;Adafruit_NeoPixel.h&gt;
+const byte SENSOR=A0,BUZZER=5,STRIP_PIN=2,MOTOR_CONTROL=6,LED=7;
+Adafruit_NeoPixel strip(30,STRIP_PIN,NEO_GRB+NEO_KHZ800);
+void setup(){pinMode(SENSOR,INPUT);pinMode(BUZZER,OUTPUT);pinMode(MOTOR_CONTROL,OUTPUT);pinMode(LED,OUTPUT);strip.begin();strip.clear();strip.show();}
+void loop(){bool danger=analogRead(SENSOR)&gt;400;digitalWrite(MOTOR_CONTROL,danger);digitalWrite(LED,danger);strip.fill(danger?strip.Color(255,0,0):strip.Color(0,80,0));strip.show();if(danger)tone(BUZZER,1400,180);else noTone(BUZZER);delay(200);}</pre></div><div class="project"><h3>Session 11: IR Remote Automation</h3><p class="pins"><b>Components:</b> IR remote and receiver, BO motor and 2-wheel-drive motor driver<br><b>Pin assignment:</b> IR receiver D2; driver MA D10/D11</p><pre>// Session 11 - Grade 8: IR control
+// Arduino UNO
+
+#include &lt;IRremote.hpp&gt;
+
+const byte IR_PIN=2,MA1=10,MA2=11;
+
+void setup(){IrReceiver.begin(IR_PIN);pinMode(MA1,OUTPUT);pinMode(MA2,OUTPUT);}
+void loop(){if(!IrReceiver.decode())return;byte c=IrReceiver.decodedIRData.command;IrReceiver.resume();if(c==0x47){digitalWrite(MA1,HIGH);digitalWrite(MA2,LOW);}if(c==0x44){digitalWrite(MA1,LOW);digitalWrite(MA2,HIGH);}if(c==0x40){digitalWrite(MA1,LOW);digitalWrite(MA2,LOW);}}</pre></div><div class="project"><h3>Session 12: Bluetooth Automation</h3><p class="pins"><b>Components:</b> HM-10 Bluetooth module, 1 Watt LED, relay box<br><b>Pin assignment:</b> HM-10 D8/D9; LED D7; relay D4</p><pre>// Session 12 - Grade 8: HM-10 automation
+// Arduino UNO
+
+#include &lt;SoftwareSerial.h&gt;
+
+SoftwareSerial hm10(8,9);const byte LED=7,RELAY=4;
+void setLoad(bool on){digitalWrite(LED,on);digitalWrite(RELAY,on?LOW:HIGH);}
+void setup(){pinMode(LED,OUTPUT);pinMode(RELAY,OUTPUT);hm10.begin(9600);setLoad(false);}
+void loop(){if(hm10.available()){char c=hm10.read();if(c==&#x27;1&#x27;||c==&#x27;A&#x27;)setLoad(true);if(c==&#x27;0&#x27;||c==&#x27;B&#x27;)setLoad(false);}}</pre></div><h2>Grade 9</h2><div class="project"><h3>Session 1: RGB LED Strip</h3><p class="pins"><b>Components:</b> RGB LED strip (30 LEDs), push switch<br><b>Pin assignment:</b> LED strip D2; push switch D5</p><pre>// Session 1 - Grade 9: RGB strip
+// Arduino UNO
+
+#include &lt;Adafruit_NeoPixel.h&gt;
+const byte STRIP_PIN=2,BUTTON_PIN=5,LED_COUNT=30;Adafruit_NeoPixel strip(LED_COUNT,STRIP_PIN,NEO_GRB+NEO_KHZ800);
+byte mode=0;bool last=HIGH;unsigned long db=0;
+void show(){const uint32_t c[]={strip.Color(0,0,0),strip.Color(255,0,0),strip.Color(0,255,0),strip.Color(0,0,255),strip.Color(255,120,0),strip.Color(150,0,255),strip.Color(0,180,180),strip.Color(255,255,255)};strip.fill(c[mode]);strip.show();}
+void setup(){pinMode(BUTTON_PIN,INPUT_PULLUP);strip.begin();strip.clear();show();}
+void loop(){bool b=digitalRead(BUTTON_PIN);if(last&amp;&amp; !b&amp;&amp;millis()-db&gt;180){mode=(mode+1)%8;db=millis();show();}last=b;}</pre></div><div class="project"><h3>Session 2: Vibration Alert</h3><p class="pins"><b>Components:</b> Vibration sensor, speaker, 1 Watt LEDs<br><b>Pin assignment:</b> vibration D2; speaker D5; LEDs D6/D7</p><pre>// Session 2 - Grade 9: Vibration alert
+// Arduino UNO
+
+const byte SENSOR=2,BUZZER=5,RED_LED=6,GREEN_LED=7;
+void setup(){pinMode(SENSOR,INPUT);pinMode(BUZZER,OUTPUT);pinMode(RED_LED,OUTPUT);pinMode(GREEN_LED,OUTPUT);}
+void loop(){bool hit=digitalRead(SENSOR);digitalWrite(RED_LED,hit);digitalWrite(GREEN_LED,!hit);if(hit)tone(BUZZER,1300);else noTone(BUZZER);}</pre></div><div class="project"><h3>Session 3: LCD Mode Selector</h3><p class="pins"><b>Components:</b> LCD, push switch, speaker<br><b>Pin assignment:</b> button D5; LCD A4/A5; speaker D6</p><pre>// Session 3 - Grade 9: LCD selector
+// Arduino UNO
+
+#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+LiquidCrystal_I2C lcd(0x27,16,2);const byte BTN=5,BUZZER=6;byte mode=0;bool last=HIGH;unsigned long db=0;
+void show(){const char* names[]={&quot;OFF&quot;,&quot;SELECT 1&quot;,&quot;WARNING&quot;,&quot;ALERT&quot;};lcd.clear();lcd.print(&quot;Mode:&quot;);lcd.setCursor(0,1);lcd.print(names[mode]);if(mode&gt;1)tone(BUZZER,1000,100);}
+void setup(){pinMode(BTN,INPUT_PULLUP);pinMode(BUZZER,OUTPUT);lcd.init();lcd.backlight();show();}
+void loop(){bool b=digitalRead(BTN);if(last&amp;&amp;!b&amp;&amp;millis()-db&gt;180){mode=(mode+1)%4;db=millis();show();}last=b;}</pre></div><div class="project"><h3>Session 4: Ultrasonic Distance System</h3><p class="pins"><b>Components:</b> Ultrasonic sensor, LCD, servo motor<br><b>Pin assignment:</b> ultrasonic D8/D9; LCD A4/A5; servo D3</p><pre>// Session 4 - Grade 9: Distance monitor
+// Arduino UNO
+
+#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+#include &lt;Servo.h&gt;
+LiquidCrystal_I2C lcd(0x27,16,2);const byte TRIG=8,ECHO=9,SERVO_PIN=3;Servo gate;
+float cm(){digitalWrite(TRIG,0);delayMicroseconds(2);digitalWrite(TRIG,1);delayMicroseconds(10);digitalWrite(TRIG,0);unsigned long u=pulseIn(ECHO,HIGH,30000);return u?u*.0343/2:999;}
+void setup(){pinMode(TRIG,OUTPUT);pinMode(ECHO,INPUT);lcd.init();lcd.backlight();gate.attach(SERVO_PIN);gate.write(0);}
+void loop(){float d=cm();bool near=d&lt;30;lcd.setCursor(0,0);lcd.print(&quot;Distance: &quot;);lcd.print((int)d);lcd.print(&quot; cm &quot;);lcd.setCursor(0,1);lcd.print(near?&quot;OBJECT NEAR     &quot;:&quot;AREA CLEAR      &quot;);gate.write(near?90:0);delay(200);}</pre></div><div class="project"><h3>Session 6: BO Motor</h3><p class="pins"><b>Components:</b> BO motor, 2-wheel-drive motor driver, push switch<br><b>Pin assignment:</b> driver MA inputs D10/D11; push switch D5</p><pre>// Session 6 - Grade 9: BO motor via 2WD driver
+// Arduino UNO
+
+// Load on driver output MA; D10/D11 connect to MA control inputs.
+const byte MA1=10,MA2=11,BTN=5;
+void setup(){pinMode(MA1,OUTPUT);pinMode(MA2,OUTPUT);pinMode(BTN,INPUT_PULLUP);digitalWrite(MA1,0);digitalWrite(MA2,0);}
+byte state=0;bool last=1;unsigned long db=0;void loop(){bool b=digitalRead(BTN);if(last&amp;&amp;!b&amp;&amp;millis()-db&gt;180){state=(state+1)%3;db=millis();digitalWrite(MA1,state==1);digitalWrite(MA2,state==2);}last=b;}</pre></div><div class="project"><h3>Session 6: Submersible Pump</h3><p class="pins"><b>Components:</b> Submersible pump, 2-wheel-drive motor driver, push switch<br><b>Pin assignment:</b> driver MA inputs D10/D11; push switch D5</p><pre>// Session 6 - Grade 9: Pump via 2WD driver
+// Arduino UNO
+
+// Load on driver output MA; D10/D11 connect to MA control inputs.
+const byte MA1=10,MA2=11,BTN=5;
+void setup(){pinMode(MA1,OUTPUT);pinMode(MA2,OUTPUT);pinMode(BTN,INPUT_PULLUP);digitalWrite(MA1,0);digitalWrite(MA2,0);}
+bool on=0,last=1;unsigned long db=0;void loop(){bool b=digitalRead(BTN);if(last&amp;&amp;!b&amp;&amp;millis()-db&gt;180){on=!on;db=millis();digitalWrite(MA1,on);digitalWrite(MA2,0);}last=b;}</pre></div><div class="project"><h3>Session 7: Rain Response</h3><p class="pins"><b>Components:</b> Rain sensor, servo motor, speaker<br><b>Pin assignment:</b> rain D2; servo D3; speaker D5</p><pre>// Session 7 - Grade 9: Rain response
+// Arduino UNO
+
+#include &lt;Servo.h&gt;
+const byte RAIN=2,SERVO_PIN=3,BUZZER=5;Servo cover;
+void setup(){pinMode(RAIN,INPUT);pinMode(BUZZER,OUTPUT);cover.attach(SERVO_PIN);cover.write(0);}
+void loop(){bool wet=digitalRead(RAIN)==LOW;cover.write(wet?90:0);if(wet)tone(BUZZER,1200,150);else noTone(BUZZER);delay(200);}</pre></div><div class="project"><h3>Session 7: Soil-Moisture Irrigation</h3><p class="pins"><b>Components:</b> Moisture sensor, pump, 2-wheel-drive motor driver, 1 Watt LED<br><b>Pin assignment:</b> moisture digital D2; pump driver MA D10/D11; LED D5</p><pre>// Session 7 - Grade 9: Irrigation via 2WD driver
+// Arduino UNO
+
+// Pump on motor-driver output MA; D10/D11 are MA control inputs.
+const byte SOIL=2,MA1=10,MA2=11,LED=5;
+void setup(){pinMode(SOIL,INPUT);pinMode(MA1,OUTPUT);pinMode(MA2,OUTPUT);pinMode(LED,OUTPUT);Serial.begin(9600);}
+void loop(){bool dry=digitalRead(SOIL)==HIGH;digitalWrite(MA1,dry);digitalWrite(MA2,LOW);digitalWrite(LED,dry);Serial.println(dry?&quot;DRY&quot;:&quot;MOIST&quot;);delay(500);}</pre></div><div class="project"><h3>Session 8: Temperature and Humidity</h3><p class="pins"><b>Components:</b> DHT11, speaker, LCD, CD motor, relay box<br><b>Pin assignment:</b> DHT11 D2; speaker D5; LCD A4/A5; motor/relay control D6</p><pre>// Session 8 - Grade 9: Climate controller
+// Arduino UNO
+
+#include &lt;DHT.h&gt;
+#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+LiquidCrystal_I2C lcd(0x27,16,2);
+#define DHTTYPE DHT11
+const byte DHT_PIN=2,BUZZER=5,MOTOR_CONTROL=6;const float LIMIT=30;DHT dht(DHT_PIN,DHTTYPE);
+void setup(){pinMode(BUZZER,OUTPUT);pinMode(MOTOR_CONTROL,OUTPUT);dht.begin();lcd.init();lcd.backlight();}
+void loop(){float h=dht.readHumidity(),t=dht.readTemperature();if(isnan(t)||isnan(h))return;bool hot=t&gt;=LIMIT;lcd.setCursor(0,0);lcd.print(&quot;Temp: &quot;);lcd.print(t,1);lcd.print(&quot; C  &quot;);lcd.setCursor(0,1);lcd.print(&quot;Humidity: &quot;);lcd.print(h,0);lcd.print(&quot;% &quot;);digitalWrite(MOTOR_CONTROL,hot);if(hot)tone(BUZZER,1200,180);delay(1000);}</pre></div><div class="project"><h3>Session 9: Flame Detection</h3><p class="pins"><b>Components:</b> Flame sensor, speaker, CD motor, 1 Watt LED<br><b>Pin assignment:</b> flame D3; speaker D5; CD motor D6; LED D7</p><pre>// Session 9 - Grade 9: Flame warning
+// Arduino UNO
+
+
+const byte SENSOR=3,BUZZER=5,MOTOR_CONTROL=6,LED=7;
+
+void setup(){pinMode(SENSOR,INPUT);pinMode(BUZZER,OUTPUT);pinMode(MOTOR_CONTROL,OUTPUT);pinMode(LED,OUTPUT);}
+void loop(){bool danger=digitalRead(SENSOR)==LOW;digitalWrite(MOTOR_CONTROL,danger);digitalWrite(LED,danger);if(danger)tone(BUZZER,1400,180);else noTone(BUZZER);delay(200);}</pre></div><div class="project"><h3>Session 9: Smoke Detection</h3><p class="pins"><b>Components:</b> MQ2 smoke sensor, speaker, LED strip (30 LEDs), CD motor, 1 Watt LED<br><b>Pin assignment:</b> MQ2 A0; speaker D5; strip D2; CD motor D6; LED D7</p><pre>// Session 9 - Grade 9: Smoke warning
+// Arduino UNO
+
+#include &lt;Adafruit_NeoPixel.h&gt;
+const byte SENSOR=A0,BUZZER=5,STRIP_PIN=2,MOTOR_CONTROL=6,LED=7;
+Adafruit_NeoPixel strip(30,STRIP_PIN,NEO_GRB+NEO_KHZ800);
+void setup(){pinMode(SENSOR,INPUT);pinMode(BUZZER,OUTPUT);pinMode(MOTOR_CONTROL,OUTPUT);pinMode(LED,OUTPUT);strip.begin();strip.clear();strip.show();}
+void loop(){bool danger=analogRead(SENSOR)&gt;400;digitalWrite(MOTOR_CONTROL,danger);digitalWrite(LED,danger);strip.fill(danger?strip.Color(255,0,0):strip.Color(0,80,0));strip.show();if(danger)tone(BUZZER,1400,180);else noTone(BUZZER);delay(200);}</pre></div><div class="project"><h3>Session 11: IR Remote Automation</h3><p class="pins"><b>Components:</b> IR remote and receiver, LED strip (30 LEDs), 1 Watt LED<br><b>Pin assignment:</b> IR receiver D2; strip D3; LED D7</p><pre>// Session 11 - Grade 9: IR control
+// Arduino UNO
+
+#include &lt;IRremote.hpp&gt;
+#include &lt;Adafruit_NeoPixel.h&gt;
+const byte IR_PIN=2,STRIP_PIN=3,LED_PIN=7;
+Adafruit_NeoPixel strip(30,STRIP_PIN,NEO_GRB+NEO_KHZ800);
+void setup(){IrReceiver.begin(IR_PIN);strip.begin();strip.clear();strip.show();pinMode(LED_PIN,OUTPUT);}
+void loop(){if(!IrReceiver.decode())return;byte c=IrReceiver.decodedIRData.command;IrReceiver.resume();if(c==0x45)digitalWrite(LED_PIN,!digitalRead(LED_PIN));if(c==0x45){strip.fill(strip.Color(255,255,255));strip.show();}if(c==0x46){strip.fill(strip.Color(0,0,255));strip.show();}if(c==0x47){strip.clear();strip.show();}}</pre></div><div class="project"><h3>Session 12: Bluetooth Automation</h3><p class="pins"><b>Components:</b> HM-10 Bluetooth module, 1 Watt LED, relay box, LCD<br><b>Pin assignment:</b> HM-10 D8/D9; LED D7; relay D4; LCD A4/A5</p><pre>// Session 12 - Grade 9: HM-10 automation
+// Arduino UNO
+
+#include &lt;SoftwareSerial.h&gt;
+#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+LiquidCrystal_I2C lcd(0x27,16,2);
+SoftwareSerial hm10(8,9);const byte LED=7,RELAY=4;
+void setLoad(bool on){digitalWrite(LED,on);digitalWrite(RELAY,on?LOW:HIGH);lcd.clear();lcd.print(on?&quot;Appliance ON&quot;:&quot;Appliance OFF&quot;);}
+void setup(){pinMode(LED,OUTPUT);pinMode(RELAY,OUTPUT);hm10.begin(9600);lcd.init();lcd.backlight();setLoad(false);}
+void loop(){if(hm10.available()){char c=hm10.read();if(c==&#x27;1&#x27;||c==&#x27;A&#x27;)setLoad(true);if(c==&#x27;0&#x27;||c==&#x27;B&#x27;)setLoad(false);}}</pre></div></body></html>

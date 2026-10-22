@@ -10,120 +10,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const grade = params.get("grade") || "4";
     const session = params.get("session") || "1";
     const mode = params.get("mode") || "";
-    // patched: the report-card app assigns LMS languages per school/single-user
-    // account. English is mandatory; Hindi is exposed only when "hi" is in
-    // ?languages=. Persist globally so internal LMS links can omit the param.
-    const languagesStoreKey = "su-lms-allowed-languages";
-    const languagesParam = params.get("languages");
-    if (languagesParam !== null) {
-        try { sessionStorage.setItem(languagesStoreKey, languagesParam); } catch (e) { /* storage unavailable */ }
-    }
-    const allowedLanguages = () => {
-        let stored = null;
-        try { stored = sessionStorage.getItem(languagesStoreKey); } catch (e) { /* storage unavailable */ }
-        // No assignment filter means a direct standalone LMS visit and keeps
-        // the original English/Hindi behavior.
-        const raw = stored !== null ? stored : languagesParam;
-        return raw === null ? ["en", "hi"] : raw.split(",").filter(Boolean);
-    };
-    const hindiAllowed = allowedLanguages().includes("hi");
-    // patched: Year 2 program lessons carry no ?year= param; their quiz keys
-    // use the "year2" pseudo-year so they can't collide with Level 1 (both
-    // programs have Classes 6 and 7).
-    const quizYear = mode === "year2" ? "year2" : year;
     const homePanel = params.get("panel") || "";
     const contentKey = `${year}-${grade}-${session}`;
     const legacyContentKey = `${grade}-${session}`;
     const lessonData = window.LMS_CONTENT ? (window.LMS_CONTENT[contentKey] || window.LMS_CONTENT[legacyContentKey]) : null;
     const query = `?year=${year}&grade=${grade}&session=${session}`;
-    const assetPrefix = "https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/"; // patched: assets stay in the upstream GitHub repo
-    // patched: the report-card app restricts which classes a student sees via a
-    // ?grades=4,5 param. Persisted per level in sessionStorage so the filter
-    // survives navigating into a lesson and back (those links drop the param).
-    const gradesStoreKey = (yearValue) => `su-lms-allowed-grades-${yearValue}`;
-    if (params.get("grades") !== null) {
-        try { sessionStorage.setItem(gradesStoreKey(year), params.get("grades")); } catch (e) { /* storage unavailable */ }
-    }
-    const allowedGradesFor = (yearValue) => {
-        let stored = null;
-        try { stored = sessionStorage.getItem(gradesStoreKey(yearValue)); } catch (e) { /* storage unavailable */ }
-        return (stored || "").split(",").filter(Boolean);
-    };
-    // patched: the report-card app can further restrict sessions and 5E phase
-    // groups via a ?sessions= param — JSON [{grade, session, groups}] where
-    // groups are "core" (engage/explore/explain) and "extend"
-    // (elaborate/evaluate). A grade with no entries is unrestricted; an empty
-    // param clears any earlier restriction. Persisted like the grades filter.
-    const sessionsStoreKey = (yearValue) => `su-lms-allowed-sessions-${yearValue}`;
-    if (params.get("sessions") !== null) {
-        try { sessionStorage.setItem(sessionsStoreKey(year), params.get("sessions")); } catch (e) { /* storage unavailable */ }
-    }
-    // patched: the report-card app locks the LMS to the opened level via a
-    // ?years= param. Stored globally (every entry URL sends it) so backing
-    // out to the level picker can't reach levels not given to the class.
-    // patched: the report-card app can rename classes for a school via a
-    // ?gradeNames= param — JSON {"6": "Class 5"} — shown on the class cards
-    // and session headers. Cosmetic only: grade values in URLs and quiz
-    // results keep the real grade. Persisted like the grades filter.
-    const gradeNamesStoreKey = (yearValue) => `su-lms-grade-names-${yearValue}`;
-    if (params.get("gradeNames") !== null) {
-        try { sessionStorage.setItem(gradeNamesStoreKey(year), params.get("gradeNames")); } catch (e) { /* storage unavailable */ }
-    }
-    const gradeNameFor = (yearValue, gradeValue) => {
-        let raw = null;
-        try { raw = sessionStorage.getItem(gradeNamesStoreKey(yearValue)); } catch (e) { /* storage unavailable */ }
-        if (raw) {
-            try {
-                const map = JSON.parse(raw);
-                if (map && typeof map[gradeValue] === "string" && map[gradeValue]) return map[gradeValue];
-            } catch (e) { /* malformed param */ }
-        }
-        return `Class ${gradeValue}`;
-    };
-    const yearsStoreKey = "su-lms-allowed-years";
-    if (params.get("years") !== null) {
-        try { sessionStorage.setItem(yearsStoreKey, params.get("years")); } catch (e) { /* storage unavailable */ }
-    }
-    const allowedYears = () => {
-        let stored = null;
-        try { stored = sessionStorage.getItem(yearsStoreKey); } catch (e) { /* storage unavailable */ }
-        return (stored || "").split(",").filter(Boolean);
-    };
-    const phaseGroupPhases = {
-        core: ["engage", "explore", "explain"],
-        extend: ["elaborate", "evaluate"]
-    };
-    const allowedSessionsFor = (yearValue, gradeValue) => {
-        let raw = null;
-        try { raw = sessionStorage.getItem(sessionsStoreKey(yearValue)); } catch (e) { /* storage unavailable */ }
-        if (!raw) return null; // unrestricted
-        let list = null;
-        try { list = JSON.parse(raw); } catch (e) { return null; }
-        if (!Array.isArray(list)) return null;
-        const map = new Map();
-        list.forEach((row) => {
-            if (row && String(row.grade) === String(gradeValue)) {
-                map.set(String(row.session), row.groups || []);
-            }
-        });
-        return map.size ? map : null;
-    };
-    const allowedPhasesFor = (yearValue, gradeValue, sessionValue) => {
-        const map = allowedSessionsFor(yearValue, gradeValue);
-        if (!map) return null; // unrestricted
-        const groups = map.get(String(sessionValue));
-        if (!groups) return []; // session not assigned
-        let phases = [];
-        Object.keys(phaseGroupPhases).forEach((groupId) => {
-            if (groups.includes(groupId)) phases = phases.concat(phaseGroupPhases[groupId]);
-        });
-        return phases;
-    };
-    // Phase allowed for the lesson currently open (all5e page params).
-    const isPhaseAllowed = (phase) => {
-        const allowed = allowedPhasesFor(year, grade, session);
-        return !allowed || allowed.includes(phase);
-    };
+    const assetPrefix = window.location.pathname.includes("/pages/") ? "../" : "";
     const headerBackToSessions = document.querySelector("[data-header-back-to-sessions]");
     if (headerBackToSessions && currentPage === "all-5e") {
         headerBackToSessions.href = `../index.html?panel=sessionSelect&year=${encodeURIComponent(year)}&grade=${encodeURIComponent(grade)}`;
@@ -264,7 +156,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
     const readPhaseLanguage = (phase) => {
-        if (!hindiAllowed) return "en";
         try {
             return localStorage.getItem(`lms-phase-language-${phase}`) === "hi" ? "hi" : "en";
         } catch (error) {
@@ -321,30 +212,81 @@ document.addEventListener("DOMContentLoaded", () => {
         return window.LMS_CONTENT[`${yearValue}-${gradeValue}-${sessionValue}`] || window.LMS_CONTENT[`${gradeValue}-${sessionValue}`] || null;
     };
 
-    const showHomePanel = (panelId) => {
+    let homeNavigationIndex = Number.isInteger(window.history.state?.lmsNavigationIndex)
+        ? window.history.state.lmsNavigationIndex
+        : 0;
+
+    const homePanelDepth = {
+        homeIntro: 0,
+        yearSelect: 1,
+        classSelect: 2,
+        sessionSelect: 3
+    };
+
+    const homeUrlForPanel = (panelId) => {
+        const url = new URL(window.location.href);
+        if (panelId === "homeIntro") {
+            url.search = "";
+            return url;
+        }
+        url.searchParams.set("panel", panelId);
+        if (homePanelDepth[panelId] >= homePanelDepth.classSelect) {
+            url.searchParams.set("year", selectedHomeYear);
+        } else {
+            url.searchParams.delete("year");
+        }
+        if (homePanelDepth[panelId] >= homePanelDepth.sessionSelect) {
+            url.searchParams.set("grade", selectedHomeGrade);
+        } else {
+            url.searchParams.delete("grade");
+        }
+        return url;
+    };
+
+    const showHomePanel = (panelId, historyMode = "none") => {
         document.querySelectorAll(".home-panel").forEach((panel) => {
             panel.classList.toggle("active", panel.id === panelId);
         });
+        if (historyMode === "push") {
+            homeNavigationIndex += 1;
+            window.history.pushState(
+                { lmsPanel: panelId, lmsNavigationIndex: homeNavigationIndex },
+                "",
+                homeUrlForPanel(panelId)
+            );
+        } else if (historyMode === "replace") {
+            window.history.replaceState(
+                { lmsPanel: panelId, lmsNavigationIndex: homeNavigationIndex },
+                "",
+                homeUrlForPanel(panelId)
+            );
+        }
+    };
+
+    const currentHomePanel = () => document.querySelector(".home-panel.active")?.id || "homeIntro";
+
+    const navigateToParentPanel = (panelId) => {
+        const currentDepth = homePanelDepth[currentHomePanel()] ?? 0;
+        const targetDepth = homePanelDepth[panelId] ?? 0;
+        if (targetDepth < currentDepth && homeNavigationIndex > 0) {
+            window.history.back();
+            return;
+        }
+        showHomePanel(panelId, "replace");
     };
 
     const refreshClassCards = () => {
-        const allowedGrades = allowedGradesFor(selectedHomeYear);
-        const classes = (yearClasses[selectedHomeYear] || yearClasses["1"])
-            .filter((item) => !allowedGrades.length || allowedGrades.includes(item[0]));
+        const classes = yearClasses[selectedHomeYear] || yearClasses["1"];
         const classButtons = document.querySelectorAll(".selection-card[data-grade]");
         classButtons.forEach((classButton, index) => {
             const item = classes[index];
-            classButton.style.display = item ? "" : "none";
             if (!item) return;
             classButton.dataset.grade = item[0];
             const number = classButton.querySelector("span");
             const title = classButton.querySelector("strong");
             const tier = classButton.querySelector("p");
-            // patched: per-school class rename — card badge shows the renamed
-            // class's number when the override contains one ("Class 5" → "5").
-            const renamed = gradeNameFor(selectedHomeYear, item[0]);
-            if (number) number.textContent = (renamed.match(/\d+/) || [item[0]])[0];
-            if (title) title.textContent = renamed;
+            if (number) number.textContent = item[0];
+            if (title) title.textContent = item[1];
             if (tier) tier.textContent = item[2];
         });
         document.querySelectorAll("[data-selected-year-label]").forEach((label) => {
@@ -354,14 +296,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const refreshSessionCards = () => {
         const label = document.querySelector("#selectedClassLabel");
-        if (label) label.textContent = `${levelLabels[selectedHomeYear] || levelLabels["1"]} | ${gradeNameFor(selectedHomeYear, selectedHomeGrade)}`; // patched: per-school class rename
-        const allowedSessions = allowedSessionsFor(selectedHomeYear, selectedHomeGrade);
+        if (label) label.textContent = `${levelLabels[selectedHomeYear] || levelLabels["1"]} | Class ${selectedHomeGrade}`;
         document.querySelectorAll(".session-card.available").forEach((card) => {
             const sessionValue = card.dataset.session || "1";
             const isBasicsCard = sessionValue === "basics";
             card.hidden = isBasicsCard && selectedHomeYear !== "2";
             if (card.hidden) return;
-            card.style.display = allowedSessions && !allowedSessions.has(sessionValue) ? "none" : "";
             const cardLesson = getHomeLesson(selectedHomeYear, selectedHomeGrade, sessionValue);
             card.setAttribute("href", "#");
             card.dataset.targetUrl = sessionValue === "0"
@@ -375,7 +315,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const title = card.querySelector("strong");
                 const status = card.querySelector("p");
                 if (image) {
-                    image.src = `${assetPrefix}${cardLesson.cover}`; // patched: covers live on the CDN
+                    image.src = cardLesson.cover;
                     image.alt = `${cardLesson.session} ${cardLesson.topic} cover`;
                 }
                 if (sessionLabel) sessionLabel.textContent = cardLesson.session;
@@ -394,35 +334,30 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     document.querySelectorAll("[data-show-panel]").forEach((button) => {
-        button.addEventListener("click", () => showHomePanel(button.dataset.showPanel));
-    });
-
-    document.querySelectorAll("[data-year]").forEach((button) => {
-        const lockedYears = allowedYears();
-        const yearAllowed = !lockedYears.length || lockedYears.includes(button.dataset.year || "");
-        if (!yearAllowed) button.style.display = "none";
         button.addEventListener("click", () => {
-            if (!yearAllowed) return;
-            selectedHomeYear = button.dataset.year || "1";
-            refreshClassCards();
-            showHomePanel("classSelect");
+            const panelId = button.dataset.showPanel;
+            const isBackNavigation = (homePanelDepth[panelId] ?? 0) < (homePanelDepth[currentHomePanel()] ?? 0);
+            if (isBackNavigation) {
+                navigateToParentPanel(panelId);
+            } else {
+                showHomePanel(panelId, "push");
+            }
         });
     });
 
-    // patched: the BLIX and Year 2 program cards follow the same years lock
-    // as the level cards, so a class locked to one course can't wander into
-    // the others from the program picker.
-    document.querySelectorAll(".blix-program-card, .year2-program-card").forEach((card) => {
-        const programId = card.classList.contains("year2-program-card") ? "year2" : "blix";
-        const lockedYears = allowedYears();
-        if (lockedYears.length && !lockedYears.includes(programId)) card.style.display = "none";
+    document.querySelectorAll("[data-year]").forEach((button) => {
+        button.addEventListener("click", () => {
+            selectedHomeYear = button.dataset.year || "1";
+            refreshClassCards();
+            showHomePanel("classSelect", "push");
+        });
     });
 
     document.querySelectorAll("[data-grade]").forEach((button) => {
         button.addEventListener("click", () => {
             selectedHomeGrade = button.dataset.grade;
             refreshSessionCards();
-            showHomePanel("sessionSelect");
+            showHomePanel("sessionSelect", "push");
         });
     });
 
@@ -439,7 +374,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const modalTitle = document.querySelector("#sessionModalTitle");
             if (selectedLesson) {
                 if (modalImage) {
-                    modalImage.src = `${assetPrefix}${selectedLesson.cover}`; // patched: covers live on the CDN
+                    modalImage.src = selectedLesson.cover;
                     modalImage.alt = `${selectedLesson.session} ${selectedLesson.topic} cover`;
                 }
                 if (modalLabel) modalLabel.textContent = selectedLesson.session;
@@ -507,41 +442,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const renderAll5ePage = () => {
         if (currentPage !== "all-5e") return;
-        // patched: hard guards — lesson pages stay reachable via browser
-        // history even when their cards are hidden, so bounce anything not
-        // given to the class back to the pickers.
-        if (mode === "year2") {
-            // Year 2 program filters live under the "year2" pseudo-year (set
-            // by pages/year2.html); the ?year= param here defaults to "1".
-            const y2Grades = allowedGradesFor("year2");
-            if (y2Grades.length && !y2Grades.includes(grade)) {
-                window.location.replace("year2.html");
-                return;
-            }
-            const y2Sessions = allowedSessionsFor("year2", grade);
-            if (y2Sessions && !y2Sessions.has(String(session))) {
-                window.location.replace(`year2.html?grade=${grade}`);
-                return;
-            }
-            return;
-        }
-        const lockedYears = allowedYears();
-        if (lockedYears.length && !lockedYears.includes(year)) {
-            window.location.replace("../index.html");
-            return;
-        }
-        const lockedGrades = allowedGradesFor(year);
-        if (lockedGrades.length && !lockedGrades.includes(grade)) {
-            window.location.replace(`../index.html?panel=classSelect&year=${year}`);
-            return;
-        }
-        if (mode === "dependencies" || mode === "year2") return;
-        const guardAllowed = allowedPhasesFor(year, grade, mode === "introduction" ? "0" : (mode === "basics" ? "basics" : session));
-        if (guardAllowed && !guardAllowed.length) {
-            window.location.replace(`../index.html?panel=sessionSelect&year=${year}&grade=${grade}`);
-            return;
-        }
-        if (mode === "introduction" || mode === "basics") return;
+        if (mode === "introduction" || mode === "basics" || mode === "dependencies" || mode === "year2") return;
 
         if (!lessonData) return;
 
@@ -569,9 +470,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (sessionText) sessionText.textContent = `${lessonData.session} | ${lessonData.grade}`;
         if (title) title.textContent = lessonData.topic;
         if (backToSessions) backToSessions.href = `../index.html?panel=sessionSelect&year=${year}&grade=${grade}`;
-        phaseButtons.forEach((button) => {
-            if (!isPhaseAllowed(button.dataset.phase)) button.style.display = "none";
-        });
         phaseCards.forEach((card) => renderPhaseCard(card.dataset.all5ePhase, card));
 
         let activePhase = "engage";
@@ -579,13 +477,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const showPhase = (selectedPhase, immediate = false) => {
             if (!phaseOrder.includes(selectedPhase)) return;
-            if (!isPhaseAllowed(selectedPhase)) {
-                // Redirect to the nearest allowed phase (forward, then back).
-                const startIndex = phaseOrder.indexOf(selectedPhase);
-                selectedPhase = phaseOrder.slice(startIndex + 1).find(isPhaseAllowed)
-                    || phaseOrder.slice(0, startIndex).reverse().find(isPhaseAllowed);
-                if (!selectedPhase) return;
-            }
             if (selectedPhase === activePhase && !immediate) return;
 
             activePhase = selectedPhase;
@@ -664,10 +555,27 @@ document.addEventListener("DOMContentLoaded", () => {
         refreshClassCards();
         if (homePanel === "sessionSelect") {
             refreshSessionCards();
-            showHomePanel("sessionSelect");
+            showHomePanel("sessionSelect", "replace");
         } else if (homePanel === "classSelect") {
-            showHomePanel("classSelect");
+            showHomePanel("classSelect", "replace");
+        } else if (homePanel === "yearSelect") {
+            showHomePanel("yearSelect", "replace");
+        } else {
+            showHomePanel("homeIntro", "replace");
         }
+
+        window.addEventListener("popstate", (event) => {
+            const restoredParams = new URLSearchParams(window.location.search);
+            const restoredPanel = event.state?.lmsPanel || restoredParams.get("panel") || "homeIntro";
+            selectedHomeYear = restoredParams.get("year") || selectedHomeYear || "1";
+            selectedHomeGrade = restoredParams.get("grade") || selectedHomeGrade || "4";
+            homeNavigationIndex = Number.isInteger(event.state?.lmsNavigationIndex)
+                ? event.state.lmsNavigationIndex
+                : 0;
+            refreshClassCards();
+            if (restoredPanel === "sessionSelect") refreshSessionCards();
+            showHomePanel(restoredPanel);
+        });
     }
 
     const copyText = async (text) => {
@@ -896,11 +804,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const tr = (value) => translateText(value, language);
         const phaseTitle = uiText(language, phase);
         const phaseOrder = ["engage", "explore", "explain", "elaborate", "evaluate"];
-        const nextPhase = phaseOrder.slice(phaseOrder.indexOf(phase) + 1).find(isPhaseAllowed);
+        const nextPhase = phaseOrder[phaseOrder.indexOf(phase) + 1];
         const phaseFooter = nextPhase
             ? `<div class="all5e-next-row"><button type="button" class="download-btn" data-next-e="${nextPhase}"><span>${uiText(language, "next")}: ${uiText(language, nextPhase)}</span>${iconMarkup("arrow-right")}</button></div>`
             : `<div class="all5e-next-row"><a class="download-btn secondary-download" href="../index.html?panel=sessionSelect&year=${year}&grade=${grade}">${iconMarkup("circle-check")}<span>${uiText(language, "finishSession")}</span></a></div>`;
-        const languageControl = translatablePhases.has(phase) && hindiAllowed
+        const languageControl = translatablePhases.has(phase)
             ? `<button type="button" class="language-toggle" data-language-toggle="${phase}" aria-label="${uiText(language, "switchLanguage")}" title="${uiText(language, "switchLanguage")}">${iconMarkup("languages")}<span>${uiText(language, "languageButton")}</span></button>`
             : "";
         const header = `<div class="phase-header">
@@ -1416,36 +1324,8 @@ void loop() {
             return isCorrect ? codeMax : 0;
         };
 
-        // patched: a test can only be submitted once. After submission (or when
-        // the hosting app reports a stored score) the form is locked read-only.
-        let testLocked = false;
-        const lockTest = (note) => {
-            testLocked = true;
-            sessionTest.querySelectorAll("input, textarea, button").forEach((el) => {
-                el.disabled = true;
-            });
-            const actions = sessionTest.querySelector(".test-actions");
-            if (actions) {
-                const p = document.createElement("p");
-                p.className = "source-note";
-                p.textContent = note;
-                actions.replaceChildren(p);
-            }
-        };
-
-        const sessionKey = `${quizYear}-${grade}-${session}`;
-        window.addEventListener("message", (event) => {
-            if (event.origin !== window.location.origin || testLocked) return;
-            const d = event.data;
-            if (!d || d.type !== "su-lms-quiz-scores") return;
-            const done = (d.scores || []).find((s) => s.sessionKey === sessionKey);
-            if (done) lockTest(`Test already submitted. Score: ${done.score} / ${done.total}`);
-        });
-
         sessionTest.addEventListener("submit", (event) => {
             event.preventDefault();
-            if (testLocked) return;
-            if (!window.confirm("Submit the test? You can only submit once — answers cannot be changed after submission.")) return;
 
             let mcqScore = 0;
             const questions = sessionTest.querySelectorAll(".test-question");
@@ -1493,32 +1373,9 @@ void loop() {
 
             scoreModal.hidden = false;
             closeScore.focus();
-
-            // patched: report the quiz result to the hosting Report Card app
-            // (same-origin iframe parent) so it can store per-student scores.
-            if (window.parent !== window) {
-                window.parent.postMessage({
-                    type: "su-lms-quiz-result",
-                    year: quizYear,
-                    grade,
-                    session,
-                    score,
-                    total: totalScore,
-                    mcqScore,
-                    mcqTotal: totalQuestions,
-                    codeScore,
-                    codeMax,
-                }, window.location.origin);
-            }
-
-            lockTest("Test submitted. Answers are locked.");
         });
 
-        sessionTest.addEventListener("reset", (event) => {
-            if (testLocked) {
-                event.preventDefault();
-                return;
-            }
+        sessionTest.addEventListener("reset", () => {
             sessionTest.querySelectorAll(".test-question").forEach((question) => {
                 question.classList.remove("answered-correct", "answered-wrong");
             });
@@ -1580,7 +1437,7 @@ void loop() {
         if (!languageButton) return;
 
         const phase = languageButton.dataset.languageToggle;
-        if (!hindiAllowed || !translatablePhases.has(phase)) return;
+        if (!translatablePhases.has(phase)) return;
         const card = document.querySelector(`[data-all5e-phase="${phase}"]`);
         if (!card) return;
 

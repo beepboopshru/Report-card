@@ -188,7 +188,7 @@
     ]
   };
 
-  const assetPrefix = "https://cdn.jsdelivr.net/gh/Prem-things/SU_LMS_ROBOTICS@main/"; // patched: assets stay in the upstream GitHub repo
+  const assetPrefix = window.location.pathname.includes("/pages/") ? "../" : "";
   const escapeHtml = (value) => String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 
   const slugify = (value) => String(value).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
