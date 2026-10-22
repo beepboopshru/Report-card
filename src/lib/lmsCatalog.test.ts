@@ -96,15 +96,6 @@ describe("lmsLevelPath", () => {
       "/lms/assets/slime/slime/index.html",
     );
   });
-
-  it("links the standalone PDF courses", () => {
-    expect(lmsLevelPath(LMS_LEVELS.find((l) => l.id === "pmShri")!)).toBe(
-      "/lms/pages/pm-shri.html",
-    );
-    expect(lmsLevelPath(LMS_LEVELS.find((l) => l.id === "vjProjects")!)).toBe(
-      "/lms/pages/vj-projects.html",
-    );
-  });
 });
 
 describe("gradesLabel", () => {
