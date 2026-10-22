@@ -4,7 +4,7 @@
 export interface LmsLevel {
   id: string;
   /** `year` URL param the vendored LMS uses for this level (standalone courses are off-URL). */
-  year: "1" | "2" | "blix" | "year2" | "science6";
+  year: "1" | "2" | "blix" | "year2" | "science6" | "pdf";
   name: string;
   classes: string;
   /** `grade` URL params of the classes inside this level, in display order. */
@@ -71,11 +71,29 @@ export const LMS_LEVELS: LmsLevel[] = [
     grades: ["6"],
     kitNumber: 0,
   },
+  {
+    id: "pmShri",
+    year: "pdf",
+    name: "PM Shri Project Workbook",
+    classes: "Standalone PDF course",
+    grades: ["all"],
+    kitNumber: 0,
+  },
+  {
+    id: "vjProjects",
+    year: "pdf",
+    name: "VJ Project Workbook",
+    classes: "Standalone PDF course",
+    grades: ["all"],
+    kitNumber: 0,
+  },
 ];
 
 export const BLIX_LEVEL_ID = "blix";
 export const YEAR2_LEVEL_ID = "year2";
 export const SCIENCE6_LEVEL_ID = "science6";
+export const PM_SHRI_LEVEL_ID = "pmShri";
+export const VJ_PROJECTS_LEVEL_ID = "vjProjects";
 
 /** BLIX session numbers ("1".."10"); no intro session, no 5E phases. */
 export const BLIX_SESSIONS = Array.from({ length: 10 }, (_, i) =>
@@ -104,6 +122,13 @@ export function gradesLabel(
   gradeNames?: Record<string, string>,
 ): string {
   if (level.id === BLIX_LEVEL_ID) return "Shared course · all classes";
+  if (
+    level.id === SCIENCE6_LEVEL_ID ||
+    level.id === PM_SHRI_LEVEL_ID ||
+    level.id === VJ_PROJECTS_LEVEL_ID
+  ) {
+    return "Standalone course";
+  }
   return grades.map((g) => gradeNames?.[g] ?? `Class ${g}`).join(" · ");
 }
 
@@ -150,6 +175,12 @@ export function lmsLevelPath(
     : "";
   if (level.id === SCIENCE6_LEVEL_ID) {
     return "/lms/assets/slime/slime/index.html";
+  }
+  if (level.id === PM_SHRI_LEVEL_ID) {
+    return "/lms/pages/pm-shri.html";
+  }
+  if (level.id === VJ_PROJECTS_LEVEL_ID) {
+    return "/lms/pages/vj-projects.html";
   }
   if (level.id === BLIX_LEVEL_ID) {
     // BLIX is its own page; `sessions` (comma list of session numbers)
