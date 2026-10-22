@@ -4,8 +4,7 @@
 export interface LmsLevel {
   id: string;
   /** `year` URL param the vendored LMS uses for this level (standalone courses are off-URL). */
-  year: "1" | "2" | "blix" | "year2" | "science6" | "pdf";
-  pdfPath?: string;
+  year: "1" | "2" | "blix" | "year2" | "science6";
   name: string;
   classes: string;
   /** `grade` URL params of the classes inside this level, in display order. */
@@ -74,19 +73,6 @@ export const LMS_LEVELS: LmsLevel[] = [
   },
 ];
 
-LMS_LEVELS.push(
-  {
-    id: "pmShri", year: "pdf", name: "PM Shri Project Workbook",
-    classes: "Shared PDF course", grades: ["all"], kitNumber: 0,
-    pdfPath: "/lms/assets/courses/PM%20shri%2056%20project%20doc.pdf",
-  },
-  {
-    id: "vjProjects", year: "pdf", name: "VJ Project Workbook",
-    classes: "Shared PDF course", grades: ["all"], kitNumber: 0,
-    pdfPath: "/lms/assets/courses/VJ%20DOCUMENTS.pdf",
-  },
-);
-
 export const BLIX_LEVEL_ID = "blix";
 export const YEAR2_LEVEL_ID = "year2";
 export const SCIENCE6_LEVEL_ID = "science6";
@@ -101,7 +87,6 @@ export const YEAR2_SESSIONS = BLIX_SESSIONS;
 
 /** The session numbers a level's course actually has. */
 export function levelSessions(level: LmsLevel): string[] {
-  if (level.pdfPath) return [];
   if (level.id === SCIENCE6_LEVEL_ID) return [];
   if (level.id === BLIX_LEVEL_ID) return BLIX_SESSIONS;
   if (level.id === YEAR2_LEVEL_ID) return YEAR2_SESSIONS;
@@ -118,7 +103,6 @@ export function gradesLabel(
   grades: string[],
   gradeNames?: Record<string, string>,
 ): string {
-  if (level.pdfPath) return "Shared PDF course";
   if (level.id === BLIX_LEVEL_ID) return "Shared course · all classes";
   return grades.map((g) => gradeNames?.[g] ?? `Class ${g}`).join(" · ");
 }
@@ -158,7 +142,6 @@ export function lmsLevelPath(
   gradeNames?: Record<string, string>,
   languages?: LmsLanguageId[],
 ): string {
-  if (level.pdfPath) return level.pdfPath;
   // Entry pages persist this filter in sessionStorage so it survives links
   // inside the vendored LMS. English-only accounts therefore never receive
   // the Hindi toggle; direct standalone LMS visits keep the legacy behavior.
